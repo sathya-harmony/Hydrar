@@ -8,7 +8,6 @@ from fractions import *
 from discord.ext.commands.cog import Cog
 import wolframalpha
 import os
-from keep_alive import keep_alive
 import asyncio
 from alexa_reply import reply
 
