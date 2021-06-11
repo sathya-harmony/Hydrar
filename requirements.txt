@@ -5,4 +5,4 @@ randfacts
 requests
 pymongo
 wikipedia
-PIL
+pillow
