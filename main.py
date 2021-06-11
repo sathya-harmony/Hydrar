@@ -8,7 +8,6 @@ from fractions import *
 from discord.ext.commands.cog import Cog
 import wolframalpha
 import os
-from keep_alive import keep_alive
 import asyncio
 from alexa_reply import reply
 
@@ -151,6 +150,14 @@ async def on_message(message):
   except ValueError:
     pass'''
 
-keep_alive()
+
+#keep_alive()
+#my_secret = os.environ['Hydra']
+#client.run(my_secret)
+
+'''keep_alive()
 my_secret = os.environ['Hydra']
-client.run(my_secret)
+client.run(my_secret)'''
+Token = 'ODQ0ODEzMzE2NTA1MDc1NzEy.YKX3tg.0eYGwHfkQMKEbF71c8dVDmGVlBI'
+client.run(Token)
+
