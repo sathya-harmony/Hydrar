@@ -151,6 +151,8 @@ async def on_message(message):
   except ValueError:
     pass'''
 
-keep_alive()
+'''keep_alive()
 my_secret = os.environ['Hydra']
-client.run(my_secret)
+client.run(my_secret)'''
+Token = 'ODQ0ODEzMzE2NTA1MDc1NzEy.YKX3tg.0eYGwHfkQMKEbF71c8dVDmGVlBI'
+client.run(Token)
