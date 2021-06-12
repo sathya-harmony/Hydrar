@@ -39,7 +39,7 @@ class Wanted(commands.Cog):
         data = BytesIO(await asset.read())
         pfp = Image.open(data)
         pfp = pfp.resize((324, 321))
-        wanted.paste(pfp, (125, 252))
+        wanted.paste(pfp, (125, 251))
         wanted.save("ReturnPICS/profile.jpg")
         await ctx.send(file=discord.File("ReturnPICS/profile.jpg"))
 
