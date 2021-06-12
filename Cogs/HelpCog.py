@@ -76,7 +76,7 @@ class _help(commands.Cog):
                 url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
             )
             embed2.add_field(name="**Commands:**",
-                             value="`8ball`, `ping`, `wanted`, `RIP`, `Chat`, `joke` ",
+                             value="`8ball`, `ping`, `wanted`, `RIP`, `Chat`, `joke`",
                              inline=False)
 
             embed2.add_field(name="**Aliases:**", value="fun", inline=False)
