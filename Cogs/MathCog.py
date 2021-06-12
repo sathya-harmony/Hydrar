@@ -6,7 +6,8 @@ from fractions import*
 import asyncio
 import wikipedia
 from random import randint
-import google_currency
+import json
+from google_currency import convert
 
 
 @commands.Cog.listener()
@@ -54,8 +55,9 @@ class Math(commands.Cog):
             await ctx.send(f"**Title:**{title}\n\n**Summary:**{summary}\n\nRead More Here: {url}")
 
     @commands.command()
-    async def convert_money(self, ctx, string: str):
-        await ctx.send(string)
+    async def currencyConvert(self, ctx, *, ffrom: str, to: str, amount: float):
+        currency = convert(ffrom, to, amount)
+        await ctx.send(currency)
 
         '''async with ctx.channel.typing():
             await asyncio.sleep(0.5)
