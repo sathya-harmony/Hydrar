@@ -12,7 +12,6 @@ import asyncio
 from alexa_reply import reply
 
 
-
 #from prsaw import RandomStuff
 
 prefix = '-'
@@ -42,36 +41,35 @@ async def on_command_error(ctx, error):
     elif isinstance(error, commands.CommandNotFound):
         await ctx.send("Invalid command.")
 
-        
 
-
-#help command
+# help command
 client.load_extension('Cogs.HelpCog')
-#ping
+# ping
 client.load_extension('Cogs.PingCog')
-#8ball
+# 8ball
 client.load_extension('Cogs.EightballCog')
-#say
+# say
 client.load_extension('Cogs.SayCog')
-#kick_ban_unban
+# kick_ban_unban
 client.load_extension('Cogs.Kick_BanCog')
-#spam_Cspam
+# spam_Cspam
 client.load_extension('Cogs.Spam_CspamCog')
-#clear
+# clear
 client.load_extension('Cogs.ClearCog')
-#Server_User
+# Server_User
 client.load_extension('Cogs.Server_UserCog')
-#Math
+# Math
 client.load_extension('Cogs.MathCog')
-#Quote
+# Quote
 client.load_extension('Cogs.QuoteCog')
-#Wanted
+# Wanted
 client.load_extension('Cogs.WantedCog')
-#Facts
+# Facts
 client.load_extension('Cogs.FactsCog')
 #
 client.load_extension('Cogs.LevelsCog')
-
+# tts
+client.load_extension('Cogs.TTSCog')
 
 
 def cop(ctx):
@@ -151,13 +149,12 @@ async def on_message(message):
     pass'''
 
 
-#keep_alive()
+# keep_alive()
 #my_secret = os.environ['Hydra']
-#client.run(my_secret)
+# client.run(my_secret)
 
 '''keep_alive()
 my_secret = os.environ['Hydra']
 client.run(my_secret)'''
 Token = 'ODQ0ODEzMzE2NTA1MDc1NzEy.YKX3tg.0eYGwHfkQMKEbF71c8dVDmGVlBI'
 client.run(Token)
-

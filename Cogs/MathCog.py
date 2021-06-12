@@ -9,7 +9,7 @@ from random import randint
 import json
 import requests
 import ast
-import google_currency
+#import google_currency
 
 
 @commands.Cog.listener()
@@ -56,7 +56,7 @@ class Math(commands.Cog):
             url = page.url
             await ctx.send(f"**Title:**{title}\n\n**Summary:**{summary}\n\nRead More Here: {url}")
 
-    @commands.command()
+    '''@commands.command()
     async def currencyConvert(self, ctx, ffrom: str, to: str, amount: float):
         currency = google_currency.convert(ffrom, to, amount)
         # await ctx.send(currency)
@@ -64,9 +64,9 @@ class Math(commands.Cog):
         wl = response.text
         quod = ast.literal_eval(wl)
         curren = quod["curren"]
-        await ctx.send(curren)
+        await ctx.send(curren)'''
 
-        '''async with ctx.channel.typing():
+    '''async with ctx.channel.typing():
             await asyncio.sleep(0.5)
             def viki_sum(arg):
                 definition = wikipedia.summary(arg,sentences=3,chars=1000)
