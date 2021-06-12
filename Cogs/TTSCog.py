@@ -30,11 +30,11 @@ class TTS(commands.Cog):
         self.client = client
 
     @commands.command()
-    async def translate(self, ctx, translator: str, *, args: str):
+    async def translate(self, ctx, translatorr: str, *, args: str):
         #result = google_translator().translate(args, lang_tgt=lang)
         # await ctx.send(result)
 
-        translator = Translator(to_lang="")
+        translator = Translator(to_lang=translatorr)
         translation = translator.translate(args)
         await ctx.send(translation)
 
