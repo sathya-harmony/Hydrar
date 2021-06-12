@@ -41,13 +41,13 @@ async def on_command_error(ctx, error):
     elif isinstance(error, commands.CommandNotFound):
         await ctx.send("Invalid command.")
 
-intents = discord.Intents.default()
+#intents = discord.Intents.default()
 ##intents.members = True
 #client = discord.Client(intents = intents)
 
 
 @client.event
-async def on_member_join(member=None):
+async def on_member_join(member):
     guild = client.get_guild(846947170782281729)
     channel = guild.get_channel(846947170782281729)
     intro = guild.get_channel(847508482454323270)
