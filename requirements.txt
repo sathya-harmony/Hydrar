@@ -8,3 +8,4 @@ wikipedia
 pillow
 dnspython
 pyjokes
+google_currency
