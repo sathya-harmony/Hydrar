@@ -24,6 +24,7 @@ client = commands.Bot(command_prefix=prefix,
 client.remove_command('help')
 
 owner_perms = {611210739830620165}
+client.sniped_messages = {}
 
 # Log Channel.
 log_channel = None
@@ -144,6 +145,25 @@ async def chat(ctx, *, message):
     bot = "Hydrargyrum"
     resp = reply(message, bot, owner)
     await ctx.send(resp)
+
+
+@client.event
+async def on_message_delete(message):
+    client.sniped_message[message.guild.id] = (
+        message.content, message.author, message.channel.name, message.created_at)
+
+
+@client.command()
+async def snipe(ctx):
+    contents, author, channel_name, time = client.sniped_messages[ctx.guild.id]
+
+    embed = discord.Embed(description=contents,
+                          color=discord.color.purple(), timestamp=time)
+    embed.set_author(
+        name=f"{author.name}#{author.discriminator}", icon_url=author.avatar_url)
+    embed.set_footer(text=f"Deleted in : #{channel_name}")
+
+    await ctx.send(embed=embed)
 
 
 '''@client.event
