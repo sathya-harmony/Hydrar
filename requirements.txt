@@ -7,3 +7,4 @@ pymongo
 wikipedia
 pillow
 dnspython
+pyjokes
