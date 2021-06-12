@@ -47,7 +47,7 @@ intents.members = True
 
 @client.event
 async def on_member_join(member):
-    guild = client.get_guild(846947170782281729)
+    guild = client.get_guild(846947170782281732)
     channel = guild.get_channel(847508482454323270)
     intro = guild.get_channel(847508482454323270)
     await channel.send(f"Welcome to {guild.name} {member.mention}! Please Introduce yourself in {intro}")
