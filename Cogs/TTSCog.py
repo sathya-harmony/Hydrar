@@ -4,8 +4,11 @@ from discord.ext import commands
 import math
 import discord
 import asyncio
+
+import translate
 import google_trans_new
 from google_trans_new import google_translator
+from translate import Translator
 
 #import google_currency
 
@@ -28,9 +31,12 @@ class TTS(commands.Cog):
         self.client = client
 
     @commands.command()
-    async def translate(self, ctx, lang, *, args):
-        result = google_translator().translate(args, lang_tgt=lang)
-        await ctx.send(result)
+    async def translate(self, ctx, translator: str, *, args):
+        #result = google_translator().translate(args, lang_tgt=lang)
+        # await ctx.send(result)
+        translator = Translator(to_lang='')
+        translation = translator.translate(args)
+        await ctx.send(translation)
 
 
 def setup(client):
