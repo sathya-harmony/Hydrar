@@ -8,4 +8,4 @@ wikipedia
 pillow
 dnspython
 pyjokes
-googletrans
+google_trans_new
