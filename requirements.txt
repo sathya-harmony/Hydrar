@@ -9,3 +9,4 @@ pillow
 dnspython
 pyjokes
 google_trans_new
+translate
