@@ -43,7 +43,7 @@ class levels(commands.Cog):
 
                     if xp == 0:
                         await message.channel.send(
-                            f"Congratulations,  {message.author.mention}! You just levelled up to **level {lvl}**!"
+                            f"Congratulations, {message.author.mention}! You just levelled up to **level {lvl}**!"
                         )
                         for i in range(len(level)):
                             if lvl == levelnum[i]:
