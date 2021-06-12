@@ -38,7 +38,7 @@ class Wanted(commands.Cog):
         asset = user.avatar_url_as(size=128)
         data = BytesIO(await asset.read())
         pfp = Image.open(data)
-        pfp = pfp.resize((324, 321))
+        pfp = pfp.resize((325, 321))
         wanted.paste(pfp, (125, 251))
         wanted.save("ReturnPICS/profile.jpg")
         await ctx.send(file=discord.File("ReturnPICS/profile.jpg"))
