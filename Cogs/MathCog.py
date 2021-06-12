@@ -64,7 +64,7 @@ class Math(commands.Cog):
         wl = response.text
         quod = ast.literal_eval(wl)
         curren = quod["curren"]
-        print(curren)
+        await ctx.send(curren)
 
         '''async with ctx.channel.typing():
             await asyncio.sleep(0.5)
