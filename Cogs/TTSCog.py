@@ -31,8 +31,7 @@ class TTS(commands.Cog):
     async def translate(self, ctx, lang, *, args):
         t = Translator
         a = t.translate(args, dest=lang)
-        await ctx.send(a.text)\
-
+        await ctx.send(a.text)
 
 
 def setup(client):
