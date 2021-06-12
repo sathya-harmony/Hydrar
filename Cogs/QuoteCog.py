@@ -5,6 +5,7 @@ import json
 import ast
 import asyncio
 from discord.ext import commands
+import pyjokes
 
 prefix = '-'
 client = commands.Bot(command_prefix=prefix,
@@ -40,11 +41,11 @@ class Quote(commands.Cog):
 
         await ctx.send(f"**Here's a Quote to Inspire you:**\n{quote}")
 
-    '''@commands.command()
+    @commands.command()
     async def joke(self, ctx):
         async with ctx.channel.typing():
             await asyncio.sleep(0.5)
-        await ctx.send((pyjokes.get_joke()))'''
+        await ctx.send((pyjokes.get_joke()))
 
 
 def setup(client):
