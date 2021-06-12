@@ -7,7 +7,9 @@ import asyncio
 import wikipedia
 from random import randint
 import json
-from google_currency import convert
+import requests
+import ast
+import google_currency
 
 
 @commands.Cog.listener()
@@ -55,9 +57,14 @@ class Math(commands.Cog):
             await ctx.send(f"**Title:**{title}\n\n**Summary:**{summary}\n\nRead More Here: {url}")
 
     @commands.command()
-    async def currencyConvert(self, ctx, *, ffrom: str, to: str, amount: float):
-        currency = convert(ffrom, to, amount)
-        await ctx.send(currency)
+    async def currencyConvert(self, ctx, ffrom: str, to: str, amount: float):
+        currency = google_currency.convert(ffrom, to, amount)
+        # await ctx.send(currency)
+        response = requests.get(currency)
+        wl = response.text
+        quod = ast.literal_eval(wl)
+        curren = quod["curren"]
+        print(curren)
 
         '''async with ctx.channel.typing():
             await asyncio.sleep(0.5)
