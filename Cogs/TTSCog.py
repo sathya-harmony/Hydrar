@@ -4,10 +4,9 @@ from discord.ext import commands
 import math
 import discord
 import asyncio
-
+#import google_trans_new
+#from google_trans_new import google_translator
 import translate
-import google_trans_new
-from google_trans_new import google_translator
 from translate import Translator
 
 #import google_currency
