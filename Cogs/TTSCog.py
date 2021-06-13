@@ -39,11 +39,11 @@ class TTS(commands.Cog):
         translation = translator.translate(args)
         await ctx.send(translation)
 
-    @commands.command(aliases=['Text to Speech', ' Text-To-Speech'])
-    async def tts(ctx, lng: str, *, txt: str):
+    @commands.command(name='texttospeech')
+    async def texttospeech(ctx, lng, *txt):
         file = gtts.gTTS(text=" ".join(txt), lang=lng, slow=False)
-        file.save("Pics/audio.mp3")
-        await ctx.send(file=discord.File("Pics/audio.mp3"))
+        file.save("Cogs/audio.mp3")
+        await ctx.send(file=discord.File("Cogs/audio.mp3"))
 
 
 def setup(client):
