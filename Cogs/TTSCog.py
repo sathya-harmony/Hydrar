@@ -9,6 +9,7 @@ import asyncio
 import translate
 from translate import Translator
 import gtts
+import json
 
 #import google_currency
 
@@ -40,10 +41,10 @@ class TTS(commands.Cog):
         await ctx.send(translation)
 
     @commands.command(name='texttospeech')
-    async def texttospeech(ctx, lng, *txt):
+    async def texttospeech(self, ctx, lng, *txt):
         file = gtts.gTTS(text=" ".join(txt), lang=lng, slow=False)
-        file.save("Cogs/audio.mp3")
-        await ctx.send(file=discord.File("Cogs/audio.mp3"))
+        file.save("Cogs/Audio/audio.mp3")
+        await ctx.send(file=discord.File("Cogs/Audio/audio.mp3"))
 
 
 def setup(client):
