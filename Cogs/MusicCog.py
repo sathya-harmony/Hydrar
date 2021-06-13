@@ -30,7 +30,7 @@ class Music(commands.Cog):
         self.client = client
 
     @commands.command()
-    async def play(ctx, url: str):
+    async def play(self, ctx, url: str):
         song_there = os.path.isfile("song.mp3")
         try:
             if song_there:
@@ -60,7 +60,7 @@ class Music(commands.Cog):
         voice.play(discord.FFmpegPCMAudio("song.mp3"))
 
     @commands.command()
-    async def leave(ctx):
+    async def leave(self, ctx):
         voice = discord.utils.get(commands.voice_clients, guild=ctx.guild)
         if voice.is_connected():
             await voice.disconnect()
@@ -68,7 +68,7 @@ class Music(commands.Cog):
             await ctx.send("The bot is not connected to a voice channel.")
 
     @commands.command()
-    async def pause(ctx):
+    async def pause(self, ctx):
         voice = discord.utils.get(commands.voice_clients, guild=ctx.guild)
         if voice.is_playing():
             voice.pause()
@@ -76,7 +76,7 @@ class Music(commands.Cog):
             await ctx.send("Currently no audio is playing.")
 
     @commands.command()
-    async def resume(ctx):
+    async def resume(self, ctx):
         voice = discord.utils.get(commands.voice_clients, guild=ctx.guild)
         if voice.is_paused():
             voice.resume()
@@ -84,7 +84,7 @@ class Music(commands.Cog):
             await ctx.send("The audio is not paused.")
 
     @commands.command()
-    async def stop(ctx):
+    async def stop(self, ctx):
         voice = discord.utils.get(commands.voice_clients, guild=ctx.guild)
         voice.stop()
 
