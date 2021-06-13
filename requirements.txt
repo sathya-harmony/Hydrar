@@ -10,3 +10,4 @@ dnspython
 pyjokes
 google_trans_new
 translate
+gtts
