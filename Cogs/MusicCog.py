@@ -29,7 +29,7 @@ class Music(commands.Cog):
         self.client = client
 
     @commands.command()
-    async def play(self, ctx, url: str, channel: str):
+    async def play(self, ctx, url: str, channel):
         voiceChannel = discord.utils.get(
             ctx.guild.voice_channels, name=channel)
         voice = discord.utils.get(commands.voice_client, guild=ctx.guild)
