@@ -107,6 +107,8 @@ client.load_extension('Cogs.FactsCog')
 client.load_extension('Cogs.LevelsCog')
 # tts
 client.load_extension('Cogs.TTSCog')
+# music
+client.load_extension('Cogs.MusicCog')
 
 
 def cop(ctx):
