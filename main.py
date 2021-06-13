@@ -108,15 +108,7 @@ client.load_extension('Cogs.LevelsCog')
 # tts
 client.load_extension('Cogs.TTSCog')
 # music
-# client.load_extension('Cogs.MusicCog')
-
-
-@client.command()
-async def play(self, ctx, url: str, channel):
-    voiceChannel = discord.utils.get(
-        ctx.guild.voice_channels, name=channel)
-    voice = discord.utils.get(client.voice_client, guild=ctx.guild)
-    await voiceChannel.connect()
+client.load_extension('Cogs.MusicCog')
 
 
 def cop(ctx):
