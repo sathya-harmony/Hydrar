@@ -10,6 +10,7 @@ import json
 import requests
 import ast
 import youtube_dl
+import ffmpeg
 
 
 @commands.Cog.listener()
@@ -42,7 +43,7 @@ class Music(commands.Cog):
         voiceChannel = discord.utils.get(
             ctx.guild.voice_channels, name='General')
         await voiceChannel.connect()
-        voice = discord.utils.get(commands.voice_clients, guild=ctx.guild)
+        voice = discord.utils.get(commands.voice_clients, guild=self.ctx.guild)
 
         ydl_opts = {
             'format': 'bestaudio/best',
