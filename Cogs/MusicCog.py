@@ -42,7 +42,8 @@ class Music(commands.Cog):
         voiceChannel = discord.utils.get(
             self.ctx.guild.voice_channels, name='General')
         await voiceChannel.connect()
-        voice = discord.utils.get(commands.voice_clients, guild=self.ctx.guild)
+        voice = discord.utils.get(
+            self.client.voice_clients, guild=self.ctx.guild)
 
         ydl_opts = {
             'format': 'bestaudio/best',
@@ -61,7 +62,8 @@ class Music(commands.Cog):
 
     @commands.command()
     async def leave(self, ctx):
-        voice = discord.utils.get(commands.voice_clients, guild=ctx.guild)
+        voice = discord.utils.get(
+            self.client.voice_clients, guild=self.ctx.guild)
         if voice.is_connected():
             await voice.disconnect()
         else:
@@ -69,7 +71,8 @@ class Music(commands.Cog):
 
     @commands.command()
     async def pause(self, ctx):
-        voice = discord.utils.get(commands.voice_clients, guild=ctx.guild)
+        voice = discord.utils.get(
+            self.client.voice_clients, guild=self.ctx.guild)
         if voice.is_playing():
             voice.pause()
         else:
@@ -77,7 +80,8 @@ class Music(commands.Cog):
 
     @commands.command()
     async def resume(self, ctx):
-        voice = discord.utils.get(commands.voice_clients, guild=ctx.guild)
+        voice = discord.utils.get(
+            self.client.voice_clients, guild=self.ctx.guild)
         if voice.is_paused():
             voice.resume()
         else:
@@ -85,7 +89,8 @@ class Music(commands.Cog):
 
     @commands.command()
     async def stop(self, ctx):
-        voice = discord.utils.get(commands.voice_clients, guild=ctx.guild)
+        voice = discord.utils.get(
+            self.client.voice_clients, guild=self.ctx.guild)
         voice.stop()
 
 
