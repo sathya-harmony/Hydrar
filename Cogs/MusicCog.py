@@ -10,8 +10,6 @@ import json
 import requests
 import ast
 import youtube_dl
-import ffmpeg
-import ffprobe
 
 
 @commands.Cog.listener()
