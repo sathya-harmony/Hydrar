@@ -12,4 +12,6 @@ google_trans_new
 translate
 gtts
 youtube_dl
+ffmpeg
+ffprobe
 

@@ -10,6 +10,8 @@ import json
 import requests
 import ast
 import youtube_dl
+import ffmpeg
+import ffprobe
 
 
 @commands.Cog.listener()
@@ -40,7 +42,7 @@ class Music(commands.Cog):
             return
 
         voiceChannel = discord.utils.get(
-            self.client.guild.voice_channels, name='General')
+            ctx.guild.voice_channels, name='General')
         await voiceChannel.connect()
         voice = discord.utils.get(
             self.client.voice_clients, guild=ctx.guild)
