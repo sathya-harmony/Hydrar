@@ -40,7 +40,7 @@ class Music(commands.Cog):
             return
 
         voiceChannel = discord.utils.get(
-            self.ctx.guild.voice_channels, name='General')
+            self.client.guild.voice_channels, name='General')
         await voiceChannel.connect()
         voice = discord.utils.get(
             self.client.voice_clients, guild=ctx.guild)
