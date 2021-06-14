@@ -112,7 +112,7 @@ class levels(commands.Cog):
                 except:
                     pass
 
-                if i >= 10:
+                if i >= 11:
                     break
 
             await ctx.channel.send(embed=embed)
