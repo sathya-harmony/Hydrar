@@ -1,6 +1,6 @@
 import discord
 import os
-from PIL import Image
+from PIL import Image, ImageDraw
 from io import BytesIO
 import asyncio
 
@@ -67,6 +67,57 @@ class Wanted(commands.Cog):
                 title=f"{user}'s Avatar!", color=ctx.author.color, timestamp=ctx.message.created_at)
             embed.set_image(url=f"{user.avatar_url}")
             await ctx.send(embed=embed)
+
+    @commands.command()
+    async def pro(self, ctx, user: discord.Member = None):
+        if user == None:
+            user = ctx.author
+
+        '''im = Image.open("Cogs/Pics/pro.jpg")
+        d = ImageDraw.Draw(im)
+
+        west_north = (150, 50)
+        east_south = (250, 150)
+
+        outline_color = (255, 255, 255)
+
+        d.ellipse([west_north, east_south], outline=outline_color, width=50)
+
+        im.save("ReturnPICS/drawn_grid.png")
+
+        pro = Image.open("Cogs/Pics/pro.jpg")
+        asset = user.avatar_url_as(size=1024)
+        data = BytesIO(await asset.read())
+        pfp = Image.open(data)
+        pfp = pfp.resize((300, 300))
+        #pro.paste(pfp, (81, 145))
+        # ReturnPICS/pro.jpg
+        pro.save("ReturnPICS/pro.jpg")
+        await ctx.send(file=discord.File("ReturnPICS/pro.jpg"))'''
+
+        img = Image.open('Cogs/Pics/pro.jpg')
+        draw_img = ImageDraw.Draw(img)
+
+        # Left, Top, Right, Bottom
+        # start_x, start_y, end_x, end_y
+        pfp_coords = (81, 145, 81+300, 145+300)
+
+        pfp_lum_img = Image.new(size=(
+            pfp_coords[2]-pfp_coords[0], pfp_coords[3]-pfp_coords[1]), mode="L", color="black")
+        draw_pfp_lum_img = ImageDraw.Draw(pfp_lum_img)
+        draw_pfp_lum_img.ellipse((0, 0) + pfp_lum_img.size, fill="white")
+
+        asset = user.avatar_url_as(size=1024)
+        data = BytesIO(await asset.read())
+        pfp = Image.open(data)
+        pfp = pfp.resize(pfp_lum_img.size)
+        img.paste(pfp, pfp_coords[:2], mask=pfp_lum_img)
+        draw_img.ellipse(pfp_coords, outline="white", width=8)
+
+        with BytesIO() as buf:
+            img.save(buf, format="jpeg")
+            buf.seek(0)
+            await ctx.send(file=discord.File(buf, f"Profile of {user.name}#{user.discriminator}.jpeg"))
 
 
 def setup(client):

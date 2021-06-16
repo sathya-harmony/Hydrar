@@ -1,15 +1,14 @@
-from datetime import datetime
-from typing import Optional
-from discord import Member
 from discord.ext import commands
 import discord
-import math
 from fractions import *
 from discord.ext.commands.cog import Cog
-import wolframalpha
-import os
-import asyncio
+import traceback
+import sys
 from alexa_reply import reply
+'''from passwordmeter import test
+from urllib import urlopen
+from os.path import isfile
+from random import choice, randint'''
 
 
 #from prsaw import RandomStuff
@@ -111,6 +110,10 @@ client.load_extension('Cogs.TTSCog')
 # client.load_extension('Cogs.MusicCog')
 
 
+'''@client.command()
+async def password(ctx, amount: int):'''
+
+
 def cop(ctx):
     if ctx.author.id in owner_perms:
         return True
@@ -164,6 +167,16 @@ async def on_ready():
                                  activity=activity)
     print('The bot has booted up.')
     await log('The bot is online.')
+
+
+@client.event
+async def on_command_error(ctx, error):
+    print(f'Ignoring exception in command {ctx.command}:', file=sys.stderr)
+    traceback.print_exception(
+        type(error), error, error.__traceback__, file=sys.stderr)
+    tb = ''.join(map(lambda x: x.replace('\\n', '\n'), traceback.format_exception(
+        type(error), error, error.__traceback__)))
+    await log(f"{error}\n{getattr(error, 'original', error)}\n\n```{tb}```")
 
 
 @client.command()
