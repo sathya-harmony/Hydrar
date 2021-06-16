@@ -169,14 +169,14 @@ async def on_ready():
     await log('The bot is online.')
 
 
-@client.event
+'''@client.event
 async def on_command_error(ctx, error):
     print(f'Ignoring exception in command {ctx.command}:', file=sys.stderr)
     traceback.print_exception(
         type(error), error, error.__traceback__, file=sys.stderr)
     tb = ''.join(map(lambda x: x.replace('\\n', '\n'), traceback.format_exception(
         type(error), error, error.__traceback__)))
-    await log(f"{error}\n{getattr(error, 'original', error)}\n\n```{tb}```")
+    await log(f"{error}\n{getattr(error, 'original', error)}\n\n```{tb}```")'''
 
 
 @client.command()
@@ -185,25 +185,6 @@ async def chat(ctx, *, message):
     bot = "Hydrargyrum"
     resp = reply(message, bot, owner)
     await ctx.send(resp)
-
-
-'''@client.event
-async def on_message(message):
-  try:
-      if client.user == message.author:
-         return
-      if message.channel.id == 844871857169760306 : 
-          response = await rs.get_ai_response(message.content)
-          await message.reply(response[0]['message'])
-
-          await client.process_commands(message)
-  except ValueError:
-    pass'''
-
-
-# keep_alive()
-#my_secret = os.environ['Hydra']
-# client.run(my_secret)
 
 
 Token = 'ODQ0ODEzMzE2NTA1MDc1NzEy.YKX3tg.0eYGwHfkQMKEbF71c8dVDmGVlBI'

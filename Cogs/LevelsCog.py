@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 from pymongo import MongoClient
 
+
 bot_channel = 846986346245128193
 talk_channel = [846986346245128193]
 level = ["Level 1"]
@@ -91,7 +92,7 @@ class levels(commands.Cog):
                 embed.add_field(
                     name="**Rank**", value=f"{rank}/{ctx.guild.member_count}", inline=False)
                 embed.add_field(name="Progress Bar", value=boxes *
-                                "🟦"+(20-boxes)*"⬜", inline=False)
+                                "🟩"+(20-boxes)*"⬜", inline=False)
                 embed.set_thumbnail(url=ctx.author.avatar_url)
                 await ctx.channel.send(embed=embed)
 
