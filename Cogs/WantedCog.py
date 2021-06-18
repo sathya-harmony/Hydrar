@@ -95,7 +95,8 @@ class Wanted(commands.Cog):
         font = ImageFont.truetype("Linotype.otf", 112)
         username = ImageDraw.Draw(img)
         text = f'{user.display_name}'
-        username.text((450, 65), text, (255, 255, 255), font=font)
+        # 450,65
+        username.text((420, 65), text, (255, 255, 255), font=font)
 
         with BytesIO() as buf:
             img.save(buf, format="jpeg")
