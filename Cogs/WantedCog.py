@@ -1,6 +1,6 @@
 import discord
 import os
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFont
 from io import BytesIO
 import asyncio
 
@@ -73,28 +73,6 @@ class Wanted(commands.Cog):
         if user == None:
             user = ctx.author
 
-        '''im = Image.open("Cogs/Pics/pro.jpg")
-        d = ImageDraw.Draw(im)
-
-        west_north = (150, 50)
-        east_south = (250, 150)
-
-        outline_color = (255, 255, 255)
-
-        d.ellipse([west_north, east_south], outline=outline_color, width=50)
-
-        im.save("ReturnPICS/drawn_grid.png")
-
-        pro = Image.open("Cogs/Pics/pro.jpg")
-        asset = user.avatar_url_as(size=1024)
-        data = BytesIO(await asset.read())
-        pfp = Image.open(data)
-        pfp = pfp.resize((300, 300))
-        #pro.paste(pfp, (81, 145))
-        # ReturnPICS/pro.jpg
-        pro.save("ReturnPICS/pro.jpg")
-        await ctx.send(file=discord.File("ReturnPICS/pro.jpg"))'''
-
         img = Image.open('Cogs/Pics/pro.jpg')
         draw_img = ImageDraw.Draw(img)
 
@@ -113,6 +91,11 @@ class Wanted(commands.Cog):
         pfp = pfp.resize(pfp_lum_img.size)
         img.paste(pfp, pfp_coords[:2], mask=pfp_lum_img)
         draw_img.ellipse(pfp_coords, outline="white", width=8)
+
+        font = ImageFont.truetype("Linotype.otf", 112)
+        username = ImageDraw.Draw(img)
+        text = f'{user.display_name}'
+        username.text((450, 65), text, (255, 255, 255), font=font)
 
         with BytesIO() as buf:
             img.save(buf, format="jpeg")
