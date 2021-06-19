@@ -74,7 +74,7 @@ class Wanted(commands.Cog):
         if user == None:
             user = ctx.author
         responses = ["Cogs/Pics/pro.jpg",
-                     "Cogs/Pics/pro1.jpg", "Cogs/Pics/pro2.jpg", "Cogs/Pics/pro3.jpg"]
+                     "Cogs/Pics/pro1.jpg", "Cogs/Pics/pro2.jpg", "Cogs/Pics/pro3.jpg", "Cogs/Pics/pro4.jpg", "Cogs/Pics/pro5.jpg", "Cogs/Pics/pro6.jpg"]
 
         img = Image.open(f'{random.choice(responses)}')
         draw_img = ImageDraw.Draw(img)
@@ -112,10 +112,11 @@ class Wanted(commands.Cog):
 
         draw_img.text((cords), text, (255, 255, 255), font=font)
 
-        '''if str(user.status) == 'Online':
-            status = Image.open(
-                "Cogs\Pics\OnlineStatus.png")
-            img.paste(status, (81, 145))'''
+        '''if (user.status) == discord.Status.online:
+
+            online = Image.open("Cogs/Pics/OnlineStatus.png")
+            online = online.resize(100, 100)
+            img.paste(online, (81, 145))'''
 
         with BytesIO() as buf:
             img.save(buf, format="jpeg")

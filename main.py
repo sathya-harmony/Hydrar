@@ -59,7 +59,7 @@ async def on_command_error(ctx, error):
     if isinstance(error, commands.UserInputError):
         await ctx.send('Please give proper input.')
     elif isinstance(error, commands.MissingPermissions):
-        await ctx.  send(
+        await ctx.send(
             "You don't have the permissions to execute this command.")
     elif isinstance(error, commands.MissingRequiredArgument):
         await ctx.send('Please give proper input.')
