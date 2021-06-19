@@ -3,6 +3,7 @@ import os
 from PIL import Image, ImageDraw, ImageFont
 from io import BytesIO
 import asyncio
+import random
 
 
 from discord.ext import commands
@@ -72,8 +73,10 @@ class Wanted(commands.Cog):
     async def pro(self, ctx, user: discord.Member = None):
         if user == None:
             user = ctx.author
+        responses = ["Cogs/Pics/pro.jpg",
+                     "Cogs/Pics/pro1.jpg", "Cogs/Pics/pro2.jpg", "Cogs/Pics/pro3.jpg"]
 
-        img = Image.open('Cogs/Pics/pro.jpg')
+        img = Image.open(f'{random.choice(responses)}')
         draw_img = ImageDraw.Draw(img)
 
         # Left, Top, Right, Bottom
@@ -92,11 +95,27 @@ class Wanted(commands.Cog):
         img.paste(pfp, pfp_coords[:2], mask=pfp_lum_img)
         draw_img.ellipse(pfp_coords, outline="white", width=8)
 
-        font = ImageFont.truetype("Linotype.otf", 112)
-        username = ImageDraw.Draw(img)
-        text = f'{user.display_name}'
+        font_size = 130
+        cords = 445, 65
+        font = ImageFont.truetype("fonts/Linotype.otf", font_size)
+        text = user.display_name
         # 450,65
-        username.text((420, 65), text, (255, 255, 255), font=font)
+        # print(font.getsize(text)[0])
+        while font.getsize(text)[0] >= 640:
+            font_size -= 5
+            cords = 410, 100
+            if font_size <= 0:
+                font_size = 10
+                break
+
+            font = ImageFont.truetype("fonts/Linotype.otf", font_size)
+
+        draw_img.text((cords), text, (255, 255, 255), font=font)
+
+        '''if str(user.status) == 'Online':
+            status = Image.open(
+                "Cogs\Pics\OnlineStatus.png")
+            img.paste(status, (81, 145))'''
 
         with BytesIO() as buf:
             img.save(buf, format="jpeg")
