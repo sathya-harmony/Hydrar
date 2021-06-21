@@ -3,8 +3,8 @@ from discord.ext import commands
 from pymongo import MongoClient
 
 
-bot_channel = [846986346245128193, 854348191259689010]
-talk_channel = [846986346245128193, 854348191259689010]
+bot_channel = 846986346245128193
+talk_channel = [846986346245128193]
 level = ["Level 1"]
 levelnum = [2]
 
@@ -19,7 +19,7 @@ class levels(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.Cog.listener()
+    @ commands.Cog.listener()
     async def on_message(self, message):
         if message.channel.id in talk_channel:
             stats = levelling.find_one({"id": message.author.id})
@@ -60,7 +60,7 @@ class levels(commands.Cog):
 
                                 await message.channel.send(embed=embed)
 
-    @commands.command(aliases=["level", "lvl", "xp"])
+    @ commands.command(aliases=["level", "lvl", "xp"])
     async def rank(self, ctx):
         if ctx.channel.id == bot_channel:
             stats = levelling.find_one({"id": ctx.author.id})
@@ -78,7 +78,7 @@ class levels(commands.Cog):
 
                 xp -= abs(((50 * (lvl - 1)**2)) + (50 * (lvl - 1)))
 
-                #boxes = int((xp/(200*((1/2) * lvl)))*20)
+                # boxes = int((xp/(200*((1/2) * lvl)))*20)
                 boxes = int(xp/(5*lvl))
                 ranking = levelling.find().sort("xp", -1)
                 for x in ranking:
@@ -96,7 +96,7 @@ class levels(commands.Cog):
                 embed.set_thumbnail(url=ctx.author.avatar_url)
                 await ctx.channel.send(embed=embed)
 
-    @commands.command(aliases=["top"])
+    @ commands.command(aliases=["top"])
     async def leaderboard(self, ctx):
         if (ctx.channel.id == bot_channel):
             rankings = levelling.find().sort("xp", -1)
