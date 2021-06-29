@@ -112,11 +112,21 @@ class Wanted(commands.Cog):
 
         draw_img.text((cords), text, (255, 255, 255), font=font)
 
-        '''if (user.status) == discord.Status.online:
+        if (user.status) == discord.Status.online:
 
-            online = Image.open("Cogs/Pics/OnlineStatus.png")
-            online = online.resize(100, 100)
-            img.paste(online, (81, 145))'''
+            online = Image.open("Cogs\Pics\OnlineStatus.png")
+            online = online.resize((200, 200))
+            img.paste(online, (500, 700))
+
+        elif (user.status) == discord.Status.dnd:
+            online = Image.open("Cogs\Pics\DNDStatus.png")
+            online = online.resize((200, 200))
+            img.paste(online, (500, 700))
+
+        elif (user.status) == discord.Status.offline:
+            online = Image.open("Cogs\Pics\DNDStatus.png")
+            online = online.resize((200, 200))
+            img.paste(online, (500, 700))
 
         with BytesIO() as buf:
             img.save(buf, format="jpeg")

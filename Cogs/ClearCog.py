@@ -5,7 +5,6 @@ from discord.ext import commands
 import math
 
 owner_perms = {611210739830620165}  # Sathya
-               
 
 
 def cop(ctx):
@@ -15,6 +14,8 @@ def cop(ctx):
     return False
 
 # Owner Permissions.
+
+
 async def op(ctx, msg=None):
     if ctx.author.id in owner_perms:
         # If any msg was given, send it.
@@ -42,24 +43,22 @@ def owner_or_perm(**perms):
     return commands.check(extended_check)
 
 
-
-
 class clear(commands.Cog):
     def __init__(self,  client):
-           self.client = client
+        self.client = client
 
-    # Clear 
+    # Clear
     @commands.command(aliases=["delete", "purge"])
-    @owner_or_perm(manage_messages=True)
-    async def clear(self, ctx, amount):    
-        if amount.lower() == "all":       
+    # @owner_or_perm(manage_messages=True)
+    async def clear(self, ctx, amount):
+        if amount.lower() == "all":
             await ctx.send(f"{len(await ctx.channel.purge(limit=math.inf))-1} message(s) was/were cleared.", delete_after=3)
-        else:       
-            try:           
+        else:
+            try:
                 await ctx.send(f"{len(await ctx.channel.purge(limit=int(amount)+1))-1} message(s) was/were  cleared.", delete_after=3)
-            except ValueError:           
+            except ValueError:
                 raise commands.UserInputError
 
 
 def setup(client):
-    client.add_cog(clear(client))                        
+    client.add_cog(clear(client))
