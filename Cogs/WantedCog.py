@@ -116,7 +116,7 @@ class Wanted(commands.Cog):
 
         draw_img.text((cords), text, (255, 255, 255), font=font)
 
-        '''if (user.status) == discord.Status.online:
+        if (user.status) == discord.Status.online:
 
             online = Image.open("Cogs\Pics\OnlineStatus.png")
             online = online.resize((200, 200))
@@ -135,7 +135,7 @@ class Wanted(commands.Cog):
         with BytesIO() as buf:
             img.save(buf, format="jpeg")
             buf.seek(0)
-            await ctx.send(file=discord.File(buf, f"Profile of {user.name}#{user.discriminator}.jpeg"))'''
+            await ctx.send(file=discord.File(buf, f"Profile of {user.name}#{user.discriminator}.jpeg"))
 
 
 def setup(client):
