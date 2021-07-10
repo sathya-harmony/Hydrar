@@ -61,7 +61,11 @@ class Wanted(commands.Cog):
     @commands.command()
     async def avatar(self, ctx, user: discord.Member = None):
         if user == None:
-            await ctx.send("Mention somebody to get their Avatar.")
+            user = ctx.author
+            embed = discord.Embed(
+                title=f"{user}'s Avatar!", color=ctx.author.color, timestamp=ctx.message.created_at)
+            embed.set_image(url=f"{user.avatar_url}")
+            await ctx.send(embed=embed)
 
         else:
             embed = discord.Embed(
