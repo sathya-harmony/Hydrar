@@ -80,7 +80,7 @@ class Wanted(commands.Cog):
         responses = ["Cogs/Pics/pro.jpg",
                      "Cogs/Pics/pro1.jpg", "Cogs/Pics/pro2.jpg", "Cogs/Pics/pro3.jpg", "Cogs/Pics/pro4.jpg", "Cogs/Pics/pro5.jpg", "Cogs/Pics/pro6.jpg"]
 
-        img = Image.open(f'{random.choice(responses)}')
+        img = Image.open(random.choice(responses))
         draw_img = ImageDraw.Draw(img)
 
         # Left, Top, Right, Bottom
@@ -116,26 +116,33 @@ class Wanted(commands.Cog):
 
         draw_img.text((cords), text, (255, 255, 255), font=font)
 
-        if (user.status) == discord.Status.online:
+        if (user.status) is discord.Status.online:
 
-            online = Image.open("Cogs\Pics\OnlineStatus.png")
-            online = online.resize((200, 200))
-            img.paste(online, (500, 700))
+            online = Image.open("Cogs/Pics/OnlineStatus.png")
+            online = online.resize((75, 75))
+            img.paste(online, (300, 340), mask=online)
 
-        elif (user.status) == discord.Status.dnd:
-            online = Image.open("Cogs\Pics\DNDStatus.png")
-            online = online.resize((200, 200))
-            img.paste(online, (500, 700))
+        elif (user.status) is discord.Status.dnd:
+            online = Image.open("Cogs/Pics/DNDStatus.png")
+            online = online.resize((75, 75))
+            img.paste(online, (300, 340), mask=online)
 
-        elif (user.status) == discord.Status.offline:
-            online = Image.open("Cogs\Pics\DNDStatus.png")
-            online = online.resize((200, 200))
-            img.paste(online, (500, 700))
+            print("here", img.size)
+
+        elif (user.status) is discord.Status.idle:
+            online = Image.open("Cogs/Pics/IdleStatus.png")
+            online = online.resize((75, 75))
+            img.paste(online, (300, 340), mask=online)
+
+        elif (user.status) is discord.Status.offline:
+            online = Image.open("Cogs/Pics/OfflineStatus.png")
+            online = online.resize((75, 75))
+            img.paste(online, (300, 340), mask=online)
 
         with BytesIO() as buf:
-            img.save(buf, format="jpeg")
+            img.save(buf, format="png")
             buf.seek(0)
-            await ctx.send(file=discord.File(buf, f"Profile of {user.name}#{user.discriminator}.jpeg"))
+            await ctx.send(file=discord.File(buf, f"Profile of {user.name}#{user.discriminator}.png"))
 
 
 def setup(client):
