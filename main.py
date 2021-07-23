@@ -1,4 +1,4 @@
-from discord.ext import commands, ipc
+from discord.ext import commands  # ipc
 import discord
 from fractions import *
 from discord.ext.commands.cog import Cog
