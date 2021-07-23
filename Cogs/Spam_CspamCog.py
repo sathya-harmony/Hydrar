@@ -5,6 +5,7 @@ from discord.ext import commands
 
 owner_perms = {611210739830620165}  # Sathya
 
+
 @commands.Cog.listener()
 async def on_command_error(ctx, error):
     if isinstance(error, commands.UserInputError):
@@ -16,7 +17,6 @@ async def on_command_error(ctx, error):
         await ctx.send('Please give proper input.')
     elif isinstance(error, commands.CommandNotFound):
         await ctx.send("Invalid command.")
-               
 
 
 def cop(ctx):
@@ -26,6 +26,8 @@ def cop(ctx):
     return False
 
 # Owner Permissions.
+
+
 async def op(ctx, msg=None):
     if ctx.author.id in owner_perms:
         # If any msg was given, send it.
@@ -52,41 +54,37 @@ def owner_or_perm(**perms):
 
     return commands.check(extended_check)
 
+
 class Spam_Cspam(commands.Cog):
     def __init__(self,  client):
-           self.client = client
+        self.client = client
 
+    # Spam
 
-    #Spam
     @commands.command()
     async def spam(self, ctx, amount: int, *, text):
-    
-        if await op(ctx):
-            for _ in range(amount):
-                await ctx.send(text)    
+
+        # if await op(ctx):
+        for _ in range(amount):
+            await ctx.send(text)
 
     @commands.command(aliases=['clear_spam', 'clearspam'])
     async def cspam(self, ctx, amount: int, *, text):
-    
-        if await op(ctx):            
-            await ctx.message.delete()
-            spammed_msgs = []
 
-            for _ in range(amount):               
-                spammed_msgs.append(await ctx.send(text))
+        # if await op(ctx):
+        await ctx.message.delete()
+        spammed_msgs = []
 
-            for msg in spammed_msgs:
-                
-                try:
-                    await msg.delete()
-                except Exception:                   
-                    pass        
+        for _ in range(amount):
+            spammed_msgs.append(await ctx.send(text))
+
+        for msg in spammed_msgs:
+
+            try:
+                await msg.delete()
+            except Exception:
+                pass
 
 
 def setup(client):
     client.add_cog(Spam_Cspam(client))
-
-
-
-                    
-                           

@@ -40,10 +40,12 @@ class Math(commands.Cog):
             app_id = 'KPH8T8-L58AQ4EQT8'
             client = wolframalpha.Client(app_id)
             res = client.query(thing)
-            answer = next(res.results).text
+            for result in res.result:
+                answer = next(result)
+                answer2 = next(result)
             try:
-                await ctx.send('**Question:** {}\n**Answer:** {}'.format(thing, answer))
-            except:
+                await ctx.send('**Question:** {}\n**Answer:** {}\n**.**{}'.format(thing, answer, answer2))
+            except Exception:
                 await ctx.send("Sorry, I don't know the answer to that.:frown:")
 
     @commands.command()

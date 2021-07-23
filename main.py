@@ -1,10 +1,16 @@
-from discord.ext import commands
+from discord.ext import commands, ipc
 import discord
 from fractions import *
 from discord.ext.commands.cog import Cog
 import traceback
 import sys
 from alexa_reply import reply
+import json
+import os
+#import Cogs.EconomyCog
+#import Dashboard.main
+
+
 '''from passwordmeter import test
 from urllib import urlopen
 from os.path import isfile
@@ -13,14 +19,61 @@ from random import choice, randint'''
 
 #from prsaw import RandomStuff
 
+
+'''class MyBot(commands.Bot):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.ipc = ipc.Server(self, secret_key="Ssath")
+
+    async def on_ipc_ready(self):
+        """Called upon the IPC Server being ready"""
+        print("Ipc server is ready.")
+
+    async def on_ipc_error(self, endpoint, error):
+        """Called upon an error being raised within an IPC route"""
+        print(endpoint, "raised", error)'''
+
+
 prefix = '-'
 #api_key = "RRcoNdt3Qs8k"
 #rs = RandomStuff(async_mode = True, api_key = api_key)
+
 
 client = commands.Bot(command_prefix=prefix,
                       case_insensitive=True,
                       intents=discord.Intents.all())
 client.remove_command('help')
+
+
+'''@client.ipc.route()
+async def get_guild_count(data):
+    return len(client.guilds)  # returns the len of the guilds to the client
+
+
+@client.ipc.route()
+async def get_guild_ids(data):
+    final = []
+    for guild in client.guilds:
+        final.append(guild.id)
+    return final  # returns the guild ids to the client
+
+
+@client.ipc.route()
+async def get_guild(data):
+    guild = client.get_guild(data.guild_id)
+    if guild is None:
+        return None
+
+    guild_data = {
+        "name": guild.name,
+        "id": guild.id,
+        "prefix": "-"
+    }
+
+    return guild_data'''
+
 
 owner_perms = {611210739830620165}
 client.sniped_messages = {}
@@ -184,5 +237,6 @@ async def chat(ctx, *, message):
     await ctx.send(resp)
 
 
+# client.ipc.start()
 Token = 'ODQ0ODEzMzE2NTA1MDc1NzEy.YKX3tg.0eYGwHfkQMKEbF71c8dVDmGVlBI'
 client.run(Token)
