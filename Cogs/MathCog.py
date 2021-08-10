@@ -40,13 +40,37 @@ class Math(commands.Cog):
             app_id = 'KPH8T8-L58AQ4EQT8'
             client = wolframalpha.Client(app_id)
             res = client.query(thing)
-            for result in res.result:
-                answer = next(result)
-                answer2 = next(result)
+            '''for result in res.result:
+                answer = next(result)'''
+
+            i = 0
             try:
-                await ctx.send('**Question:** {}\n**Answer:** {}\n**.**{}'.format(thing, answer, answer2))
-            except Exception:
-                await ctx.send("Sorry, I don't know the answer to that.:frown:")
+                for result in res.results:
+                    try:
+                        answer = str(
+                            result.text) if i == 0 else f"{answer}\n• {result.text}"
+                        i += 1
+                        await ctx.send(answer)
+                    except StopIteration:
+                        pass
+            except AttributeError:
+                try:
+                    for pod in res.pods:
+                        try:
+                            answer = str(
+                                pod) if i == 0 else f"{answer}\n• {pod}"
+                            i += 1
+                            await ctx.send(answer)
+
+                        except StopIteration:
+                            pass
+                except AttributeError:
+                    pass
+
+            '''try:
+                await ctx.send('**Question:** {}\n**Answer:** {}\n**.**{}'.format(thing, answer))
+            except :
+                await ctx.send("Sorry, I don't know the answer to that.:frown:")'''
 
     @commands.command()
     async def search(self, ctx, *, query):
