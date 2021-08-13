@@ -1,3 +1,4 @@
+from re import T
 from discord.ext import commands  # ipc
 import discord
 from fractions import *
@@ -7,6 +8,7 @@ import sys
 from alexa_reply import reply
 import json
 import os
+import asyncio
 #import Cogs.EconomyCog
 #import Dashboard.main
 
@@ -227,6 +229,25 @@ async def on_ready():
                                  activity=activity)
     print('The bot has booted up.')
     await log('The bot is online.')
+    while True:
+        await asyncio.sleep(10)
+        with open("Cogs/spamdetect.txt", "r+") as file:
+            file.truncate(0)
+
+
+@client.event
+async def on_message(message):
+    counter = 0
+    with open("Cogs/spamdetect.txt", "r+") as file:
+        for lines in file:
+            if lines.strip("\n") == str(message.author.id):
+                counter += 1
+
+        file.writelines(f"{str(message.author.id)}\n")
+        if counter > 3:
+            role = discord.Role('muted')
+            await discord.Member.add_roles(role)
+            await asyncio.sleep(300)
 
 
 @client.command()
@@ -238,5 +259,5 @@ async def chat(ctx, *, message):
 
 
 # client.ipc.start()
-Token = 'ODQ0ODEzMzE2NTA1MDc1NzEy.YKX3tg.0eYGwHfkQMKEbF71c8dVDmGVlBI'
+Token = 'ODQ0ODEzMzE2NTA1MDc1NzEy.YKX3tg.l6yyWnnYL_3Z-vGxK0Be4M9DNqc'
 client.run(Token)
