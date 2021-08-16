@@ -229,13 +229,13 @@ async def on_ready():
                                  activity=activity)
     print('The bot has booted up.')
     await log('The bot is online.')
-    while True:
+    '''while True:
         await asyncio.sleep(10)
         with open("Cogs/spamdetect.txt", "r+") as file:
-            file.truncate(0)
+            file.truncate(0)'''
 
 
-@client.event
+'''@client.event
 async def on_message(message):
     counter = 0
     with open("Cogs/spamdetect.txt", "r+") as file:
@@ -247,7 +247,7 @@ async def on_message(message):
         if counter > 3:
             role = discord.Role('muted')
             await discord.Member.add_roles(role)
-            await asyncio.sleep(300)
+            await asyncio.sleep(300)'''
 
 
 @client.command()
