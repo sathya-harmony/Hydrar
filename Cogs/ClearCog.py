@@ -49,7 +49,7 @@ class clear(commands.Cog):
 
     # Clear
     @commands.command(aliases=["delete", "purge"])
-    # @owner_or_perm(manage_messages=True)
+    @owner_or_perm(manage_messages=True)
     async def clear(self, ctx, amount):
         if amount.lower() == "all":
             await ctx.send(f"{len(await ctx.channel.purge(limit=math.inf))-1} message(s) was/were cleared.", delete_after=3)
