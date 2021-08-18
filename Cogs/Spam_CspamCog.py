@@ -64,16 +64,16 @@ class Spam_Cspam(commands.Cog):
     @commands.command()
     async def spam(self, ctx, amount: int, *, text):
 
-        # if await op(ctx):
-        for _ in range(amount):
-            await ctx.send(text)
+        if await op(ctx):
+            for _ in range(amount):
+                await ctx.send(text)
 
     @commands.command(aliases=['clear_spam', 'clearspam'])
     async def cspam(self, ctx, amount: int, *, text):
 
-        # if await op(ctx):
-        await ctx.message.delete()
-        spammed_msgs = []
+        if await op(ctx):
+            await ctx.message.delete()
+            spammed_msgs = []
 
         for _ in range(amount):
             spammed_msgs.append(await ctx.send(text))
