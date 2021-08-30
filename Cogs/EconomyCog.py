@@ -6,8 +6,8 @@ from discord import embeds
 from discord.ext import commands
 import json
 
-os.chdir(
-    r"Hydrargyruum\Supporting")
+# os.chdir(
+# r"Hydrargyruum\Supporting")
 
 
 class Economy(commands.Cog):
@@ -25,13 +25,13 @@ class Economy(commands.Cog):
             users[str(user.id)]["wallet"] = 100
             users[str(user.id)]["bank"] = 0
 
-        with open("mainbank.json", "w") as f:
+        with open("Supporting\mainbank.json", "w") as f:
             json.dump(users, f)
 
         return True
 
     async def get_bank_data(self):
-        with open("mainbank.json", "r") as f:
+        with open("Supporting\mainbank.json", "r") as f:
             users = json.load(f)
 
         return users
@@ -86,7 +86,7 @@ class Economy(commands.Cog):
 
         await ctx.send(f"Oh you poor little beggar, take ⏣{earnings}!")
         users[str(user.id)]["wallet"] += earnings
-        with open("mainbank.json", "w") as f:
+        with open("Supporting\mainbank.json", "w") as f:
             json.dump(users, f)
 
 # client.run('ODQ0ODEzMzE2NTA1MDc1NzEy.YKX3tg.0eYGwHfkQMKEbF71c8dVDmGVlBI')
