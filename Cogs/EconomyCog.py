@@ -6,8 +6,8 @@ from discord import embeds
 from discord.ext import commands
 import json
 
-os.chdir(
-    r"C:\Users\cogent\Downloads\Hydrargyruum\Supporting")
+# os.chdir(
+# r"C:\Users\cogent\Downloads\Hydrargyruum\Supporting")
 
 
 class Economy(commands.Cog):
