@@ -7,7 +7,7 @@ from discord.ext import commands
 import json
 
 os.chdir(
-    "Hydrargyruum\Supporting")
+    r"Hydrargyruum\Supporting")
 
 
 class Economy(commands.Cog):
