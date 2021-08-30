@@ -127,7 +127,7 @@ class Wanted(commands.Cog):
             online = online.resize((75, 75))
             img.paste(online, (300, 340), mask=online)
 
-            print("here", img.size)
+            #print("here", img.size)
 
         elif (user.status) is discord.Status.idle:
             online = Image.open("Cogs/Pics/IdleStatus.png")
