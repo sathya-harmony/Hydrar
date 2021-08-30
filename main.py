@@ -168,6 +168,8 @@ client.load_extension('Cogs.FactsCog')
 client.load_extension('Cogs.LevelsCog')
 # tts
 client.load_extension('Cogs.TTSCog')
+# Economy system
+client.load_extension('Cogs.EconomyCog')
 # music
 # client.load_extension('Cogs.MusicCog')
 
