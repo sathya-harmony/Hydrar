@@ -49,7 +49,7 @@ class Economy(commands.Cog):
 
         return users
 
-    @commands.command()
+    @commands.command(aliases=["with", "draw"])
     # WITHDRAW COMMAND
     async def withdraw(self, ctx, amount=None):
         await self.open_account(ctx.author)
@@ -58,6 +58,9 @@ class Economy(commands.Cog):
             await ctx.send("How on Earth do you expect to withdraw absolutly nothing?")
             return
         bal = await self.update_bank(ctx.author)
+        users = await self.get_bank_data()
+        if amount == 'all':
+            amount = int(users[str(ctx.author.id)]["bank"])
 
         amount = int(amount)
         if amount > bal[1]:
@@ -70,9 +73,11 @@ class Economy(commands.Cog):
 
         await self.update_bank(ctx.author, amount)
         await self.update_bank(ctx.author, -1*amount, "bank")
-        await ctx.send(f"You just placed **⏣{amount}** in your wallet!")
+        users2 = await self.get_bank_data()
+        amount_left = int(users2[str(ctx.author.id)]["bank"])
+        await ctx.send(f"You just placed **⏣{amount}** in your wallet! Current balance in your bank is **⏣{amount_left}**")
 
-    @commands.command()
+    @commands.command(aliases=["dep", "depp"])
     # DEPOSIT COMMAND
     async def deposit(self, ctx, amount=None):
         await self.open_account(ctx.author)
@@ -81,10 +86,14 @@ class Economy(commands.Cog):
             await ctx.send("How on Earth do you expect to deposit absolutly nothing?")
             return
         bal = await self.update_bank(ctx.author)
+        # bank_amt = await self.get_bank_data()[str(ctx.author.id)]["bank"]
+        users = await self.get_bank_data()
+        if amount == 'all':
+            amount = int(users[str(ctx.author.id)]["wallet"])
 
         amount = int(amount)
         if amount > bal[0]:
-            await ctx.send("HA, you're broke. ")
+            await ctx.send("HA, you're broke.")
             return
 
         if amount < 0:
@@ -93,9 +102,11 @@ class Economy(commands.Cog):
 
         await self.update_bank(ctx.author, -1*amount)
         await self.update_bank(ctx.author, amount, "bank")
-        await ctx.send(f"You deposited **⏣{amount}** to the bank!")
+        users2 = await self.get_bank_data()
+        amount_left = int(users2[str(ctx.author.id)]["wallet"])
+        await ctx.send(f"You deposited **⏣{amount}** to the bank!\nCurrent balance in wallet is **⏣{amount_left}**")
 
-    @commands.command()
+    @commands.command(aliases=["give", "donate"])
     # SEND COMMAND
     async def send(self, ctx, member: discord.Member, amount=None):
         await self.open_account(ctx.author)
@@ -117,9 +128,9 @@ class Economy(commands.Cog):
 
         await self.update_bank(ctx.author, -1*amount, "bank")
         await self.update_bank(member, amount, "bank")
-        await ctx.send(f"You deposited **⏣{amount}** to the bank!")
+        await ctx.send(f"You sent **⏣{amount}** to {member.mention}'s the bank!")
 
-    @commands.command()
+    @commands.command(aliases=["bal"])
     # BALANCE COMMAND
     async def balance(self, ctx, member: discord.Member = None):
         if member == None:
@@ -164,7 +175,7 @@ class Economy(commands.Cog):
         await self.open_account(ctx.author)
 
         if amount == None:
-            await ctx.send("How on Earth do you expect to exchange absolutly nothing in the stock?")
+            await ctx.send("How on Earth do you expect to bet so less?")
             return
         bal = await self.update_bank(ctx.author)
 
@@ -184,7 +195,7 @@ class Economy(commands.Cog):
 
         await ctx.send(str(final))
 
-        if final[0] == final[1] or final[0] == final[2] or final[2] == final[1]:
+        if len(set(final)) < 3:
 
             b = random.choice([1, 10, 50, 100])
             bamount = b*amount
@@ -321,7 +332,99 @@ class Economy(commands.Cog):
 
         return [True, "Worked"]
 
+    @commands.command()
+    async def sell(self, ctx, item, amount=1):
+        await self.open_account(ctx.author)
 
+        res = await self.sell_this(ctx.author, item, amount)
+
+        if not res[0]:
+            if res[1] == 1:
+                await ctx.send("What are you trying to sell idiot? tbh that item isn't there in the shop")
+                return
+            if res[1] == 2:
+                await ctx.send(f"You don't have {amount} {item} in your bag.")
+                return
+            if res[1] == 3:
+                await ctx.send(f"You don't have {item} in your bag.")
+                return
+
+        await ctx.send(f"You just sold {amount} {item}.")
+
+    async def sell_this(self, user, item_name, amount, price=None):
+        item_name = item_name.lower()
+        name_ = None
+        for item in self.mainshop:
+            name = item["Name"].lower()[:-1]
+            if name == item_name:
+                name_ = name
+                if price == None:
+                    price = 50/100 * item["Price"]
+                break
+
+        if name_ == None:
+            return [False, 1]
+
+        cost = price*amount
+
+        users = await self.get_bank_data()
+
+        bal = await self.update_bank(user)
+
+        try:
+            index = 0
+            t = None
+            for thing in users[str(user.id)]["bag"]:
+                n = thing["item"]
+                if n == item_name:
+                    old_amt = thing["amount"]
+                    new_amt = old_amt - amount
+                    if new_amt < 0:
+                        return [False, 2]
+                    users[str(user.id)]["bag"][index]["amount"] = new_amt
+                    t = 1
+                    break
+                index += 1
+            if t == None:
+                return [False, 3]
+        except:
+            return [False, 3]
+
+        with open("Supporting/mainbank.json", "w") as f:
+            json.dump(users, f)
+
+        await self.update_bank(user, cost, "wallet")
+
+        return [True, "Worked"]
+
+    @commands.command(aliases=["lb", "rich"])
+    async def wealthy(self, ctx, x=10):
+        users = await self.get_bank_data()
+        leader_board = {}
+        total = []
+        for user in users:
+            name = int(user)
+            total_amount = users[user]["wallet"] + users[user]["bank"]
+            leader_board[total_amount] = name
+            total.append(total_amount)
+
+        total = sorted(total, reverse=True)
+
+        em = discord.Embed(title=f"Top {x} Richest People",
+                           description="This is WALLETs, not net worth or bank balance", color=discord.Color(0xfa43ee))
+        index = 1
+        for amt in total:
+            id_ = leader_board[amt]
+            member = ctx.bot.get_user(id_)
+            name = member.name
+            em.add_field(name=f"{index}. {name}",
+                         value=f"{amt}",  inline=False)
+            if index == x:
+                break
+            else:
+                index += 1
+
+        await ctx.send(embed=em)
 # client.run('ODQ0ODEzMzE2NTA1MDc1NzEy.YKX3tg.0eYGwHfkQMKEbF71c8dVDmGVlBI')
 
 

@@ -3,8 +3,8 @@ from discord.ext import commands
 from pymongo import MongoClient
 
 
-bot_channel = 877453109763407922
-talk_channel = [877453109763407922]
+bot_channel = [877453109763407922, 870541730410270814]
+talk_channel = [877453109763407922, 870541730410270814]
 level = ["Level 1"]
 levelnum = [2]
 
@@ -21,6 +21,7 @@ class levels(commands.Cog):
 
     @ commands.Cog.listener()
     async def on_message(self, message):
+
         if message.channel.id in talk_channel:
             stats = levelling.find_one({"id": message.author.id})
 
