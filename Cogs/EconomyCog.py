@@ -203,9 +203,16 @@ class Economy(commands.Cog):
             await ctx.send(f'What good day must it be for you! God just showered you with **⏣{bamount}**')
 
         else:
-            c = random.choice([-1, -2, -3])
+            c = random.choice([-1000])
             camount = c*amount
-            await self.update_bank(ctx.author, camount)
+            users = await self.get_bank_data()
+            # if int(users[str(ctx.author.id)]["wallet"]) < 0:
+
+            #camount + int(users[str(ctx.author.id)]["wallet"])
+
+            if camount + int(users[str(ctx.author.id)]["wallet"]) < 0:
+                camount = -1*(int(users[str(ctx.author.id)]["wallet"]))
+                await self.update_bank(ctx.author, camount)
 
             await ctx.send(f'Get REKT! YOU LOST **⏣{abs(camount)}**')
 

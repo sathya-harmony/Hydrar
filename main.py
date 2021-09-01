@@ -165,7 +165,7 @@ client.load_extension('Cogs.WantedCog')
 # Facts
 client.load_extension('Cogs.FactsCog')
 #
-client.load_extension('Cogs.LevelsCog')
+# client.load_extension('Cogs.LevelsCog')
 # tts
 client.load_extension('Cogs.TTSCog')
 # Economy system
