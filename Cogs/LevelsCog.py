@@ -3,8 +3,8 @@ from discord.ext import commands
 from pymongo import MongoClient
 
 
-bot_channel = [877453109763407922, 870541730410270814]
-talk_channel = [877453109763407922, 870541730410270814]
+bot_channel = [870541730410270814]
+talk_channel = [870541730410270814]
 level = ["Level 1"]
 levelnum = [2]
 

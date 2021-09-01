@@ -418,7 +418,7 @@ class Economy(commands.Cog):
             member = ctx.bot.get_user(id_)
             name = member.name
             em.add_field(name=f"{index}. {name}",
-                         value=f"{amt}",  inline=False)
+                         value=f"⏣{amt}",  inline=False)
             if index == x:
                 break
             else:
