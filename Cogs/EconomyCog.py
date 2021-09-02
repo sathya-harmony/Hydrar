@@ -195,26 +195,39 @@ class Economy(commands.Cog):
 
         await ctx.send(str(final))
 
-        if len(set(final)) < 3:
+        if final[0] == final[1] and final[2] == final[1] and final[0] == final[2]:
 
-            b = random.choice([1, 10, 50, 100])
+            b = 100
             bamount = b*amount
             await self.update_bank(ctx.author, bamount)
-            await ctx.send(f'What good day must it be for you! God just showered you with **⏣{bamount}**')
+            await ctx.send(f'YOU JUST WON A LOTTERY **⏣{bamount}**')
+
+        elif final[0] == final[1] or final[2] or final[1] or final[0] or final[2]:
+
+            d = random.choice([5, 6, 7, 8, 9, 10])
+            damount = d*amount
+            await self.update_bank(ctx.author, damount)
+            await ctx.send(f'God gave you **⏣{damount}**')
 
         else:
-            c = random.choice([-1000])
+            #c = 1
+            c = random.choice(range(50))
+            #amount = 100
+            #camount = 100
             camount = c*amount
-            users = await self.get_bank_data()
+            #wallet = 50
+            wallet = int(await self.get_bank_data()[str(ctx.author.id)]["wallet"])
             # if int(users[str(ctx.author.id)]["wallet"]) < 0:
 
             #camount + int(users[str(ctx.author.id)]["wallet"])
 
-            if camount + int(users[str(ctx.author.id)]["wallet"]) < 0:
-                camount = -1*(int(users[str(ctx.author.id)]["wallet"]))
-                await self.update_bank(ctx.author, camount)
+            # wallet - camount = 50 - 100 = -50 < 0
+            if wallet - camount < 0:
+                camount = wallet
 
-            await ctx.send(f'Get REKT! YOU LOST **⏣{abs(camount)}**')
+            await self.update_bank(ctx.author, -camount)
+
+            await ctx.send(f'Get REKT! YOU LOST **⏣{camount}**')
 
     @commands.command()
     # ROB  COMMAND
