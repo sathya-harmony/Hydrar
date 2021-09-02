@@ -16,7 +16,7 @@ class Economy(commands.Cog):
 
     mainshop = [{"Name": "Watch""⌚", "Price": 800, "Description": "Time"},
                 {"Name": "Laptop""💻", "Price": 10000, "Description": "Work"},
-                {"Name": "GamingPC🎮", "Price": 200000, "Description": "Gaming"}]
+                {"Name": "Gaming PC🎮", "Price": 200000, "Description": "Gaming"}]
 
     async def update_bank(self, user, change=0, mode="wallet"):  # UPDATE BANK
         users = await self.get_bank_data()
@@ -52,83 +52,92 @@ class Economy(commands.Cog):
     @commands.command(aliases=["with", "draw"])
     # WITHDRAW COMMAND
     async def withdraw(self, ctx, amount=None):
-        await self.open_account(ctx.author)
+        try:
+            await self.open_account(ctx.author)
 
-        if amount == None:
-            await ctx.send("How on Earth do you expect to withdraw absolutly nothing?")
-            return
-        bal = await self.update_bank(ctx.author)
-        users = await self.get_bank_data()
-        if amount == 'all':
-            amount = int(users[str(ctx.author.id)]["bank"])
+            if amount == None:
+                await ctx.send("How on Earth do you expect to withdraw absolutly nothing?")
+                return
+            bal = await self.update_bank(ctx.author)
+            users = await self.get_bank_data()
+            if amount == 'all':
+                amount = int(users[str(ctx.author.id)]["bank"])
 
-        amount = int(amount)
-        if amount > bal[1]:
-            await ctx.send("HA, you're broke. ")
-            return
+            amount = int(amount)
+            if amount > bal[1]:
+                await ctx.send("HA, you're broke. ")
+                return
 
-        if amount < 0:
-            await ctx.send("Currency in negative value??")
-            return
+            if amount < 0:
+                await ctx.send("Currency in negative value??")
+                return
 
-        await self.update_bank(ctx.author, amount)
-        await self.update_bank(ctx.author, -1*amount, "bank")
-        users2 = await self.get_bank_data()
-        amount_left = int(users2[str(ctx.author.id)]["bank"])
-        await ctx.send(f"You just placed **⏣{amount}** in your wallet! Current balance in your bank is **⏣{amount_left}**")
+            await self.update_bank(ctx.author, amount)
+            await self.update_bank(ctx.author, -1*amount, "bank")
+            users2 = await self.get_bank_data()
+            amount_left = int(users2[str(ctx.author.id)]["bank"])
+            await ctx.send(f"You just placed **⏣{amount}** in your wallet! Current balance in your bank is **⏣{amount_left}**")
+        except ValueError:
+            await ctx.send("Please give proper input. Correct way to use this command is `-with <amount you want to withdraw from bank>`")
 
     @commands.command(aliases=["dep", "depp"])
     # DEPOSIT COMMAND
     async def deposit(self, ctx, amount=None):
-        await self.open_account(ctx.author)
+        try:
+            await self.open_account(ctx.author)
 
-        if amount == None:
-            await ctx.send("How on Earth do you expect to deposit absolutly nothing?")
-            return
-        bal = await self.update_bank(ctx.author)
-        # bank_amt = await self.get_bank_data()[str(ctx.author.id)]["bank"]
-        users = await self.get_bank_data()
-        if amount == 'all':
-            amount = int(users[str(ctx.author.id)]["wallet"])
+            if amount == None:
+                await ctx.send("How on Earth do you expect to deposit absolutly nothing?")
+                return
+            bal = await self.update_bank(ctx.author)
+            # bank_amt = await self.get_bank_data()[str(ctx.author.id)]["bank"]
+            users = await self.get_bank_data()
+            if amount == 'all':
+                amount = int(users[str(ctx.author.id)]["wallet"])
 
-        amount = int(amount)
-        if amount > bal[0]:
-            await ctx.send("HA, you're broke.")
-            return
+            amount = int(amount)
+            if amount > bal[0]:
+                await ctx.send("HA, you're broke.")
+                return
 
-        if amount < 0:
-            await ctx.send("Currency in negative value??")
-            return
+            if amount < 0:
+                await ctx.send("Currency in negative value??")
+                return
 
-        await self.update_bank(ctx.author, -1*amount)
-        await self.update_bank(ctx.author, amount, "bank")
-        users2 = await self.get_bank_data()
-        amount_left = int(users2[str(ctx.author.id)]["wallet"])
-        await ctx.send(f"You deposited **⏣{amount}** to the bank!\nCurrent balance in wallet is **⏣{amount_left}**")
+            await self.update_bank(ctx.author, -1*amount)
+            await self.update_bank(ctx.author, amount, "bank")
+            users2 = await self.get_bank_data()
+            amount_left = int(users2[str(ctx.author.id)]["wallet"])
+            await ctx.send(f"You deposited **⏣{amount}** to the bank!\nCurrent balance in wallet is **⏣{amount_left}**")
+        except ValueError:
+            await ctx.send("Please give proper input. Correct way to use this command is `-dep <amount to deposit into bank>`")
 
     @commands.command(aliases=["give", "donate"])
     # SEND COMMAND
     async def send(self, ctx, member: discord.Member, amount=None):
-        await self.open_account(ctx.author)
-        await self.open_account(member)
+        try:
+            await self.open_account(ctx.author)
+            await self.open_account(member)
 
-        if amount == None:
-            await ctx.send("How on Earth do you send someone absolutly nothing?")
-            return
-        bal = await self.update_bank(ctx.author)
+            if amount == None:
+                await ctx.send("How on Earth do you send someone absolutly nothing?")
+                return
+            bal = await self.update_bank(ctx.author)
 
-        amount = int(amount)
-        if amount > bal[1]:
-            await ctx.send("HA, you're broke. ")
-            return
+            amount = int(amount)
+            if amount > bal[1]:
+                await ctx.send("HA, you're broke. ")
+                return
 
-        if amount < 0:
-            await ctx.send("Currency in negative value??")
-            return
+            if amount < 0:
+                await ctx.send("Currency in negative value??")
+                return
 
-        await self.update_bank(ctx.author, -1*amount, "bank")
-        await self.update_bank(member, amount, "bank")
-        await ctx.send(f"You sent **⏣{amount}** to {member.mention}'s the bank!")
+            await self.update_bank(ctx.author, -1*amount, "bank")
+            await self.update_bank(member, amount, "bank")
+            await ctx.send(f"You sent **⏣{amount}** to {member.mention}'s the bank!")
+        except ValueError:
+            await ctx.send("Please give proper input. Correct way to use this command is `-send <the person you want to send money to> <amount>`")
 
     @commands.command(aliases=["bal"])
     # BALANCE COMMAND
@@ -172,87 +181,93 @@ class Economy(commands.Cog):
 
     @commands.command()
     async def stock(self, ctx, amount=None):
-        await self.open_account(ctx.author)
+        try:
+            await self.open_account(ctx.author)
 
-        if amount == None:
-            await ctx.send("How on Earth do you expect to bet so less?")
-            return
-        bal = await self.update_bank(ctx.author)
+            if amount == None:
+                await ctx.send("How on Earth do you expect to bet so less?")
+                return
+            bal = await self.update_bank(ctx.author)
 
-        amount = int(amount)
-        if amount > bal[0]:
-            await ctx.send("HA, you're broke. ")
-            return
+            amount = int(amount)
+            if amount > bal[0]:
+                await ctx.send("HA, you're broke. ")
+                return
 
-        if amount < 0:
-            await ctx.send("Currency in negative value??")
-            return
-        final = []
-        for i in range(3):
-            a = random.choice(["X", "O", "A"])
+            if amount < 0:
+                await ctx.send("Currency in negative value??")
+                return
+            final = []
+            for i in range(3):
+                a = random.choice(["X", "O", "A"])
 
-            final.append(a)
+                final.append(a)
 
-        await ctx.send(str(final))
+            await ctx.send(str(final))
 
-        if final[0] == final[1] and final[2] == final[1] and final[0] == final[2]:
+            if final[0] == final[1] and final[2] == final[1] and final[0] == final[2]:
 
-            b = 100
-            bamount = b*amount
-            await self.update_bank(ctx.author, bamount)
-            await ctx.send(f'YOU JUST WON A LOTTERY **⏣{bamount}**')
+                b = 100
+                bamount = b*amount
+                await self.update_bank(ctx.author, bamount)
+                await ctx.send(f'YOU JUST WON A LOTTERY **⏣{bamount}**')
 
-        elif final[0] == final[1] or final[2] or final[1] or final[0] or final[2]:
+            elif final[0] == final[1] or final[2] or final[1] or final[0] or final[2]:
 
-            d = random.choice([5, 6, 7, 8, 9, 10])
-            damount = d*amount
-            await self.update_bank(ctx.author, damount)
-            await ctx.send(f'God gave you **⏣{damount}**')
+                d = random.choice([5, 6, 7, 8, 9, 10])
+                damount = d*amount
+                await self.update_bank(ctx.author, damount)
+                await ctx.send(f'God gave you **⏣{damount}**')
 
-        else:
-            #c = 1
-            c = random.choice(range(50))
-            #amount = 100
-            #camount = 100
-            camount = c*amount
-            #wallet = 50
-            wallet = int(await self.get_bank_data()[str(ctx.author.id)]["wallet"])
-            # if int(users[str(ctx.author.id)]["wallet"]) < 0:
+            else:
+                #c = 1
+                c = random.choice(range(50))
+                #amount = 100
+                #camount = 100
+                camount = c*amount
+                #wallet = 50
+                wallet = int(await self.get_bank_data()[str(ctx.author.id)]["wallet"])
+                # if int(users[str(ctx.author.id)]["wallet"]) < 0:
 
-            #camount + int(users[str(ctx.author.id)]["wallet"])
+                #camount + int(users[str(ctx.author.id)]["wallet"])
 
-            # wallet - camount = 50 - 100 = -50 < 0
-            if wallet - camount < 0:
-                camount = wallet
+                # wallet - camount = 50 - 100 = -50 < 0
+                if wallet - camount < 0:
+                    camount = wallet
 
-            await self.update_bank(ctx.author, -camount)
+                await self.update_bank(ctx.author, -camount)
 
-            await ctx.send(f'Get REKT! YOU LOST **⏣{camount}**')
+                await ctx.send(f'Get REKT! YOU LOST **⏣{camount}**')
+        except ValueError:
+            await ctx.send("Please give proper input. Correct way to use this command is `-stock <put your amount here>`")
 
     @commands.command()
     # ROB  COMMAND
     async def rob(self, ctx, member: discord.Member):
-        await self.open_account(ctx.author)
-        await self.open_account(member)
+        try:
+            await self.open_account(ctx.author)
+            await self.open_account(member)
 
-        bal = await self.update_bank(member)
+            bal = await self.update_bank(member)
 
-        if bal[0] < 1000:
-            await ctx.send("Hey...the person you're trying to rob has less than ⏣1,000. It's not worth it duh.")
-            return
+            if bal[0] < 1000:
+                await ctx.send("Hey...the person you're trying to rob has less than ⏣1,000. It's not worth it duh.")
+                return
 
-        earnings = random.randrange(0, bal[0])
+            earnings = random.randrange(0, bal[0])
 
-        await self.update_bank(ctx.author, earnings)
-        await self.update_bank(member, -1*earnings)
-        if earnings <= (20/100)*bal[0]:
-            await ctx.send(f"You stole a small portion!💷\nYour payout was **⏣{earnings}**")
-        elif earnings <= (50/100)*bal[0] and earnings >= (20/100)*bal[0]:
-            await ctx.send(f"You stole a large portion!!💰\nYour payout was **⏣{earnings}**")
-        elif earnings <= (85/100)*bal[0] and earnings >= (50/100)*bal[0]:
-            await ctx.send(f"You stole a SHIT TON OF MONEY!!🤑\nYour payout was **⏣{earnings}**")
-        elif earnings <= (100/100)*bal[0] and earnings >= (85/100)*bal[0]:
-            await ctx.send(f"You stole almost everything!! YOU ARE A GREAT THIEF!!🤑\nYour payout was **⏣{earnings}**")
+            await self.update_bank(ctx.author, earnings)
+            await self.update_bank(member, -1*earnings)
+            if earnings <= (20/100)*bal[0]:
+                await ctx.send(f"You stole a small portion!💷\nYour payout was **⏣{earnings}**")
+            elif earnings <= (50/100)*bal[0] and earnings >= (20/100)*bal[0]:
+                await ctx.send(f"You stole a large portion!!💰\nYour payout was **⏣{earnings}**")
+            elif earnings <= (85/100)*bal[0] and earnings >= (50/100)*bal[0]:
+                await ctx.send(f"You stole a SHIT TON OF MONEY!!🤑\nYour payout was **⏣{earnings}**")
+            elif earnings <= (100/100)*bal[0] and earnings >= (85/100)*bal[0]:
+                await ctx.send(f"You stole almost everything!! YOU ARE A GREAT THIEF!!🤑\nYour payout was **⏣{earnings}**")
+        except ValueError:
+            await ctx.send("Please give proper input. Correct way to use this command is `-rob <the person you want to rob>`")
 
     # SHOP COMMAND
 
@@ -270,19 +285,22 @@ class Economy(commands.Cog):
 
     @commands.command()
     async def buy(self, ctx, item, amount=1):
-        await self.open_account(ctx.author)
+        try:
+            await self.open_account(ctx.author)
 
-        res = await self.buy_this(ctx.author, item, amount)
+            res = await self.buy_this(ctx.author, item, amount)
 
-        if not res[0]:
-            if res[1] == 1:
-                await ctx.send("What are you trying to buy idiot? tbh that item isn't there in the shop")
-                return
-            if res[1] == 2:
-                await ctx.send(f"You don't have enough money in your wallet to buy **{amount} {item}**")
-                return
+            if not res[0]:
+                if res[1] == 1:
+                    await ctx.send("What are you trying to buy idiot? tbh that item isn't there in the shop")
+                    return
+                if res[1] == 2:
+                    await ctx.send(f"You don't have enough money in your wallet to buy **{amount} {item}**")
+                    return
 
-        await ctx.send(f"You just bought **{amount} {item}**")
+            await ctx.send(f"You just bought **{amount} {item}**")
+        except ValueError:
+            await ctx.send("Please give proper input. Correct way to use this command is `-buy <item> <number>`")
 
     @commands.command()
     async def bag(self, ctx):
@@ -354,22 +372,25 @@ class Economy(commands.Cog):
 
     @commands.command()
     async def sell(self, ctx, item, amount=1):
-        await self.open_account(ctx.author)
+        try:
+            await self.open_account(ctx.author)
 
-        res = await self.sell_this(ctx.author, item, amount)
+            res = await self.sell_this(ctx.author, item, amount)
 
-        if not res[0]:
-            if res[1] == 1:
-                await ctx.send("What are you trying to sell idiot? tbh that item isn't there in the shop")
-                return
-            if res[1] == 2:
-                await ctx.send(f"You don't have {amount} {item} in your bag.")
-                return
-            if res[1] == 3:
-                await ctx.send(f"You don't have {item} in your bag.")
-                return
+            if not res[0]:
+                if res[1] == 1:
+                    await ctx.send("What are you trying to sell idiot? tbh that item isn't there in the shop")
+                    return
+                if res[1] == 2:
+                    await ctx.send(f"You don't have {amount} {item} in your bag.")
+                    return
+                if res[1] == 3:
+                    await ctx.send(f"You don't have {item} in your bag.")
+                    return
 
-        await ctx.send(f"You just sold {amount} {item}.")
+            await ctx.send(f"You just sold {amount} {item}.")
+        except ValueError:
+            await ctx.send("Please give proper input. Correct way to use this command is `-sell <item> <number>`")
 
     async def sell_this(self, user, item_name, amount, price=None):
         item_name = item_name.lower()

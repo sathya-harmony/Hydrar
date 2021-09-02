@@ -38,55 +38,53 @@ class levels(commands.Cog):
         #   user_id: {"xp":int, "lvl":int},
         #   user_id: {"xp":int, "lvl":int},
         # }}
-        try:
-            if not message.author.bot:
-                if stats is None:
-                    new_guild = {"guild_id": guild_id,
-                                 "users": {user_id: {"xp": 100}}}
-                    levelling.insert_one(new_guild)
 
-                elif user_id not in stats['users']:
-                    stats['users'][user_id] = {'xp': 100}
-                    levelling.update_one(
-                        {"guild_id": guild_id}, {"$set": stats})
+        if not message.author.bot:
+            if stats is None:
+                new_guild = {"guild_id": guild_id,
+                             "users": {user_id: {"xp": 100}}}
+                levelling.insert_one(new_guild)
 
-                else:
-                    #xp = stats["xp"] + 5
+            elif user_id not in stats['users']:
+                stats['users'][user_id] = {'xp': 100}
+                levelling.update_one(
+                    {"guild_id": guild_id}, {"$set": stats})
 
-                    stats["users"][user_id]["xp"] += random.choice(
-                        range(5, 25))
-                    xp = stats["users"][user_id]["xp"]
-                    #levelling.update_one({"guild_id": guild_id, "users": {user_id: {"$set": {"xp": xp}}}})
-                    levelling.update_one(
-                        {"guild_id": guild_id}, {"$set": stats})
+            else:
+                #xp = stats["xp"] + 5
 
-                    lvl = 0
-                    while True:
-                        if xp < ((50 * (lvl**2)) + (50 * (lvl))):
-                            break
-                        lvl += 1
+                stats["users"][user_id]["xp"] += random.choice(
+                    range(5, 25))
+                xp = stats["users"][user_id]["xp"]
+                #levelling.update_one({"guild_id": guild_id, "users": {user_id: {"$set": {"xp": xp}}}})
+                levelling.update_one(
+                    {"guild_id": guild_id}, {"$set": stats})
 
-                    xp -= abs(((50 * (lvl - 1)**2)) + (50 * (lvl - 1)))
+                lvl = 0
+                while True:
+                    if xp < ((50 * (lvl**2)) + (50 * (lvl))):
+                        break
+                    lvl += 1
 
-                    if xp == 0:
-                        await message.channel.send(
-                            f"Congratulations, {message.author.mention}! You just levelled up to **level {lvl}**!"
-                        )
-                        for i in range(len(level)):
-                            if lvl == levelnum[i]:
-                                await message.author.add_roles(
-                                    discord.utils.get(
-                                        message.author.guild.roles,
-                                        name=level[i]))
-                                embed = discord.Embed(
-                                    description=f"{message.author.mention} you have gotten the role **{level[i]}**!!"
-                                )
-                                embed.set_thumbnail(
-                                    url=message.author.avatar_url)
+                xp -= abs(((50 * (lvl - 1)**2)) + (50 * (lvl - 1)))
 
-                                await message.channel.send(embed=embed)
-        except KeyError:
-            pass
+                if xp == 0:
+                    await message.channel.send(
+                        f"Congratulations, {message.author.mention}! You just levelled up to **level {lvl}**!"
+                    )
+                    for i in range(len(level)):
+                        if lvl == levelnum[i]:
+                            await message.author.add_roles(
+                                discord.utils.get(
+                                    message.author.guild.roles,
+                                    name=level[i]))
+                            embed = discord.Embed(
+                                description=f"{message.author.mention} you have gotten the role **{level[i]}**!!"
+                            )
+                            embed.set_thumbnail(
+                                url=message.author.avatar_url)
+
+                            await message.channel.send(embed=embed)
 
     @ commands.command(aliases=["level", "lvl", "xp"])
     async def rank(self, ctx):
