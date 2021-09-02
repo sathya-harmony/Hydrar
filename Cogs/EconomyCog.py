@@ -16,7 +16,7 @@ class Economy(commands.Cog):
 
     mainshop = [{"Name": "Watch""⌚", "Price": 800, "Description": "Time"},
                 {"Name": "Laptop""💻", "Price": 10000, "Description": "Work"},
-                {"Name": "Gaming PC""🎮", "Price": 200000, "Description": "Gaming"}]
+                {"Name": "GamingPC🎮", "Price": 200000, "Description": "Gaming"}]
 
     async def update_bank(self, user, change=0, mode="wallet"):  # UPDATE BANK
         users = await self.get_bank_data()
