@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from pymongo import MongoClient
+import random
 
 
 bot_channel = 870541730410270814
@@ -50,7 +51,7 @@ class levels(commands.Cog):
             else:
                 #xp = stats["xp"] + 5
 
-                stats["users"][user_id]["xp"] += 5
+                stats["users"][user_id]["xp"] += random.choice(range(5, 25))
                 xp = stats["users"][user_id]["xp"]
                 #levelling.update_one({"guild_id": guild_id, "users": {user_id: {"$set": {"xp": xp}}}})
                 levelling.update_one({"guild_id": guild_id}, {"$set": stats})
