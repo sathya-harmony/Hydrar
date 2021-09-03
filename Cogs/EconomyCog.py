@@ -5,6 +5,12 @@ from discord import client
 from discord import embeds
 from discord.ext import commands
 import json
+from pymongo import MongoClient
+
+cluster = MongoClient(
+    "mongodb+srv://Hydra:CihVirus123@economy.2xn9e.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+
+Economy_MongoDB = cluster["Economy"]["Economy"]
 
 # os.chdir(
 # r"Hydrargyruum\Supporting")
@@ -17,6 +23,15 @@ class Economy(commands.Cog):
     mainshop = [{"Name": "Watch""⌚", "Price": 800, "Description": "Time"},
                 {"Name": "Laptop""💻", "Price": 10000, "Description": "Work"},
                 {"Name": "Gaming PC🎮", "Price": 200000, "Description": "Gaming"}]
+
+    async def get_bank_data(self):  # , ctx):
+        '''guild_id = ctx.guild.id
+        data = Economy_MongoDB.find_one(
+            {"guild_id": guild_id})  # GET BANK DATA'''
+        with open("Supporting/mainbank.json", "r") as f:
+            users = json.load(f)
+
+        return users
 
     async def update_bank(self, user, change=0, mode="wallet"):  # UPDATE BANK
         users = await self.get_bank_data()
@@ -42,12 +57,6 @@ class Economy(commands.Cog):
             json.dump(users, f)
 
         return True
-
-    async def get_bank_data(self):  # GET BANK DATA
-        with open("Supporting/mainbank.json", "r") as f:
-            users = json.load(f)
-
-        return users
 
     @commands.command(aliases=["with", "draw"])
     # WITHDRAW COMMAND
