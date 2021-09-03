@@ -53,8 +53,7 @@ class levels(commands.Cog):
             else:
                 #xp = stats["xp"] + 5
 
-                stats["users"][user_id]["xp"] += random.choice(
-                    range(5, 25))
+                stats["users"][user_id]["xp"] += 10
                 xp = stats["users"][user_id]["xp"]
                 #levelling.update_one({"guild_id": guild_id, "users": {user_id: {"$set": {"xp": xp}}}})
                 levelling.update_one(
