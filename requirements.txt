@@ -12,6 +12,7 @@ google_trans_new
 translate
 gtts
 youtube_dl
+modules.title_choices_beg_economy
 
 
 

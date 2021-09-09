@@ -15,14 +15,14 @@ import ast
 @commands.Cog.listener()
 async def on_command_error(ctx, error):
     if isinstance(error, commands.UserInputError):
-        await ctx.send('Please give proper input.')
+        await ctx.message.reply('Please give proper input.')
     elif isinstance(error, commands.MissingPermissions):
-        await ctx.send(
+        await ctx.message.reply(
             "You don't have the permissions to execute this command.")
     elif isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send('Please give proper input.')
+        await ctx.message.reply('Please give proper input.')
     elif isinstance(error, commands.CommandNotFound):
-        await ctx.send("Invalid command.")
+        await ctx.message.reply("Invalid command.")
 
 
 class Math(commands.Cog):
@@ -31,7 +31,7 @@ class Math(commands.Cog):
 
     @commands.command(aliases=['fractionize', 'fraction'])
     async def convert(self, ctx, *, amount: float):
-        await ctx.send(Fraction(amount))
+        await ctx.message.reply(Fraction(amount))
 
     @commands.command(aliases=['ask'])
     async def solve(self, ctx, *, thing):
@@ -50,7 +50,7 @@ class Math(commands.Cog):
                         answer = str(
                             result.text) if i == 0 else f"{answer}\n• {result.text}"
                         i += 1
-                        await ctx.send(answer)
+                        await ctx.message.reply(answer)
                     except StopIteration:
                         pass
             except AttributeError:
@@ -60,7 +60,7 @@ class Math(commands.Cog):
                             answer = str(
                                 pod) if i == 0 else f"{answer}\n• {pod}"
                             i += 1
-                            await ctx.send(answer)
+                            await ctx.message.reply(answer)
 
                         except StopIteration:
                             pass
@@ -80,7 +80,7 @@ class Math(commands.Cog):
             summary = wikipedia.summary(''.join(query), sentences=10)
             title = page.title
             url = page.url
-            await ctx.send(f"**Title:**{title}\n\n**Summary:**{summary}\n\nRead More Here: {url}")
+            await ctx.message.reply(f"**Title:**{title}\n\n**Summary:**{summary}\n\nRead More Here: {url}")
 
     '''@commands.command()
     async def currencyConvert(self, ctx, ffrom: str, to: str, amount: float):

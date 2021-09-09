@@ -17,14 +17,14 @@ client = commands.Bot(command_prefix=prefix,
 @commands.Cog.listener()
 async def on_command_error(ctx, error):
     if isinstance(error, commands.UserInputError):
-        await ctx.send('Please give proper input.')
+        await ctx.message.reply('Please give proper input.')
     elif isinstance(error, commands.MissingPermissions):
-        await ctx.send(
+        await ctx.message.reply(
             "You don't have the permissions to execute this command.")
     elif isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send('Please give proper input.')
+        await ctx.message.reply('Please give proper input.')
     elif isinstance(error, commands.CommandNotFound):
-        await ctx.send("Invalid command.")
+        await ctx.message.reply("Invalid command.")
 
 
 class Quote(commands.Cog):
@@ -40,13 +40,13 @@ class Quote(commands.Cog):
         quod = ast.literal_eval(wl)
         quote = quod["quote"]
 
-        await ctx.send(f"**Here's a Quote to Inspire you:**\n{quote}")
+        await ctx.message.reply(f"**Here's a Quote to Inspire you:**\n{quote}")
 
     @commands.command()
     async def joke(self, ctx):
         async with ctx.channel.typing():
             await asyncio.sleep(0.5)
-        await ctx.send((get_joke()))
+        await ctx.message.reply((get_joke()))
 
 
 def setup(client):

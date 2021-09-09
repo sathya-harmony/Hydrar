@@ -1,210 +1,384 @@
-import os
+from discord import user
+from discord.ext.commands.cooldowns import BucketType
+import modules.title_choices_beg_economy as title_choices
 import random
 import discord
 from discord import client
 from discord import embeds
 from discord.ext import commands
-import json
+import os
 from pymongo import MongoClient
+import time
+import asyncpraw
+import praw
+import aiohttp
+
 
 cluster = MongoClient(
     "mongodb+srv://Hydra:CihVirus123@economy.2xn9e.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
 
 Economy_MongoDB = cluster["Economy"]["Economy"]
 
-# os.chdir(
-# r"Hydrargyruum\Supporting")
-
 
 class Economy(commands.Cog):
     def __init__(self,  client):
         self.client = client
 
-    mainshop = [{"Name": "Watch""⌚", "Price": 800, "Description": "Time"},
-                {"Name": "Laptop""💻", "Price": 10000, "Description": "Work"},
-                {"Name": "Gaming PC🎮", "Price": 200000, "Description": "Gaming"}]
+    mainshop = {'watch': {"display": "Watch""⌚", "price": 800, "desc": "Time"},
+                'laptop': {"display": "Laptop""💻", "price": 10000, "desc": "Work"},
+                'banknote': {"display": "Banknote💸", "price":  25000, "desc": "Increases bank storage capacity"},
+                'padlock': {"display": "Padlock🔒", "price":  35000, "desc": "Protection from robbers"}}
 
-    async def get_bank_data(self):  # , ctx):
-        '''guild_id = ctx.guild.id
-        data = Economy_MongoDB.find_one(
+    def get_bank_data(self, guild_id):
+        # guild_id = ctx.guild.id
+        if type(guild_id) in [int, float]:
+            guild_id = str(int(guild_id))
+
+        guild_data = Economy_MongoDB.find_one(
             {"guild_id": guild_id})  # GET BANK DATA'''
-        with open("Supporting/mainbank.json", "r") as f:
-            users = json.load(f)
 
-        return users
+        return guild_data
 
-    async def update_bank(self, user, change=0, mode="wallet"):  # UPDATE BANK
-        users = await self.get_bank_data()
-        users[str(user.id)][mode] += change
+    def update_bank(self, user, change=0, mode="wallet", overwrite=False):
 
-        with open("Supporting/mainbank.json", "w") as f:
-            json.dump(users, f)
-        bal = [users[str(user.id)]["wallet"], users[str(user.id)]["bank"]]
-        return bal
+        guild_id = str(user.guild.id)
+        user_id = str(user.id)
+        if type(guild_id) in [int, float]:
+            guild_id = str(int(guild_id))
+        # UPDATE BANK
+        guild_data = self.get_bank_data(guild_id)
 
-    async def open_account(self, user):  # OPEN ACCOUNT VARIABLE
-        users = await self.get_bank_data()
-
-        if str(user.id) in users:
-            return False
-
+        if overwrite:
+            guild_data["users"][str(user_id)][mode] = change
         else:
-            users[str(user.id)] = {}
-            users[str(user.id)]["wallet"] = 100
-            users[str(user.id)]["bank"] = 0
+            guild_data["users"][str(user_id)][mode] += change
 
-        with open("Supporting/mainbank.json", "w") as f:
-            json.dump(users, f)
+        Economy_MongoDB.update_one(
+            {"guild_id": guild_id}, {"$set": guild_data})
 
-        return True
+        '''with open("Supporting/mainbank.json", "w") as f:
+            json.dump(users, f)'''
+
+        return guild_data
+
+    def open_account(self, user):
+        # OPEN ACCOUNT VARIABLE
+        guild_id = str(user.guild.id)
+        user_id = str(user.id)
+
+        guild_data = self.get_bank_data(guild_id)
+        if type(guild_id) in [int, float]:
+            guild_id = str(int(guild_id))
+
+        if guild_data is None:
+            guild_data = {"guild_id": guild_id,
+                          "users": {user_id: {"wallet": 100,
+                                              "bank": 0,
+                                              "bank_space": 100,
+                                              "inv": {},
+                                              "daily": {"last_used": 0, "streak": 1}
+                                              }
+                                    }
+                          }
+
+            Economy_MongoDB.insert_one(guild_data)
+
+        elif user_id not in guild_data['users']:
+            guild_data['users'][user_id] = {
+                'wallet': 100, "bank": 0, "bank_space": 0, 'inv': {},  "daily": {"last_used": 0, "streak": 1}}
+            Economy_MongoDB.update_one(
+                {"guild_id": guild_id}, {"$set": guild_data})
+
+        return guild_data
+
+    @commands.command(aliases=[])
+    async def meme(self, ctx):
+        # msg = await ctx.message.reply('Loading meme... <a:Loading:84528574434795580>')
+        async with aiohttp.ClientSession() as cs:
+            async with cs.get("https://www.reddit.com/r/memes.json")as r:
+                memes = await r.join()
+                embed = discord.Embed(color=discord.Color.purple())
+                embed.set_image(
+                    url=memes["data"]["children"][random.randint(0, 25)]["data"]["url"])
+                embed.set_footer(
+                    text=f'Powered by r/Memes! | Meme requested by {ctx.author}')
+                await ctx.send(embed=embed)
+
+        '''reddit = asyncpraw.Reddit(client_id='8i3fEtFOnr_XjpkrpatKOA',
+                                  client_secret='qBg4vg8yT8tBywSIz8pKSDPQc8dG-A',
+                                  username='Hydrargyrum',
+                                  password='CihVirus123',
+                                  user_agent='Hydra_meme')
+        subreddit = await reddit.subreddit(subred)
+        all_subs = []
+        top = subreddit.top(limit=50)
+        async for submission in top:
+            all_subs.append(submission)
+
+        random_sub = random.choice(all_subs)
+        name = random_sub.title
+        url = random_sub.url
+        embed = embeds.Embed(
+            title=f'__{name}__', color=discord.Color.random())
+        embed.add_image(url=url)
+        embed.set_author(name=ctx.author.display_name,
+                         icon_url=ctx.author.avatar_url)
+        await ctx.send(embed=embed)
+        # await msg.edit(content=f'<https://reddit.com/r/{subreddit}/> :white_check_mark:')
+        return'''
+
+    @commands.command(aliases=[])
+    @commands.cooldown(1, 60*60*24, BucketType.user)
+    async def daily(self, ctx):
+
+        self.open_account(ctx.author)
+        amount = 25000
+        users = ctx.author.name
+        guild_id = str(ctx.guild.id)
+        user_id = str(ctx.author.id)
+
+        guild_data = self.get_bank_data(guild_id)
+        current_time = time.time()
+
+        user_daily = guild_data['users'][user_id]['daily']
+
+        # You need it to be lesser than the given time for it to work. 2 days because 1 day cooldown, 1 day streak buffer.
+        # if current_time - 2*60*60*24 <= user_daily['last_used']:
+        if current_time - 2*60*60*24 <= user_daily['last_used']:
+            user_daily['streak'] += 1
+        else:
+            user_daily['streak'] = 1
+
+        user_daily['last_used'] = current_time
+
+        streak = user_daily['streak']
+
+        em = discord.Embed(
+            title=f"Here are your daily coins, {users}!", description=f"**⏣ {amount+streak*250:,}** was placed in your wallet.", color=discord.Color.purple())
+        em.set_thumbnail(url=ctx.author.avatar_url)
+        em.set_footer(text=f"Streak: {streak} days(+⏣ {streak*250:,})")
+        await ctx.message.reply(embed=em)
+        self.update_bank(ctx.author, (amount + streak*250))
+
+        # guild_data['users'][user_id]['wallet'] += amount+streak*250
+        Economy_MongoDB.update_one(
+            {"guild_id": guild_id}, {"$set": guild_data})
+
+        # Yeet this
+        self.update_bank(ctx.author, amount + streak*250)
+
+    @daily.error
+    async def error_daily(self, ctx, error):
+        hour = int((error.retry_after/60)//(60))
+        mins = int((error.retry_after-(hour*60*60))//(60))
+        seconds = int(error.retry_after-(hour*60*60)-(mins*60))
+
+        if isinstance(error, commands.CommandOnCooldown):
+            em = discord.Embed(
+                title=f"You've already claimed your daily today, {ctx.author.name}!", description=f"Your next daily is ready in:\n**{hour} hours, {mins} minutes and {seconds} seconds**")
+            em.set_thumbnail(url=ctx.author.avatar_url)
+            await ctx.send(embed=em)
 
     @commands.command(aliases=["with", "draw"])
     # WITHDRAW COMMAND
     async def withdraw(self, ctx, amount=None):
         try:
-            await self.open_account(ctx.author)
+            self.open_account(ctx.author)
 
             if amount == None:
-                await ctx.send("How on Earth do you expect to withdraw absolutly nothing?")
+                await ctx.message.reply("How on Earth do you expect to withdraw absolutly nothing?")
                 return
-            bal = await self.update_bank(ctx.author)
-            users = await self.get_bank_data()
+
+            users = self.get_bank_data(ctx.guild.id)
+            bal = int(users["users"][str(ctx.author.id)]["bank"])
             if amount == 'all':
-                amount = int(users[str(ctx.author.id)]["bank"])
+                amount = int(users["users"][str(ctx.author.id)]["bank"])
 
             amount = int(amount)
-            if amount > bal[1]:
-                await ctx.send("HA, you're broke. ")
+            if amount > bal:
+                await ctx.message.reply("HA, you're broke.")
                 return
 
             if amount < 0:
-                await ctx.send("Currency in negative value??")
+                await ctx.message.reply("Currency in negative value??")
                 return
 
-            await self.update_bank(ctx.author, amount)
-            await self.update_bank(ctx.author, -1*amount, "bank")
-            users2 = await self.get_bank_data()
-            amount_left = int(users2[str(ctx.author.id)]["bank"])
-            await ctx.send(f"You just placed **⏣{amount}** in your wallet! Current balance in your bank is **⏣{amount_left}**")
+            self.update_bank(ctx.author, amount)
+            self.update_bank(ctx.author, -1*amount, "bank")
+            users2 = self.get_bank_data(ctx.guild.id)
+            amount_left = int(users2["users"][str(ctx.author.id)]["wallet"])
+            await ctx.message.reply(f"**⏣ {amount:,}** withdrawn, current wallet balance is **⏣ {amount_left:,}**.")
         except ValueError:
-            await ctx.send("Please give proper input. Correct way to use this command is `-with <amount you want to withdraw from bank>`")
+            await ctx.message.reply("Please give proper input. Correct way to use this command is `-with <amount you want to withdraw from bank>`")
 
     @commands.command(aliases=["dep", "depp"])
     # DEPOSIT COMMAND
     async def deposit(self, ctx, amount=None):
         try:
-            await self.open_account(ctx.author)
+            self.open_account(ctx.author)
 
             if amount == None:
-                await ctx.send("How on Earth do you expect to deposit absolutly nothing?")
+                await ctx.message.reply("How on Earth do you expect to deposit absolutly nothing?")
                 return
-            bal = await self.update_bank(ctx.author)
+
             # bank_amt = await self.get_bank_data()[str(ctx.author.id)]["bank"]
-            users = await self.get_bank_data()
-            if amount == 'all':
-                amount = int(users[str(ctx.author.id)]["wallet"])
+            users = self.get_bank_data(ctx.guild.id)
+            bal = int(users["users"][str(ctx.author.id)]["wallet"])
+            bank_space = users["users"][str(ctx.author.id)]["bank_space"]
+
+            if amount == 'all' and int(users["users"][str(ctx.author.id)]["wallet"]) >= bank_space:
+                bal - int(bank_space)
+                amount = int(bank_space)
+
+            elif amount == 'all' and int(users["users"][str(ctx.author.id)]["wallet"]) <= bank_space:
+                amount = int(users["users"][str(ctx.author.id)]["wallet"])
 
             amount = int(amount)
-            if amount > bal[0]:
-                await ctx.send("HA, you're broke.")
+            if amount > bal:
+                await ctx.message.reply("HA, you're broke.")
                 return
 
-            if amount < 0:
-                await ctx.send("Currency in negative value??")
+            elif amount > bank_space:
+                await ctx.message.reply("doode you don't have enough space in your bank to deposit that much")
+                return
+            elif amount < 0:
+                await ctx.message.reply("Currency in negative value??")
                 return
 
-            await self.update_bank(ctx.author, -1*amount)
-            await self.update_bank(ctx.author, amount, "bank")
-            users2 = await self.get_bank_data()
-            amount_left = int(users2[str(ctx.author.id)]["wallet"])
-            await ctx.send(f"You deposited **⏣{amount}** to the bank!\nCurrent balance in wallet is **⏣{amount_left}**")
+            self.update_bank(ctx.author, -1*amount)
+            self.update_bank(ctx.author, amount, "bank")
+            users2 = self.get_bank_data(ctx.guild.id)
+            amount_left = int(users2["users"][str(ctx.author.id)]["wallet"])
+            await ctx.message.reply(f"**⏣ {amount:,}** deposited, current wallet balance is **⏣ {amount_left:,}**.")
         except ValueError:
-            await ctx.send("Please give proper input. Correct way to use this command is `-dep <amount to deposit into bank>`")
+            await ctx.message.reply("Please give proper input. Correct way to use this command is `-dep <amount to deposit into bank>`")
 
-    @commands.command(aliases=["give", "donate"])
+    @ commands.command(aliases=["give", "donate"])
     # SEND COMMAND
     async def send(self, ctx, member: discord.Member, amount=None):
-        try:
-            await self.open_account(ctx.author)
-            await self.open_account(member)
 
-            if amount == None:
-                await ctx.send("How on Earth do you send someone absolutly nothing?")
-                return
-            bal = await self.update_bank(ctx.author)
+        user = ctx.author
+        self.open_account(user)
+        self.open_account(member)
 
-            amount = int(amount)
-            if amount > bal[1]:
-                await ctx.send("HA, you're broke. ")
-                return
+        if amount == None:
+            await ctx.message.reply("How on Earth do you send someone absolutly nothing?")
+            return
+        users = self.get_bank_data(ctx.guild.id)
 
-            if amount < 0:
-                await ctx.send("Currency in negative value??")
-                return
+        bal = int(users["users"][str(ctx.author.id)]["wallet"])
 
-            await self.update_bank(ctx.author, -1*amount, "bank")
-            await self.update_bank(member, amount, "bank")
-            await ctx.send(f"You sent **⏣{amount}** to {member.mention}'s the bank!")
-        except ValueError:
-            await ctx.send("Please give proper input. Correct way to use this command is `-send <the person you want to send money to> <amount>`")
+        amount = int(amount)
+        if amount > bal:
+            await ctx.message.reply("HA, you're broke. ")
+            return
 
-    @commands.command(aliases=["bal"])
+        if amount < 0:
+            await ctx.message.reply("Currency in negative value??")
+            return
+
+        self.update_bank(user, -1*amount, "wallet")
+        self.update_bank(member, amount, "wallet")
+        await ctx.message.reply(f"You sent **⏣ {amount:,}** to {member.mention}'s the bank!")
+        '''except ValueError:
+            await ctx.message.reply("Please give proper input. Correct way to use this command is `-send <the person you want to send money to> <amount>`")'''
+
+    @ commands.command(aliases=["bal"])
     # BALANCE COMMAND
     async def balance(self, ctx, member: discord.Member = None):
         if member == None:
             user = ctx.author
-            await self.open_account(ctx.author)
+            self.open_account(user)
 
         else:
             user = member
-            await self.open_account(member)
+            self.open_account(user)
 
-        users = await self.get_bank_data()
-        wallet_amt = users[str(user.id)]["wallet"]
-        bank_amt = users[str(user.id)]["bank"]
+        users = self.get_bank_data(ctx.guild.id)
+        wallet_amt = users["users"][str(user.id)]["wallet"]
+        bank_amt = users["users"][str(user.id)]["bank"]
+        bank_space = users["users"][str(user.id)]["bank_space"]
 
         em = discord.Embed(
-            title=f"{user.name}'s Balance", color=discord.Color.purple())
-        em.add_field(name="Wallet Balance",
-                     value=f'**⏣{wallet_amt}**', inline=False)
-        em.add_field(name="Bank Balance",
-                     value=f'**⏣{bank_amt}**', inline=False)
-        await ctx.send(embed=em)
+            title=f"{user.name}'s Balance", description=f"**Wallet**: ⏣ {wallet_amt:,}\n**Bank**: ⏣ {bank_amt} / {bank_space} `({(bank_amt/bank_space)*100}%)`", color=discord.Color.purple())
+
+        em.set_thumbnail(url=user.avatar_url)
+        await ctx.message.reply(embed=em)
     # BEG COMMAND
 
-    @commands.command()
+    @ commands.command()
+    @ commands.cooldown(1, 30, BucketType.user)
     async def beg(self, ctx):
-        await self.open_account(ctx.author)
+        self.open_account(ctx.author)
 
-        users = await self.get_bank_data()
+        users = self.get_bank_data(ctx.guild.id)
         user = ctx.author
 
-        earnings = random.randrange(101)
+        earnings = random.randrange(2500)
+        a = [False, True]
+        b = random.choice(a)
+        if b is True:
+            title_choice = random.choice(title_choices.names)
+            description = random.choice([f"ok sure, have **⏣ {earnings:,}** coins",
+                                         f"ur a bit stanky but here's **⏣ {earnings:,}** coins",
+                                        f"Oh, you poor little beggar, take **⏣ {earnings:,}** coins",
+                                         f"you get **⏣ {earnings:,}** COINS",
+                                         f"**⏣ {earnings:,}** coins for you"])
+            self.update_bank(user, earnings)
 
-        await ctx.send(f"Oh you poor little beggar, take **⏣{earnings}**!")
-        users[str(user.id)]["wallet"] += earnings
-        with open("Supporting/mainbank.json", "w") as f:
-            json.dump(users, f)
+            em = discord.Embed(
+                title=title_choice, set_thumbnail=ctx.author, description=description,  color=discord.Color.purple())
+            em.set_thumbnail(url=str(user.avatar_url))
+            em.set_footer(text="begging is everyone's right!")
+
+            await ctx.message.reply(embed=em)
+        elif b is False:
+            title_choice = random.choice(title_choices.names)
+            description = random.choice(title_choices.loss_message)
+
+            em = discord.Embed(
+                title=title_choice, description=description,  thumbnail=ctx.author,  color=discord.Color.purple())
+            em.set_thumbnail(url=str(user.avatar_url))
+            em.set_footer(text="begging is everyone's right!")
+
+            await ctx.message.reply(embed=em)
+
+        '''with open("Supporting/mainbank.json", "w") as f:
+            json.dump(users, f)'''
+
+    @ beg.error
+    async def error_beg(self, ctx, error):
+        hour = int((error.retry_after/60)//(60))
+        mins = int((error.retry_after-(hour*60*60))//(60))
+        seconds = int(error.retry_after-(hour*60*60)-(mins*60))
+
+        if isinstance(error, commands.CommandOnCooldown):
+            em = discord.Embed(title="Too spicy, take a breather",
+                               description=f'Stop begging so much, it makes you look like a poor person.\nYou can beg more in {seconds} seconds')
+            em.set_footer(text="The default cooldown is 30 seconds")
+
+            await ctx.message.reply(embed=em)
 
     # STOCK/BET COMMAND
 
-    @commands.command()
+    @ commands.command(aliases=["bet", "exchange"])
     async def stock(self, ctx, amount=None):
         try:
-            await self.open_account(ctx.author)
+            user_id = str(ctx.author.id)
+
+            guild_data = self.open_account(ctx.author)
 
             if amount == None:
-                await ctx.send("How on Earth do you expect to bet so less?")
+                await ctx.message.reply("How on Earth do you expect to bet nothin'?")
                 return
-            bal = await self.update_bank(ctx.author)
 
             amount = int(amount)
-            if amount > bal[0]:
-                await ctx.send("HA, you're broke. ")
+            if amount > guild_data['users'][user_id]['wallet']:
+                await ctx.message.reply("HA, you're broke. ")
                 return
 
             if amount < 0:
-                await ctx.send("Currency in negative value??")
+                await ctx.message.reply("Currency in negative value??")
                 return
             final = []
             for i in range(3):
@@ -212,270 +386,300 @@ class Economy(commands.Cog):
 
                 final.append(a)
 
-            await ctx.send(str(final))
+            await ctx.message.reply(str(final))
 
             if final[0] == final[1] and final[2] == final[1] and final[0] == final[2]:
 
                 b = 100
                 bamount = b*amount
-                await self.update_bank(ctx.author, bamount)
-                await ctx.send(f'YOU JUST WON A LOTTERY **⏣{bamount}**')
+                self.update_bank(ctx.author, bamount)
+                await ctx.message.reply(f'HOLY SMOKES! YOU JUST WON A LOTTERY **⏣{bamount:,}**')
 
-            elif final[0] == final[1] or final[2] or final[1] or final[0] or final[2]:
+            elif final[0] == final[1] or final[2] == final[1] or final[0] == final[2]:
 
                 d = random.choice([5, 6, 7, 8, 9, 10])
                 damount = d*amount
-                await self.update_bank(ctx.author, damount)
-                await ctx.send(f'God gave you **⏣{damount}**')
+                self.update_bank(ctx.author, damount)
+                await ctx.message.reply(f'God gave you **⏣{damount:,}**')
 
-            else:
-                #c = 1
+            elif final[0] != final[1] or final[2] != final[1] or final[0] != final[2]:
+
                 c = random.choice(range(50))
-                #amount = 100
-                #camount = 100
                 camount = c*amount
-                #wallet = 50
-                wallet = int(await self.get_bank_data()[str(ctx.author.id)]["wallet"])
-                # if int(users[str(ctx.author.id)]["wallet"]) < 0:
+                users = self.get_bank_data(ctx.guild.id)
+                wallet = int(users["users"][str(ctx.author.id)]["wallet"])
 
-                #camount + int(users[str(ctx.author.id)]["wallet"])
-
-                # wallet - camount = 50 - 100 = -50 < 0
                 if wallet - camount < 0:
                     camount = wallet
 
-                await self.update_bank(ctx.author, -camount)
+                self.update_bank(ctx.author, -camount)
 
-                await ctx.send(f'Get REKT! YOU LOST **⏣{camount}**')
+                await ctx.message.reply(f'Get REKT! YOU LOST **⏣{camount:,}**')
         except ValueError:
             await ctx.send("Please give proper input. Correct way to use this command is `-stock <put your amount here>`")
 
-    @commands.command()
+    @ commands.command()
     # ROB  COMMAND
+    @ commands.cooldown(1, 30, BucketType.user)
     async def rob(self, ctx, member: discord.Member):
         try:
-            await self.open_account(ctx.author)
-            await self.open_account(member)
+            users = self.get_bank_data(ctx.guild.id)
+            self.open_account(ctx.author)
+            self.open_account(member)
 
-            bal = await self.update_bank(member)
+            bal = int(users["users"][str(member.id)]["wallet"])
 
-            if bal[0] < 1000:
-                await ctx.send("Hey...the person you're trying to rob has less than ⏣1,000. It's not worth it duh.")
+            if bal < 1000:
+                await ctx.message.reply("Hey...the person you're trying to rob has less than ⏣1,000. It's not worth it duh.")
                 return
 
-            earnings = random.randrange(0, bal[0])
+            earnings = random.randrange(1, bal)
 
-            await self.update_bank(ctx.author, earnings)
-            await self.update_bank(member, -1*earnings)
-            if earnings <= (20/100)*bal[0]:
-                await ctx.send(f"You stole a small portion!💷\nYour payout was **⏣{earnings}**")
-            elif earnings <= (50/100)*bal[0] and earnings >= (20/100)*bal[0]:
-                await ctx.send(f"You stole a large portion!!💰\nYour payout was **⏣{earnings}**")
-            elif earnings <= (85/100)*bal[0] and earnings >= (50/100)*bal[0]:
-                await ctx.send(f"You stole a SHIT TON OF MONEY!!🤑\nYour payout was **⏣{earnings}**")
-            elif earnings <= (100/100)*bal[0] and earnings >= (85/100)*bal[0]:
-                await ctx.send(f"You stole almost everything!! YOU ARE A GREAT THIEF!!🤑\nYour payout was **⏣{earnings}**")
+            self.update_bank(ctx.author, earnings)
+            self.update_bank(member, -1*earnings)
+            if earnings <= (20/100)*bal:
+                await ctx.message.reply(f"You stole a small portion!💷\nYour payout was **⏣{earnings:,}**")
+            elif earnings <= (50/100)*bal and earnings >= (20/100)*bal:
+                await ctx.message.reply(f"You stole a large portion!!💰\nYour payout was **⏣{earnings:,}**")
+            elif earnings <= (85/100)*bal and earnings >= (50/100)*bal:
+                await ctx.message.reply(f"You stole a SHIT TON OF MONEY!!🤑\nYour payout was **⏣{earnings:,}**")
+            elif earnings <= (100/100)*bal and earnings >= (85/100)*bal:
+                await ctx.message.reply(f"You stole almost everything!! YOU ARE A GREAT THIEF!!🤑\nYour payout was **⏣{earnings:,}**")
         except ValueError:
             await ctx.send("Please give proper input. Correct way to use this command is `-rob <the person you want to rob>`")
 
+    @ rob.error
+    async def error_beg(self, ctx, error):
+        hour = int((error.retry_after/60)//(60))
+        mins = int((error.retry_after-(hour*60*60))//(60))
+        seconds = int(error.retry_after-(hour*60*60)-(mins*60))
+
+        if isinstance(error, commands.CommandOnCooldown):
+            em = discord.Embed(title="Too spicy, take a breather",
+                               description=f'This person has already been robbed in the last 30 seconds.\nYou can rob again in {seconds} seconds')
+            em.set_footer(text="The default cooldown is 30 seconds")
+
+            await ctx.message.reply(embed=em)
+
     # SHOP COMMAND
 
-    @commands.command()
+    @ commands.command()
     async def shop(self, ctx):
         em = discord.Embed(title='Shop')
 
-        for item in self.mainshop:
-            name = item["Name"]
-            price = item["Price"]
-            desc = item["Description"]
-            em.add_field(name=name, value=f"⏣{price} | {desc}", inline=False)
+        for item in self.mainshop.values():
+            name = item["display"]
+            price = item["price"]
+            desc = item["desc"]
+            em.add_field(name=name,
+                         value=f"⏣ {price:,} | {desc}", inline=False)
 
         await ctx.send(embed=em)
 
     @commands.command()
-    async def buy(self, ctx, item, amount=1):
-        try:
-            await self.open_account(ctx.author)
+    async def buy(self, ctx, amount: int, item):
 
-            res = await self.buy_this(ctx.author, item, amount)
+        self.open_account(ctx.author)
 
-            if not res[0]:
-                if res[1] == 1:
-                    await ctx.send("What are you trying to buy idiot? tbh that item isn't there in the shop")
-                    return
-                if res[1] == 2:
-                    await ctx.send(f"You don't have enough money in your wallet to buy **{amount} {item}**")
-                    return
+        await ctx.message.reply(await self.buy_item(ctx.author, item, amount))
 
-            await ctx.send(f"You just bought **{amount} {item}**")
-        except ValueError:
-            await ctx.send("Please give proper input. Correct way to use this command is `-buy <item> <number>`")
+    @commands.command(aliases=['inv', 'inventory'])
+    async def bag(self, ctx, user: discord.Member = None):
 
-    @commands.command()
-    async def bag(self, ctx):
-        await self.open_account(ctx.author)
-        user = ctx.author
-        users = await self.get_bank_data()
+        user = user or ctx.author
 
-        try:
-            bag = users[str(user.id)]["bag"]
-        except:
-            bag = []
+        guild_data = self.open_account(user)
+
+        inv = guild_data["users"][str(user.id)]["inv"]
 
         em = discord.Embed(title="Items in your Bag💰")
-        for item in bag:
-            name = item["item"]
-            amount = item["amount"]
 
-            em.add_field(name=name, value=amount, inline=False)
+        for key, value in inv.items():
+            em.add_field(
+                name=self.mainshop[key]['display'].title(), value=value, inline=False)
 
-        await ctx.send(embed=em)
+        await ctx.message.reply(embed=em)
 
-    async def buy_this(self, user, item_name, amount):
-        item_name = item_name.lower()
-        name_ = None
-        for item in self.mainshop:
-            name = item["Name"].lower()[:-1]
-            if name == item_name:
-                name_ = name
-                price = item["Price"]
-                break
+    async def buy_item(self, user, item, amount=1):
+        guild_id = str(user.guild.id)
+        user_id = str(user.id)
+        item = item.lower()
 
-        if name_ == None:
-            return [False, 1]
+        if item not in self.mainshop:
+            return "What are you trying to buy idiot? tbh that item isn't there in the shop"
 
-        cost = price*amount
+        if amount <= 0:
+            return "Amount on steroids! You need a doc's consultation."
 
-        users = await self.get_bank_data()
+        cost = amount * self.mainshop[item]['price']
 
-        bal = await self.update_bank(user)
+        guild_data = self.get_bank_data(guild_id)
 
-        if bal[0] < cost:
-            return [False, 2]
+        if guild_data['users'][user_id]['wallet'] < cost:
+            return f"You don't have enough money in your wallet to buy **{amount:,} {self.mainshop[item]['display']}**"
 
-        try:
-            index = 0
-            t = None
-            for thing in users[str(user.id)]["bag"]:
-                n = thing["item"]
-                if n == item_name:
-                    old_amt = thing["amount"]
-                    new_amt = old_amt + amount
-                    users[str(user.id)]["bag"][index]["amount"] = new_amt
-                    t = 1
-                    break
-                index += 1
-            if t == None:
-                obj = {"item": item_name, "amount": amount}
-                users[str(user.id)]["bag"].append(obj)
-        except:
-            obj = {"item": item_name, "amount": amount}
-            users[str(user.id)]["bag"] = [obj]
+        if item in guild_data['users'][user_id]['inv']:
+            guild_data['users'][user_id]['inv'][item] += amount
+        else:
+            guild_data['users'][user_id]['inv'][item] = amount
 
-        with open("Supporting/mainbank.json", "w") as f:
-            json.dump(users, f)
+        Economy_MongoDB.update_one(
+            {"guild_id": guild_id}, {"$set": guild_data})
 
-        await self.update_bank(user, cost*-1, "wallet")
+        self.update_bank(user, -cost, "wallet")
 
-        return [True, "Worked"]
+        return f"You just bought **{amount} {self.mainshop[item]['display']}** for **⏣ {cost:,}**"
 
     @commands.command()
-    async def sell(self, ctx, item, amount=1):
-        try:
-            await self.open_account(ctx.author)
+    async def use(self, ctx, amount: int, item):
+        user = ctx.author
+        guild_id = str(user.guild.id)
+        guild_data = self.get_bank_data(guild_id)
+        user_id = str(user.id)
+        bank_space = random.randint(15000, 25000)
+        item = item.lower()
 
-            res = await self.sell_this(ctx.author, item, amount)
+        if item in guild_data['users'][user_id]['inv']:
+            guild_data['users'][user_id]['inv'][item] -= amount
 
-            if not res[0]:
-                if res[1] == 1:
-                    await ctx.send("What are you trying to sell idiot? tbh that item isn't there in the shop")
-                    return
-                if res[1] == 2:
-                    await ctx.send(f"You don't have {amount} {item} in your bag.")
-                    return
-                if res[1] == 3:
-                    await ctx.send(f"You don't have {item} in your bag.")
-                    return
+        else:
+            await ctx.message.reply("What are you trying to use idiot? tbh that item isn't there in your inventory")
 
-            await ctx.send(f"You just sold {amount} {item}.")
-        except ValueError:
-            await ctx.send("Please give proper input. Correct way to use this command is `-sell <item> <number>`")
+        if item == "banknote":
+            guild_data['users'][user_id]["bank_space"] += bank_space
+            await ctx.message.reply(f"The bank officials inreased your bankspace by {bank_space}")
 
-    async def sell_this(self, user, item_name, amount, price=None):
-        item_name = item_name.lower()
-        name_ = None
-        for item in self.mainshop:
-            name = item["Name"].lower()[:-1]
-            if name == item_name:
-                name_ = name
-                if price == None:
-                    price = 50/100 * item["Price"]
+        Economy_MongoDB.update_one(
+            {"guild_id": guild_id}, {"$set": guild_data})
+
+    @commands.command()
+    async def sell(self, ctx, amount: int, item):
+        self.open_account(ctx.author)
+
+        await ctx.message.reply(await self.sell_item(ctx.author, item, amount))
+
+    async def sell_item(self, user, item, amount=1):
+
+        guild_id = str(user.guild.id)
+        user_id = str(user.id)
+        item = item.lower()
+        guild_data = self.get_bank_data(guild_id)
+
+        if item not in guild_data["users"][user_id]["inv"]:
+            return "What are you trying to sell idiot? tbh you don't own that item"
+
+        if amount <= 0:
+            return "Amount on steroids! You need a doc's consultation."
+        item_price = int(self.mainshop[item]['price'])
+        cost = int((60/100)*(amount * item_price))
+
+        if item in guild_data['users'][user_id]['inv']:
+            guild_data['users'][user_id]['inv'][item] -= amount
+        else:
+            guild_data['users'][user_id]['inv'][item] = amount
+
+        Economy_MongoDB.update_one(
+            {"guild_id": guild_id}, {"$set": guild_data})
+
+        self.update_bank(user, int(cost), "wallet")
+
+        return f"You just Sold **{amount} {self.mainshop[item]['display']}** for **⏣ {cost:,}**"
+
+    @commands.command(aliases=["rich"])
+    async def wealthy(self, ctx):
+        self.open_account(ctx.author)
+        user_id = str(ctx.author.id)
+        guild_id = ctx.guild.id
+        guild_data = self.get_bank_data(guild_id)
+        users_data = guild_data["users"]
+
+        user_ids_sorted = sorted(
+            users_data, key=lambda _user_id: users_data[_user_id]["wallet"] + users_data[_user_id]["bank"], reverse=True)
+        lb = []
+        sep = "\n"
+
+        rank = 1
+        # embed = discord.Embed(title="Leaderboard(XP):")
+
+        award = {1: ':first_place:', 2: ':second_place:', 3: ':third_place:'}
+        for uid in user_ids_sorted:
+            try:
+                temp_user = ctx.guild.get_member(int(uid))
+                lb.append(
+                    f"{award[rank] if rank in award else ':small_blue_diamond:'} **{guild_data['users'][uid]['wallet'] + guild_data['users'][uid]['bank']:,}** - {temp_user.mention}")
+                # embed.add_field(
+                # name=f"{rank}: {temp_user.name}", value=f"Total XP: {stats['users'][uid]['xp']}", inline=False)
+                # embed.set_thumbnail(url=str(ctx.guild.icon_url))
+
+                rank += 1
+            except:
+                rank -= 1
+
+            if rank >= 10:
                 break
+        em = discord.Embed(title=f"Richest users in {ctx.guild.name}", description=f'{sep.join(lb)}',
+                           color=discord.Color(0xfa43ee))
+        em.set_thumbnail(url=str(ctx.guild.icon_url)
+                         )
 
-        if name_ == None:
-            return [False, 1]
+        em.set_footer(text="This is the net-worth")
 
-        cost = price*amount
-
-        users = await self.get_bank_data()
-
-        bal = await self.update_bank(user)
-
-        try:
-            index = 0
-            t = None
-            for thing in users[str(user.id)]["bag"]:
-                n = thing["item"]
-                if n == item_name:
-                    old_amt = thing["amount"]
-                    new_amt = old_amt - amount
-                    if new_amt < 0:
-                        return [False, 2]
-                    users[str(user.id)]["bag"][index]["amount"] = new_amt
-                    t = 1
-                    break
-                index += 1
-            if t == None:
-                return [False, 3]
-        except:
-            return [False, 3]
-
-        with open("Supporting/mainbank.json", "w") as f:
-            json.dump(users, f)
-
-        await self.update_bank(user, cost, "wallet")
-
-        return [True, "Worked"]
-
-    @commands.command(aliases=["lb", "rich"])
+        await ctx.message.reply(embed=em)
+    '''@commands.command(aliases=["lb", "rich"])
     async def wealthy(self, ctx, x=10):
-        users = await self.get_bank_data()
+        self.open_account(ctx.author)
+        guild_data = self.get_bank_data(ctx.guild.id)
+        users1 = guild_data["users"]
         leader_board = {}
         total = []
-        for user in users:
+        lb = []
+        sep = "\n"
+        for user in users1:
             name = int(user)
-            total_amount = users[user]["wallet"] + users[user]["bank"]
+            total_amount = users1[user]["wallet"] + users1[user]["bank"]
             leader_board[total_amount] = name
             total.append(total_amount)
 
         total = sorted(total, reverse=True)
 
-        em = discord.Embed(title=f"Top {x} Richest People",
-                           description="This is WALLETs, not net worth or bank balance", color=discord.Color(0xfa43ee))
+        
+
         index = 1
         for amt in total:
             id_ = leader_board[amt]
             member = ctx.bot.get_user(id_)
             name = member.name
-            em.add_field(name=f"{index}. {name}",
-                         value=f"⏣{amt}",  inline=False)
+            if index == 1:
+                lb.append(
+                    f":first_place: **{amt}** - {name}#{member.discriminator}")
+                
+            elif index == 2:
+                lb.append(
+                    f":second_place: **{amt}** - {name}#{member.discriminator}")
+            elif index == 3:
+                lb.append(
+                    f":third_place: **{amt}** - {name}#{member.discriminator}")
+            else:
+                lb.append(
+                    f":small_blue_diamond: **{amt}** - {name}#{member.discriminator}")
             if index == x:
                 break
             else:
                 index += 1
 
-        await ctx.send(embed=em)
-# client.run('ODQ0ODEzMzE2NTA1MDc1NzEy.YKX3tg.0eYGwHfkQMKEbF71c8dVDmGVlBI')
+        em = discord.Embed(title=f"Richest users in {ctx.guild.name}", description=f'{sep.join(lb)}',
+                           color=discord.Color(0xfa43ee))
+        em.set_thumbnail(url=str(ctx.guild.icon_url)
+                         )
+
+        em.set_footer(text="This is the Net-Worth!")
+
+        # if index == x:
+        # break
+        # else:
+        # index += 1
+
+        await ctx.message.reply(embed=em)'''
 
 
 def setup(client):

@@ -6,9 +6,7 @@ from discord.ext.commands.cog import Cog
 import traceback
 import sys
 from alexa_reply import reply
-import json
-import os
-import asyncio
+
 #import Cogs.EconomyCog
 #import Dashboard.main
 
@@ -93,7 +91,7 @@ async def snipe(ctx):
         contents, author, channel_name, time = client.sniped_messages[ctx.guild.id]
 
     except:
-        await ctx.channel.send("Couldn't find a message to snipe!")
+        await ctx.message.reply("Couldn't find a message to snipe!")
         return
 
     embed = discord.Embed(description=contents,
@@ -102,7 +100,7 @@ async def snipe(ctx):
         name=f"{author.name}#{author.discriminator}", icon_url=author.avatar_url)
     embed.set_footer(text=f"Deleted in : #{channel_name}")
 
-    await ctx.channel.send(embed=embed)
+    await ctx.message.reply(embed=embed)
 
 
 # Log Channel.
@@ -112,14 +110,14 @@ log_channel = None
 @client.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.UserInputError):
-        await ctx.send('Please give proper input.')
+        await ctx.message.reply('Please give proper input.')
     elif isinstance(error, commands.MissingPermissions):
-        await ctx.send(
+        await ctx.message.reply(
             "You don't have the permissions to execute this command.")
     elif isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send('Please give proper input.')
+        await ctx.message.reply('Please give proper input.')
     elif isinstance(error, commands.CommandNotFound):
-        await ctx.send("Invalid command.")
+        await ctx.message.reply("Invalid command.")
     else:
         print(f'Ignoring exception in command {ctx.command}:', file=sys.stderr)
         traceback.print_exception(
@@ -190,10 +188,10 @@ async def op(ctx, msg=None):
     if ctx.author.id in owner_perms:
 
         if msg is not None:
-            await ctx.send(msg)
+            await ctx.message.reply(msg)
         return True
 
-    await ctx.send("Only bot owner(s) can use this command.")
+    await ctx.message.reply("Only bot owner(s) can use this command.")
     return False
 
 
@@ -257,9 +255,9 @@ async def chat(ctx, *, message):
     owner = "Sathya"
     bot = "Hydrargyrum"
     resp = reply(message, bot, owner)
-    await ctx.send(resp)
+    await ctx.message.reply(resp)
 
 
 # client.ipc.start()
-Token = 'ODQ0ODEzMzE2NTA1MDc1NzEy.YKX3tg.l6yyWnnYL_3Z-vGxK0Be4M9DNqc'
+Token = 'ODQ0ODEzMzE2NTA1MDc1NzEy.YKX3tg.LKZKeR-zfRY43PVBuWduGxVhseg'
 client.run(Token)

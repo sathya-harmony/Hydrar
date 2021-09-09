@@ -23,8 +23,6 @@ class levels(commands.Cog):
     @ commands.Cog.listener()
     async def on_message(self, message):
 
-        # if message.channel.id in talk_channel: #remove channel
-        # stats = levelling.find_one({"id": message.author.id}) #message.guild.id
         user_id = str(message.author.id)
         guild_id = message.guild.id
         '''stats = levelling.find_one({"guild_id": guild_id,
@@ -33,11 +31,6 @@ class levels(commands.Cog):
 
                                     }})'''
         stats = levelling.find_one({"guild_id": guild_id})
-        # {"guild_id": guild_int,
-        # "users":{
-        #   user_id: {"xp":int, "lvl":int},
-        #   user_id: {"xp":int, "lvl":int},
-        # }}
 
         if not message.author.bot:
             if stats is None:
@@ -51,11 +44,10 @@ class levels(commands.Cog):
                     {"guild_id": guild_id}, {"$set": stats})
 
             else:
-                #xp = stats["xp"] + 5
 
                 stats["users"][user_id]["xp"] += 5
                 xp = stats["users"][user_id]["xp"]
-                #levelling.update_one({"guild_id": guild_id, "users": {user_id: {"$set": {"xp": xp}}}})
+
                 levelling.update_one(
                     {"guild_id": guild_id}, {"$set": stats})
 
@@ -86,13 +78,16 @@ class levels(commands.Cog):
                             await message.channel.send(embed=embed)
 
     @ commands.command(aliases=["level", "lvl", "xp"])
-    async def rank(self, ctx):
-        user_id = str(ctx.author.id)
+    async def rank(self, ctx, member: discord.Member = None):
+        if member == None:
+            member = ctx.author
+
+        user_id = str(member.id)
         guild_id = ctx.guild.id
         stats = levelling.find_one({"guild_id": guild_id})
 
         if stats is None:
-            await ctx.channel.send("You haven't sent any messaged to Level up!")
+            await ctx.message.reply("You haven't sent any messaged to Level up!")
 
         else:
             xp = stats["users"][user_id]["xp"]
@@ -111,60 +106,38 @@ class levels(commands.Cog):
 
             xp -= abs(((50 * (lvl - 1)**2)) + (50 * (lvl - 1)))
 
-            # boxes = int((xp/(200*((1/2) * lvl)))*20)
             boxes = int(xp/(5*lvl))
-            #ranking = levelling.find().sort("xp", -1)
-
-            '''for key, value in stats['users'].items():
-                
-                rank += 1
-                if stats["users"][user_id] == x[stats["users"][user_id]]:
-                    # if stats["guild_id"] == x["guild_id"]:
-                    break'''
 
             embed = discord.Embed(
-                title="{}'s level stats".format(ctx.author.name))
+                title="{}'s level stats".format(member.name))
             embed.add_field(
                 name="**XP**", value=f"{xp}/{int(100*lvl)}", inline=False)
             embed.add_field(
                 name="**Rank**", value=f"{rank}/{ctx.guild.member_count}", inline=False)
             embed.add_field(name="Progress Bar", value=boxes *
                             "🟩"+(20-boxes)*"⬜", inline=False)
-            embed.set_thumbnail(url=ctx.author.avatar_url)
-            await ctx.channel.send(embed=embed)
+            embed.set_thumbnail(url=member.avatar_url)
+            await ctx.message.reply(embed=embed)
 
     @ commands.command(aliases=["top"])
     async def leaderboard(self, ctx):
         user_id = str(ctx.author.id)
         guild_id = ctx.guild.id
-        # if (ctx.channel.id == bot_channel):
+
         stats = levelling.find_one({"guild_id": guild_id})
         user_ids_sorted = list(stats["users"])
         user_ids_sorted.sort(
             key=lambda _user_id: stats["users"][_user_id]["xp"], reverse=True)
-        #rankings = levelling.find().sort("xp", -1)
-        #i = 1
+
         rank = 1
-        embed = discord.Embed(title="LeaderBoard:")
-        '''for x in rankings:
-            try:
-                temp = ctx.guild.get_member(x["user_id"])
-                tempxp = x["xp"]
-                embed.add_field(
-                    name=f" {i}: {temp.name}", value=f"Total XP: {tempxp}", inline=False)
-                i += 1
-
-            except:
-                pass
-
-            if i >= 11:
-                break'''
+        embed = discord.Embed(title="Leaderboard(XP):")
 
         for uid in user_ids_sorted:
             try:
                 temp_user = ctx.guild.get_member(int(uid))
                 embed.add_field(
                     name=f"{rank}: {temp_user.name}", value=f"Total XP: {stats['users'][uid]['xp']}", inline=False)
+                embed.set_thumbnail(url=str(ctx.guild.icon_url))
 
                 rank += 1
             except:
@@ -176,8 +149,8 @@ class levels(commands.Cog):
         if user_ids_sorted.index(user_id) > (10-1):
             embed.add_field(
                 name=f"{user_ids_sorted.index(user_id) + 1}: {ctx.author.name}", value=f"Total XP: {stats['users'][user_id]['xp']}", inline=False)
-
-        await ctx.channel.send(embed=embed)
+            embed.set_thumbnail(url=str(ctx.guild.icon_url))
+        await ctx.message.reply(embed=embed)
 
 
 def setup(client):

@@ -9,14 +9,14 @@ owner_perms = {611210739830620165}  # Sathya
 @commands.Cog.listener()
 async def on_command_error(ctx, error):
     if isinstance(error, commands.UserInputError):
-        await ctx.send('Please give proper input.')
+        await ctx.message.reply('Please give proper input.')
     elif isinstance(error, commands.MissingPermissions):
-        await ctx.send(
+        await ctx.message.reply(
             "You don't have the permissions to execute this command.")
     elif isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send('Please give proper input.')
+        await ctx.message.reply('Please give proper input.')
     elif isinstance(error, commands.CommandNotFound):
-        await ctx.send("Invalid command.")
+        await ctx.message.reply("Invalid command.")
 
 
 def cop(ctx):
@@ -32,11 +32,11 @@ async def op(ctx, msg=None):
     if ctx.author.id in owner_perms:
         # If any msg was given, send it.
         if msg is not None:
-            await ctx.send(msg)
+            await ctx.message.reply(msg)
         return True
 
     # If the user is not a bot owner.
-    await ctx.send("Only bot owner(s) can use this command.")
+    await ctx.message.reply("Only bot owner(s) can use this command.")
     return False
 
 
@@ -64,14 +64,14 @@ class kick_ban(commands.Cog):
     @owner_or_perm(kick_members=True)
     async def kick(self, ctx, user: discord.Member, *, reason=None):
         await user.kick(reason=reason)
-        await ctx.send(f"Kicked {user.mention} for {reason}.")
+        await ctx.message.reply(f"Kicked {user.mention} for {reason}.")
     # ban
 
     @commands.command()
     @owner_or_perm(ban_members=True)
     async def ban(self, ctx, user: discord.Member, *, reason=None):
         await user.ban(reason=reason)
-        await ctx.send(f"Banned {user.mention}for{reason}.**")
+        await ctx.message.reply(f"Banned {user.mention}for{reason}.**")
 
     # unban
     @commands.command()
@@ -81,10 +81,10 @@ class kick_ban(commands.Cog):
         for ban_entry in await ctx.guild.bans():
             if ban_entry.user.id == user.id:
                 await ctx.guild.unban(user)
-                await ctx.send(f"Unbanned **{user.name}#{user.discriminator}** ({user.mention}).")
+                await ctx.message.reply(f"Unbanned **{user.name}#{user.discriminator}** ({user.mention}).")
                 break
         else:
-            await ctx.send(f"The user {user.mention} is not already banned. Please ban them to unban them.")
+            await ctx.message.reply(f"The user {user.mention} is not already banned. Please ban them to unban them.")
 
 
 def setup(client):

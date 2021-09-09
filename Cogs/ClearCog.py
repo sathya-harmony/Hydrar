@@ -20,11 +20,11 @@ async def op(ctx, msg=None):
     if ctx.author.id in owner_perms:
         # If any msg was given, send it.
         if msg is not None:
-            await ctx.send(msg)
+            await ctx.message.reply(msg)
         return True
 
     # If the user is not a bot owner.
-    await ctx.send("Only bot owner(s) can use this command.")
+    await ctx.message.reply("Only bot owner(s) can use this command.")
     return False
 
 
@@ -52,10 +52,10 @@ class clear(commands.Cog):
     @owner_or_perm(manage_messages=True)
     async def clear(self, ctx, amount):
         if amount.lower() == "all":
-            await ctx.send(f"{len(await ctx.channel.purge(limit=math.inf))-1} message(s) was/were cleared.", delete_after=3)
+            await ctx.message.reply(f"{len(await ctx.channel.purge(limit=math.inf))-1} message(s) was/were cleared.", delete_after=3)
         else:
             try:
-                await ctx.send(f"{len(await ctx.channel.purge(limit=int(amount)+1))-1} message(s) was/were  cleared.", delete_after=3)
+                await ctx.message.reply(f"{len(await ctx.channel.purge(limit=int(amount)+1))-1} message(s) was/were  cleared.", delete_after=3)
             except ValueError:
                 raise commands.UserInputError
 

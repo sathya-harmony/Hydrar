@@ -9,14 +9,14 @@ owner_perms = {611210739830620165}  # Sathya
 @commands.Cog.listener()
 async def on_command_error(ctx, error):
     if isinstance(error, commands.UserInputError):
-        await ctx.send('Please give proper input.')
+        await ctx.message.reply('Please give proper input.')
     elif isinstance(error, commands.MissingPermissions):
-        await ctx.send(
+        await ctx.message.reply(
             "You don't have the permissions to execute this command.")
     elif isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send('Please give proper input.')
+        await ctx.message.reply('Please give proper input.')
     elif isinstance(error, commands.CommandNotFound):
-        await ctx.send("Invalid command.")
+        await ctx.message.reply("Invalid command.")
 
 
 def cop(ctx):
@@ -32,11 +32,11 @@ async def op(ctx, msg=None):
     if ctx.author.id in owner_perms:
         # If any msg was given, send it.
         if msg is not None:
-            await ctx.send(msg)
+            await ctx.message.reply(msg)
         return True
 
     # If the user is not a bot owner.
-    await ctx.send("Only bot owner(s) can use this command.")
+    await ctx.message.reply("Only bot owner(s) can use this command.")
     return False
 
 
@@ -66,7 +66,7 @@ class Spam_Cspam(commands.Cog):
 
         if await op(ctx):
             for _ in range(amount):
-                await ctx.send(text)
+                await ctx.message.reply(text)
 
     @commands.command(aliases=['clear_spam', 'clearspam'])
     async def cspam(self, ctx, amount: int, *, text):
@@ -76,7 +76,7 @@ class Spam_Cspam(commands.Cog):
             spammed_msgs = []
 
         for _ in range(amount):
-            spammed_msgs.append(await ctx.send(text))
+            spammed_msgs.append(await ctx.message.reply(text))
 
         for msg in spammed_msgs:
 

@@ -6,22 +6,23 @@ from typing import Optional
 from discord import Member
 from datetime import datetime
 
+
 @commands.Cog.listener()
 async def on_command_error(ctx, error):
     if isinstance(error, commands.UserInputError):
-        await ctx.send('Please give proper input.')
+        await ctx.message.reply('Please give proper input.')
     elif isinstance(error, commands.MissingPermissions):
-        await ctx.send(
+        await ctx.message.reply(
             "You don't have the permissions to execute this command.")
     elif isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send('Please give proper input.')
+        await ctx.message.reply('Please give proper input.')
     elif isinstance(error, commands.CommandNotFound):
-        await ctx.send("Invalid command.")
+        await ctx.message.reply("Invalid command.")
 
 
 class Server_User(commands.Cog):
     def __init__(self,  client):
-           self.client = client
+        self.client = client
     # server stats
 
     @commands.command()
@@ -47,10 +48,9 @@ class Server_User(commands.Cog):
         embed.add_field(name="Region:", value=region, inline=True)
         embed.add_field(name="Member Count:", value=memberCount, inline=False)
 
-        await ctx.send(embed=embed)
+        await ctx.message.reply(embed=embed)
 
     # user info
-
 
     @commands.command(aliases=["user", "about"])
     async def userinfo(self, ctx, target: Optional[Member]):
@@ -71,9 +71,8 @@ class Server_User(commands.Cog):
 
         for name, value, inline in fields:
             embed.add_field(name=name, value=value, inline=inline)
-        await ctx.send(embed=embed)   
-
+        await ctx.message.reply(embed=embed)
 
 
 def setup(client):
-    client.add_cog(Server_User(client))            
+    client.add_cog(Server_User(client))

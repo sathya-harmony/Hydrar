@@ -16,14 +16,14 @@ client = commands.Bot(command_prefix=prefix,
 @commands.Cog.listener()
 async def on_command_error(ctx, error):
     if isinstance(error, commands.UserInputError):
-        await ctx.send('Please give proper input.')
+        await ctx.message.reply('Please give proper input.')
     elif isinstance(error, commands.MissingPermissions):
-        await ctx.send(
+        await ctx.message.reply(
             "You don't have the permissions to execute this command.")
     elif isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send('Please give proper input.')
+        await ctx.message.reply('Please give proper input.')
     elif isinstance(error, commands.CommandNotFound):
-        await ctx.send("Invalid command.")
+        await ctx.message.reply("Invalid command.")
 
 
 class Wanted(commands.Cog):
@@ -42,7 +42,7 @@ class Wanted(commands.Cog):
         pfp = pfp.resize((328, 321))
         wanted.paste(pfp, (122, 251))
         wanted.save("ReturnPICS/profile.jpg")
-        await ctx.send(file=discord.File("ReturnPICS/profile.jpg"))
+        await ctx.message.reply(file=discord.File("ReturnPICS/profile.jpg"))
 
     @commands.command()
     async def rip(self, ctx, user: discord.Member = None):
@@ -56,7 +56,7 @@ class Wanted(commands.Cog):
         pfp = pfp.resize((142, 125))
         rip.paste(pfp, (81, 145))
         rip.save("ReturnPICS/rip.jpg")
-        await ctx.send(file=discord.File("ReturnPICS/rip.jpg"))
+        await ctx.message.reply(file=discord.File("ReturnPICS/rip.jpg"))
 
     @commands.command()
     async def avatar(self, ctx, user: discord.Member = None):
@@ -65,13 +65,13 @@ class Wanted(commands.Cog):
             embed = discord.Embed(
                 title=f"{user}'s Avatar!", color=ctx.author.color, timestamp=ctx.message.created_at)
             embed.set_image(url=f"{user.avatar_url}")
-            await ctx.send(embed=embed)
+            await ctx.message.reply(embed=embed)
 
         else:
             embed = discord.Embed(
                 title=f"{user}'s Avatar!", color=ctx.author.color, timestamp=ctx.message.created_at)
             embed.set_image(url=f"{user.avatar_url}")
-            await ctx.send(embed=embed)
+            await ctx.message.reply(embed=embed)
 
     @commands.command()
     async def pro(self, ctx, user: discord.Member = None):
@@ -142,7 +142,7 @@ class Wanted(commands.Cog):
         with BytesIO() as buf:
             img.save(buf, format="png")
             buf.seek(0)
-            await ctx.send(file=discord.File(buf, f"Profile of {user.name}#{user.discriminator}.png"))
+            await ctx.message.reply(file=discord.File(buf, f"Profile of {user.name}#{user.discriminator}.png"))
 
 
 def setup(client):

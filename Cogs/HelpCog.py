@@ -12,14 +12,14 @@ client = commands.Bot(command_prefix=prefix,
 @commands.Cog.listener()
 async def on_command_error(ctx, error):
     if isinstance(error, commands.UserInputError):
-        await ctx.send('Please give proper input.')
+        await ctx.message.reply('Please give proper input.')
     elif isinstance(error, commands.MissingPermissions):
-        await ctx.send(
+        await ctx.message.reply(
             "You don't have the permissions to execute this command.")
     elif isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send('Please give proper input.')
+        await ctx.message.reply('Please give proper input.')
     elif isinstance(error, commands.CommandNotFound):
-        await ctx.send("Invalid command.")
+        await ctx.message.reply("Invalid command.")
 
 
 class _help(commands.Cog):
@@ -62,7 +62,7 @@ class _help(commands.Cog):
                     name="**🏓Games**",
                     value="`-help Games`\n[Hover for Info](https://rb.gy/o2krdf)",
                     inline=False)
-                await ctx.send(embed=embed1)
+                await ctx.message.reply(embed=embed1)
                 return
             except:
                 pass
@@ -89,7 +89,7 @@ class _help(commands.Cog):
                 text="Don't forget to use the prefix '-' before each command!",
                 icon_url=embeds.EmptyEmbed)
 
-            await ctx.send(embed=embed2)
+            await ctx.message.reply(embed=embed2)
             return
 
         if arg == 'moderation':
@@ -116,7 +116,7 @@ class _help(commands.Cog):
                 text="Don't forget to use the prefix '-' before each command!",
                 icon_url=embeds.EmptyEmbed)
 
-            await ctx.send(embed=embed3)
+            await ctx.message.reply(embed=embed3)
             return
         if arg == 'utility':
             embed4 = discord.Embed(
@@ -139,7 +139,7 @@ class _help(commands.Cog):
             embed4.set_footer(
                 text="Don't forget to use the prefix '-' before each command!",
                 icon_url=embeds.EmptyEmbed)
-            await ctx.send(embed=embed4)
+            await ctx.message.reply(embed=embed4)
             return
 
         if arg == 'currency':
@@ -162,7 +162,7 @@ class _help(commands.Cog):
             embed5.set_footer(
                 text="Don't forget to use the prefix '-' before each command!",
                 icon_url=embeds.EmptyEmbed)
-            await ctx.send(embed=embed5)
+            await ctx.message.reply(embed=embed5)
             return
         if arg == 'games':
             embed6 = discord.Embed(
@@ -182,7 +182,7 @@ class _help(commands.Cog):
             embed6.set_footer(
                 text="Don't forget to use the prefix '-' before each command!",
                 icon_url=embeds.EmptyEmbed)
-            await ctx.send(embed=embed6)
+            await ctx.message.reply(embed=embed6)
             return
         # inside main function
         if arg == '8ball':
@@ -203,7 +203,7 @@ class _help(commands.Cog):
             embed7.set_footer(
                 text="Don't forget to use the prefix '-' before each command!",
                 icon_url=embeds.EmptyEmbed)
-            await ctx.send(embed=embed7)
+            await ctx.message.reply(embed=embed7)
             return
 
 

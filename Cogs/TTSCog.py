@@ -17,14 +17,14 @@ import json
 @commands.Cog.listener()
 async def on_command_error(ctx, error):
     if isinstance(error, commands.UserInputError):
-        await ctx.send('Please give proper input.')
+        await ctx.message.reply('Please give proper input.')
     elif isinstance(error, commands.MissingPermissions):
-        await ctx.send(
+        await ctx.message.reply(
             "You don't have the permissions to execute this command.")
     elif isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send('Please give proper input.')
+        await ctx.message.reply('Please give proper input.')
     elif isinstance(error, commands.CommandNotFound):
-        await ctx.send("Invalid command.")
+        await ctx.message.reply("Invalid command.")
 
 
 class TTS(commands.Cog):
@@ -34,17 +34,17 @@ class TTS(commands.Cog):
     @commands.command()
     async def translate(self, ctx, translatorr: str, *, args: str):
         #result = google_translator().translate(args, lang_tgt=lang)
-        # await ctx.send(result)
+        # await ctx.message.reply(result)
 
         translator = Translator(to_lang=translatorr)
         translation = translator.translate(args)
-        await ctx.send(translation)
+        await ctx.message.reply(translation)
 
     @commands.command()
     async def tts(self, ctx, lng, *txt):
         file = gtts.gTTS(text=" ".join(txt), lang=lng, slow=False)
         file.save("Cogs.Audio.audio.mp3")
-        await ctx.send(file=discord.File("Cogs.Audio.audio.mp3"))
+        await ctx.message.reply(file=discord.File("Cogs.Audio.audio.mp3"))
 
 
 def setup(client):
