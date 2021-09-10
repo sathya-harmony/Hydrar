@@ -25,12 +25,12 @@ class Economy(commands.Cog):
         self.client = client
 
     mainshop = {'watch': {"display": "Watch""⌚", "price": 800, "desc": "Time"},
-                'laptop': {"display": "Laptop""💻", "price": 10000, "desc": "Work"},
+                'laptop': {"display": "Laptop""💻", "price": 5000, "desc": "Work"},
                 'banknote': {"display": "Banknote💸", "price":  25000, "desc": "Increases bank storage capacity"},
-                'padlock': {"display": "Padlock🔒", "price":  35000, "desc": "Protection from robbers"}}
+                'padlock': {"display": "Padlock🔒", "price":  4000, "desc": "Protection from robbers"}}
 
     def get_bank_data(self, guild_id):
-        # guild_id = ctx.guild.id
+
         if type(guild_id) in [int, float]:
             guild_id = str(int(guild_id))
 
@@ -56,9 +56,6 @@ class Economy(commands.Cog):
         Economy_MongoDB.update_one(
             {"guild_id": guild_id}, {"$set": guild_data})
 
-        '''with open("Supporting/mainbank.json", "w") as f:
-            json.dump(users, f)'''
-
         return guild_data
 
     def open_account(self, user):
@@ -75,6 +72,7 @@ class Economy(commands.Cog):
                           "users": {user_id: {"wallet": 100,
                                               "bank": 0,
                                               "bank_space": 100,
+                                              "padlock": False,
                                               "inv": {},
                                               "daily": {"last_used": 0, "streak": 1}
                                               }
@@ -85,7 +83,7 @@ class Economy(commands.Cog):
 
         elif user_id not in guild_data['users']:
             guild_data['users'][user_id] = {
-                'wallet': 100, "bank": 0, "bank_space": 0, 'inv': {},  "daily": {"last_used": 0, "streak": 1}}
+                'wallet': 100, "bank": 0, "bank_space": 100, 'inv': {},  "daily": {"last_used": 0, "streak": 1}}
             Economy_MongoDB.update_one(
                 {"guild_id": guild_id}, {"$set": guild_data})
 
@@ -143,7 +141,7 @@ class Economy(commands.Cog):
         user_daily = guild_data['users'][user_id]['daily']
 
         # You need it to be lesser than the given time for it to work. 2 days because 1 day cooldown, 1 day streak buffer.
-        # if current_time - 2*60*60*24 <= user_daily['last_used']:
+
         if current_time - 2*60*60*24 <= user_daily['last_used']:
             user_daily['streak'] += 1
         else:
@@ -160,11 +158,9 @@ class Economy(commands.Cog):
         await ctx.message.reply(embed=em)
         self.update_bank(ctx.author, (amount + streak*250))
 
-        # guild_data['users'][user_id]['wallet'] += amount+streak*250
         Economy_MongoDB.update_one(
             {"guild_id": guild_id}, {"$set": guild_data})
 
-        # Yeet this
         self.update_bank(ctx.author, amount + streak*250)
 
     @daily.error
@@ -300,7 +296,7 @@ class Economy(commands.Cog):
         bank_space = users["users"][str(user.id)]["bank_space"]
 
         em = discord.Embed(
-            title=f"{user.name}'s Balance", description=f"**Wallet**: ⏣ {wallet_amt:,}\n**Bank**: ⏣ {bank_amt} / {bank_space} `({(bank_amt/bank_space)*100}%)`", color=discord.Color.purple())
+            title=f"{user.name}'s Balance", description=f"**Wallet**: ⏣ {wallet_amt:,}\n**Bank**: ⏣ {bank_amt:,} / {bank_space:,} `({(bank_amt/bank_space)*100}%)`", color=discord.Color.purple())
 
         em.set_thumbnail(url=user.avatar_url)
         await ctx.message.reply(embed=em)
@@ -342,9 +338,6 @@ class Economy(commands.Cog):
             em.set_footer(text="begging is everyone's right!")
 
             await ctx.message.reply(embed=em)
-
-        '''with open("Supporting/mainbank.json", "w") as f:
-            json.dump(users, f)'''
 
     @ beg.error
     async def error_beg(self, ctx, error):
@@ -418,7 +411,7 @@ class Economy(commands.Cog):
         except ValueError:
             await ctx.send("Please give proper input. Correct way to use this command is `-stock <put your amount here>`")
 
-    @ commands.command()
+    @ commands.command(aliases=["steal"])
     # ROB  COMMAND
     @ commands.cooldown(1, 30, BucketType.user)
     async def rob(self, ctx, member: discord.Member):
@@ -437,6 +430,7 @@ class Economy(commands.Cog):
 
             self.update_bank(ctx.author, earnings)
             self.update_bank(member, -1*earnings)
+
             if earnings <= (20/100)*bal:
                 await ctx.message.reply(f"You stole a small portion!💷\nYour payout was **⏣{earnings:,}**")
             elif earnings <= (50/100)*bal and earnings >= (20/100)*bal:
@@ -449,7 +443,7 @@ class Economy(commands.Cog):
             await ctx.send("Please give proper input. Correct way to use this command is `-rob <the person you want to rob>`")
 
     @ rob.error
-    async def error_beg(self, ctx, error):
+    async def error_rob(self, ctx, error):
         hour = int((error.retry_after/60)//(60))
         mins = int((error.retry_after-(hour*60*60))//(60))
         seconds = int(error.retry_after-(hour*60*60)-(mins*60))
@@ -487,6 +481,7 @@ class Economy(commands.Cog):
     async def bag(self, ctx, user: discord.Member = None):
 
         user = user or ctx.author
+        self.open_account(user)
 
         guild_data = self.open_account(user)
 
@@ -532,23 +527,34 @@ class Economy(commands.Cog):
 
     @commands.command()
     async def use(self, ctx, amount: int, item):
+
         user = ctx.author
+        self.open_account(user)
         guild_id = str(user.guild.id)
         guild_data = self.get_bank_data(guild_id)
         user_id = str(user.id)
         bank_space = random.randint(15000, 25000)
         item = item.lower()
 
-        if item in guild_data['users'][user_id]['inv']:
+        if item in guild_data['users'][user_id]['inv'] and guild_data['users'][user_id]['inv'][item] >= 1:
             guild_data['users'][user_id]['inv'][item] -= amount
 
         else:
             await ctx.message.reply("What are you trying to use idiot? tbh that item isn't there in your inventory")
+            return
 
         if item == "banknote":
-            guild_data['users'][user_id]["bank_space"] += bank_space
-            await ctx.message.reply(f"The bank officials inreased your bankspace by {bank_space}")
 
+            guild_data['users'][user_id]["bank_space"] += (amount*bank_space)
+            await ctx.message.reply(f"The bank officials inreased your bankspace by **⏣ {amount*bank_space:,}**")
+
+        if item == "padlock" and guild_data['users'][user_id]["padlock"] == False:
+            guild_data['users'][user_id]["padlock"] = True
+            await ctx.message.reply("Your wallet now has a padlock on it. Anyone who tries to steal from you will automatically fail if they don't have bolt cutters, however this is only a one-time use.")
+
+        elif item == "padlock" and guild_data['users'][user_id]["padlock"] == True:
+            await ctx.message.reply("You can't use this item, you've already used it and it's active right now!")
+            guild_data['users'][user_id]['inv'][item] += amount
         Economy_MongoDB.update_one(
             {"guild_id": guild_id}, {"$set": guild_data})
 
