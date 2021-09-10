@@ -9,8 +9,6 @@ from discord.ext import commands
 import os
 from pymongo import MongoClient
 import time
-import asyncpraw
-import praw
 import aiohttp
 
 
@@ -89,7 +87,7 @@ class Economy(commands.Cog):
 
         return guild_data
 
-    @commands.command(aliases=[])
+    '''@commands.command(aliases=[])
     async def meme(self, ctx):
         # msg = await ctx.message.reply('Loading meme... <a:Loading:84528574434795580>')
         async with aiohttp.ClientSession() as cs:
@@ -100,9 +98,9 @@ class Economy(commands.Cog):
                     url=memes["data"]["children"][random.randint(0, 25)]["data"]["url"])
                 embed.set_footer(
                     text=f'Powered by r/Memes! | Meme requested by {ctx.author}')
-                await ctx.send(embed=embed)
+                await ctx.send(embed=embed)'''
 
-        '''reddit = asyncpraw.Reddit(client_id='8i3fEtFOnr_XjpkrpatKOA',
+    '''reddit = asyncpraw.Reddit(client_id='8i3fEtFOnr_XjpkrpatKOA',
                                   client_secret='qBg4vg8yT8tBywSIz8pKSDPQc8dG-A',
                                   username='Hydrargyrum',
                                   password='CihVirus123',
