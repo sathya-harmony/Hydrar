@@ -81,7 +81,7 @@ class Economy(commands.Cog):
 
         elif user_id not in guild_data['users']:
             guild_data['users'][user_id] = {
-                'wallet': 100, "bank": 0, "bank_space": 100, 'inv': {},  "daily": {"last_used": 0, "streak": 1}}
+                'wallet': 100, "bank": 0, "bank_space": 100, "padlock": False,   'inv': {},  "daily": {"last_used": 0, "streak": 1}}
             Economy_MongoDB.update_one(
                 {"guild_id": guild_id}, {"$set": guild_data})
 
@@ -221,18 +221,22 @@ class Economy(commands.Cog):
             bank_space = users["users"][str(ctx.author.id)]["bank_space"]
 
             if amount == 'all' and int(users["users"][str(ctx.author.id)]["wallet"]) >= bank_space:
-                bal - int(bank_space)
-                amount = int(bank_space)
+                #bal - int(bank_space)
+                a = int(bank_space) -   \
+                    int(users["users"][str(ctx.author.id)]["bank"])
+                amount = a
 
             elif amount == 'all' and int(users["users"][str(ctx.author.id)]["wallet"]) <= bank_space:
-                amount = int(users["users"][str(ctx.author.id)]["wallet"])
+                a = int(bank_space) -   \
+                    int(users["users"][str(ctx.author.id)]["bank"])
+                amount = a
 
             amount = int(amount)
             if amount > bal:
                 await ctx.message.reply("HA, you're broke.")
                 return
 
-            elif amount > bank_space:
+            elif amount > bank_space or (int(users["users"][str(ctx.author.id)]["bank"]) - bank_space) == 0:
                 await ctx.message.reply("doode you don't have enough space in your bank to deposit that much")
                 return
             elif amount < 0:
@@ -413,32 +417,60 @@ class Economy(commands.Cog):
     # ROB  COMMAND
     @ commands.cooldown(1, 30, BucketType.user)
     async def rob(self, ctx, member: discord.Member):
-        try:
-            users = self.get_bank_data(ctx.guild.id)
-            self.open_account(ctx.author)
-            self.open_account(member)
+        # try:
 
-            bal = int(users["users"][str(member.id)]["wallet"])
+        guild_id = str(member.guild.id)
+        users = self.get_bank_data(guild_id)
+        self.open_account(ctx.author)
+        self.open_account(member)
 
-            if bal < 1000:
-                await ctx.message.reply("Hey...the person you're trying to rob has less than ⏣1,000. It's not worth it duh.")
-                return
+        bal = int(users["users"][str(member.id)]["wallet"])
+        bal_author = int(users["users"][str(ctx.author.id)]["wallet"])
 
-            earnings = random.randrange(1, bal)
+        if bal < 1000:
+            await ctx.message.reply("Hey...the person you're trying to rob has less than ⏣1,000. It's not worth it duh.")
+            return
 
-            self.update_bank(ctx.author, earnings)
-            self.update_bank(member, -1*earnings)
+        earnings = random.randint(1, bal)
+        author_earnings = random.randint(
+            1, int(((40/100) * bal_author)))
 
-            if earnings <= (20/100)*bal:
-                await ctx.message.reply(f"You stole a small portion!💷\nYour payout was **⏣{earnings:,}**")
-            elif earnings <= (50/100)*bal and earnings >= (20/100)*bal:
-                await ctx.message.reply(f"You stole a large portion!!💰\nYour payout was **⏣{earnings:,}**")
-            elif earnings <= (85/100)*bal and earnings >= (50/100)*bal:
-                await ctx.message.reply(f"You stole a SHIT TON OF MONEY!!🤑\nYour payout was **⏣{earnings:,}**")
-            elif earnings <= (100/100)*bal and earnings >= (85/100)*bal:
-                await ctx.message.reply(f"You stole almost everything!! YOU ARE A GREAT THIEF!!🤑\nYour payout was **⏣{earnings:,}**")
-        except ValueError:
-            await ctx.send("Please give proper input. Correct way to use this command is `-rob <the person you want to rob>`")
+        if bool(users["users"][str(member.id)]["padlock"]) == True:
+
+            users["users"][str(ctx.author.id)]["wallet"] -= author_earnings
+
+            await ctx.message.reply(f"You tried to rob this person, but it automatically failed for he had padlock and you didn't have bolt cutters. You paid the police **⏣ {author_earnings:,}**")
+            users["users"][str(member.id)]["padlock"] = False
+
+            Economy_MongoDB.update_one(
+                {"guild_id": guild_id}, {"$set": users})
+
+        elif bool(users["users"][str(member.id)]["padlock"]) == False:
+
+            choice = random.choice([True, False])
+            author_earnings2 = random.randint(
+                1, int(((20/100) * bal_author)))
+
+            if choice == True:
+                self.update_bank(ctx.author, earnings)
+                self.update_bank(member, -1*earnings)
+                if earnings <= (20/100)*bal:
+                    await ctx.message.reply(f"You stole a small portion!💷\nYour payout was **⏣{earnings:,}**")
+
+                elif earnings <= (50/100)*bal and earnings >= (20/100)*bal:
+                    await ctx.message.reply(f"You stole a large portion!!💰\nYour payout was **⏣{earnings:,}**")
+
+                elif earnings <= (85/100)*bal and earnings >= (50/100)*bal:
+                    await ctx.message.reply(f"You stole a SHIT TON OF MONEY!!🤑\nYour payout was **⏣{earnings:,}**")
+
+                elif earnings <= (100/100)*bal and earnings >= (85/100)*bal:
+                    await ctx.message.reply(f"You stole almost everything!! YOU ARE A GREAT THIEF!!🤑\nYour payout was **⏣{earnings:,}**")
+
+            elif choice == False:
+                self.update_bank(ctx.author, -1*author_earnings2)
+                await ctx.message.reply(f"You were caught stealing. You paid to cops **⏣ {author_earnings2:,}**")
+        # except ValueError:
+        # await ctx.send("Please give proper input. Correct way to use this command is `-rob <the person you want to rob>`")
 
     @ rob.error
     async def error_rob(self, ctx, error):
@@ -629,61 +661,6 @@ class Economy(commands.Cog):
         em.set_footer(text="This is the net-worth")
 
         await ctx.message.reply(embed=em)
-    '''@commands.command(aliases=["lb", "rich"])
-    async def wealthy(self, ctx, x=10):
-        self.open_account(ctx.author)
-        guild_data = self.get_bank_data(ctx.guild.id)
-        users1 = guild_data["users"]
-        leader_board = {}
-        total = []
-        lb = []
-        sep = "\n"
-        for user in users1:
-            name = int(user)
-            total_amount = users1[user]["wallet"] + users1[user]["bank"]
-            leader_board[total_amount] = name
-            total.append(total_amount)
-
-        total = sorted(total, reverse=True)
-
-        
-
-        index = 1
-        for amt in total:
-            id_ = leader_board[amt]
-            member = ctx.bot.get_user(id_)
-            name = member.name
-            if index == 1:
-                lb.append(
-                    f":first_place: **{amt}** - {name}#{member.discriminator}")
-                
-            elif index == 2:
-                lb.append(
-                    f":second_place: **{amt}** - {name}#{member.discriminator}")
-            elif index == 3:
-                lb.append(
-                    f":third_place: **{amt}** - {name}#{member.discriminator}")
-            else:
-                lb.append(
-                    f":small_blue_diamond: **{amt}** - {name}#{member.discriminator}")
-            if index == x:
-                break
-            else:
-                index += 1
-
-        em = discord.Embed(title=f"Richest users in {ctx.guild.name}", description=f'{sep.join(lb)}',
-                           color=discord.Color(0xfa43ee))
-        em.set_thumbnail(url=str(ctx.guild.icon_url)
-                         )
-
-        em.set_footer(text="This is the Net-Worth!")
-
-        # if index == x:
-        # break
-        # else:
-        # index += 1
-
-        await ctx.message.reply(embed=em)'''
 
 
 def setup(client):

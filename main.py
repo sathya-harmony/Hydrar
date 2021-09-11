@@ -118,13 +118,13 @@ async def on_command_error(ctx, error):
         await ctx.message.reply('Please give proper input.')
     elif isinstance(error, commands.CommandNotFound):
         await ctx.message.reply("Invalid command.")
-    else:
+    '''else:
         print(f'Ignoring exception in command {ctx.command}:', file=sys.stderr)
         traceback.print_exception(
             type(error), error, error.__traceback__, file=sys.stderr)
         tb = ''.join(map(lambda x: x.replace('\\n', '\n'), traceback.format_exception(
             type(error), error, error.__traceback__)))
-        await log(f"{error}\n{getattr(error, 'original', error)}\n\n```{tb}```")
+        await log(f"{error}\n{getattr(error, 'original', error)}\n\n```{tb}```")'''
 
 #intents = discord.Intents.all()
 #intents.members = True

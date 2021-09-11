@@ -36,41 +36,17 @@ class Math(commands.Cog):
     @commands.command(aliases=['ask'])
     async def solve(self, ctx, *, thing):
         async with ctx.channel.typing():
-            await asyncio.sleep(0.5)
+
             app_id = 'KPH8T8-L58AQ4EQT8'
             client = wolframalpha.Client(app_id)
-            res = client.query(thing)
-            '''for result in res.result:
-                answer = next(result)'''
-
-            i = 0
             try:
-                for result in res.results:
-                    try:
-                        answer = str(
-                            result.text) if i == 0 else f"{answer}\n• {result.text}"
-                        i += 1
-                        await ctx.message.reply(answer)
-                    except StopIteration:
-                        pass
+                res = client.query(thing)
+                for result in res.result:
+                    answer = next(result)
+
+                await ctx.message.reply('**Answer:** {}\n**.**{}'.format(thing, answer))
             except AttributeError:
-                try:
-                    for pod in res.pods:
-                        try:
-                            answer = str(
-                                pod) if i == 0 else f"{answer}\n• {pod}"
-                            i += 1
-                            await ctx.message.reply(answer)
-
-                        except StopIteration:
-                            pass
-                except AttributeError:
-                    pass
-
-            '''try:
-                await ctx.send('**Question:** {}\n**Answer:** {}\n**.**{}'.format(thing, answer))
-            except :
-                await ctx.send("Sorry, I don't know the answer to that.:frown:")'''
+                await ctx.message.reply("Sorry, I don't know the answer to that :frowning:")
 
     @commands.command()
     async def search(self, ctx, *, query):
