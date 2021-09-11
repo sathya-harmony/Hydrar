@@ -39,14 +39,14 @@ class Math(commands.Cog):
 
             app_id = 'KPH8T8-L58AQ4EQT8'
             client = wolframalpha.Client(app_id)
-            try:
-                res = client.query(thing)
-                for result in res.result:
-                    answer = next(result)
+            # try:
+            res = client.query(thing)
+            for result in res.result:
+                answer = next(result)
 
-                await ctx.message.reply('**Answer:** {}\n**.**{}'.format(thing, answer))
-            except AttributeError:
-                await ctx.message.reply("Sorry, I don't know the answer to that :frowning:")
+            await ctx.message.reply('**Answer:** {}\n**.**{}'.format(thing, answer))
+            # except AttributeError:
+            # await ctx.message.reply("Sorry, I don't know the answer to that :frowning:")
 
     @commands.command()
     async def search(self, ctx, *, query):

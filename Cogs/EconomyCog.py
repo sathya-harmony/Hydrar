@@ -355,8 +355,27 @@ class Economy(commands.Cog):
             await ctx.message.reply(embed=em)
 
     # STOCK/BET COMMAND
+    @commands.command(aliases=["bet", "gamble"])
+    async def stock(self, ctx, amount=None):
+        try:
+            user_id = str(ctx.author.id)
+            guild_data = self.open_account(ctx.author)
+            bal = int(guild_data['users'][user_id]['wallet'])
 
-    @ commands.command(aliases=["bet", "exchange"])
+            if amount == None:
+                await ctx.message.reply("How on Earth do you expect to bet nothin'?")
+                return
+
+            amount = int(amount)
+            if amount > bal:
+                await ctx.message.reply(f"{ctx.author.mention} You only have **⏣ {bal}, don't try and lie to me hoe")
+                return
+
+            if amount < 0:
+                await ctx.message.reply(f"{ctx.author.mention} You have to bet actual coins, dont try to break me.")
+                return
+
+    '''@ commands.command(aliases=["bet", "exchange"])
     async def stock(self, ctx, amount=None):
         try:
             user_id = str(ctx.author.id)
@@ -411,7 +430,7 @@ class Economy(commands.Cog):
 
                 await ctx.message.reply(f'Get REKT! YOU LOST **⏣{camount:,}**')
         except ValueError:
-            await ctx.send("Please give proper input. Correct way to use this command is `-stock <put your amount here>`")
+            await ctx.send("Please give proper input. Correct way to use this command is `-stock <put your amount here>`")'''
 
     @ commands.command(aliases=["steal"])
     # ROB  COMMAND
