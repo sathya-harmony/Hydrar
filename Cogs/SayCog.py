@@ -28,7 +28,7 @@ class says(commands.Cog):
             message = ctx.message
             await message.delete()
 
-            await ctx.message.reply(f"{text}")
+            await ctx.send(f"{text}")
         else:
             await ctx.message.reply(f"Nope, Not today mate. Ask the owner for permissions ;)")
 
