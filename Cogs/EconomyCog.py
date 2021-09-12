@@ -226,7 +226,7 @@ class Economy(commands.Cog):
                     int(users["users"][str(ctx.author.id)]["bank"])
                 amount = a
 
-            elif amount == 'all' and int(users["users"][str(ctx.author.id)]["wallet"]) <= bank_space:
+            elif amount == 'all' and int(users["users"][str(ctx.author.id)]["wallet"]) <= bank_space - int(users["users"][str(ctx.author.id)]["bank"]):
                 amount = int(users["users"][str(ctx.author.id)]["wallet"])
 
             amount = int(amount)
