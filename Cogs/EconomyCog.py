@@ -590,7 +590,7 @@ class Economy(commands.Cog):
             await ctx.message.reply("What are you trying to use idiot? tbh that item isn't there in your inventory")
             return
 
-        if item == "banknote":
+        if item == "banknote" and amount <= guild_data['users'][user_id]['inv'][item]:
 
             guild_data['users'][user_id]["bank_space"] += (amount*bank_space)
             await ctx.message.reply(f"The bank officials inreased your bankspace by **⏣ {amount*bank_space:,}**")
