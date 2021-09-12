@@ -597,7 +597,6 @@ class Economy(commands.Cog):
 
         else:
             await ctx.message.reply(f"You don't have **{amount}** banknotes to use.")
-            return
 
         if item == "padlock" and guild_data['users'][user_id]["padlock"] == False:
             guild_data['users'][user_id]["padlock"] = True
@@ -609,7 +608,6 @@ class Economy(commands.Cog):
 
         else:
             await ctx.message.reply(f"You can use only one padlock at once.")
-            return
 
         Economy_MongoDB.update_one(
             {"guild_id": guild_id}, {"$set": guild_data})
