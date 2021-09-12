@@ -595,9 +595,6 @@ class Economy(commands.Cog):
             guild_data['users'][user_id]["bank_space"] += (amount*bank_space)
             await ctx.message.reply(f"The bank officials inreased your bankspace by **⏣ {amount*bank_space:,}**")
 
-        else:
-            await ctx.message.reply(f"You don't have **{amount}** banknotes to use.")
-
         if item == "padlock" and guild_data['users'][user_id]["padlock"] == False:
             guild_data['users'][user_id]["padlock"] = True
             await ctx.message.reply("Your wallet now has a padlock on it. Anyone who tries to steal from you will automatically fail if they don't have bolt cutters, however this is only a one-time use.")
@@ -605,9 +602,6 @@ class Economy(commands.Cog):
         elif item == "padlock" and guild_data['users'][user_id]["padlock"] == True:
             await ctx.message.reply("You can't use this item, you've already used it and it's active right now!")
             guild_data['users'][user_id]['inv'][item] += amount
-
-        else:
-            await ctx.message.reply(f"You can use only one padlock at once.")
 
         Economy_MongoDB.update_one(
             {"guild_id": guild_id}, {"$set": guild_data})
