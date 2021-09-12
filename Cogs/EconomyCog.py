@@ -583,14 +583,14 @@ class Economy(commands.Cog):
         bank_space = random.randint(15000, 25000)
         item = item.lower()
 
-        if item in guild_data['users'][user_id]['inv'] and guild_data['users'][user_id]['inv'][item] >= 1:
+        if item in guild_data['users'][user_id]['inv'] and guild_data['users'][user_id]['inv'][item] >= amount:
             guild_data['users'][user_id]['inv'][item] -= amount
 
         else:
             await ctx.message.reply("What are you trying to use idiot? tbh that item isn't there in your inventory")
             return
 
-        if item == "banknote" and amount:
+        if item == "banknote":
 
             guild_data['users'][user_id]["bank_space"] += (amount*bank_space)
             await ctx.message.reply(f"The bank officials inreased your bankspace by **⏣ {amount*bank_space:,}**")
