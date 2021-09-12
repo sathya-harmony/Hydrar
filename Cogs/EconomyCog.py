@@ -586,10 +586,18 @@ class Economy(commands.Cog):
         if item in guild_data['users'][user_id]['inv'] and guild_data['users'][user_id]['inv'][item] >= 1:
             guild_data['users'][user_id]['inv'][item] -= amount
 
+        else:
+            await ctx.message.reply("What are you trying to use idiot? tbh that item isn't there in your inventory")
+            return
+
         if item == "banknote" and amount <= guild_data['users'][user_id]['inv'][item]:
 
             guild_data['users'][user_id]["bank_space"] += (amount*bank_space)
             await ctx.message.reply(f"The bank officials inreased your bankspace by **⏣ {amount*bank_space:,}**")
+
+        else:
+            await ctx.message.reply(f"You don't have **{amount}** banknotes to use.")
+            return
 
         if item == "padlock" and guild_data['users'][user_id]["padlock"] == False:
             guild_data['users'][user_id]["padlock"] = True
@@ -599,9 +607,6 @@ class Economy(commands.Cog):
             await ctx.message.reply("You can't use this item, you've already used it and it's active right now!")
             guild_data['users'][user_id]['inv'][item] += amount
 
-        else:
-            await ctx.message.reply("What are you trying to use idiot? tbh that item isn't there in your inventory")
-            return
         Economy_MongoDB.update_one(
             {"guild_id": guild_id}, {"$set": guild_data})
 
