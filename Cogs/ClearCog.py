@@ -52,10 +52,10 @@ class clear(commands.Cog):
     @owner_or_perm(manage_messages=True)
     async def clear(self, ctx, amount):
         if amount.lower() == "all":
-            await ctx.message.reply(f"{len(await ctx.channel.purge(limit=math.inf))-1} message(s) was/were cleared.", delete_after=3)
+            await ctx.send(f"{len(await ctx.channel.purge(limit=math.inf))-1} message(s) was/were cleared.", delete_after=3)
         else:
             try:
-                await ctx.message.reply(f"{len(await ctx.channel.purge(limit=int(amount)+1))-1} message(s) was/were  cleared.", delete_after=3)
+                await ctx.send(f"{len(await ctx.channel.purge(limit=int(amount)+1))-1} message(s) was/were  cleared.", delete_after=3)
             except ValueError:
                 raise commands.UserInputError
 

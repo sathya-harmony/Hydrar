@@ -1,6 +1,8 @@
 import os
 import discord
 from discord.ext import commands
+from discord.ext.commands.errors import CommandError, CommandInvokeError
+from wikipedia.exceptions import PageError
 import wolframalpha
 from fractions import*
 import asyncio
@@ -36,25 +38,28 @@ class Math(commands.Cog):
     @commands.command(aliases=['ask'])
     async def solve(self, ctx, *, thing):
         async with ctx.channel.typing():
-            await asyncio.sleep(0.1)
+
             app_id = 'KPH8T8-L58AQ4EQT8'
-            client = wolframalpha.Client(app_id)
-            res = client.query(thing)
-            answer = next(res.results).text
             try:
+                client = wolframalpha.Client(app_id)
+                res = client.query(thing)
+                answer = next(res.results).text
+
                 await ctx.message.reply('**This is what I got:** {}'.format(answer))
-            except RuntimeError:
-                await ctx.message.reply("Sorry, I don't know the answer to that.:frown:")
+            except StopIteration or RuntimeError:
+                await ctx.message.reply("Sorry, I don't know the answer to that. :frowning:")
 
     @commands.command()
     async def search(self, ctx, *, query):
         async with ctx.channel.typing():
-            await asyncio.sleep(0.3)
-            page = wikipedia.page(''.join(query))
-            summary = wikipedia.summary(''.join(query), sentences=10)
-            title = page.title
-            url = page.url
-            await ctx.message.reply(f"**Title:**{title}\n\n**Summary:**{summary}\n\nRead More Here: {url}")
+            try:
+                page = wikipedia.page(''.join(query))
+                summary = wikipedia.summary(''.join(query), sentences=10)
+                title = page.title
+                url = page.url
+                await ctx.message.reply(f"**Title:**{title}\n\n**Summary:**{summary}\n\nRead More Here: {url}")
+            except Exception or PageError or CommandInvokeError or IndexError or CommandError:
+                await ctx.message.reply("Sorry, I couldn't find any matching data regarding that :frowning:")
 
     '''@commands.command()
     async def currencyConvert(self, ctx, ffrom: str, to: str, amount: float):

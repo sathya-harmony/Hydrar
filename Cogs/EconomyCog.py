@@ -220,13 +220,13 @@ class Economy(commands.Cog):
             bal = int(users["users"][str(ctx.author.id)]["wallet"])
             bank_space = users["users"][str(ctx.author.id)]["bank_space"]
 
-            if amount == 'all' and int(users["users"][str(ctx.author.id)]["wallet"]) >= bank_space - int(users["users"][str(ctx.author.id)]["bank"]):
+            if amount == 'all' and int(users["users"][str(ctx.author.id)]["wallet"]) >= int(bank_space) - int(users["users"][str(ctx.author.id)]["bank"]):
                 #bal - int(bank_space)
                 a = int(bank_space) -   \
                     int(users["users"][str(ctx.author.id)]["bank"])
                 amount = a
 
-            elif amount == 'all' and int(users["users"][str(ctx.author.id)]["wallet"]) <= bank_space - int(users["users"][str(ctx.author.id)]["bank"]):
+            elif amount == 'all' and int(users["users"][str(ctx.author.id)]["wallet"]) <= int(bank_space) - int(users["users"][str(ctx.author.id)]["bank"]):
                 amount = int(users["users"][str(ctx.author.id)]["wallet"])
 
             amount = int(amount)
@@ -234,7 +234,7 @@ class Economy(commands.Cog):
                 await ctx.message.reply("HA, you're broke.")
                 return
 
-            elif amount > bank_space or (int(users["users"][str(ctx.author.id)]["bank"]) - bank_space) == 0:
+            elif amount > int(bank_space) or amount > (int(bank_space) - int(users["users"][str(ctx.author.id)]["bank"])):
                 await ctx.message.reply("doode you don't have enough space in your bank to deposit that much")
                 return
             elif amount < 0:

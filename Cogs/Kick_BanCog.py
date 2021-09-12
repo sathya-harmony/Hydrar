@@ -64,24 +64,30 @@ class kick_ban(commands.Cog):
     @owner_or_perm(kick_members=True)
     async def kick(self, ctx, user: discord.Member, *, reason=None):
         await user.kick(reason=reason)
-        await ctx.message.reply(f"Kicked {user.mention} for {reason}.")
+        embed = discord.Embed(
+            title=f"***🦶{user.name}#{user.discriminator} was kicked***")
+        await ctx.message.reply(embed=embed)
     # ban
 
     @commands.command()
     @owner_or_perm(ban_members=True)
     async def ban(self, ctx, user: discord.Member, *, reason=None):
         await user.ban(reason=reason)
-        await ctx.message.reply(f"Banned {user.mention}for{reason}.**")
+        embed = discord.Embed(
+            title=f"***💥{user.name}#{user.discriminator} was banned***")
+        await ctx.message.reply(embed=embed)
 
     # unban
     @commands.command()
     @owner_or_perm(ban_members=True)
-    async def unban(ctx, *, user: discord.User):
+    async def unban(self, ctx, *, user: discord.User):
 
         for ban_entry in await ctx.guild.bans():
             if ban_entry.user.id == user.id:
                 await ctx.guild.unban(user)
-                await ctx.message.reply(f"Unbanned **{user.name}#{user.discriminator}** ({user.mention}).")
+                embed = discord.Embed(
+                    title=f"***😳{user.name}#{user.discriminator} was unbanned***")
+                await ctx.message.reply(embed=embed)
                 break
         else:
             await ctx.message.reply(f"The user {user.mention} is not already banned. Please ban them to unban them.")
