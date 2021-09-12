@@ -607,6 +607,10 @@ class Economy(commands.Cog):
             await ctx.message.reply("You can't use this item, you've already used it and it's active right now!")
             guild_data['users'][user_id]['inv'][item] += amount
 
+        else:
+            await ctx.message.reply(f"You can use only one padlock at once.")
+            return
+
         Economy_MongoDB.update_one(
             {"guild_id": guild_id}, {"$set": guild_data})
 
