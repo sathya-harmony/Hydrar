@@ -43,7 +43,7 @@ class Math(commands.Cog):
             answer = next(res.results).text
             try:
                 await ctx.message.reply('**This is what I got:** {}'.format(answer))
-            except:
+            except RuntimeError:
                 await ctx.message.reply("Sorry, I don't know the answer to that.:frown:")
 
     @commands.command()
