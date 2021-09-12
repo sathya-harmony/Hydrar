@@ -222,15 +222,14 @@ class Economy(commands.Cog):
 
             if amount == 'all' and int(users["users"][str(ctx.author.id)]["wallet"]) >= bank_space:
                 #bal - int(bank_space)
-                a = int(users["users"][str(ctx.author.id)]
-                        ["bank"]) - int(bank_space)
-                # int(users["users"][str(ctx.author.id)]["bank"])
+                a = int(bank_space) -   \
+                    int(users["users"][str(ctx.author.id)]["bank"])
                 amount = a
 
             elif amount == 'all' and int(users["users"][str(ctx.author.id)]["wallet"]) <= bank_space:
                 a = int(bank_space) -   \
                     int(users["users"][str(ctx.author.id)]["bank"])
-                amount = a
+                amount = a - int(users["users"][str(ctx.author.id)]["bank"])
 
             amount = int(amount)
             if amount > bal:
