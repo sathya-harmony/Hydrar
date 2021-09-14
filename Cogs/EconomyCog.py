@@ -445,8 +445,11 @@ class Economy(commands.Cog):
         bal_author = int(users["users"][str(ctx.author.id)]["wallet"])
 
         if bal < 1000:
-            await ctx.message.reply("Hey...the person you're trying to rob has less than ⏣1,000. It's not worth it duh.")
+            await ctx.message.reply("Hey...the person you're trying to rob has less than ⏣ 1,000. It's not worth it duh.")
             return
+
+        if bal_author <= 500:
+            await ctx.message.reply("dude earn some money then rob. u need to learn to work lol(hint: you need atleast ⏣ 500 to rob someone)")
 
         earnings = random.randint(1, bal)
         author_earnings = random.randint(
@@ -583,7 +586,10 @@ class Economy(commands.Cog):
         bank_space = random.randint(15000, 25000)
         item = item.lower()
 
-        if item in guild_data['users'][user_id]['inv'] and guild_data['users'][user_id]['inv'][item] >= amount:
+        if amount <= 0:
+            await ctx.message.reply(f"bruh...when ur in a shop do you buy **{amount}** chocolates? Go study elementary mathematics once more")
+            return
+        elif item in guild_data['users'][user_id]['inv'] and guild_data['users'][user_id]['inv'][item] >= amount:
             guild_data['users'][user_id]['inv'][item] -= amount
 
         else:
@@ -595,16 +601,23 @@ class Economy(commands.Cog):
             guild_data['users'][user_id]["bank_space"] += (amount*bank_space)
             await ctx.message.reply(f"The bank officials inreased your bankspace by **⏣ {amount*bank_space:,}**")
 
-        if item == "padlock" and guild_data['users'][user_id]["padlock"] == False:
-            guild_data['users'][user_id]["padlock"] = True
-            await ctx.message.reply("Your wallet now has a padlock on it. Anyone who tries to steal from you will automatically fail if they don't have bolt cutters, however this is only a one-time use.")
+        if item == "padlock":
+            if guild_data['users'][user_id]["padlock"]:
+                await ctx.message.reply("You can't use this item, you've already used it and it's active right now!")
+                guild_data['users'][user_id]['inv'][item] += amount
+            else:
+                guild_data['users'][user_id]["padlock"] = True
+                await ctx.message.reply("Your wallet now has a padlock on it. Anyone who tries to steal from you will automatically fail if they don't have bolt cutters, however this is only a one-time use.")
 
-        elif item == "padlock" and guild_data['users'][user_id]["padlock"] == True:
-            await ctx.message.reply("You can't use this item, you've already used it and it's active right now!")
-            guild_data['users'][user_id]['inv'][item] += amount
+        if guild_data['users'][user_id]['inv'][item] == 0:
+            del guild_data['users'][user_id]['inv'][item]
 
         Economy_MongoDB.update_one(
             {"guild_id": guild_id}, {"$set": guild_data})
+
+        '''if guild_data['users'][user_id]['inv'][item] == 0:
+            Economy_MongoDB.remove({"guild_id": guild_id}, {
+                                   "$unset": item})'''
 
     @commands.command()
     async def sell(self, ctx, amount: int, item):
@@ -624,6 +637,10 @@ class Economy(commands.Cog):
 
         if amount <= 0:
             return "Amount on steroids! You need a doc's consultation."
+
+        if amount > guild_data["users"][user_id]["inv"][item]:
+            return "bruh you're tryin to sell more than what you own"
+
         item_price = int(self.mainshop[item]['price'])
         cost = int((60/100)*(amount * item_price))
 

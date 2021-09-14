@@ -1,6 +1,8 @@
 import os
 import random
+from typing import Optional
 import discord
+from discord.colour import Color
 from discord.ext import commands
 
 owner_perms = {611210739830620165}  # Sathya
@@ -91,6 +93,26 @@ class kick_ban(commands.Cog):
                 break
         else:
             await ctx.message.reply(f"The user {user.mention} is not already banned. Please ban them to unban them.")
+
+    # @commands.Cog.listener()
+    @commands.command()
+    @owner_or_perm(manage_roles=True, manage_messages=True)
+    async def on_guild_join(self, ctx):
+        permissions = discord.Permissions(
+            read_messages=True, send_messages=False, connect=False, send_tts_messages=False)
+
+        mute_role = await ctx.guild.create_role(name="Muted", permissions=permissions)
+        roles_list = []
+
+        #count = 0
+        for channels in ctx.guild.channels:
+
+            await channels.set_permissions(target=mute_role, permissions=permissions)
+            #count += 1
+    '''@commands.command()
+    @owner_or_perm(manage_roles = True, manage_messages = True)
+    async def mute(self, ctx, member: discord.Member, time: Optional[int], *, reason: Optional[str] = "No reason provided"):
+        pass'''
 
 
 def setup(client):

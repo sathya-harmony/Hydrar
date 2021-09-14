@@ -1,3 +1,4 @@
+import asyncio
 from re import T
 from discord.ext import commands  # ipc
 import discord
@@ -6,6 +7,7 @@ from discord.ext.commands.cog import Cog
 import traceback
 import sys
 from alexa_reply import reply
+import os
 
 #import Cogs.EconomyCog
 #import Dashboard.main
@@ -117,7 +119,10 @@ async def on_command_error(ctx, error):
     elif isinstance(error, commands.MissingRequiredArgument):
         await ctx.message.reply('Please give proper input.')
     elif isinstance(error, commands.CommandNotFound):
-        await ctx.message.reply("Invalid command.")
+        pass
+
+    elif isinstance(error, commands.CommandOnCooldown):
+        pass
     else:
         print(f'Ignoring exception in command {ctx.command}:', file=sys.stderr)
         traceback.print_exception(
@@ -128,6 +133,14 @@ async def on_command_error(ctx, error):
 
 #intents = discord.Intents.all()
 #intents.members = True
+
+
+@client.event
+async def on_member_join(member):
+    guild = client.get_guild(846947170782281729)
+    channel = guild.get_channel(846947170782281732)
+    intro = "<#847508482454323270>"
+    await channel.send(f"Welcome to {guild.name} {member.mention}! Please Introduce yourself in {intro}")
 
 
 # help command
@@ -216,6 +229,7 @@ def owner_or_perm(**perms):
 # Execute this whenever the bot is ready.
 @client.event
 async def on_ready():
+
     activity = discord.Game(name="-help | Busy Helping People!😊", type=3)
     await client.change_presence(status=discord.Status.online,
                                  activity=activity)
@@ -240,6 +254,96 @@ async def on_message(message):
             role = discord.Role('muted')
             await discord.Member.add_roles(role)
             await asyncio.sleep(300)'''
+
+
+@client.command()
+async def do(ctx, *, python_code):
+    if await op(ctx):
+
+        x = eval(python_code)
+        await ctx.send(x)
+
+
+'''@client.command()
+async def rcogs(ctx):
+
+    if await op(ctx, cog:):
+
+        async with ctx.typing():
+            for ext in os.listdir("Cogs"):
+                if ext.endswith('.py') and not ext.startswith("_"):
+
+                    try:
+                        client.unload_extension(f"Cogs.{ext[:-3]}")
+                        client.load_extension(f"Cogs.{ext[:-3]}")
+                        await ctx.send(f"Reloaded {ext}")
+                    except Exception:
+                        await ctx.send("Some error occured. I couldn't reload the cogs!")'''
+
+
+@client.command()
+async def rcogs(ctx, cog=None):
+    if await op(ctx):
+        if not cog:
+            # No cog, means we reload all cogs
+            async with ctx.typing():
+                embed = discord.Embed(
+                    title="Reloading all cogs!",
+                    color=0x808080,
+                    timestamp=ctx.message.created_at
+                )
+                for ext in os.listdir(r"Cogs"):
+                    if ext.endswith(".py") and not ext.startswith("_"):
+                        try:
+                            client.unload_extension(f"Cogs.{ext[:-3]}")
+                            client.load_extension(f"Cogs.{ext[:-3]}")
+                            embed.add_field(
+                                name=f"Reloaded: `{ext}`",
+                                value='\uFEFF',
+                                inline=False
+                            )
+                        except Exception as e:
+                            embed.add_field(
+                                name=f"Failed to reload: `{ext}`",
+                                value=e,
+                                inline=False
+                            )
+                        await asyncio.sleep(0.5)
+                await ctx.send(embed=embed)
+        else:
+            # reload the specific cog
+            async with ctx.typing():
+                embed = discord.Embed(
+                    title="Reloading all cogs!",
+                    color=0x808080,
+                    timestamp=ctx.message.created_at
+                )
+                ext = f"{cog}"
+                if not os.path.exists(f"Cogs.{ext}"):
+                    # if the file does not exist
+                    embed.add_field(
+                        name=f"Failed to reload: `{ext}`",
+                        value="This cog does not exist.",
+                        inline=False
+                    )
+
+                elif os.path.exists(f"Cogs.{ext}") and ext.endswith(".py") and not ext.startswith("_"):
+                    try:
+                        client.unload_extension(f"Cogs.{ext[:-3]}")
+                        client.load_extension(f"Cogs.{ext[:-3]}")
+                        embed.add_field(
+                            name=f"Reloaded: `{ext}`",
+                            value='\uFEFF',
+                            inline=False
+                        )
+                    except Exception:
+                        desired_trace = traceback.format_exc()
+                        embed.add_field(
+                            name=f"Failed to reload: `{ext}`",
+                            value=desired_trace,
+                            inline=False
+                        )
+                await ctx.send(embed=embed)
 
 
 @client.command()

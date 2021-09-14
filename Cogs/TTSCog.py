@@ -1,9 +1,11 @@
+from logging import error, exception
 import os
 import random
 from discord.ext import commands
 import math
 import discord
 import asyncio
+from discord.ext.commands.errors import CommandInvokeError
 #import google_trans_new
 #from google_trans_new import google_translator
 import translate
@@ -35,16 +37,25 @@ class TTS(commands.Cog):
     async def translate(self, ctx, translatorr: str, *, args: str):
         #result = google_translator().translate(args, lang_tgt=lang)
         # await ctx.message.reply(result)
-
+     # try:
         translator = Translator(to_lang=translatorr)
         translation = translator.translate(args)
-        await ctx.message.reply(translation)
+        if "INVALID TARGET" in translation:
+            await ctx.message.reply("Invalid target language. Please click on this link to view the languages supported by us:- <https://cloud.google.com/translate/docs/languages>")
+        else:
+            await ctx.message.reply(translation)
 
-    @commands.command()
-    async def tts(self, ctx, lng, *txt):
-        file = gtts.gTTS(text=" ".join(txt), lang=lng, slow=False)
-        file.save("Cogs.Audio.audio.mp3")
-        await ctx.message.reply(file=discord.File("Cogs.Audio.audio.mp3"))
+     # except pass
+
+    '''@commands.command()
+    async def tts(self, ctx, lng: str, *txt: str):
+        try:
+            file = gtts.gTTS(text="".join(txt), lang=lng, slow=False)
+
+        except error:
+            pass
+        file.save(f"{ctx.author.name}'s divine words.mp3")
+        await ctx.message.reply(file=discord.File(f"{ctx.author.name}'s divine words.mp3"))'''
 
 
 def setup(client):
