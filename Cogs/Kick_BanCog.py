@@ -95,20 +95,20 @@ class kick_ban(commands.Cog):
             await ctx.message.reply(f"The user {user.mention} is not already banned. Please ban them to unban them.")
 
     # @commands.Cog.listener()
-    @commands.command()
+    '''@commands.command()
     @owner_or_perm(manage_roles=True, manage_messages=True)
     async def on_guild_join(self, ctx):
-        permissions = discord.Permissions(
-            read_messages=True, send_messages=False, connect=False, send_tts_messages=False)
+        perms_dict = {"read_messages": True, "send_messages": False,
+                      "connect": False, "send_tts_messages": False}
+        perms = discord.Permissions(**perms_dict)
 
-        mute_role = await ctx.guild.create_role(name="Muted", permissions=permissions)
+        mute_role = await ctx.guild.create_role(name="Muted", permissions=perms)
         roles_list = []
 
         #count = 0
-        for channels in ctx.guild.channels:
+        for channels in ctx.guild.text_channels:
 
-            await channels.set_permissions(target=mute_role, permissions=permissions)
-            #count += 1
+            await channels.set_permissions(target=mute_role, permissions=perms_dict)'''
     '''@commands.command()
     @owner_or_perm(manage_roles = True, manage_messages = True)
     async def mute(self, ctx, member: discord.Member, time: Optional[int], *, reason: Optional[str] = "No reason provided"):

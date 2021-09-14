@@ -8,6 +8,8 @@ import traceback
 import sys
 from alexa_reply import reply
 import os
+from discord_components import DiscordComponents, Button, ButtonStyle, InteractionEventType
+
 
 #import Cogs.EconomyCog
 #import Dashboard.main
@@ -235,6 +237,7 @@ async def on_ready():
                                  activity=activity)
     print('The bot has booted up.')
     await log('The bot is online.')
+    DiscordComponents(client)
     '''while True:
         await asyncio.sleep(10)
         with open("Cogs/spamdetect.txt", "r+") as file:
@@ -279,6 +282,13 @@ async def rcogs(ctx):
                         await ctx.send(f"Reloaded {ext}")
                     except Exception:
                         await ctx.send("Some error occured. I couldn't reload the cogs!")'''
+
+
+@client.command()
+async def button(ctx):
+    await ctx.send("lol", components=[Button(label='Click meh!')])
+    interaction = await client.wait_for("button_click", check=lambda i: i.component.label.startswith('Click'))
+    await interaction.respond(content="Button clicked")
 
 
 @client.command()
