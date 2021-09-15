@@ -2,7 +2,6 @@ import discord
 from discord.ext import commands
 from discord import embeds
 from discord.ext.commands.errors import ArgumentParsingError, InvalidEndOfQuotedStringError
-from discord_buttons_plugin import *
 from discord_components import *
 
 prefix = '-'
