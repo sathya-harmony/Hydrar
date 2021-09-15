@@ -334,26 +334,98 @@ class _help(commands.Cog):
             except:
                 pass
 
-        if arg == 'chat':
+        if arg == 'Ban':
+            try:
+                embed12 = discord.Embed(
+                    title="Ban Info",
+                    description="**Description:**\nBan someone from the server! (Only works if you have `Manage Members` permission. The person cannot join back the server until he is unbanned.)",
+                    color=ctx.author.color)
+                embed12.set_thumbnail(
+                    url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
+                )
+
+                embed12.add_field(name="**Usage:**",
+                                  value="`-ban <member> [reason]`",
+                                  inline=False)
+                embed12.add_field(name="**Aliases:**",
+                                  value="ban",
+                                  inline=False)
+                embed12.set_footer(
+                    text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
+                    icon_url=embeds.EmptyEmbed)
+                await ctx.message.reply(embed=embed12)
+                return
+            except:
+                pass
+
+        if arg == 'Kick':
+            try:
+                embed13 = discord.Embed(
+                    title="Kick Info",
+                    description="**Description:**\nkick someone from the server! (Only works if you have `Manage Members` permission. The person can join back the server with another invite link.)",
+                    color=ctx.author.color)
+                embed13.set_thumbnail(
+                    url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
+                )
+
+                embed13.add_field(name="**Usage:**",
+                                  value="`-kick <member> [reason]`",
+                                  inline=False)
+                embed13.add_field(name="**Aliases:**",
+                                  value="kick",
+                                  inline=False)
+                embed13.set_footer(
+                    text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
+                    icon_url=embeds.EmptyEmbed)
+                await ctx.message.reply(embed=embed13)
+                return
+            except:
+                pass
+
+        if arg == 'Unban':
             try:
                 embed11 = discord.Embed(
-                    title="Wanted Info",
-                    description="**Description:**\nChat with the smartest bot!(im srs lol, this bot is very smart)",
+                    title="Clear Info",
+                    description="**Description:**\nUnban someone! (Only works if you have `Manage Members` permission. Only works when the member has already been banned and is in the ban list of the server.)",
                     color=ctx.author.color)
                 embed11.set_thumbnail(
                     url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
                 )
 
                 embed11.add_field(name="**Usage:**",
-                                  value="`-chat <input>`",
+                                  value="`-unban <member> [reason]`",
                                   inline=False)
                 embed11.add_field(name="**Aliases:**",
-                                  value="Chat, chat",
+                                  value="unban",
                                   inline=False)
                 embed11.set_footer(
                     text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
                     icon_url=embeds.EmptyEmbed)
                 await ctx.message.reply(embed=embed11)
+                return
+            except:
+                pass
+
+        if arg == 'clear':
+            try:
+                embed12 = discord.Embed(
+                    title="Clear Info",
+                    description="**Description:**\nClear any number of messages in the channel you're using the command in!(You need admin perms to use this command.)",
+                    color=ctx.author.color)
+                embed12.set_thumbnail(
+                    url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
+                )
+
+                embed12.add_field(name="**Usage:**",
+                                  value="**.** `-clear <amount>`\n**.** `-clear all`",
+                                  inline=False)
+                embed12.add_field(name="**Aliases:**",
+                                  value="kick",
+                                  inline=False)
+                embed12.set_footer(
+                    text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
+                    icon_url=embeds.EmptyEmbed)
+                await ctx.message.reply(embed=embed12)
                 return
             except:
                 pass
