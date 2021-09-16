@@ -83,10 +83,10 @@ owner_perms = {611210739830620165}
 client.sniped_messages = {}
 
 
-'''@client.event
+@client.event
 async def on_message_delete(message):
     client.sniped_messages[message.guild.id] = (
-        message.content, message.author, message.channel.name, message.created_at)'''
+        message.content, message.author, message.channel.name, message.created_at)
 
 
 @client.command()
@@ -137,12 +137,12 @@ async def on_command_error(ctx, error):
 #intents.members = True
 
 
-@client.event
+'''@client.event
 async def on_member_join(member):
     guild = client.get_guild(846947170782281729)
     channel = guild.get_channel(846947170782281732)
     intro = "<#847508482454323270>"
-    await channel.send(f"Welcome to {guild.name} {member.mention}! Please Introduce yourself in {intro}")
+    await channel.send(f"Welcome to {guild.name} {member.mention}! Please Introduce yourself in {intro}")'''
 
 
 # help command
