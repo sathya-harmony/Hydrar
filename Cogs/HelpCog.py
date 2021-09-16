@@ -429,6 +429,78 @@ class _help(commands.Cog):
             except:
                 pass
 
+        if arg == 'Userinfo':
+            try:
+                embed13 = discord.Embed(
+                    title="User Info",
+                    description="**Description:**\nShows information on a mentioned user of the server.",
+                    color=ctx.author.color)
+                embed13.set_thumbnail(
+                    url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
+                )
+
+                embed13.add_field(name="**Usage:**",
+                                  value="`-about [member]`",
+                                  inline=False)
+                embed13.add_field(name="**Aliases:**",
+                                  value="userinfo, about",
+                                  inline=False)
+                embed13.set_footer(
+                    text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
+                    icon_url=embeds.EmptyEmbed)
+                await ctx.message.reply(embed=embed13)
+                return
+            except:
+                pass
+
+        if arg == 'ask':
+            try:
+                embed14 = discord.Embed(
+                    title="User Info",
+                    description="**Description:**\nThis bot can solve any question. May it be math, science ANYTHING(Just use ask command lol)",
+                    color=ctx.author.color)
+                embed14.set_thumbnail(
+                    url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
+                )
+
+                embed14.add_field(name="**Usage:**",
+                                  value="`-ask <question>`",
+                                  inline=False)
+                embed14.add_field(name="**Aliases:**",
+                                  value="ask, solve",
+                                  inline=False)
+                embed14.set_footer(
+                    text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
+                    icon_url=embeds.EmptyEmbed)
+                await ctx.message.reply(embed=embed12)
+                return
+            except:
+                pass
+
+        if arg == 'daily':
+            try:
+                embed14 = discord.Embed(
+                    title="Daily Info",
+                    description="**Description:**\nCollect your daily coins. You earn more if your streak is higher!",
+                    color=ctx.author.color)
+                embed14.set_thumbnail(
+                    url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
+                )
+
+                embed14.add_field(name="**Usage:**",
+                                  value="`-ask <question>`",
+                                  inline=False)
+                embed14.add_field(name="**Aliases:**",
+                                  value="ask, solve",
+                                  inline=False)
+                embed14.set_footer(
+                    text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
+                    icon_url=embeds.EmptyEmbed)
+                await ctx.message.reply(embed=embed12)
+                return
+            except:
+                pass
+
 
 def setup(client):
     client.add_cog(_help(client))

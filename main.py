@@ -83,10 +83,10 @@ owner_perms = {611210739830620165}
 client.sniped_messages = {}
 
 
-@client.event
+'''@client.event
 async def on_message_delete(message):
     client.sniped_messages[message.guild.id] = (
-        message.content, message.author, message.channel.name, message.created_at)
+        message.content, message.author, message.channel.name, message.created_at)'''
 
 
 @client.command()
