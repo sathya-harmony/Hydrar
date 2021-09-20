@@ -291,6 +291,20 @@ async def button(ctx):
     await interaction.respond(content="Button clicked")
 
 
+'''@client.command(name="toggle")
+async def toggle(ctx, *, command):
+    command = client.get_command(command)
+    if command is None:
+        await ctx.send("bruh how to do you expect me to toggle no command??")
+    elif ctx.command == command:
+        await ctx.send("You cannot disable this command")
+    else:
+        command.enabled = not command.enabled
+        ternary = "enabled" if command.enabled else "disabled"
+        ternary2 = "disabled" if command.enabled else "enabled"
+        await ctx.send(f"I have {ternary} {command.qualified_name}. Until this command is {ternary2}")'''
+
+
 @client.command()
 async def rcogs(ctx, cog=None):
     if await op(ctx):

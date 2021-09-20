@@ -1,5 +1,9 @@
+from asyncio.windows_events import NULL
+from typing import Text
 from discord import user
+from discord.ext.commands import bot
 from discord.ext.commands.cooldowns import BucketType
+import pymongo
 import modules.title_choices_beg_economy as title_choices
 import random
 import discord
@@ -9,7 +13,9 @@ from discord.ext import commands
 import os
 from pymongo import MongoClient
 import time
-import aiohttp
+import math
+from math import *
+from discord_components import *
 
 
 cluster = MongoClient(
@@ -26,6 +32,25 @@ class Economy(commands.Cog):
                 'laptop': {"display": "Laptop""💻", "price": 5000, "desc": "Work"},
                 'banknote': {"display": "Banknote💸", "price":  25000, "desc": "Increases bank storage capacity"},
                 'padlock': {"display": "Padlock🔒", "price":  4000, "desc": "Protection from robbers"}}
+
+    job_list = {'discord mod': {"display": "✅ Discord Mod", "salary": 10000, "hours_needed": 0,
+                                'desc': 'Hours Required Per Day: `0` — Salary: `⏣ 10000 per hour`'},
+                'babysitter': {"display": "✅ Babysitter", "salary": 10500, "hours_needed": 1,
+                               'desc': 'Hours Required Per Day: `1` — Salary: `⏣ 10500 per hour`'},
+                'fast food cook': {"display": "✅ Fast Food Cook", "salary": 11111, "hours_needed": 2,
+                                   'desc': 'Hours Required Per Day: `2` — Salary: `⏣ 11111 per hour`'},
+                'house wife': {"display": "✅ House Wife", "salary": 12000, "hours_needed": 2,
+                               'desc': 'Hours Required Per Day: `2` — Salary: `⏣ 12000 per hour`'},
+                'twitch streamer': {"display": "✅ Twitch Streamer", "salary": 15000, "hours_needed": 3,
+                                    'desc': 'Hours Required Per Day: `3` — Salary: `⏣ 15000 per hour`'}}
+    job_list_2 = {'youtuber': {"display": "✅ YouTuber", "salary": 16000, "hours_needed": 3,
+                               'desc': 'Hours Required Per Day: `3` — Salary: `⏣ 16000 per hour`'},
+                  'professional hunter': {"display": "✅ Professional Hunter", "salary": 17000, "hours_needed": 4,
+                                          'desc': 'Hours Required Per Day: `4` — Salary: `⏣ 17000 per hour`'},
+                  'professional fisherman': {"display": "✅ Twitch Streamer", "salary": 18000, "hours_needed": 4,
+                                             'desc': 'Hours Required Per Day: `4` — Salary: `⏣ 18000 per hour`'},
+                  'bartender': {"display": "✅ Bartender", "salary": 19000, "hours_needed": 4,
+                                'desc': 'Hours Required Per Day: `4` — Salary: `⏣ 19000 per hour`'}}
 
     def get_bank_data(self, guild_id):
 
@@ -71,6 +96,8 @@ class Economy(commands.Cog):
                                               "bank": 0,
                                               "bank_space": 100,
                                               "padlock": False,
+                                              "job": {"job_name": None,
+                                                      "hours_worked": 0},
                                               "inv": {},
                                               "daily": {"last_used": 0, "streak": 1}
                                               }
@@ -81,7 +108,8 @@ class Economy(commands.Cog):
 
         elif user_id not in guild_data['users']:
             guild_data['users'][user_id] = {
-                'wallet': 100, "bank": 0, "bank_space": 100, "padlock": False,   'inv': {},  "daily": {"last_used": 0, "streak": 1}}
+                'wallet': 100, "bank": 0, "bank_space": 100, "padlock": False, "job": {"job_name": None,
+                                                                                       "hours_worked": 0}, 'inv': {},  "daily": {"last_used": 0, "streak": 1}}
             Economy_MongoDB.update_one(
                 {"guild_id": guild_id}, {"$set": guild_data})
 
@@ -221,7 +249,7 @@ class Economy(commands.Cog):
             bank_space = users["users"][str(ctx.author.id)]["bank_space"]
 
             if amount == 'all' and int(users["users"][str(ctx.author.id)]["wallet"]) >= int(bank_space) - int(users["users"][str(ctx.author.id)]["bank"]):
-                #bal - int(bank_space)
+                # bal - int(bank_space)
                 a = int(bank_space) -   \
                     int(users["users"][str(ctx.author.id)]["bank"])
                 amount = a
@@ -371,10 +399,57 @@ class Economy(commands.Cog):
 
         if amount < 0:
             await ctx.message.reply(f"{ctx.author.mention} You have to bet actual coins, dont try to break me.")
-            return'''
+            return
+        if amount < 50:
+            await ctx.message.reply(f"{ctx.author.mention} You can't bet less than **⏣ 50**")
+            return
 
-    '''@ commands.command(aliases=["bet", "exchange"])
-    async def stock(self, ctx, amount=None):
+        final_bot = []
+        for i in range(20):
+            iteration_bot = random.randint(1, 100)
+            final_bot.append(iteration_bot)
+        # final_user = []
+        kumar = (random.randint(1, 100))
+        if kumar not in final_bot:
+            def absolute_difference_function(
+                list_value): return abs(list_value - kumar)
+            closest_value = min(final_bot, key=absolute_difference_function)
+            if closest_value > kumar:
+                loss = int(
+                    (int(int(closest_value)-int(kumar))/closest_value)*100)
+                await ctx.send(f"GET REKT! YOU LOST {loss}%")
+                return
+            elif closest_value < kumar:
+                loss = int((int(int(kumar)-int(closest_value))/kumar)*100)
+            await ctx.send(f"GET REKT! YOU LOST {loss}%")
+            return
+        else:
+            await ctx.send("you won")'''
+
+    '''for i in final_user:
+            if i in final_bot:
+                a = "Holy smokes you won a lottery!"
+
+            else:
+                pass
+        await ctx.send(a)
+        print(f"{i}, {final_bot}")
+        for i in range(final_user[1]):
+            if i in final_bot:
+                b = await ctx.send("nice")
+
+            else:
+                pass
+
+        await ctx.send(b)
+        print(f"{i}, {final_bot}")'''
+
+    @ commands.command(aliases=["stock"])
+    @ commands.cooldown(1, 15, BucketType.user)
+    async def slots(self, ctx, amount=None):
+        # channel = bot.get_channel(ctx.channel.id)
+
+        # message = str(await channel.fetch_message(bot.message.id))
         try:
             user_id = str(ctx.author.id)
 
@@ -392,32 +467,57 @@ class Economy(commands.Cog):
             if amount < 0:
                 await ctx.message.reply("Currency in negative value??")
                 return
+
+            embed = discord.Embed(title='Slot Machine')
             final = []
-            for i in range(3):
-                a = random.choice(["X", "O", "A"])
+            for i in range(4):
+                if i == 1:
+                    a = random.choice(
+                        ["🍉", "🍓", "🍔", "🍗", "🍵"])
+                    final.append(a)
+                    embed.add_field(
+                        name=f'[{final[0]}', value='\u200b')
+                    embed.set_thumbnail(url=ctx.author.avatar_url)
+                    embed.set_footer(
+                        text="Tip: When all 3 slots are equal,\n you can earn upto 2 times\n the amount you bet!")
 
-                final.append(a)
+                    message = await ctx.message.reply(embed=embed)
+                if i == 2:
+                    a = random.choice(
+                        ["🍉", "🍓", "🍔", "🍗", "🍵", "🥘"])
+                    final.append(a)
+                    embed.add_field(
+                        name=f'|{final[1]}', value='\u200b')
 
-            await ctx.message.reply(str(final))
+                    await message.edit(embed=embed)
+
+                if i == 3:
+                    a = random.choice(
+                        ["🍉", "🍓", "🍔", "🍗", "🍵", "🥘"])
+                    final.append(a)
+                    embed.add_field(
+                        name=f'|{final[2]}]  Reels Spun...', value='\u200b')
+                    await message.edit(embed=embed)
 
             if final[0] == final[1] and final[2] == final[1] and final[0] == final[2]:
 
-                b = 100
-                bamount = b*amount
+                b = random.choice([3, 3.5, 4])
+                bamount = math.trunc(int(b*amount))
                 self.update_bank(ctx.author, bamount)
-                await ctx.message.reply(f'HOLY SMOKES! YOU JUST WON A LOTTERY **⏣{bamount:,}**')
+                await message.edit(f'You won a lottery of **⏣{bamount:,}**')
 
             elif final[0] == final[1] or final[2] == final[1] or final[0] == final[2]:
 
-                d = random.choice([5, 6, 7, 8, 9, 10])
-                damount = d*amount
+                d = random.choice([1, 1.75, 2])
+                damount = math.trunc(int(d*amount))
                 self.update_bank(ctx.author, damount)
-                await ctx.message.reply(f'God gave you **⏣{damount:,}**')
+                await message.edit(f'God gave you **⏣{damount:,}**')
 
             elif final[0] != final[1] or final[2] != final[1] or final[0] != final[2]:
 
-                c = random.choice(range(50))
-                camount = c*amount
+                c = random.choice(
+                    [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1])
+                camount = math.trunc(int(c*amount))
                 users = self.get_bank_data(ctx.guild.id)
                 wallet = int(users["users"][str(ctx.author.id)]["wallet"])
 
@@ -426,9 +526,22 @@ class Economy(commands.Cog):
 
                 self.update_bank(ctx.author, -camount)
 
-                await ctx.message.reply(f'Get REKT! YOU LOST **⏣{camount:,}**')
+                await message.edit(f'Get REKT! YOU LOST **⏣{camount:,}**')
         except ValueError:
-            await ctx.send("Please give proper input. Correct way to use this command is `-stock <put your amount here>`")'''
+            await ctx.send("Please give proper input. Correct way to use this command is `-stock <put your amount here>`")
+
+    @ slots.error
+    async def error_slots(self, ctx, error):
+        hour = int((error.retry_after/60)//(60))
+        mins = int((error.retry_after-(hour*60*60))//(60))
+        seconds = int(error.retry_after-(hour*60*60)-(mins*60))
+
+        if isinstance(error, commands.CommandOnCooldown):
+            em = discord.Embed(title="Too spicy, take a breather",
+                               description=f"If I let you bet whenever you wanted, you'd be a lot more poor. Wait {seconds} seconds")
+            em.set_footer(text="The default cooldown is 15 seconds")
+
+            await ctx.message.reply(embed=em)
 
     @ commands.command(aliases=["steal"])
     # ROB  COMMAND
@@ -505,7 +618,221 @@ class Economy(commands.Cog):
 
             await ctx.message.reply(embed=em)
 
-    # SHOP COMMAND
+    @commands.command(aliases=["work list"])
+    async def work_list(self, ctx):
+        em = discord.Embed(title="Available Jobs",
+                           description="Choose a job if you haven't already!")
+
+        for jobs in self.job_list.values():
+            name = jobs["display"]
+            salary = jobs["salary"]
+            desc = jobs["desc"]
+
+            em.add_field(name=name, value=f"{desc}\n\uFEFF", inline=False)
+            em.set_footer(text="Page 1 of 2")
+
+        em2 = discord.Embed(title="Available Jobs",
+                            description="Choose a job if you haven't already!")
+        for jobs_2 in self.job_list_2.values():
+            name2 = jobs_2["display"]
+            salary2 = jobs_2["salary"]
+            desc2 = jobs_2["desc"]
+
+            em2.add_field(name=name2, value=f"{desc2}\n\uFEFF", inline=False)
+            em2.set_footer(text="Page 2 of 2")
+
+        await ctx.message.reply(embed=em, components=[[Button(label="Next ⏩"), Button(label="Back 🔙")]])
+        if lambda i: i.component.label.startswith('Next'):
+            interaction = await self.client.wait_for("button_click", check=lambda i: i.component.label.startswith('Next'))
+            await interaction.message.edit(embed=em2)
+        if lambda i: i.component.label.startswith('Back'):
+            interaction2 = await self.client.wait_for("button_click", check=lambda i: i.component.label.startswith('Back'))
+            await interaction2.message.edit(embed=em)
+
+        # await interaction.respond(embed=em2)
+
+    @commands.command()
+    async def work(self, ctx, *, job_name=None):
+
+        guild_id = str(ctx.guild.id)
+        user_id = str(ctx.author.id)
+        self.open_account(ctx.author)
+        if job_name != None:
+            job_name = job_name.lower()
+
+        guild_data = self.get_bank_data(guild_id)
+
+        if job_name == None and guild_data['users'][user_id]['job']['job_name'] == None:
+            await ctx.message.reply(f"LMAO you're unemployed. Get a job idiot (Tip: Use `-work_list` to see available jobs :P)")
+            return
+        elif job_name != None and job_name not in self.job_list and self.job_list_2:
+            await ctx.message.reply(f"lol this job does not exist, try getting another job hehe")
+            return
+
+        elif job_name != guild_data['users'][user_id]['job']['job_name']:
+            guild_data['users'][user_id]['job']['job_name'] = job_name
+            guild_data['users'][user_id]['job']['hours_worked'] = 0
+
+        if job_name != None and job_name in self.job_list:
+            hours_needed = self.job_list[job_name]["hours_needed"]
+            salary = self.job_list[job_name]["salary"]
+            await ctx.message.reply(f"{ctx.author.mention} Congratulations, you are now working as a **{(guild_data['users'][user_id]['job']['job_name']).title()} **!\nYou're required to work at least **{hours_needed} times** a day via `-work`, or you'll be fired.\nYou start now, and your salary(the amount of coins you get per hour of work) is ⏣ {salary:,} per hour.")
+            return
+        elif job_name != None and job_name in self.job_list_2:
+            hours_needed = self.job_list_2[job_name]["hours_needed"]
+            salary = self.job_list_2[job_name]["salary"]
+            await ctx.message.reply(f"{ctx.author.mention} Congratulations, you are now working as a **{(guild_data['users'][user_id]['job']['job_name']).title()} **!\nYou're required to work at least **{hours_needed} times** a day via `-work`, or you'll be fired.\nYou start now, and your salary(the amount of coins you get per hour of work) is ⏣ {salary:,} per hour.")
+            return
+
+        if job_name == guild_data['users'][user_id]['job']['job_name'] and guild_data['users'][user_id]['job']['job_name'] != None:
+            await ctx.message.reply(f"lol your already working as a `{guild_data['users'][user_id]['job']['job_name']}` just type `-work` to start working or type `-work resign` to resign your post")
+            return
+        if job_name == None and guild_data['users'][user_id]['job']['job_name'] == "discord mod":
+
+            # , "Retype", "Color Match", "Reverse", "Scramble", "Soccer"]
+            game_choice = random.choice["Hangman"]
+            if game_choice == "Hangman":
+                def get_word():
+                    word = random.choice(title_choices.word_list)
+                    return word.upper()
+
+                async def play(word):
+
+                    word_completion = "_" * len(word)
+                    guessed = False
+                    guessed_letters = []
+                    guessed_words = []
+                    tries = 6
+                    embed = discord.Embed(
+                        title="Let's play Hangman!", description=f"{display_hangman}\n{word_completion}")
+                    message = await ctx.message.reply(embed=embed)
+                    while not guessed and tries > 0:
+                        guess = ctx.author.message.upper()
+                        if len(guess) == 1 and guess.isalpha():
+                            if guess in guessed_letters:
+                                await ctx.message.reply(f"You already guessed that letter! `{guess}`")
+                            elif guess not in word:
+                                await ctx.message.reply(f"`{guess}` is not in the word.")
+                                tries -= 1
+                                guessed_letters.append(guess)
+                            else:
+                                await ctx.message.reply(f"Good job mate, `{guess}` is in the word!")
+                                guessed_letters.append(guess)
+                                word_as_list = list(word_completion)
+                                indices = [i for i, letter in enumerate(
+                                    word) if letter == guess]
+                                for index in indices:
+                                    word_as_list[index] = guess
+                                word_completion = "".join(word_as_list)
+                                if "_" not in word_completion:
+                                    guessed = True
+
+                        elif len(guess) == len(word) and guess.isalpha():
+                            if guess in guessed_words:
+                                await ctx.message.reply(f"bruh you already guessed that word `{guess}`")
+                            elif guess != word:
+                                await ctx.message.reply(f"`{guess}` is not the word")
+                                tries -= 1
+                                guessed_words.append(guess)
+                            else:
+                                guessed = True
+                                word_completion = word
+
+                        else:
+                            embed2 = discord.Embed(
+                                title="Not a valid guess", description=f"{display_hangman(tries)}\n{word_completion}")
+                            await message.edit(embed2)
+                    if guessed:
+                        await ctx.message.reply("Congrats, you guessed the word")
+
+                    else:
+                        await ctx.message.reply(f"slow brains, you ran out of tries. The word was {word}")
+
+                def display_hangman(tries):
+                    stages = [  # final state: head, torso, both arms, and both legs
+                        """
+                                            --------
+                                            |      |
+                                            |      O
+                                            |     \\|/
+                                            |      |
+                                            |     / \\
+                                            -
+                                        """,
+                        # head, torso, both arms, and one leg
+                        """
+                                            --------
+                                            |      |
+                                            |      O
+                                            |     \\|/
+                                            |      |
+                                            |     /
+                                            -
+                                        """,
+                        # head, torso, and both arms
+                        """
+                                            --------
+                                            |      |
+                                            |      O
+                                            |     \\|/
+                                            |      |
+                                            |
+                                            -
+                                        """,
+                        # head, torso, and one arm
+                        """
+                                            --------
+                                            |      |
+                                            |      O
+                                            |     \\|
+                                            |      |
+                                            |
+                                            -
+                                        """,
+                        # head and torso
+                        """
+                                            --------
+                                            |      |
+                                            |      O
+                                            |      |
+                                            |      |
+                                            |
+                                            -
+                                        """,
+                        # head
+                        """
+                                            --------
+                                            |      |
+                                            |      O
+                                            |
+                                            |
+                                            |
+                                            -
+                                        """,
+                        # initial empty state
+                        """
+                                            --------
+                                            |      |
+                                            |
+                                            |
+                                            |
+                                            |
+                                            -
+                                        """
+                    ]
+                    return stages[tries]
+
+                def main_hangman():
+                    word = get_word()
+                    play(word)
+                if __name__ == "__main__":
+                    main_hangman()
+
+        # or job_name in self.job_list or self.job_list_2 and self.job_list and self.job_list_2 in guild_data['users'][user_id]['job']['job_name']:
+
+        Economy_MongoDB.update_one(
+            {"guild_id": guild_id}, {"$set": guild_data})
+        # SHOP COMMAND
 
     @ commands.command()
     async def shop(self, ctx):
