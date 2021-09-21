@@ -133,11 +133,11 @@ class kick_ban(commands.Cog):
             if not muteRole:
                 muteRole = await guild.create_role(name="Muted")
                 message = await ctx.message.reply("Muted role not Found. Creating one")
-                await asyncio.sleep(1.5)
+                await asyncio.sleep(2)
                 await message.edit('Muted role not Found. Creating one.')
-                await asyncio.sleep(1.5)
+                await asyncio.sleep(2)
                 await message.edit('Muted role not Found. Creating one..')
-                await asyncio.sleep(1.5)
+                await asyncio.sleep(2)
                 await message.edit('Muted role not Found. Creating one...')
                 for channels in ctx.guild.text_channels:
                     await channels.set_permissions(muteRole, speak=False, send_messages=False, read_messages=True)
