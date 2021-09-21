@@ -24,10 +24,7 @@ class levels(commands.Cog):
     async def on_message(self, message):
 
         user_id = str(message.author.id)
-        if None:
-            pass
-        else:
-            guild_id = message.guild.id
+        guild_id = message.guild.id
         '''stats = levelling.find_one({"guild_id": guild_id,
                                     "users": {
                                         user_id: user_id
