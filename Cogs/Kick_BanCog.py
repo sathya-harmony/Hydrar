@@ -8,6 +8,7 @@ from discord.ext import commands
 from discord.ext.commands.core import command
 from discord.ext.commands.errors import CommandInvokeError
 from discord_components.dpy_overrides import send_message
+import time
 
 owner_perms = {611210739830620165}  # Sathya
 
@@ -139,7 +140,9 @@ class kick_ban(commands.Cog):
                 await asyncio.sleep(2)
                 await message.edit('Muted role not Found. Creating one....')
                 for channels in ctx.guild.text_channels:
-                    await channels.set_permissions(muteRole, speak=False, send_messages=False, read_message_history=True, read_messages=True)
+                    await channels.set_permissions(muteRole, speak=False, send_messages=False, read_messages=True)
+                for voice_channels in ctx.guild.voice_channels:
+                    await voice_channels.set_permissions(muteRole, connect=False)
                 await member.add_roles(muteRole, reason=reason)
                 embed = discord.Embed(
                     title=f"🔇Muted {member.display_name} | Reason: {reason}")
@@ -156,7 +159,7 @@ class kick_ban(commands.Cog):
             await ctx.send("Cannot DM this user.")
 
     @commands.command()
-    async def unmute(self, ctx, member: discord.Member, *, reason=None):
+    async def unmute(self, ctx, member: discord.Member, *, reason="No reason provided!"):
         try:
             if (not ctx.author.guild_permissions.manage_messages):
                 await ctx.message.reply("You don't have the permissions to execute this command")
