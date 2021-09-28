@@ -8,6 +8,7 @@ import traceback
 import sys
 from alexa_reply import reply
 import os
+from discord_buttons_plugin.__main__ import ButtonsClient
 from discord_components import DiscordComponents, Button, ButtonStyle, InteractionEventType
 
 
@@ -16,7 +17,7 @@ from discord_components import DiscordComponents, Button, ButtonStyle, Interacti
 
 
 '''from passwordmeter import test
-from urllib import urlopen
+from urllib import urlopenx 
 from os.path import isfile
 from random import choice, randint'''
 
@@ -48,6 +49,8 @@ prefix = '-'
 client = commands.Bot(command_prefix=prefix,
                       case_insensitive=True,
                       intents=discord.Intents.all())
+buttons = ButtonsClient(client)
+
 client.remove_command('help')
 
 
@@ -81,12 +84,19 @@ async def get_guild(data):
 
 owner_perms = {611210739830620165}
 client.sniped_messages = {}
+YOURLIST = []
 
 
 @client.event
 async def on_message_delete(message):
     client.sniped_messages[message.guild.id] = (
         message.content, message.author, message.channel.name, message.created_at)
+
+
+@client.event
+async def on_message(msg):
+    if msg.author.id not in YOURLIST:
+        await client.process_commands(msg)
 
 
 @client.command()
@@ -176,7 +186,7 @@ client.load_extension('Cogs.TTSCog')
 # Economy system
 client.load_extension('Cogs.EconomyCog')
 # music
-# client.load_extension('Cogs.MusicCog')
+# lient.load_extension('Supporting.MusicCog')
 
 
 '''@client.command()
@@ -232,11 +242,11 @@ def owner_or_perm(**perms):
 @client.event
 async def on_ready():
 
-    activity = discord.Game(name="-help | Busy Helping People!😊", type=3)
+    activity = discord.Game(name="-help | Busy Helping People!😊", type=5)
     await client.change_presence(status=discord.Status.online,
                                  activity=activity)
     print('The bot has booted up.')
-    await log('The bot is online.')
+    await log('The bot, Running on **Local Machine** is **Online**')
     DiscordComponents(client)
     '''while True:
         await asyncio.sleep(10)
@@ -285,10 +295,16 @@ async def rcogs(ctx):
 
 
 @client.command()
+async def disable(ctx, member: discord.Member):
+    if await op(ctx):
+        YOURLIST.append(member.id)
+
+
+'''@client.command()
 async def button(ctx):
     await ctx.send("lol", components=[Button(label='Click meh!')])
     interaction = await client.wait_for("button_click", check=lambda i: i.component.label.startswith('Click'))
-    await interaction.respond(content="Button clicked")
+    await interaction.respond(content="Button clicked")'''
 
 
 '''@client.command(name="toggle")
@@ -379,5 +395,5 @@ async def chat(ctx, *, message):
 
 
 # client.ipc.start()
-Token = 'ODQ0ODEzMzE2NTA1MDc1NzEy.YKX3tg.LKZKeR-zfRY43PVBuWduGxVhseg'
+Token = 'ODQ0ODEzMzE2NTA1MDc1NzEy.YKX3tg.AGjRaxwtYgBiOeHWfPEupR-FypU'
 client.run(Token)

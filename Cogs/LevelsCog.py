@@ -1,7 +1,10 @@
+from operator import attrgetter
 import discord
+from discord import client
 from discord.ext import commands
 from pymongo import MongoClient
 import random
+from discord.utils import get
 
 
 '''bot_channel = 870541730410270814
@@ -22,60 +25,63 @@ class levels(commands.Cog):
 
     @ commands.Cog.listener()
     async def on_message(self, message):
+        try:
+            user_id = str(message.author.id)
+            guild_id = message.guild.id
 
-        user_id = str(message.author.id)
-        guild_id = message.guild.id
-        '''stats = levelling.find_one({"guild_id": guild_id,
-                                    "users": {
-                                        user_id: user_id
+            '''stats = levelling.find_one({"guild_id": guild_id,
+                                        "users": {
+                                            user_id: user_id
 
-                                    }})'''
-        stats = levelling.find_one({"guild_id": guild_id})
+                                        }})'''
+            stats = levelling.find_one({"guild_id": guild_id})
 
-        if not message.author.bot:
-            if stats is None:
-                new_guild = {"guild_id": guild_id,
-                             "users": {user_id: {"xp": 100}}}
-                levelling.insert_one(new_guild)
+            if not message.author.bot:
+                if stats is None:
+                    new_guild = {"guild_id": guild_id,
+                                 "users": {user_id: {"xp": 100}}}
+                    levelling.insert_one(new_guild)
 
-            elif user_id not in stats['users']:
-                stats['users'][user_id] = {'xp': 100}
-                levelling.update_one(
-                    {"guild_id": guild_id}, {"$set": stats})
+                elif user_id not in stats['users']:
+                    stats['users'][user_id] = {'xp': 100}
+                    levelling.update_one(
+                        {"guild_id": guild_id}, {"$set": stats})
 
-            else:
+                else:
 
-                stats["users"][user_id]["xp"] += 5
-                xp = stats["users"][user_id]["xp"]
+                    stats["users"][user_id]["xp"] += 5
+                    xp = stats["users"][user_id]["xp"]
 
-                levelling.update_one(
-                    {"guild_id": guild_id}, {"$set": stats})
+                    levelling.update_one(
+                        {"guild_id": guild_id}, {"$set": stats})
 
-                lvl = 0
-                while True:
-                    if xp < ((50 * (lvl**2)) + (50 * (lvl))):
-                        break
-                    lvl += 1
+                    lvl = 0
+                    while True:
+                        if xp < ((50 * (lvl**2)) + (50 * (lvl))):
+                            break
+                        lvl += 1
 
-                xp -= abs(((50 * (lvl - 1)**2)) + (50 * (lvl - 1)))
+                    xp -= abs(((50 * (lvl - 1)**2)) + (50 * (lvl - 1)))
 
-                if xp == 0:
-                    await message.channel.send(
-                        f"Congratulations, {message.author.mention}! You just levelled up to **level {lvl}**!"
-                    )
-                    for i in range(len(level)):
-                        if lvl == levelnum[i]:
-                            await message.author.add_roles(
-                                discord.utils.get(
-                                    message.author.guild.roles,
-                                    name=level[i]))
-                            embed = discord.Embed(
-                                description=f"{message.author.mention} you have gotten the role **{level[i]}**!!"
-                            )
-                            embed.set_thumbnail(
-                                url=message.author.avatar_url)
+                    if xp == 0:
+                        await message.channel.send(
+                            f"Congratulations, {message.author.mention}! You just levelled up to **level {lvl}**!"
+                        )
+                        for i in range(len(level)):
+                            if lvl == levelnum[i]:
+                                await message.author.add_roles(
+                                    discord.utils.get(
+                                        message.author.guild.roles,
+                                        name=level[i]))
+                                embed = discord.Embed(
+                                    description=f"{message.author.mention} you have gotten the role **{level[i]}**!!"
+                                )
+                                embed.set_thumbnail(
+                                    url=message.author.avatar_url)
 
-                            await message.channel.send(embed=embed)
+                                await message.channel.send(embed=embed)
+        except AttributeError:
+            pass
 
     @ commands.command(aliases=["level", "lvl", "xp"])
     async def rank(self, ctx, member: discord.Member = None):
@@ -107,6 +113,10 @@ class levels(commands.Cog):
             xp -= abs(((50 * (lvl - 1)**2)) + (50 * (lvl - 1)))
 
             boxes = int(xp/(5*lvl))
+            guild_id = 824199403954896906
+            # get(ctx.message.guild.emojis, name="filled_full_middle")
+            #emoji = client.get_emoji(name="filled_full_middle")
+            #emoji2 = get(ctx.message.guild.emojis, name="empty_begin")
 
             embed = discord.Embed(
                 title="{}'s level stats".format(member.name))
@@ -115,7 +125,7 @@ class levels(commands.Cog):
             embed.add_field(
                 name="**Rank**", value=f"{rank}/{ctx.guild.member_count}", inline=False)
             embed.add_field(name="Progress Bar", value=boxes *
-                            "🟩"+(20-boxes)*"⬜", inline=False)
+                            f"<:filled_full_middle:890589069757788200>"+(20-boxes)*"<:empty_middle:890589065408295042>", inline=False)
             embed.set_thumbnail(url=member.avatar_url)
             await ctx.message.reply(embed=embed)
 

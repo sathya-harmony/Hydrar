@@ -76,7 +76,7 @@ class Spam_Cspam(commands.Cog):
             spammed_msgs = []
 
         for _ in range(amount):
-            spammed_msgs.append(await ctx.message.reply(text))
+            spammed_msgs.append(await ctx.send(text))
 
         for msg in spammed_msgs:
 

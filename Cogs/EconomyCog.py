@@ -3,6 +3,7 @@ from typing import Text
 from discord import user
 from discord.ext.commands import bot
 from discord.ext.commands.cooldowns import BucketType
+from discord_components.dpy_overrides import send
 import pymongo
 import modules.title_choices_beg_economy as title_choices
 import random
@@ -16,6 +17,10 @@ import time
 import math
 from math import *
 from discord_components import *
+#from discord_buttons_plugin import *
+from PIL import Image, ImageDraw, ImageFont
+from io import BytesIO
+import asyncio
 
 
 cluster = MongoClient(
@@ -33,24 +38,167 @@ class Economy(commands.Cog):
                 'banknote': {"display": "Banknote💸", "price":  25000, "desc": "Increases bank storage capacity"},
                 'padlock': {"display": "Padlock🔒", "price":  4000, "desc": "Protection from robbers"}}
 
-    job_list = {'discord mod': {"display": "✅ Discord Mod", "salary": 10000, "hours_needed": 0,
+    job_list = {'discord mod': {"display": "<:tick:892291436232446002> Discord Mod", "salary": 10000, "hours_needed": 0,
                                 'desc': 'Hours Required Per Day: `0` — Salary: `⏣ 10000 per hour`'},
-                'babysitter': {"display": "✅ Babysitter", "salary": 10500, "hours_needed": 1,
+                'babysitter': {"display": "<:tick:892291436232446002> Babysitter", "salary": 10500, "hours_needed": 1,
                                'desc': 'Hours Required Per Day: `1` — Salary: `⏣ 10500 per hour`'},
-                'fast food cook': {"display": "✅ Fast Food Cook", "salary": 11111, "hours_needed": 2,
+                'fast food cook': {"display": "<:tick:892291436232446002> Fast Food Cook", "salary": 11111, "hours_needed": 2,
                                    'desc': 'Hours Required Per Day: `2` — Salary: `⏣ 11111 per hour`'},
-                'house wife': {"display": "✅ House Wife", "salary": 12000, "hours_needed": 2,
+                'house wife': {"display": "<:tick:892291436232446002> House Wife", "salary": 12000, "hours_needed": 2,
                                'desc': 'Hours Required Per Day: `2` — Salary: `⏣ 12000 per hour`'},
-                'twitch streamer': {"display": "✅ Twitch Streamer", "salary": 15000, "hours_needed": 3,
+                'twitch streamer': {"display": "<:tick:892291436232446002> Twitch Streamer", "salary": 15000, "hours_needed": 3,
                                     'desc': 'Hours Required Per Day: `3` — Salary: `⏣ 15000 per hour`'}}
-    job_list_2 = {'youtuber': {"display": "✅ YouTuber", "salary": 16000, "hours_needed": 3,
+    job_list_2 = {'youtuber': {"display": "<:tick:892291436232446002> YouTuber", "salary": 16000, "hours_needed": 3,
                                'desc': 'Hours Required Per Day: `3` — Salary: `⏣ 16000 per hour`'},
-                  'professional hunter': {"display": "✅ Professional Hunter", "salary": 17000, "hours_needed": 4,
+                  'professional hunter': {"display": "<:tick:892291436232446002> Professional Hunter", "salary": 17000, "hours_needed": 4,
                                           'desc': 'Hours Required Per Day: `4` — Salary: `⏣ 17000 per hour`'},
-                  'professional fisherman': {"display": "✅ Twitch Streamer", "salary": 18000, "hours_needed": 4,
+                  'professional fisherman': {"display": "<:tick:892291436232446002> Twitch Streamer", "salary": 18000, "hours_needed": 4,
                                              'desc': 'Hours Required Per Day: `4` — Salary: `⏣ 18000 per hour`'},
-                  'bartender': {"display": "✅ Bartender", "salary": 19000, "hours_needed": 4,
-                                'desc': 'Hours Required Per Day: `4` — Salary: `⏣ 19000 per hour`'}}
+                  'bartender': {"display": "<:tick:892291436232446002> Bartender", "salary": 19000, "hours_needed": 4,
+                                'desc': 'Hours Required Per Day: `4` — Salary: `⏣ 19000 per hour`'},
+                  'robber': {"display": "<:tick:892291436232446002> Robber", "salary": 20000, "hours_needed": 4,
+                             'desc': 'Hours Required Per Day: `4` — Salary: `⏣ 20000 per hour`'}}
+    job_list_3 = {'police officer': {"display": "<:tick:892291436232446002> Police Officer", "salary": 21000, "hours_needed": 5,
+                                     'desc': 'Hours Required Per Day: `5` — Salary: `⏣ 21000 per hour`'},
+                  'teacher': {"display": "<:tick:892291436232446002> Teacher", "salary": 22000, "hours_needed": 5,
+                              'desc': 'Hours Required Per Day: `5` — Salary: `⏣ 22000 per hour`'},
+                  'musician': {"display": "<:tick:892291436232446002> Musician", "salary": 23000, "hours_needed": 5,
+                               'desc': 'Hours Required Per Day: `5` — Salary: `⏣ 23000 per hour`'},
+                  'hydrargyrum shopkeeper': {"display": "<:tick:892291436232446002> Hydrargyrum Shopkeeper", "salary": 24000, "hours_needed": 5,
+                                             'desc': 'Hours Required Per Day: `5` — Salary: `⏣ 24000 per hour`'},
+                  'pro gamer': {"display": "<:tick:892291436232446002> Pro Gamer", "salary": 25000, "hours_needed": 5,
+                                'desc': 'Hours Required Per Day: `5` — Salary: `⏣ 25000 per hour`'}}
+
+    def format_word_completion(self, word_completion):
+        return "** \n" + '\u205F'.join(word_completion) + "**"
+
+    def get_word(self):
+        word = random.choice(title_choices.word_list)
+        return word.upper()
+
+    '''def check(self, *args):
+        # return user == ctx.message.author
+        args = args'''
+
+    async def play(self, ctx, word):
+
+        '''word_completion = "** **\n**" + \
+            '\u205F'.join(["\_"] * len(word)) + "**"'''
+
+        word_completion = ["\_"] * len(word)
+
+        guessed = False
+        guessed_letters = []
+        guessed_words = []
+        tries = 6
+        embed = discord.Embed(
+            title="Let's play Hangman!", description=self.format_word_completion(word_completion))
+        embed.set_thumbnail(url=f"{await self.display_hangman(tries)}")
+        msg = await ctx.message.reply(embed=embed)
+
+        while not guessed and tries > 0:
+
+            msg2 = await self.client.wait_for('message', check=lambda msg3: msg3.author.id == ctx.author.id
+                                              )
+
+            guess = msg2.content.upper()
+
+            if len(guess) == 1 and guess.isalpha():
+                if guess in guessed_letters:
+                    embed3 = discord.Embed(
+                        title=f"You've already guessed that letter `{guess}`", description=self.format_word_completion(word_completion))
+                    embed3.set_thumbnail(url=f"{await self.display_hangman(tries)}")
+                    await msg.edit(embed=embed3)
+                elif guess not in word:
+
+                    tries -= 1
+                    guessed_letters.append(guess)
+                    embed7 = discord.Embed(
+                        title=f"`{guess}` is not in the word :angry:", description=self.format_word_completion(word_completion))
+                    embed7.set_thumbnail(url=f"{await self.display_hangman(tries)}")
+                    await msg.edit(embed=embed7)
+                else:
+
+                    guessed_letters.append(guess)
+                    #word_as_list = list(word_completion)
+                    '''indices = [i for i, letter in enumerate(
+                        word) if letter == guess]
+                    for index in indices:
+                        #word_as_list[index] = guess
+                        word_completion[index] = guess'''
+
+                    for index, letter in enumerate(word):
+                        if letter == guess:
+                            word_completion[index] = guess
+
+                    #word_completion = "** **\n**" + '\u205F'.join(word_as_list)
+                    '''if "** **\n**" + \
+                            '\u205F'.join(["\_"]) or '\u205F'.join(["\_"]) not in word_completion:
+                        guessed = True'''
+
+                    if '\_' not in word_completion:
+                        guessed = True
+
+                    embed4 = discord.Embed(
+                        title=f"Great! `{guess}` is in the word!", description=self.format_word_completion(word_completion))
+
+                    embed4.set_thumbnail(url=await self.display_hangman(tries))
+                    await msg.edit(embed=embed4)
+
+            elif len(guess) == len(word) and guess.isalpha():
+                if guess in guessed_words:
+                    embed5 = discord.Embed(
+                        title=f"Bruh you've already guessed that word", description=self.format_word_completion(word_completion))
+                    embed5.set_thumbnail(url=await self.display_hangman(tries))
+                    await msg.edit(embed=embed5)
+                elif guess != word:
+
+                    tries -= 1
+                    guessed_words.append(guess)
+                    embed6 = discord.Embed(
+                        title=f"`{guess}` is not the word!", description=self.format_word_completion(word_completion))
+                    embed6.set_thumbnail(url=f"{await self.display_hangman(tries)}")
+                    await msg.edit(embed=embed6)
+                else:
+                    guessed = True
+                    word_completion = word
+
+            else:
+                embed2 = discord.Embed(
+                    title="Not a valid guess", description=self.format_word_completion(word_completion))
+                file = await self.display_hangman(tries)
+                embed2.set_thumbnail(url=f"{file}")
+                await msg.edit(embed=embed2)
+        if guessed:
+            await ctx.send(f"Congrats, you guessed the word **{word}**")
+
+        else:
+            await ctx.send(f"slow brains, you ran out of tries. The word was **{word}**")
+
+    async def display_hangman(self, tries):
+        
+        none_1 = "https://media.discordapp.net/attachments/891700939176673321/891701020370042890/1.png"  # discord.File("Cogs/Pics/1.png")
+        # discord.File("Cogs/Pics/2.png")
+        head_2 = "https://media.discordapp.net/attachments/891700939176673321/891701022135824384/2.png"
+        # discord.File("Cogs/Pics/3.png")
+        head_body_3 = "https://media.discordapp.net/attachments/891700939176673321/891701022723022848/3.png"
+        # discord.File("Cogs/Pics/4.png")
+        head_body_hand_4 = "https://media.discordapp.net/attachments/891700939176673321/891701024874721320/4.png"
+        # discord.File("Cogs/Pics/5.png")
+        head_body_hand_5 = "https://media.discordapp.net/attachments/891700939176673321/891701026552430632/5.png"
+        # discord.File("Cogs/Pics/6.png")
+        head_body_hand_leg_6 = "https://media.discordapp.net/attachments/891700939176673321/891701027261280286/6.png"
+        # discord.File("Cogs/Pics/7.png")
+        head_body_hand_leg_7 = "https://media.discordapp.net/attachments/891700939176673321/891701029207441438/7.png"
+
+        stages = [head_body_hand_leg_7, head_body_hand_leg_6, head_body_hand_5, head_body_hand_4, head_body_3, head_2, none_1
+
+                  ]
+        return stages[tries]
+
+    async def main_hangman(self, ctx):
+        word = self.get_word()
+        await self.play(ctx=ctx, word=word)
 
     def get_bank_data(self, guild_id):
 
@@ -474,9 +622,12 @@ class Economy(commands.Cog):
                 if i == 1:
                     a = random.choice(
                         ["🍉", "🍓", "🍔", "🍗", "🍵"])
+                    '''for _ in range(4):    
+                        p = random.choice(
+                        ["🍉", "🍓", "🍔", "🍗", "🍵"])'''
                     final.append(a)
                     embed.add_field(
-                        name=f'[{final[0]}', value='\u200b')
+                        name=f'[{final[0]}', value='\u205F')
                     embed.set_thumbnail(url=ctx.author.avatar_url)
                     embed.set_footer(
                         text="Tip: When all 3 slots are equal,\n you can earn upto 2 times\n the amount you bet!")
@@ -487,7 +638,7 @@ class Economy(commands.Cog):
                         ["🍉", "🍓", "🍔", "🍗", "🍵", "🥘"])
                     final.append(a)
                     embed.add_field(
-                        name=f'|{final[1]}', value='\u200b')
+                        name=f'|{final[1]}', value='\u205F')
 
                     await message.edit(embed=embed)
 
@@ -496,7 +647,7 @@ class Economy(commands.Cog):
                         ["🍉", "🍓", "🍔", "🍗", "🍵", "🥘"])
                     final.append(a)
                     embed.add_field(
-                        name=f'|{final[2]}]  Reels Spun...', value='\u200b')
+                        name=f'|{final[2]}]  Reels Spun...', value='\u205F')
                     await message.edit(embed=embed)
 
             if final[0] == final[1] and final[2] == final[1] and final[0] == final[2]:
@@ -571,8 +722,9 @@ class Economy(commands.Cog):
         if bool(users["users"][str(member.id)]["padlock"]) == True:
 
             users["users"][str(ctx.author.id)]["wallet"] -= author_earnings
+            users["users"][str(member.id)]["wallet"] += author_earnings
 
-            await ctx.message.reply(f"You tried to rob this person, but it automatically failed for he had padlock and you didn't have bolt cutters. You paid the police **⏣ {author_earnings:,}**")
+            await ctx.message.reply(f"You tried to rob this person, but it automatically failed for he had padlock and you didn't have bolt cutters. You paid {member.mention} **⏣ {author_earnings:,}**")
             users["users"][str(member.id)]["padlock"] = False
 
             Economy_MongoDB.update_one(
@@ -601,7 +753,7 @@ class Economy(commands.Cog):
 
             elif choice == False:
                 self.update_bank(ctx.author, -1*author_earnings2)
-                await ctx.message.reply(f"You were caught stealing. You paid to cops **⏣ {author_earnings2:,}**")
+                await ctx.message.reply(f"YOU WERE CAUGHT **HAHAHA**. YOU PAID **⏣ {author_earnings2:,}** TO THE COPS")
         # except ValueError:
         # await ctx.send("Please give proper input. Correct way to use this command is `-rob <the person you want to rob>`")
 
@@ -618,18 +770,18 @@ class Economy(commands.Cog):
 
             await ctx.message.reply(embed=em)
 
-    @commands.command(aliases=["work list"])
+    @commands.command(aliases=["worklist", "joblist", "job_list"])
     async def work_list(self, ctx):
         em = discord.Embed(title="Available Jobs",
-                           description="Choose a job if you haven't already!")
+                           description="Choose a job if you haven't already! ")
 
         for jobs in self.job_list.values():
             name = jobs["display"]
             salary = jobs["salary"]
             desc = jobs["desc"]
 
-            em.add_field(name=name, value=f"{desc}\n\uFEFF", inline=False)
-            em.set_footer(text="Page 1 of 2")
+            em.add_field(name=name, value=f"{desc}\n\u205F", inline=False)
+            em.set_footer(text="Page 1 of 3")
 
         em2 = discord.Embed(title="Available Jobs",
                             description="Choose a job if you haven't already!")
@@ -638,18 +790,47 @@ class Economy(commands.Cog):
             salary2 = jobs_2["salary"]
             desc2 = jobs_2["desc"]
 
-            em2.add_field(name=name2, value=f"{desc2}\n\uFEFF", inline=False)
-            em2.set_footer(text="Page 2 of 2")
+            em2.add_field(name=name2, value=f"{desc2}\n\u205F", inline=False)
+            em2.set_footer(text="Page 2 of 3")
+        em3 = discord.Embed(title="Available Jobs",
+                            description="Choose a job if you haven't already!")    
+        for jobs_3 in self.job_list_3.values():
+            name3 = jobs_3["display"]
+            salary3 = jobs_3["salary"]
+            desc3 = jobs_3["desc"]
 
-        await ctx.message.reply(embed=em, components=[[Button(label="Next ⏩"), Button(label="Back 🔙")]])
-        if lambda i: i.component.label.startswith('Next'):
-            interaction = await self.client.wait_for("button_click", check=lambda i: i.component.label.startswith('Next'))
-            await interaction.message.edit(embed=em2)
-        if lambda i: i.component.label.startswith('Back'):
-            interaction2 = await self.client.wait_for("button_click", check=lambda i: i.component.label.startswith('Back'))
-            await interaction2.message.edit(embed=em)
+            em3.add_field(name=name3, value=f"{desc3}\n\u205F", inline=False)
+            em3.set_footer(text="Page 3 of 3")
+            
 
-        # await interaction.respond(embed=em2)
+        emoji_id =892299845824544768 
+        emoji_id2 =892299845572919297 
+        message = await ctx.message.reply(embed=em, components=[[(Button(emoji=self.client.get_emoji(emoji_id), custom_id="back", style=1)), (Button(emoji=self.client.get_emoji(emoji_id2), custom_id="next", style=1))]])
+        while True:
+            interaction = await self.client.wait_for("button_click", check=lambda i: i.custom_id == "next")
+            if message == em2:
+                await interaction.edit_origin(embed = em3)
+            else:
+                await interaction.edit_origin(embed = em2)
+            interaction2 = await self.client.wait_for("button_click", check = lambda i: i.custom_id == "back")
+            await interaction2.edit_origin(embed = em)
+        
+
+        
+
+        '''interaction = await self.client.wait_for("button_click", check=lambda i: i.component.label.startswith('Next'))
+        await interaction.message.edit(embed=em2)
+
+        interaction2 = await self.client.wait_for("button_click", check=lambda i: i.component.label.startswith('Back'))
+        await interaction2.respond.edit_message(embed=em)'''
+        \
+        
+
+    '''@commands.Cog.listener()
+    async def on_message(self, message):
+        if message.content.startswith('-work'):
+            channel = message.channel
+            await channel.send('Say hello!')'''
 
     @commands.command()
     async def work(self, ctx, *, job_name=None):
@@ -662,176 +843,50 @@ class Economy(commands.Cog):
 
         guild_data = self.get_bank_data(guild_id)
 
-        if job_name == None and guild_data['users'][user_id]['job']['job_name'] == None:
-            await ctx.message.reply(f"LMAO you're unemployed. Get a job idiot (Tip: Use `-work_list` to see available jobs :P)")
-            return
-        elif job_name != None and job_name not in self.job_list and self.job_list_2:
-            await ctx.message.reply(f"lol this job does not exist, try getting another job hehe")
-            return
+        # if job_name != guild_data['users'][user_id]['job']['job_name'] and guild_data['users'][user_id]['job']['job_name'] is None:
 
-        elif job_name != guild_data['users'][user_id]['job']['job_name']:
-            guild_data['users'][user_id]['job']['job_name'] = job_name
-            guild_data['users'][user_id]['job']['hours_worked'] = 0
+        if job_name is None:
+            if guild_data['users'][user_id]['job']['job_name'] == None:
+                await ctx.message.reply(f"LMAO you're unemployed. Get a job idiot (Tip: Use `-work_list` to see available jobs :P)")
+                return
+            elif guild_data['users'][user_id]['job']['job_name'] is not None:
+                channel = ctx.message.channel
+               # msg = await self.client.wait_for('message')
 
-        if job_name != None and job_name in self.job_list:
-            hours_needed = self.job_list[job_name]["hours_needed"]
-            salary = self.job_list[job_name]["salary"]
-            await ctx.message.reply(f"{ctx.author.mention} Congratulations, you are now working as a **{(guild_data['users'][user_id]['job']['job_name']).title()} **!\nYou're required to work at least **{hours_needed} times** a day via `-work`, or you'll be fired.\nYou start now, and your salary(the amount of coins you get per hour of work) is ⏣ {salary:,} per hour.")
-            return
-        elif job_name != None and job_name in self.job_list_2:
-            hours_needed = self.job_list_2[job_name]["hours_needed"]
-            salary = self.job_list_2[job_name]["salary"]
-            await ctx.message.reply(f"{ctx.author.mention} Congratulations, you are now working as a **{(guild_data['users'][user_id]['job']['job_name']).title()} **!\nYou're required to work at least **{hours_needed} times** a day via `-work`, or you'll be fired.\nYou start now, and your salary(the amount of coins you get per hour of work) is ⏣ {salary:,} per hour.")
-            return
+                await self.main_hangman(ctx)
 
-        if job_name == guild_data['users'][user_id]['job']['job_name'] and guild_data['users'][user_id]['job']['job_name'] != None:
-            await ctx.message.reply(f"lol your already working as a `{guild_data['users'][user_id]['job']['job_name']}` just type `-work` to start working or type `-work resign` to resign your post")
-            return
-        if job_name == None and guild_data['users'][user_id]['job']['job_name'] == "discord mod":
+        elif job_name is not None:
+            if guild_data['users'][user_id]['job']['job_name'] is not None and job_name in (self.job_list or self.job_list_2):
+                await ctx.message.reply(f"lol your already working as a `{guild_data['users'][user_id]['job']['job_name']}` just type `-work` to start working or type `-work resign` to resign your post")
+                return
 
-            # , "Retype", "Color Match", "Reverse", "Scramble", "Soccer"]
-            game_choice = random.choice["Hangman"]
-            if game_choice == "Hangman":
-                def get_word():
-                    word = random.choice(title_choices.word_list)
-                    return word.upper()
+            elif job_name not in self.job_list and job_name not in self.job_list_2:
+                await ctx.message.reply(f"lol this job does not exist, try getting another job hehe")
+                return
 
-                async def play(word):
+            elif job_name in self.job_list and guild_data['users'][user_id]['job']['job_name'] is None:
+                guild_data['users'][user_id]['job']['job_name'] = job_name
+                guild_data['users'][user_id]['job']['hours_worked'] = 0
+                hours_needed = self.job_list[job_name]["hours_needed"]
+                salary = self.job_list[job_name]["salary"]
+                await ctx.message.reply(f"{ctx.author.mention} Congratulations, you are now working as a **{(guild_data['users'][user_id]['job']['job_name']).title()} **!\nYou're required to work at least **{hours_needed} times** a day via `-work`, or you'll be fired.\nYou start now, and your salary(the amount of coins you get per hour of work) is ⏣ {salary:,} per hour.")
 
-                    word_completion = "_" * len(word)
-                    guessed = False
-                    guessed_letters = []
-                    guessed_words = []
-                    tries = 6
-                    embed = discord.Embed(
-                        title="Let's play Hangman!", description=f"{display_hangman}\n{word_completion}")
-                    message = await ctx.message.reply(embed=embed)
-                    while not guessed and tries > 0:
-                        guess = ctx.author.message.upper()
-                        if len(guess) == 1 and guess.isalpha():
-                            if guess in guessed_letters:
-                                await ctx.message.reply(f"You already guessed that letter! `{guess}`")
-                            elif guess not in word:
-                                await ctx.message.reply(f"`{guess}` is not in the word.")
-                                tries -= 1
-                                guessed_letters.append(guess)
-                            else:
-                                await ctx.message.reply(f"Good job mate, `{guess}` is in the word!")
-                                guessed_letters.append(guess)
-                                word_as_list = list(word_completion)
-                                indices = [i for i, letter in enumerate(
-                                    word) if letter == guess]
-                                for index in indices:
-                                    word_as_list[index] = guess
-                                word_completion = "".join(word_as_list)
-                                if "_" not in word_completion:
-                                    guessed = True
+            elif job_name in self.job_list_2 and guild_data['users'][user_id]['job']['job_name'] is None:
+                guild_data['users'][user_id]['job']['job_name'] = job_name
+                guild_data['users'][user_id]['job']['hours_worked'] = 0
+                hours_needed = self.job_list_2[job_name]["hours_needed"]
+                salary = self.job_list_2[job_name]["salary"]
+                await ctx.message.reply(f"{ctx.author.mention} Congratulations, you are now working as a **{(guild_data['users'][user_id]['job']['job_name']).title()} **!\nYou're required to work at least **{hours_needed} times** a day via `-work`, or you'll be fired.\nYou start now, and your salary(the amount of coins you get per hour of work) is ⏣ {salary:,} per hour.")
 
-                        elif len(guess) == len(word) and guess.isalpha():
-                            if guess in guessed_words:
-                                await ctx.message.reply(f"bruh you already guessed that word `{guess}`")
-                            elif guess != word:
-                                await ctx.message.reply(f"`{guess}` is not the word")
-                                tries -= 1
-                                guessed_words.append(guess)
-                            else:
-                                guessed = True
-                                word_completion = word
+        '''if job_name is None and guild_data['users'][user_id]['job']['job_name'] == "discord mod":'''
 
-                        else:
-                            embed2 = discord.Embed(
-                                title="Not a valid guess", description=f"{display_hangman(tries)}\n{word_completion}")
-                            await message.edit(embed2)
-                    if guessed:
-                        await ctx.message.reply("Congrats, you guessed the word")
-
-                    else:
-                        await ctx.message.reply(f"slow brains, you ran out of tries. The word was {word}")
-
-                def display_hangman(tries):
-                    stages = [  # final state: head, torso, both arms, and both legs
-                        """
-                                            --------
-                                            |      |
-                                            |      O
-                                            |     \\|/
-                                            |      |
-                                            |     / \\
-                                            -
-                                        """,
-                        # head, torso, both arms, and one leg
-                        """
-                                            --------
-                                            |      |
-                                            |      O
-                                            |     \\|/
-                                            |      |
-                                            |     /
-                                            -
-                                        """,
-                        # head, torso, and both arms
-                        """
-                                            --------
-                                            |      |
-                                            |      O
-                                            |     \\|/
-                                            |      |
-                                            |
-                                            -
-                                        """,
-                        # head, torso, and one arm
-                        """
-                                            --------
-                                            |      |
-                                            |      O
-                                            |     \\|
-                                            |      |
-                                            |
-                                            -
-                                        """,
-                        # head and torso
-                        """
-                                            --------
-                                            |      |
-                                            |      O
-                                            |      |
-                                            |      |
-                                            |
-                                            -
-                                        """,
-                        # head
-                        """
-                                            --------
-                                            |      |
-                                            |      O
-                                            |
-                                            |
-                                            |
-                                            -
-                                        """,
-                        # initial empty state
-                        """
-                                            --------
-                                            |      |
-                                            |
-                                            |
-                                            |
-                                            |
-                                            -
-                                        """
-                    ]
-                    return stages[tries]
-
-                def main_hangman():
-                    word = get_word()
-                    play(word)
-                if __name__ == "__main__":
-                    main_hangman()
-
-        # or job_name in self.job_list or self.job_list_2 and self.job_list and self.job_list_2 in guild_data['users'][user_id]['job']['job_name']:
+        # , "Retype", "Color Match", "Reverse", "Scramble", "Soccer"]
 
         Economy_MongoDB.update_one(
             {"guild_id": guild_id}, {"$set": guild_data})
+
+        # or job_name in self.job_list or self.job_list_2 and self.job_list and self.job_list_2 in guild_data['users'][user_id]['job']['job_name']:
+
         # SHOP COMMAND
 
     @ commands.command()

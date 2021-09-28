@@ -4,7 +4,9 @@ import random
 from typing import Optional
 import discord
 from discord.colour import Color
+from discord.errors import Forbidden
 from discord.ext import commands
+from discord.ext.commands import errors
 from discord.ext.commands.core import command
 from discord.ext.commands.errors import CommandInvokeError
 from discord_components.dpy_overrides import send_message
@@ -120,65 +122,77 @@ class kick_ban(commands.Cog):
         pass'''
 
     @commands.command()
-    async def mute(self, ctx, member: discord.Member, *, reason=None):
-        try:
-            if (not ctx.author.guild_permissions.manage_messages):
-                await ctx.message.reply("You don't have the permissions to execute this command")
-                return
+    async def mute(self, ctx, member: discord.Member, *, reason="No reason provided!"):
 
-            guild = ctx.guild
-            muteRole = discord.utils.get(guild.roles, name="Muted")
-            guild_roles = list(ctx.guild.roles)
+        if (not ctx.author.guild_permissions.manage_messages):
+            await ctx.message.reply("You don't have the permissions to execute this command")
+            return
+        elif member == ctx.author:
 
-            if not muteRole:
-                muteRole = await guild.create_role(name="Muted")
-                message = await ctx.message.reply("Muted role not Found. Creating one")
-                await asyncio.sleep(2)
-                await message.edit('Muted role not Found. Creating one.')
-                await asyncio.sleep(2)
-                await message.edit('Muted role not Found. Creating one..')
-                await asyncio.sleep(2)
-                await message.edit('Muted role not Found. Creating one...')
-                for channels in ctx.guild.text_channels:
-                    await channels.set_permissions(muteRole, speak=False, send_messages=False, read_messages=True)
-                for voice_channels in ctx.guild.voice_channels:
-                    await voice_channels.set_permissions(muteRole, connect=False)
-                await member.add_roles(muteRole, reason=reason)
-                embed = discord.Embed(
-                    title=f"🔇Muted {member.display_name} | Reason: {reason}")
-                await ctx.message.reply(embed=embed)
+            await ctx.message.reply("LMAO did you just try Muting urself?")
+            return
+
+        elif member.guild_permissions.manage_messages:
+            await ctx.message.reply("Lol nop, you can't mute an admin")
+            return
+
+        '''if member'''
+
+        guild = ctx.guild
+        muteRole = discord.utils.get(guild.roles, name="Muted")
+        guild_roles = list(ctx.guild.roles)
+
+        if not muteRole:
+            muteRole = await guild.create_role(name="Muted")
+            message = await ctx.message.reply("Muted role not Found. Creating one")
+            await asyncio.sleep(2)
+            await message.edit('Muted role not Found. Creating one.')
+            await asyncio.sleep(2)
+            await message.edit('Muted role not Found. Creating one..')
+            await asyncio.sleep(2)
+            await message.edit('Muted role not Found. Creating one...')
+            for channels in ctx.guild.text_channels:
+                await channels.set_permissions(muteRole, speak=False, send_messages=False, read_messages=True)
+            for voice_channels in ctx.guild.voice_channels:
+                await voice_channels.set_permissions(muteRole, connect=False)
+            await member.add_roles(muteRole, reason=reason)
+            embed = discord.Embed(
+                title=f"🔇Muted {member.display_name} | Reason: {reason}")
+            await ctx.message.reply(embed=embed)
+            try:
                 await member.send(f"You have been muted from **{guild.name}** | Reason: **{reason}**")
-            else:
-                embed = discord.Embed(
-                    title=f"🔇Muted {member.display_name} | Reason: {reason}")
-                await ctx.message.reply(embed=embed)
-                await member.send(f"You have been muted from **{guild.name}** | Reason: **{reason}**")
+            except discord.Forbidden:
+                await ctx.send(f"Cannot DM this user!")
+        else:
+            embed = discord.Embed(
+                title=f"🔇Muted {member.display_name} | Reason: {reason}")
+            await ctx.message.reply(embed=embed)
+            await member.send(f"You have been **Muted** from **{guild.name}** | Reason: **{reason}**")
 
-                await member.add_roles(muteRole, reason=reason)
-        except CommandInvokeError:
-            await ctx.send("Cannot DM this user.")
+            await member.add_roles(muteRole, reason=reason)
 
     @commands.command()
     async def unmute(self, ctx, member: discord.Member, *, reason="No reason provided!"):
+
+        if (not ctx.author.guild_permissions.manage_messages):
+            await ctx.message.reply("You don't have the permissions to execute this command")
+            return
+
+        guild = ctx.guild
+        muteRole = discord.utils.get(guild.roles, name="Muted")
+        guild_roles = list(ctx.guild.roles)
+
+        if not muteRole:
+            pass
+
+        await member.remove_roles(muteRole, reason=reason)
+        embed = discord.Embed(
+            title=f"🔊Unmuted {member.display_name} | Reason: {reason}")
+        await ctx.message.reply(embed=embed)
         try:
-            if (not ctx.author.guild_permissions.manage_messages):
-                await ctx.message.reply("You don't have the permissions to execute this command")
-                return
-
-            guild = ctx.guild
-            muteRole = discord.utils.get(guild.roles, name="Muted")
-            guild_roles = list(ctx.guild.roles)
-
-            if not muteRole:
-                pass
-
-            await member.remove_roles(muteRole, reason=reason)
-            embed = discord.Embed(
-                title=f"🔊Unmuted {member.display_name} | Reason: {reason}")
-            await ctx.message.reply(embed=embed)
-            await member.send(f"You have been unmuted from **{guild.name}** | Reason: **{reason}**")
-        except CommandInvokeError:
-            await ctx.author.send("Cannot DM this user.")
+            await member.send(f"You have been **Unmuted** from **{guild.name}** | Reason: **{reason}**")
+        except discord.Forbidden:
+            await ctx.send(f"Cannot DM this user!")
 
 
 def setup(client):

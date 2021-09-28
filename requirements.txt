@@ -15,6 +15,7 @@ youtube_dl
 #modules.title_choices_beg_economy
 discord_components
 discord_buttons_plugin
+PyNaCl
 
 
 
