@@ -4,7 +4,6 @@ from discord import user
 from discord.ext.commands import bot
 from discord.ext.commands.cooldowns import BucketType
 from discord_components.dpy_overrides import send
-import pymongo
 import modules.title_choices_beg_economy as title_choices
 import random
 import discord
@@ -68,6 +67,28 @@ class Economy(commands.Cog):
                                              'desc': 'Hours Required Per Day: `5` — Salary: `⏣ 24000 per hour`'},
                   'pro gamer': {"display": "<:tick:892291436232446002> Pro Gamer", "salary": 25000, "hours_needed": 5,
                                 'desc': 'Hours Required Per Day: `5` — Salary: `⏣ 25000 per hour`'}}
+    job_list_4 = {'manager': {"display": "<:tick:892291436232446002> Manager", "salary": 26000, "hours_needed": 5,
+                                     'desc': 'Hours Required Per Day: `5` — Salary: `⏣ 26000 per hour`'},
+                  'developer': {"display": "<:tick:892291436232446002> Developer", "salary": 27000, "hours_needed": 6,
+                              'desc': 'Hours Required Per Day: `6` — Salary: `⏣ 27000 per hour`'},
+                  'day trader': {"display": "<:tick:892291436232446002> Day Trader", "salary": 28000, "hours_needed": 6,
+                               'desc': 'Hours Required Per Day: `6` — Salary: `⏣ 28000 per hour`'},
+                  'santa claus': {"display": "<:tick:892291436232446002> Santa Claus", "salary": 29000, "hours_needed": 6,
+                                             'desc': 'Hours Required Per Day: `6` — Salary: `⏣ 29000 per hour`'},
+                  'politician': {"display": "<:tick:892291436232446002> Politician", "salary": 30000, "hours_needed": 6,
+                                'desc': 'Hours Required Per Day: `6` — Salary: `⏣ 30000 per hour`'}}
+    job_list_5 = {'veterinarian': {"display": "<:tick:892291436232446002> Vetrinarian", "salary": 31000, "hours_needed": 6,
+                              'desc': 'Hours Required Per Day: `6` — Salary: `⏣ 31000 per hour`'},
+                  'mathematician': {"display": "<:tick:892291436232446002> Mathematician", "salary": 32000, "hours_needed": 6,
+                                'desc': 'Hours Required Per Day: `6` — Salary: `⏣ 32000 per hour`'},
+                  'lawyer': {"display": "<:tick:892291436232446002> Lawer", "salary": 35000, "hours_needed": 7,
+                                 'desc': 'Hours Required Per Day: `7` — Salary: `⏣ 35000 per hour`'},
+                  'doctor': {"display": "<:tick:892291436232446002> Doctor", "salary": 40000, "hours_needed": 7,
+                                             'desc': 'Hours Required Per Day: `7` — Salary: `⏣ 40000 per hour`'},
+                  'scientist': {"display": "<:tick:892291436232446002> Scientist", "salary": 30000, "hours_needed": 7,
+                                 'desc': 'Hours Required Per Day: `7` — Salary: `⏣ 30000 per hour`'}}
+
+
 
     def format_word_completion(self, word_completion):
         return "** \n" + '\u205F'.join(word_completion) + "**"
@@ -206,7 +227,7 @@ class Economy(commands.Cog):
             guild_id = str(int(guild_id))
 
         guild_data = Economy_MongoDB.find_one(
-            {"guild_id": guild_id})  # GET BANK DATA'''
+            {"guild_id": guild_id})  
 
         return guild_data
 
@@ -618,13 +639,30 @@ class Economy(commands.Cog):
 
             embed = discord.Embed(title='Slot Machine')
             final = []
-            for i in range(4):
+            more = ['🍒', '7️⃣', '🍫', '🍦', '💰', '🍔', '⚽', '💡', '💣', '💎', '✏️']
+            emojis = random.sample(more, 3)
+            embed = discord.Embed(title='Slot Machine', description=f"[{random.choice(emojis)} | {random.choice(emojis)} | {random.choice(emojis)}] Loading...")
+            time.sleep(1)
+            message = await ctx.message.reply(embed=embed)
+            for _ in range(10):
+                choice1 = random.choice(emojis)
+                choice2 = random.choice(emojis)
+                choice3 = random.choice(emojis)
+                
+                new_embed = discord.Embed(title='Slot Machine', description=f"[{choice1} | {choice2} | {choice3}] Spinning Reels...")
+                await message.edit(embed=new_embed)
+            newer_embed = discord.Embed(title = "Slot Machine", description =f"[{choice1} | {choice2} | {choice3}] Reels Spun...")  
+            await message.edit(embed = newer_embed)  
+            final.append(choice1)
+            final.append(choice2)
+            final.append(choice3)
+            time.sleep(0.3)
+            
+            '''for i in range(4):
                 if i == 1:
                     a = random.choice(
                         ["🍉", "🍓", "🍔", "🍗", "🍵"])
-                    '''for _ in range(4):    
-                        p = random.choice(
-                        ["🍉", "🍓", "🍔", "🍗", "🍵"])'''
+                    #for _ in range(4): p = random.choice(["🍉", "🍓", "🍔", "🍗", "🍵"])
                     final.append(a)
                     embed.add_field(
                         name=f'[{final[0]}', value='\u205F')
@@ -648,7 +686,7 @@ class Economy(commands.Cog):
                     final.append(a)
                     embed.add_field(
                         name=f'|{final[2]}]  Reels Spun...', value='\u205F')
-                    await message.edit(embed=embed)
+                    await message.edit(embed=embed)'''
 
             if final[0] == final[1] and final[2] == final[1] and final[0] == final[2]:
 
@@ -781,7 +819,7 @@ class Economy(commands.Cog):
             desc = jobs["desc"]
 
             em.add_field(name=name, value=f"{desc}\n\u205F", inline=False)
-            em.set_footer(text="Page 1 of 3")
+            em.set_footer(text="Page 1 of 5")
 
         em2 = discord.Embed(title="Available Jobs",
                             description="Choose a job if you haven't already!")
@@ -791,7 +829,7 @@ class Economy(commands.Cog):
             desc2 = jobs_2["desc"]
 
             em2.add_field(name=name2, value=f"{desc2}\n\u205F", inline=False)
-            em2.set_footer(text="Page 2 of 3")
+            em2.set_footer(text="Page 2 of 5")
         em3 = discord.Embed(title="Available Jobs",
                             description="Choose a job if you haven't already!")    
         for jobs_3 in self.job_list_3.values():
@@ -800,25 +838,89 @@ class Economy(commands.Cog):
             desc3 = jobs_3["desc"]
 
             em3.add_field(name=name3, value=f"{desc3}\n\u205F", inline=False)
-            em3.set_footer(text="Page 3 of 3")
+            em3.set_footer(text="Page 3 of 5")
+        em4 = discord.Embed(title="Available Jobs",
+                            description="Choose a job if you haven't already!")
+        for jobs_4 in self.job_list_4.values():
+            name4 = jobs_4["display"]
+            salary4 = jobs_4["salary"]
+            desc4 = jobs_4["desc"]
+
+            em4.add_field(name=name4, value=f"{desc4}\n\u205F", inline=False)
+            em4.set_footer(text="Page 4 of 5")
+        em5 = discord.Embed(title="Available Jobs",
+                            description="Choose a job if you haven't already!")
+        for jobs_5 in self.job_list_5.values():
+            name5 = jobs_5["display"]
+            salary5 = jobs_5["salary"]
+            desc5 = jobs_5["desc"]
+         
+            em5.add_field(name=name5, value=f"{desc5}\n\u205F", inline=False)
+            em5.set_footer(text="Page 5 of 5")
             
 
         emoji_id =892299845824544768 
         emoji_id2 =892299845572919297 
-        message = await ctx.message.reply(embed=em, components=[[(Button(emoji=self.client.get_emoji(emoji_id), custom_id="back", style=1)), (Button(emoji=self.client.get_emoji(emoji_id2), custom_id="next", style=1))]])
+        emoji_id3 = 892299845489029121
+        emoji_id4 = 892299845975547944
+        message = await ctx.message.reply(embed=em, components=[[(Button(emoji=self.client.get_emoji(emoji_id4), custom_id="doubleback", style=1, disabled=True)),(Button(emoji=self.client.get_emoji(emoji_id), custom_id="back", style=1, disabled=True)), (Button(emoji=self.client.get_emoji(emoji_id2), custom_id="next", style=1)), (Button(emoji=self.client.get_emoji(emoji_id3), custom_id="doublenext", style=1))]])
+        
         while True:
-            interaction = await self.client.wait_for("button_click", check=lambda i: i.custom_id == "next")
-            if message == em2:
-                await interaction.edit_origin(embed = em3)
-            else:
-                await interaction.edit_origin(embed = em2)
-            interaction2 = await self.client.wait_for("button_click", check = lambda i: i.custom_id == "back")
-            await interaction2.edit_origin(embed = em)
-        
+            try:
+                interaction = await self.client.wait_for("button_click", timeout = 15.0)
+            
+                if ctx.author.id != interaction.author.id:
+                    await interaction.respond(content = f"{interaction.author.mention} This message is not for you lmao")
+                else:    
+                    if interaction.component.custom_id == "next":
+                        await interaction.edit_origin(embed=em2, components=[[(Button(emoji=self.client.get_emoji(emoji_id4), custom_id="doubleback", style=1)), (Button(emoji=self.client.get_emoji(emoji_id), custom_id="back_page2", style=1)), (Button(emoji=self.client.get_emoji(emoji_id2), custom_id="next_page2", style=1)), (Button(emoji=self.client.get_emoji(emoji_id3), custom_id="doublenext", style=1))]])
+                    elif interaction.component.custom_id == "back_page2":
+                        await interaction.edit_origin(embed=em, components=[[(Button(emoji=self.client.get_emoji(emoji_id4), custom_id="doubleback", style=1, disabled=True)), (Button(emoji=self.client.get_emoji(emoji_id), custom_id="back", style=1, disabled=True)), (Button(emoji=self.client.get_emoji(emoji_id2), custom_id="next", style=1)), (Button(emoji=self.client.get_emoji(emoji_id3), custom_id="doublenext", style=1))]])
+                    elif interaction.component.custom_id == "next_page2":
+                        await interaction.edit_origin(embed=em3, components=[[(Button(emoji=self.client.get_emoji(emoji_id4), custom_id="doubleback", style=1)), (Button(emoji=self.client.get_emoji(emoji_id), custom_id="back_page3", style=1)), (Button(emoji=self.client.get_emoji(emoji_id2), custom_id="next_page3", style=1)), (Button(emoji=self.client.get_emoji(emoji_id3), custom_id="doublenext", style=1))]])
+                    elif interaction.component.custom_id == "back_page3":
+                        await interaction.edit_origin(embed=em2, components=[[(Button(emoji=self.client.get_emoji(emoji_id4), custom_id="doubleback", style=1)), (Button(emoji=self.client.get_emoji(emoji_id), custom_id="back_page2", style=1)), (Button(emoji=self.client.get_emoji(emoji_id2), custom_id="next_page2", style=1)), (Button(emoji=self.client.get_emoji(emoji_id3), custom_id="doublenext", style=1))]])
+                    
+                    elif interaction.component.custom_id == "next_page3":
+                        await interaction.edit_origin(embed=em4, components=[[(Button(emoji=self.client.get_emoji(emoji_id4), custom_id="doubleback", style=1)), (Button(emoji=self.client.get_emoji(emoji_id), custom_id="back_page4", style=1)), (Button(emoji=self.client.get_emoji(emoji_id2), custom_id="next_page4", style=1)), (Button(emoji=self.client.get_emoji(emoji_id3), custom_id="doublenext", style=1))]])
 
-        
+                    elif interaction.component.custom_id == "back_page4":
+                        await interaction.edit_origin(embed=em3, components=[[(Button(emoji=self.client.get_emoji(emoji_id4), custom_id="doubleback", style=1)), (Button(emoji=self.client.get_emoji(emoji_id), custom_id="back_page3", style=1)), (Button(emoji=self.client.get_emoji(emoji_id2), custom_id="next_page3", style=1)), (Button(emoji=self.client.get_emoji(emoji_id3), custom_id="doublenext", style=1))]])
+                    elif interaction.component.custom_id == "next_page4":
+                        await interaction.edit_origin(embed=em5, components=[[(Button(emoji=self.client.get_emoji(emoji_id4), custom_id="doubleback", style=1)), (Button(emoji=self.client.get_emoji(emoji_id), custom_id="back_page5", style=1)), (Button(emoji=self.client.get_emoji(emoji_id2), custom_id="next_page5", style=1, disabled=True)), (Button(emoji=self.client.get_emoji(emoji_id3), custom_id="doublenext", style=1, disabled = True))]])
+                    elif interaction.component.custom_id == "back_page5":
+                        await interaction.edit_origin(embed=em4, components=[[(Button(emoji=self.client.get_emoji(emoji_id4), custom_id="doubleback", style=1)), (Button(emoji=self.client.get_emoji(emoji_id), custom_id="back_page4", style=1)), (Button(emoji=self.client.get_emoji(emoji_id2), custom_id="next_page4", style=1)), (Button(emoji=self.client.get_emoji(emoji_id3), custom_id="doublenext", style=1))]])
+                    
+                    elif interaction.component.custom_id == "doubleback":
+                        await interaction.edit_origin(embed=em, components=[[(Button(emoji=self.client.get_emoji(emoji_id4), custom_id="doubleback", style=1, disabled = True)), (Button(emoji=self.client.get_emoji(emoji_id), custom_id="back", style=1, disabled = True)), (Button(emoji=self.client.get_emoji(emoji_id2), custom_id="next", style=1)), (Button(emoji=self.client.get_emoji(emoji_id3), custom_id="doublenext", style=1))]])
 
-        '''interaction = await self.client.wait_for("button_click", check=lambda i: i.component.label.startswith('Next'))
+                    elif interaction.component.custom_id == "doublenext":
+                        await interaction.edit_origin(embed=em5, components=[[(Button(emoji=self.client.get_emoji(emoji_id4), custom_id="doubleback", style=1)), (Button(emoji=self.client.get_emoji(emoji_id), custom_id="back_page5", style=1)), (Button(emoji=self.client.get_emoji(emoji_id2), custom_id="next_page5", style=1, disabled = True)), (Button(emoji=self.client.get_emoji(emoji_id3), custom_id="doublenext", style=1, disabled = True))]])
+            except asyncio.TimeoutError:
+                await message.edit(components=[[(Button(emoji=self.client.get_emoji(emoji_id4), custom_id="doubleback", style=1, disabled=True)), (Button(emoji=self.client.get_emoji(emoji_id), custom_id="back_page5", style=1, disabled=True)), (Button(emoji=self.client.get_emoji(emoji_id2), custom_id="next_page5", style=1, disabled=True)), (Button(emoji=self.client.get_emoji(emoji_id3), custom_id="doublenext", style=1, disabled=True))]])
+                
+                break
+            
+            
+
+            '''interaction2 = await self.client.wait_for("button_click", check = lambda i: i.custom_id == "back")
+            await interaction2.edit_origin(embed=em, components=[
+                                                                  [
+                                                                    (Button(emoji=self.client.get_emoji(emoji_id),
+                                                                        custom_id="back",
+                                                                            style=1)),
+                                                                      (Button(emoji=self.client.get_emoji(emoji_id2),
+                                                                          custom_id="next",
+                                                                            style=1))]] ) 
+        
+            interaction = await self.client.wait_for("button_click", check = lambda i : i.custom_id == "next_page2")
+            await interaction.edit_origin(embed = em3) 
+  
+            interaction2 = await self.client.wait_for("button_click", check=lambda i: i.custom_id == "back_page2")
+            await interaction2.edit_origin(embed=em2)'''
+         
+ 
+        '''interaction =  await self.client.wait_for("button_click", check=lambda i: i.component.label.startswith('Next'))
         await interaction.message.edit(embed=em2)
 
         interaction2 = await self.client.wait_for("button_click", check=lambda i: i.component.label.startswith('Back'))
@@ -826,11 +928,7 @@ class Economy(commands.Cog):
         \
         
 
-    '''@commands.Cog.listener()
-    async def on_message(self, message):
-        if message.content.startswith('-work'):
-            channel = message.channel
-            await channel.send('Say hello!')'''
+    
 
     @commands.command()
     async def work(self, ctx, *, job_name=None):
@@ -841,17 +939,14 @@ class Economy(commands.Cog):
         if job_name != None:
             job_name = job_name.lower()
 
-        guild_data = self.get_bank_data(guild_id)
-
-        # if job_name != guild_data['users'][user_id]['job']['job_name'] and guild_data['users'][user_id]['job']['job_name'] is None:
+        guild_data = self.get_bank_data(guild_id)        
 
         if job_name is None:
             if guild_data['users'][user_id]['job']['job_name'] == None:
                 await ctx.message.reply(f"LMAO you're unemployed. Get a job idiot (Tip: Use `-work_list` to see available jobs :P)")
                 return
             elif guild_data['users'][user_id]['job']['job_name'] is not None:
-                channel = ctx.message.channel
-               # msg = await self.client.wait_for('message')
+                channel = ctx.message.channel              
 
                 await self.main_hangman(ctx)
 
@@ -888,7 +983,7 @@ class Economy(commands.Cog):
         Economy_MongoDB.update_one(
             {"guild_id": guild_id}, {"$set": guild_data})
 
-        # or job_name in self.job_list or self.job_list_2 and self.job_list and self.job_list_2 in guild_data['users'][user_id]['job']['job_name']:
+        
 
         # SHOP COMMAND
 
@@ -999,10 +1094,7 @@ class Economy(commands.Cog):
 
         Economy_MongoDB.update_one(
             {"guild_id": guild_id}, {"$set": guild_data})
-
-        '''if guild_data['users'][user_id]['inv'][item] == 0:
-            Economy_MongoDB.remove({"guild_id": guild_id}, {
-                                   "$unset": item})'''
+        
 
     @commands.command()
     async def sell(self, ctx, amount: int, item):
@@ -1055,7 +1147,7 @@ class Economy(commands.Cog):
         sep = "\n"
 
         rank = 1
-        # embed = discord.Embed(title="Leaderboard(XP):")
+        
 
         award = {1: ':first_place:', 2: ':second_place:', 3: ':third_place:'}
         for uid in user_ids_sorted:
@@ -1063,10 +1155,7 @@ class Economy(commands.Cog):
                 temp_user = ctx.guild.get_member(int(uid))
                 lb.append(
                     f"{award[rank] if rank in award else ':small_blue_diamond:'} **{guild_data['users'][uid]['wallet'] + guild_data['users'][uid]['bank']:,}** - {temp_user.mention}")
-                # embed.add_field(
-                # name=f"{rank}: {temp_user.name}", value=f"Total XP: {stats['users'][uid]['xp']}", inline=False)
-                # embed.set_thumbnail(url=str(ctx.guild.icon_url))
-
+                
                 rank += 1
             except:
                 rank -= 1
@@ -1082,6 +1171,6 @@ class Economy(commands.Cog):
 
         await ctx.message.reply(embed=em)
 
-
+   
 def setup(client):
     client.add_cog(Economy(client))
