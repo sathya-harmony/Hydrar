@@ -97,14 +97,11 @@ class Economy(commands.Cog):
         word = random.choice(title_choices.word_list)
         return word.upper()
 
-    '''def check(self, *args):
-        # return user == ctx.message.author
-        args = args'''
+    
 
     async def play(self, ctx, word):
 
-        '''word_completion = "** **\n**" + \
-            '\u205F'.join(["\_"] * len(word)) + "**"'''
+        
 
         word_completion = ["\_"] * len(word)
 
@@ -116,85 +113,89 @@ class Economy(commands.Cog):
             title="Let's play Hangman!", description=self.format_word_completion(word_completion))
         embed.set_thumbnail(url=f"{await self.display_hangman(tries)}")
         msg = await ctx.message.reply(embed=embed)
+        try:
+            while not guessed and tries > 0:
+                def check(msg3):
+                    return msg3.author.id == ctx.author.id and msg3.channel.id == ctx.channel.id            
+                    
+                msg2 = await self.client.wait_for('message', check=check, timeout = 15.0)
+                                                
 
-        while not guessed and tries > 0:
+                guess = msg2.content.upper()
 
-            msg2 = await self.client.wait_for('message', check=lambda msg3: msg3.author.id == ctx.author.id
-                                              )
+                if len(guess) == 1 and guess.isalpha():
+                    if guess in guessed_letters:
+                        embed3 = discord.Embed(
+                            title=f"You've already guessed that letter `{guess}`", description=self.format_word_completion(word_completion))
+                        embed3.set_thumbnail(url=f"{await self.display_hangman(tries)}")
+                        await msg.edit(embed=embed3)
+                    elif guess not in word:
 
-            guess = msg2.content.upper()
+                        tries -= 1
+                        guessed_letters.append(guess)
+                        embed7 = discord.Embed(
+                            title=f"`{guess}` is not in the word :angry:", description=self.format_word_completion(word_completion))
+                        embed7.set_thumbnail(url=f"{await self.display_hangman(tries)}")
+                        await msg.edit(embed=embed7)
+                    else:
 
-            if len(guess) == 1 and guess.isalpha():
-                if guess in guessed_letters:
-                    embed3 = discord.Embed(
-                        title=f"You've already guessed that letter `{guess}`", description=self.format_word_completion(word_completion))
-                    embed3.set_thumbnail(url=f"{await self.display_hangman(tries)}")
-                    await msg.edit(embed=embed3)
-                elif guess not in word:
+                        guessed_letters.append(guess)
+                        #word_as_list = list(word_completion)
+                        '''indices = [i for i, letter in enumerate(
+                            word) if letter == guess]
+                        for index in indices:
+                            #word_as_list[index] = guess
+                            word_completion[index] = guess'''
 
-                    tries -= 1
-                    guessed_letters.append(guess)
-                    embed7 = discord.Embed(
-                        title=f"`{guess}` is not in the word :angry:", description=self.format_word_completion(word_completion))
-                    embed7.set_thumbnail(url=f"{await self.display_hangman(tries)}")
-                    await msg.edit(embed=embed7)
-                else:
+                        for index, letter in enumerate(word):
+                            if letter == guess:
+                                word_completion[index] = guess
 
-                    guessed_letters.append(guess)
-                    #word_as_list = list(word_completion)
-                    '''indices = [i for i, letter in enumerate(
-                        word) if letter == guess]
-                    for index in indices:
-                        #word_as_list[index] = guess
-                        word_completion[index] = guess'''
+                        #word_completion = "** **\n**" + '\u205F'.join(word_as_list)
+                        '''if "** **\n**" + \
+                                '\u205F'.join(["\_"]) or '\u205F'.join(["\_"]) not in word_completion:
+                            guessed = True'''
 
-                    for index, letter in enumerate(word):
-                        if letter == guess:
-                            word_completion[index] = guess
+                        if '\_' not in word_completion:
+                            guessed = True
 
-                    #word_completion = "** **\n**" + '\u205F'.join(word_as_list)
-                    '''if "** **\n**" + \
-                            '\u205F'.join(["\_"]) or '\u205F'.join(["\_"]) not in word_completion:
-                        guessed = True'''
+                        embed4 = discord.Embed(
+                            title=f"Great! `{guess}` is in the word!", description=self.format_word_completion(word_completion))
 
-                    if '\_' not in word_completion:
+                        embed4.set_thumbnail(url=await self.display_hangman(tries))
+                        await msg.edit(embed=embed4)
+
+                elif len(guess) == len(word) and guess.isalpha():
+                    if guess in guessed_words:
+                        embed5 = discord.Embed(
+                            title=f"Bruh you've already guessed that word", description=self.format_word_completion(word_completion))
+                        embed5.set_thumbnail(url=await self.display_hangman(tries))
+                        await msg.edit(embed=embed5)
+                    elif guess != word:
+
+                        tries -= 1
+                        guessed_words.append(guess)
+                        embed6 = discord.Embed(
+                            title=f"`{guess}` is not the word!", description=self.format_word_completion(word_completion))
+                        embed6.set_thumbnail(url=f"{await self.display_hangman(tries)}")
+                        await msg.edit(embed=embed6)
+                    else:
                         guessed = True
+                        word_completion = word
 
-                    embed4 = discord.Embed(
-                        title=f"Great! `{guess}` is in the word!", description=self.format_word_completion(word_completion))
-
-                    embed4.set_thumbnail(url=await self.display_hangman(tries))
-                    await msg.edit(embed=embed4)
-
-            elif len(guess) == len(word) and guess.isalpha():
-                if guess in guessed_words:
-                    embed5 = discord.Embed(
-                        title=f"Bruh you've already guessed that word", description=self.format_word_completion(word_completion))
-                    embed5.set_thumbnail(url=await self.display_hangman(tries))
-                    await msg.edit(embed=embed5)
-                elif guess != word:
-
-                    tries -= 1
-                    guessed_words.append(guess)
-                    embed6 = discord.Embed(
-                        title=f"`{guess}` is not the word!", description=self.format_word_completion(word_completion))
-                    embed6.set_thumbnail(url=f"{await self.display_hangman(tries)}")
-                    await msg.edit(embed=embed6)
                 else:
-                    guessed = True
-                    word_completion = word
+                    embed2 = discord.Embed(
+                        title="Not a valid guess", description=self.format_word_completion(word_completion))
+                    file = await self.display_hangman(tries)
+                    embed2.set_thumbnail(url=f"{file}")
+                    await msg.edit(embed=embed2)
+            if guessed:
+                await ctx.send(f"Congrats, you guessed the word **{word}**")
 
             else:
-                embed2 = discord.Embed(
-                    title="Not a valid guess", description=self.format_word_completion(word_completion))
-                file = await self.display_hangman(tries)
-                embed2.set_thumbnail(url=f"{file}")
-                await msg.edit(embed=embed2)
-        if guessed:
-            await ctx.send(f"Congrats, you guessed the word **{word}**")
-
-        else:
-            await ctx.send(f"slow brains, you ran out of tries. The word was **{word}**")
+                await ctx.send(f"slow brains, you ran out of tries. The word was **{word}**")
+        except asyncio.TimeoutError:
+            await ctx.send("Nope")        
 
     async def display_hangman(self, tries):
         
@@ -957,8 +958,15 @@ class Economy(commands.Cog):
             elif guild_data['users'][user_id]['job']['job_name'] is not None and job_name in self.job_list_2:
                 await ctx.message.reply(f"lol your already working as a `{guild_data['users'][user_id]['job']['job_name']}` just type `-work` to start working or type `-work resign` to resign your post")
                 return
+            elif guild_data['users'][user_id]['job']['job_name'] is not None and job_name in self.job_list_3:
+                await ctx.message.reply(f"lol your already working as a `{guild_data['users'][user_id]['job']['job_name']}` just type `-work` to start working or type `-work resign` to resign your post")
+                return   
+            elif guild_data['users'][user_id]['job']['job_name'] is not None and job_name in self.job_list_4:
+                await ctx.message.reply(f"{ctx.author.mention} This job is currently under development. Please try some other job")
+            elif guild_data['users'][user_id]['job']['job_name'] is not None and job_name in self.job_list_4:
+                await ctx.message.reply(f"{ctx.author.mention} This job is currently under development. Please try some other job")     
 
-            elif job_name not in self.job_list and job_name not in self.job_list_2:
+            elif job_name not in self.job_list and job_name not in self.job_list_2 and self.job_list_3:
                 await ctx.message.reply(f"lol this job does not exist, try getting another job hehe")
                 return
 
@@ -970,6 +978,13 @@ class Economy(commands.Cog):
                 await ctx.message.reply(f"{ctx.author.mention} Congratulations, you are now working as a **{(guild_data['users'][user_id]['job']['job_name']).title()} **!\nYou're required to work at least **{hours_needed} times** a day via `-work`, or you'll be fired.\nYou start now, and your salary(the amount of coins you get per hour of work) is ⏣ {salary:,} per hour.")
 
             elif job_name in self.job_list_2 and guild_data['users'][user_id]['job']['job_name'] is None:
+                guild_data['users'][user_id]['job']['job_name'] = job_name
+                guild_data['users'][user_id]['job']['hours_worked'] = 0
+                hours_needed = self.job_list_2[job_name]["hours_needed"]
+                salary = self.job_list_2[job_name]["salary"]
+                await ctx.message.reply(f"{ctx.author.mention} Congratulations, you are now working as a **{(guild_data['users'][user_id]['job']['job_name']).title()} **!\nYou're required to work at least **{hours_needed} times** a day via `-work`, or you'll be fired.\nYou start now, and your salary(the amount of coins you get per hour of work) is ⏣ {salary:,} per hour.")
+            
+            elif job_name in self.job_list_3 and guild_data['users'][user_id]['job']['job_name'] is None:
                 guild_data['users'][user_id]['job']['job_name'] = job_name
                 guild_data['users'][user_id]['job']['hours_worked'] = 0
                 hours_needed = self.job_list_2[job_name]["hours_needed"]
