@@ -897,7 +897,7 @@ class Economy(commands.Cog):
                     elif interaction.component.custom_id == "doublenext":
                         await interaction.edit_origin(embed=em5, components=[[(Button(emoji=self.client.get_emoji(emoji_id4), custom_id="doubleback", style=1)), (Button(emoji=self.client.get_emoji(emoji_id), custom_id="back_page5", style=1)), (Button(emoji=self.client.get_emoji(emoji_id2), custom_id="next_page5", style=1, disabled = True)), (Button(emoji=self.client.get_emoji(emoji_id3), custom_id="doublenext", style=1, disabled = True))]])
             except asyncio.TimeoutError:
-                await message.edit(components=[[(Button(emoji=self.client.get_emoji(emoji_id4), custom_id="doubleback", style=1, disabled=True)), (Button(emoji=self.client.get_emoji(emoji_id), custom_id="back_page5", style=1, disabled=True)), (Button(emoji=self.client.get_emoji(emoji_id2), custom_id="next_page5", style=1, disabled=True)), (Button(emoji=self.client.get_emoji(emoji_id3), custom_id="doublenext", style=1, disabled=True))]])
+                await message.edit(components=[[(Button(emoji=self.client.get_emoji(emoji_id4), custom_id="doubleback", style=ButtonStyle.gray, disabled=True)), (Button(emoji=self.client.get_emoji(emoji_id), custom_id="back_page5", style=ButtonStyle.gray, disabled=True)), (Button(emoji=self.client.get_emoji(emoji_id2), custom_id="next_page5", style=ButtonStyle.gray, disabled=True)), (Button(emoji=self.client.get_emoji(emoji_id3), custom_id="doublenext", style=ButtonStyle.gray, disabled=True))]])
                 
                 break
             
