@@ -856,7 +856,10 @@ class Economy(commands.Cog):
                 await self.main_hangman(ctx)
 
         elif job_name is not None:
-            if guild_data['users'][user_id]['job']['job_name'] is not None and job_name in (self.job_list or self.job_list_2):
+            if guild_data['users'][user_id]['job']['job_name'] is not None and job_name in self.job_list:
+                await ctx.message.reply(f"lol your already working as a `{guild_data['users'][user_id]['job']['job_name']}` just type `-work` to start working or type `-work resign` to resign your post")
+                return
+            elif guild_data['users'][user_id]['job']['job_name'] is not None and job_name in self.job_list_2:
                 await ctx.message.reply(f"lol your already working as a `{guild_data['users'][user_id]['job']['job_name']}` just type `-work` to start working or type `-work resign` to resign your post")
                 return
 
