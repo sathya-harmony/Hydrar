@@ -20,6 +20,7 @@ from discord_components import *
 from PIL import Image, ImageDraw, ImageFont
 from io import BytesIO
 import asyncio
+import asyncpraw 
 
 
 cluster = MongoClient(
@@ -222,6 +223,36 @@ class Economy(commands.Cog):
         word = self.get_word()
         await self.play(ctx=ctx, word=word)
 
+    def get_sentence(self):
+        sentence = random.choice(title_choices.sentence_list)
+        return sentence
+
+
+    async def retype(self, ctx, sentence):
+        msg = await ctx.message.reply(f"Retype the following Phrase:-\n**{sentence}**")  
+        try:
+            def check(msg3):
+                    return msg3.author.id == ctx.author.id and msg3.channel.id == ctx.channel.id
+        
+            msg2 = await self.client.wait_for('message', check=check, timeout = 10)
+            
+            sentence_upper = sentence.upper()
+            guess = msg2.content.upper()
+            if sentence_upper == guess:
+                await ctx.send(f"{ctx.author.mention} Great work! You rewrote the sentence correctly.")
+
+            else:
+                await ctx.send(f"{ctx.author.mention} Terrible effort. Expected better work from you!")
+        except asyncio.TimeoutError:
+            await ctx.send(f"{ctx.author.mention} Terrible effort. You were times out.")
+    async def main_retype(self, ctx):
+        sentence = self.get_sentence()
+        await self.retype(ctx = ctx, sentence = sentence)        
+
+        
+
+        
+
     def get_bank_data(self, guild_id):
 
         if type(guild_id) in [int, float]:
@@ -285,10 +316,10 @@ class Economy(commands.Cog):
 
         return guild_data
 
-    '''@commands.command(aliases=[])
-    async def meme(self, ctx):
-        # msg = await ctx.message.reply('Loading meme... <a:Loading:84528574434795580>')
-        async with aiohttp.ClientSession() as cs:
+    @commands.command(aliases=[])
+    async def meme(self, ctx, subred = 'meme'):
+        msg = await ctx.message.reply('Loading meme... <a:Loading:84528574434795580>')
+        '''async with aiohttp.ClientSession() as cs:
             async with cs.get("https://www.reddit.com/r/memes.json")as r:
                 memes = await r.join()
                 embed = discord.Embed(color=discord.Color.purple())
@@ -298,9 +329,9 @@ class Economy(commands.Cog):
                     text=f'Powered by r/Memes! | Meme requested by {ctx.author}')
                 await ctx.send(embed=embed)'''
 
-    '''reddit = asyncpraw.Reddit(client_id='8i3fEtFOnr_XjpkrpatKOA',
-                                  client_secret='qBg4vg8yT8tBywSIz8pKSDPQc8dG-A',
-                                  username='Hydrargyrum',
+        reddit = asyncpraw.Reddit(client_id='uv7phVm3ez8QL_KF-aS0vg',
+                                  client_secret='LyqQDeKxPGsxK2yrVR4pYIXXk3bXRQ',
+                                  username='SathyaShrik',
                                   password='CihVirus123',
                                   user_agent='Hydra_meme')
         subreddit = await reddit.subreddit(subred)
@@ -313,13 +344,15 @@ class Economy(commands.Cog):
         name = random_sub.title
         url = random_sub.url
         embed = embeds.Embed(
-            title=f'__{name}__', color=discord.Color.random())
-        embed.add_image(url=url)
+            title=f'__{name}__', color=discord.Color.random(), timestamp = ctx.message.created_at, url = url)
+        embed.set_image(url=url)
         embed.set_author(name=ctx.author.display_name,
                          icon_url=ctx.author.avatar_url)
-        await ctx.send(embed=embed)
-        # await msg.edit(content=f'<https://reddit.com/r/{subreddit}/> :white_check_mark:')
-        return'''
+        embed.set_footer(text='Here is your meme!', icon_url = ctx.author.avatar_url)                 
+        '''await ctx.send(embed=embed)
+        await msg.edit(content=f'<https://reddit.com/r/{subreddit}/> :white_check_mark:')'''
+        await msg.edit(embed=embed, content=f'<https://reddit.com/r/{subreddit}/> <:tick:892291436232446002>')
+        return
 
     @commands.command(aliases=[])
     @commands.cooldown(1, 60*60*24, BucketType.user)
@@ -940,16 +973,20 @@ class Economy(commands.Cog):
         if job_name != None:
             job_name = job_name.lower()
 
-        guild_data = self.get_bank_data(guild_id)        
+        guild_data = self.get_bank_data(guild_id)   
 
-        if job_name is None:
+        if job_name == "resign":
+            await ctx.message.reply(f"{ctx.author.mention} You resigned from your position as **{(guild_data['users'][user_id]['job']['job_name']).title()}**. You need to wait 3 hours before you can apply for another job.")
+            guild_data['users'][user_id]['job']['job_name'] = None
+        elif job_name is None:
             if guild_data['users'][user_id]['job']['job_name'] == None:
                 await ctx.message.reply(f"LMAO you're unemployed. Get a job idiot (Tip: Use `-work_list` to see available jobs :P)")
                 return
             elif guild_data['users'][user_id]['job']['job_name'] is not None:
-                channel = ctx.message.channel              
+                channel = ctx.message.channel  
+                await self.main_retype(ctx)            
 
-                await self.main_hangman(ctx)
+                #await self.main_hangman(ctx)
 
         elif job_name is not None:
             if guild_data['users'][user_id]['job']['job_name'] is not None and job_name in self.job_list:
@@ -963,7 +1000,7 @@ class Economy(commands.Cog):
                 return   
             elif guild_data['users'][user_id]['job']['job_name'] is not None and job_name in self.job_list_4:
                 await ctx.message.reply(f"{ctx.author.mention} This job is currently under development. Please try some other job")
-            elif guild_data['users'][user_id]['job']['job_name'] is not None and job_name in self.job_list_4:
+            elif guild_data['users'][user_id]['job']['job_name'] is not None and job_name in self.job_list_5:
                 await ctx.message.reply(f"{ctx.author.mention} This job is currently under development. Please try some other job")     
 
             elif job_name not in self.job_list and job_name not in self.job_list_2 and self.job_list_3:

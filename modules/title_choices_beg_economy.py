@@ -535,3 +535,23 @@ word_list = [
     'hybrid',
     'buffet',
     'lively']
+sentence_list = [
+    "Accept constructive criticism",
+    "Against all odds",
+    "All is well",
+    "Always add value",
+    "Always forgive yourself",
+    "Always live consciously",
+    "Always remain neutral",
+    "Analyze your weakness",
+    "Appreciate the moment",
+    "Ask for help",
+    "Avoid comparing yourself",
+    "Avoid drunk driving",
+    "Avoid financial hierarchies",
+    "Be a giver",
+    "Be here now",
+    "Be the change",
+    "Be the change",
+
+]
