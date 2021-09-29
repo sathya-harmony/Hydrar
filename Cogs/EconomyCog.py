@@ -81,7 +81,7 @@ class Economy(commands.Cog):
                               'desc': 'Hours Required Per Day: `6` — Salary: `⏣ 31000 per hour`'},
                   'mathematician': {"display": "<:x_:892769246319357962> Mathematician", "salary": 32000, "hours_needed": 6,
                                 'desc': 'Hours Required Per Day: `6` — Salary: `⏣ 32000 per hour`'},
-                  'lawyer': {"display": "<:x_:892769246319357962> Lawer", "salary": 35000, "hours_needed": 7,
+                  'lawyer': {"display": "<:x_:892769246319357962> Lawyer", "salary": 35000, "hours_needed": 7,
                                  'desc': 'Hours Required Per Day: `7` — Salary: `⏣ 35000 per hour`'},
                   'doctor': {"display": "<:x_:892769246319357962> Doctor", "salary": 40000, "hours_needed": 7,
                                              'desc': 'Hours Required Per Day: `7` — Salary: `⏣ 40000 per hour`'},
