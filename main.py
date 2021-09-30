@@ -7,6 +7,7 @@ from discord.ext.commands.cog import Cog
 import traceback
 import sys
 from alexa_reply import reply
+import pymongo
 import os
 from discord_buttons_plugin.__main__ import ButtonsClient
 from discord_components import DiscordComponents, Button, ButtonStyle, InteractionEventType

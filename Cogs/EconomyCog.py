@@ -316,10 +316,10 @@ class Economy(commands.Cog):
 
         return guild_data
 
-    '''@commands.command(aliases=[])
+    @commands.command(aliases=[])
     async def meme(self, ctx, subred = 'meme'):
         msg = await ctx.message.reply('Loading Meme <https://tenor.com/view/hug-gif-22743155>')
-        async with aiohttp.ClientSession() as cs:
+        '''async with aiohttp.ClientSession() as cs:
             async with cs.get("https://www.reddit.com/r/memes.json")as r:
                 memes = await r.join()
                 embed = discord.Embed(color=discord.Color.purple())
@@ -327,7 +327,7 @@ class Economy(commands.Cog):
                     url=memes["data"]["children"][random.randint(0, 25)]["data"]["url"])
                 embed.set_footer(
                     text=f'Powered by r/Memes! | Meme requested by {ctx.author}')
-                await ctx.send(embed=embed)
+                await ctx.send(embed=embed)'''
 
         reddit = asyncpraw.Reddit(client_id='uv7phVm3ez8QL_KF-aS0vg',
                                   client_secret='LyqQDeKxPGsxK2yrVR4pYIXXk3bXRQ',
@@ -349,9 +349,10 @@ class Economy(commands.Cog):
         embed.set_author(name=ctx.author.display_name,
                          icon_url=ctx.author.avatar_url)
         embed.set_footer(text='Here is your meme!', icon_url = ctx.author.avatar_url)                 
-        await ctx.send(embed=embed)wait msg.edit(content=f'<https://reddit.com/r/{subreddit}/> :white_check_mark:')
+        '''await ctx.send(embed=embed)
+        await msg.edit(content=f'<https://reddit.com/r/{subreddit}/> :white_check_mark:')'''
         await msg.edit(embed=embed, content=f'<https://reddit.com/r/{subreddit}/> <:tick:892291436232446002>')
-        return'''
+        return
 
     @commands.command(aliases=[])
     @commands.cooldown(1, 60*60*24, BucketType.user)
