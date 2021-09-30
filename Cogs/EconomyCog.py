@@ -317,7 +317,7 @@ class Economy(commands.Cog):
         return guild_data
 
     @commands.command(aliases=[])
-    async def meme(self, ctx, subred = 'meme'):
+    async def meme(self, ctx, subred = 'memes'):
         msg = await ctx.message.reply('Loading Meme <https://tenor.com/view/hug-gif-22743155>')
         '''async with aiohttp.ClientSession() as cs:
             async with cs.get("https://www.reddit.com/r/memes.json")as r:
@@ -336,7 +336,7 @@ class Economy(commands.Cog):
                                   user_agent='Hydra_meme')
         subreddit = await reddit.subreddit(subred)
         all_subs = []
-        top = subreddit.top(limit=50)
+        top = subreddit.top(limit=300)
         async for submission in top:
             all_subs.append(submission)
 
@@ -348,7 +348,8 @@ class Economy(commands.Cog):
         embed.set_image(url=url)
         embed.set_author(name=ctx.author.display_name,
                          icon_url=ctx.author.avatar_url)
-        embed.set_footer(text='Here is your meme!', icon_url = ctx.author.avatar_url)                 
+        embed.set_footer(
+            text=f'Powered by r/Memes! | Meme requested by {ctx.author}', icon_url=ctx.author.avatar_url)
         '''await ctx.send(embed=embed)
         await msg.edit(content=f'<https://reddit.com/r/{subreddit}/> :white_check_mark:')'''
         await msg.edit(embed=embed, content=f'<https://reddit.com/r/{subreddit}/> <:tick:892291436232446002>')
