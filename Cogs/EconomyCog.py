@@ -317,7 +317,7 @@ class Economy(commands.Cog):
         return guild_data
 
     @commands.command(aliases=[])
-    async def meme(self, ctx, subred = 'memes'):
+    async def meme(self, ctx, subred = 'famfriendlymemes'):
         msg = await ctx.message.reply('Loading Meme <https://tenor.com/view/hug-gif-22743155>')
         '''async with aiohttp.ClientSession() as cs:
             async with cs.get("https://www.reddit.com/r/memes.json")as r:
@@ -350,8 +350,7 @@ class Economy(commands.Cog):
                          icon_url=ctx.author.avatar_url)
         embed.set_footer(
             text=f'Powered by r/Memes! | Meme requested by {ctx.author}', icon_url=ctx.author.avatar_url)
-        '''await ctx.send(embed=embed)
-        await msg.edit(content=f'<https://reddit.com/r/{subreddit}/> :white_check_mark:')'''
+        #await ctx.send(embed=embed)await msg.edit(content=f'<https://reddit.com/r/{subreddit}/> :white_check_mark:')
         await msg.edit(embed=embed, content=f'<https://reddit.com/r/{subreddit}/> <:tick:892291436232446002>')
         return
 

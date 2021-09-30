@@ -1,5 +1,5 @@
 import asyncio
-from re import T
+#from re import T
 from discord.ext import commands  # ipc
 import discord
 from fractions import *

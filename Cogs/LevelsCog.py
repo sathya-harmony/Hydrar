@@ -13,7 +13,7 @@ level = ["Level 1"]
 levelnum = [2]
 
 cluster = MongoClient(
-    "mongodb+srv://Hydra:CihVirus123@hydra.jea2k.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+    "mongodb+srv://Hydra:jpszYWQcPolIDvCm@hydra.jea2k.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 )
 
 

@@ -3,6 +3,7 @@ from discord.ext import commands
 from discord import embeds
 from discord.ext.commands.errors import ArgumentParsingError, InvalidEndOfQuotedStringError
 from discord_components import *
+import ssl
 
 prefix = '-'
 client = commands.Bot(command_prefix=prefix,
