@@ -317,8 +317,8 @@ class Economy(commands.Cog):
         return guild_data
 
     @commands.command(aliases=[])
-    async def meme(self, ctx, subred = 'famfriendlymemes'):
-        msg = await ctx.message.reply('Loading Meme <https://tenor.com/view/hug-gif-22743155>')
+    async def meme(self, ctx, subred = 'memes'):
+        msg = await ctx.message.reply('Loading Meme https://tenor.com/view/hug-gif-22743155')
         '''async with aiohttp.ClientSession() as cs:
             async with cs.get("https://www.reddit.com/r/memes.json")as r:
                 memes = await r.join()
