@@ -278,7 +278,7 @@ class _help(commands.Cog):
         while True:
             try:
                 interact = await self.client.wait_for("select_option", timeout=15.0)
-                value = interact.component.value
+                value = interact.component.label
                 if value == 'fun':
                     await interact.edit_origin(embed=embed2)
 
