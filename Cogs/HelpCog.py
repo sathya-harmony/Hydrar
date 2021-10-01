@@ -77,6 +77,7 @@ class _help(commands.Cog):
                                                                                  label="😄 Fun",
                                                                                  value="fun",
                                                                                  description="Shows the Fun Commands Category!"
+
                                                                              ),
                                                                              SelectOption(
                                                                                  label="👮‍♂️ Moderation",
@@ -277,8 +278,12 @@ class _help(commands.Cog):
         while True:
             try:
                 interact = await self.client.wait_for("select_option", timeout=15.0)
-                if ctx.author.id != interact.author.id:
-                    await interact.respond(content=f"{interaction.author.mention} This message is not for you lmao")
+                label = interact.component[0].label
+                if label == 'fun':
+                    await interact.edit_origin(embed=embed2)
+
+                '''if ctx.author.id != interact.author.id:
+                    await interact.respond(content=f"{interaction.author.mention} This message is not for you lmao")'''
             except asyncio.TimeoutError:
                 break
         # inside main function
