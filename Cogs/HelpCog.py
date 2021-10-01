@@ -71,7 +71,8 @@ class _help(commands.Cog):
                     value="`-help Games`\n[Hover for Info](https://rb.gy/o2krdf)",
                     inline=False)
                 # await ctx.message.reply(embed = embed1)
-                await ctx.message.reply(embed=embed1, components=[Select(placeholder="Filter",
+                await ctx.message.reply(embed=embed1)
+                '''components=[Select(placeholder="Filter",
                                                                          options=[
                                                                              SelectOption(
                                                                                  label="😄 Fun",
@@ -109,7 +110,7 @@ class _help(commands.Cog):
                                                          check=lambda i: i.component.label.startswith(
                                                              'Continue')
                                                          )
-                await interaction.respond(content="LOL")
+                await interaction.respond(content="LOL")'''
                 return
             except:
                 pass
@@ -275,17 +276,17 @@ class _help(commands.Cog):
                 return
             except:
                 pass
-        while True:
+        '''while True:
             try:
                 interact = await self.client.wait_for("select_option", timeout=15.0)
                 value = interact.component.label
                 if value == '😄 Fun':
                     await interact.edit_origin(embed=embed2)
 
-                '''if ctx.author.id != interact.author.id:
-                    await interact.respond(content=f"{interaction.author.mention} This message is not for you lmao")'''
+                if ctx.author.id != interact.author.id:
+                    await interact.respond(content=f"{interaction.author.mention} This message is not for you lmao")
             except asyncio.TimeoutError:
-                break
+                break'''
         # inside main function
         if arg == '8ball':
             try:
