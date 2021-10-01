@@ -112,7 +112,7 @@ class _help_(commands.Cog):
         while True:
             try:
                 interaction = await self.client.wait_for("select_option", timeout=15.0)
-                value = interaction.component.custom_id
+                value = interaction.component.options.value
                 if value == 'fun':
                     await interaction.edit_origin(embed=embed2)
             except asyncio.TimeoutError:
