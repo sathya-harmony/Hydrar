@@ -11,7 +11,7 @@ import pymongo
 import os
 from discord_buttons_plugin.__main__ import ButtonsClient
 from discord_components import DiscordComponents, Button, ButtonStyle, InteractionEventType
-
+import aiohttp
 
 #import Cogs.EconomyCog
 #import Dashboard.main
