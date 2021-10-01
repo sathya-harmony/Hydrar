@@ -320,7 +320,7 @@ class Economy(commands.Cog):
         #msg = await ctx.message.reply('Loading Meme https://tenor.com/view/hug-gif-22743155')
         async with aiohttp.ClientSession() as cs:
             async with cs.get("https://www.reddit.com/r/memes.json") as r:
-                memes = await r
+                memes = r
                 embed = discord.Embed(color=discord.Color.purple())
                 embed.set_image(
                     url=memes["data"]["children"][random.randint(0, 25)]["data"]["url"])
