@@ -4,6 +4,7 @@ from discord import embeds
 from discord.ext.commands.errors import ArgumentParsingError, InvalidEndOfQuotedStringError
 from discord_components import *
 import ssl
+import asyncio
 
 prefix = '-'
 client = commands.Bot(command_prefix=prefix,
@@ -75,27 +76,27 @@ class _help(commands.Cog):
                                                                              SelectOption(
                                                                                  label="😄 Fun",
                                                                                  value="fun",
-                                                                                 description="Shows the **Fun Commands** Category!"
+                                                                                 description="Shows the Fun Commands Category!"
                                                                              ),
                                                                              SelectOption(
                                                                                  label="👮‍♂️ Moderation",
                                                                                  value="moderation",
-                                                                                 description="Shows the **Moderation Commands** Category!"
+                                                                                 description="Shows the Moderation Commands Category!"
                                                                              ),
                                                                              SelectOption(
                                                                                  label="🛠 Utility",
                                                                                  value="utility",
-                                                                                 description="Shows the **Utility Commands** Category!"
+                                                                                 description="Shows the Utility Commands Category!"
                                                                              ),
                                                                              SelectOption(
                                                                                  label="💰 Economy",
                                                                                  value="economy",
-                                                                                 description="Shows the **Economy Commands** Category!"
+                                                                                 description="Shows the Economy Commands Category!"
                                                                              ),
                                                                              SelectOption(
                                                                                  label="📊 Levels",
                                                                                  value="levels",
-                                                                                 description="Shows the **Levels Commands** Catergory!"
+                                                                                 description="Shows the Levels Commands Catergory!"
 
                                                                              )
 
@@ -273,6 +274,13 @@ class _help(commands.Cog):
                 return
             except:
                 pass
+        while True:
+            try:
+                interact = await self.client.wait_for("select_option", timeout=15.0)
+                if ctx.author.id != interact.author.id:
+                    await interact.respond(content=f"{interaction.author.mention} This message is not for you lmao")
+            except asyncio.TimeoutError:
+                break
         # inside main function
         if arg == '8ball':
             try:
