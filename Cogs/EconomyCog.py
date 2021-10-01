@@ -1008,27 +1008,27 @@ class Economy(commands.Cog):
                     return
 
             
-        elif guild_data['users'][user_id]['job']['job_name'] is None:
-                if job_name in self.job_list:
-                    guild_data['users'][user_id]['job']['job_name'] = job_name
-                    guild_data['users'][user_id]['job']['hours_worked'] = 0
-                    hours_needed = self.job_list[job_name]["hours_needed"]
-                    salary = self.job_list[job_name]["salary"]
-                    await ctx.message.reply(f"{ctx.author.mention} Congratulations, you are now working as a **{(guild_data['users'][user_id]['job']['job_name']).title()} **!\nYou're required to work at least **{hours_needed} times** a day via `-work`, or you'll be fired.\nYou start now, and your salary(the amount of coins you get per hour of work) is ⏣ {salary:,} per hour.")
+            elif guild_data['users'][user_id]['job']['job_name'] is None:
+                    if job_name in self.job_list:
+                        guild_data['users'][user_id]['job']['job_name'] = job_name
+                        guild_data['users'][user_id]['job']['hours_worked'] = 0
+                        hours_needed = self.job_list[job_name]["hours_needed"]
+                        salary = self.job_list[job_name]["salary"]
+                        await ctx.message.reply(f"{ctx.author.mention} Congratulations, you are now working as a **{(guild_data['users'][user_id]['job']['job_name']).title()} **!\nYou're required to work at least **{hours_needed} times** a day via `-work`, or you'll be fired.\nYou start now, and your salary(the amount of coins you get per hour of work) is ⏣ {salary:,} per hour.")
 
-                elif job_name in self.job_list_2: 
-                    guild_data['users'][user_id]['job']['job_name'] = job_name
-                    guild_data['users'][user_id]['job']['hours_worked'] = 0
-                    hours_needed = self.job_list_2[job_name]["hours_needed"]
-                    salary = self.job_list_2[job_name]["salary"]
-                    await ctx.message.reply(f"{ctx.author.mention} Congratulations, you are now working as a **{(guild_data['users'][user_id]['job']['job_name']).title()} **!\nYou're required to work at least **{hours_needed} times** a day via `-work`, or you'll be fired.\nYou start now, and your salary(the amount of coins you get per hour of work) is ⏣ {salary:,} per hour.")
-            
-                elif job_name in self.job_list_3:
-                    guild_data['users'][user_id]['job']['job_name'] = job_name
-                    guild_data['users'][user_id]['job']['hours_worked'] = 0
-                    hours_needed = self.job_list_3[job_name]["hours_needed"]
-                    salary = self.job_list_3[job_name]["salary"]
-                    await ctx.message.reply(f"{ctx.author.mention} Congratulations, you are now working as a **{(guild_data['users'][user_id]['job']['job_name']).title()} **!\nYou're required to work at least **{hours_needed} times** a day via `-work`, or you'll be fired.\nYou start now, and your salary(the amount of coins you get per hour of work) is ⏣ {salary:,} per hour.")
+                    elif job_name in self.job_list_2: 
+                        guild_data['users'][user_id]['job']['job_name'] = job_name
+                        guild_data['users'][user_id]['job']['hours_worked'] = 0
+                        hours_needed = self.job_list_2[job_name]["hours_needed"]
+                        salary = self.job_list_2[job_name]["salary"]
+                        await ctx.message.reply(f"{ctx.author.mention} Congratulations, you are now working as a **{(guild_data['users'][user_id]['job']['job_name']).title()} **!\nYou're required to work at least **{hours_needed} times** a day via `-work`, or you'll be fired.\nYou start now, and your salary(the amount of coins you get per hour of work) is ⏣ {salary:,} per hour.")
+                
+                    elif job_name in self.job_list_3:
+                        guild_data['users'][user_id]['job']['job_name'] = job_name
+                        guild_data['users'][user_id]['job']['hours_worked'] = 0
+                        hours_needed = self.job_list_3[job_name]["hours_needed"]
+                        salary = self.job_list_3[job_name]["salary"]
+                        await ctx.message.reply(f"{ctx.author.mention} Congratulations, you are now working as a **{(guild_data['users'][user_id]['job']['job_name']).title()} **!\nYou're required to work at least **{hours_needed} times** a day via `-work`, or you'll be fired.\nYou start now, and your salary(the amount of coins you get per hour of work) is ⏣ {salary:,} per hour.")
                 
         '''if job_name is None and guild_data['users'][user_id]['job']['job_name'] == "discord mod":'''
 
