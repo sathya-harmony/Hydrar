@@ -983,7 +983,8 @@ class Economy(commands.Cog):
                 return
             elif guild_data['users'][user_id]['job']['job_name'] is not None:
                 channel = ctx.message.channel  
-                await self.main_retype(ctx)            
+                await self.main_retype(ctx)    
+                        
 
                 #await self.main_hangman(ctx)
 
@@ -995,13 +996,16 @@ class Economy(commands.Cog):
                 elif job_name in self.job_list_2:
                     await ctx.message.reply(f"lol your already working as a `{guild_data['users'][user_id]['job']['job_name']}` just type `-work` to start working or type `-work resign` to resign your post")
                     return
-                elif guild_data['users'][user_id]['job']['job_name'] is not None and job_name in self.job_list_3:
+                elif job_name in self.job_list_3:
                     await ctx.message.reply(f"lol your already working as a `{guild_data['users'][user_id]['job']['job_name']}` just type `-work` to start working or type `-work resign` to resign your post")
                     return   
-                elif guild_data['users'][user_id]['job']['job_name'] is not None and job_name in self.job_list_4:
+                elif job_name in self.job_list_4:
                     await ctx.message.reply(f"{ctx.author.mention} This job is currently under development. Please try some other job")
-                elif guild_data['users'][user_id]['job']['job_name'] is not None and job_name in self.job_list_5:
-                    await ctx.message.reply(f"{ctx.author.mention} This job is currently under development. Please try some other job")     
+                elif job_name in self.job_list_5:
+                    await ctx.message.reply(f"{ctx.author.mention} This job is currently under development. Please try some other job")   
+                elif job_name not in self.job_list and job_name not in self.job_list_2 and job_name not in self.job_list_3:
+                    await ctx.message.reply(f"lol this job does not exist, try getting another job hehe")
+                    return
 
             
         elif guild_data['users'][user_id]['job']['job_name'] is None:
@@ -1025,9 +1029,7 @@ class Economy(commands.Cog):
                     hours_needed = self.job_list_3[job_name]["hours_needed"]
                     salary = self.job_list_3[job_name]["salary"]
                     await ctx.message.reply(f"{ctx.author.mention} Congratulations, you are now working as a **{(guild_data['users'][user_id]['job']['job_name']).title()} **!\nYou're required to work at least **{hours_needed} times** a day via `-work`, or you'll be fired.\nYou start now, and your salary(the amount of coins you get per hour of work) is ⏣ {salary:,} per hour.")
-                elif job_name not in self.job_list and job_name not in self.job_list_2 and job_name not in self.job_list_3:
-                    await ctx.message.reply(f"lol this job does not exist, try getting another job hehe")
-                    return
+                
         '''if job_name is None and guild_data['users'][user_id]['job']['job_name'] == "discord mod":'''
 
         # , "Retype", "Color Match", "Reverse", "Scramble", "Soccer"]
