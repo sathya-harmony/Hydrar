@@ -75,12 +75,38 @@ class _help(commands.Cog):
                                                                              SelectOption(
                                                                                  label="😄 Fun",
                                                                                  value="fun",
-                                                                                 description="See the Fun commands!"
-
+                                                                                 description="Shows the **Fun Commands** Category!"
+                                                                             ),
+                                                                             SelectOption(
+                                                                                 label="👮‍♂️ Moderation",
+                                                                                 value="moderation",
+                                                                                 description="Shows the **Moderation Commands** Category!"
+                                                                             ),
+                                                                             SelectOption(
+                                                                                 label="🛠 Utility",
+                                                                                 value="utility",
+                                                                                 description="Shows the **Utility Commands** Category!"
+                                                                             ),
+                                                                             SelectOption(
+                                                                                 label="💰 Economy",
+                                                                                 value="economy",
+                                                                                 description="Shows the **Economy Commands** Category!"
+                                                                             ),
+                                                                             SelectOption(
+                                                                                 label="📊 Levels",
+                                                                                 value="levels",
+                                                                                 description="Shows the **Levels Commands** Catergory!"
 
                                                                              )
-                                                                         ])])
-                interaction = await self.client.wait_for("button_click", check=lambda i: i.component.label.startswith('Continue'))
+
+                                                                         ]
+                                                                         )
+                                                                  ]
+                                        )
+                interaction = await self.client.wait_for("button_click",
+                                                         check=lambda i: i.component.label.startswith(
+                                                             'Continue')
+                                                         )
                 await interaction.respond(content="LOL")
                 return
             except:
