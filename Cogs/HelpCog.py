@@ -69,7 +69,17 @@ class _help(commands.Cog):
                     name="**🏓Games**",
                     value="`-help Games`\n[Hover for Info](https://rb.gy/o2krdf)",
                     inline=False)
-                await ctx.message.reply(embed=embed1, components=[Button(label="Continue ⏩")])
+                # await ctx.message.reply(embed = embed1)
+                await ctx.message.reply(embed=embed1, components=[Select(placeholder="Filter",
+                                                                         options=[
+                                                                             SelectOption(
+                                                                                 label="😄 Fun",
+                                                                                 value="fun",
+                                                                                 description="See the Fun commands!"
+
+
+                                                                             )
+                                                                         ])])
                 interaction = await self.client.wait_for("button_click", check=lambda i: i.component.label.startswith('Continue'))
                 await interaction.respond(content="LOL")
                 return
