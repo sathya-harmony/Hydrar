@@ -982,8 +982,12 @@ class Economy(commands.Cog):
                 await ctx.message.reply(f"LMAO you're unemployed. Get a job idiot (Tip: Use `-work_list` to see available jobs :P)")
                 return
             elif guild_data['users'][user_id]['job']['job_name'] is not None:
-                channel = ctx.message.channel  
-                await self.main_retype(ctx)    
+                channel = ctx.message.channel
+                gamechoice = random.choice(['hangman', 'retype'])  
+                if gamechoice == 'hangman':
+                    await self.main_hangman(ctx)
+                elif gamechoice == 'retype':
+                    await self.main_retype(ctx)       
                         
 
                 #await self.main_hangman(ctx)
