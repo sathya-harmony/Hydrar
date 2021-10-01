@@ -987,46 +987,47 @@ class Economy(commands.Cog):
 
                 #await self.main_hangman(ctx)
 
-        elif job_name is not None:
-            if guild_data['users'][user_id]['job']['job_name'] is not None and job_name in self.job_list:
-                await ctx.message.reply(f"lol your already working as a `{guild_data['users'][user_id]['job']['job_name']}` just type `-work` to start working or type `-work resign` to resign your post")
-                return
-            elif guild_data['users'][user_id]['job']['job_name'] is not None and job_name in self.job_list_2:
-                await ctx.message.reply(f"lol your already working as a `{guild_data['users'][user_id]['job']['job_name']}` just type `-work` to start working or type `-work resign` to resign your post")
-                return
-            elif guild_data['users'][user_id]['job']['job_name'] is not None and job_name in self.job_list_3:
-                await ctx.message.reply(f"lol your already working as a `{guild_data['users'][user_id]['job']['job_name']}` just type `-work` to start working or type `-work resign` to resign your post")
-                return   
-            elif guild_data['users'][user_id]['job']['job_name'] is not None and job_name in self.job_list_4:
-                await ctx.message.reply(f"{ctx.author.mention} This job is currently under development. Please try some other job")
-            elif guild_data['users'][user_id]['job']['job_name'] is not None and job_name in self.job_list_5:
-                await ctx.message.reply(f"{ctx.author.mention} This job is currently under development. Please try some other job")     
+        elif job_name is not None: 
+            if guild_data['users'][user_id]['job']['job_name'] is not None:
+                if job_name in self.job_list:
+                    await ctx.message.reply(f"lol your already working as a `{guild_data['users'][user_id]['job']['job_name']}` just type `-work` to start working or type `-work resign` to resign your post")
+                    return
+                elif job_name in self.job_list_2:
+                    await ctx.message.reply(f"lol your already working as a `{guild_data['users'][user_id]['job']['job_name']}` just type `-work` to start working or type `-work resign` to resign your post")
+                    return
+                elif guild_data['users'][user_id]['job']['job_name'] is not None and job_name in self.job_list_3:
+                    await ctx.message.reply(f"lol your already working as a `{guild_data['users'][user_id]['job']['job_name']}` just type `-work` to start working or type `-work resign` to resign your post")
+                    return   
+                elif guild_data['users'][user_id]['job']['job_name'] is not None and job_name in self.job_list_4:
+                    await ctx.message.reply(f"{ctx.author.mention} This job is currently under development. Please try some other job")
+                elif guild_data['users'][user_id]['job']['job_name'] is not None and job_name in self.job_list_5:
+                    await ctx.message.reply(f"{ctx.author.mention} This job is currently under development. Please try some other job")     
 
-            elif job_name not in self.job_list and job_name not in self.job_list_2 and self.job_list_3:
-                await ctx.message.reply(f"lol this job does not exist, try getting another job hehe")
-                return
-
-            elif job_name in self.job_list and guild_data['users'][user_id]['job']['job_name'] is None:
-                guild_data['users'][user_id]['job']['job_name'] = job_name
-                guild_data['users'][user_id]['job']['hours_worked'] = 0
-                hours_needed = self.job_list[job_name]["hours_needed"]
-                salary = self.job_list[job_name]["salary"]
-                await ctx.message.reply(f"{ctx.author.mention} Congratulations, you are now working as a **{(guild_data['users'][user_id]['job']['job_name']).title()} **!\nYou're required to work at least **{hours_needed} times** a day via `-work`, or you'll be fired.\nYou start now, and your salary(the amount of coins you get per hour of work) is ⏣ {salary:,} per hour.")
-
-            elif job_name in self.job_list_2 and guild_data['users'][user_id]['job']['job_name'] is None:
-                guild_data['users'][user_id]['job']['job_name'] = job_name
-                guild_data['users'][user_id]['job']['hours_worked'] = 0
-                hours_needed = self.job_list_2[job_name]["hours_needed"]
-                salary = self.job_list_2[job_name]["salary"]
-                await ctx.message.reply(f"{ctx.author.mention} Congratulations, you are now working as a **{(guild_data['users'][user_id]['job']['job_name']).title()} **!\nYou're required to work at least **{hours_needed} times** a day via `-work`, or you'll be fired.\nYou start now, and your salary(the amount of coins you get per hour of work) is ⏣ {salary:,} per hour.")
             
-            elif job_name in self.job_list_3 and guild_data['users'][user_id]['job']['job_name'] is None:
-                guild_data['users'][user_id]['job']['job_name'] = job_name
-                guild_data['users'][user_id]['job']['hours_worked'] = 0
-                hours_needed = self.job_list_2[job_name]["hours_needed"]
-                salary = self.job_list_2[job_name]["salary"]
-                await ctx.message.reply(f"{ctx.author.mention} Congratulations, you are now working as a **{(guild_data['users'][user_id]['job']['job_name']).title()} **!\nYou're required to work at least **{hours_needed} times** a day via `-work`, or you'll be fired.\nYou start now, and your salary(the amount of coins you get per hour of work) is ⏣ {salary:,} per hour.")
+        elif guild_data['users'][user_id]['job']['job_name'] is None:
+                if job_name in self.job_list:
+                    guild_data['users'][user_id]['job']['job_name'] = job_name
+                    guild_data['users'][user_id]['job']['hours_worked'] = 0
+                    hours_needed = self.job_list[job_name]["hours_needed"]
+                    salary = self.job_list[job_name]["salary"]
+                    await ctx.message.reply(f"{ctx.author.mention} Congratulations, you are now working as a **{(guild_data['users'][user_id]['job']['job_name']).title()} **!\nYou're required to work at least **{hours_needed} times** a day via `-work`, or you'll be fired.\nYou start now, and your salary(the amount of coins you get per hour of work) is ⏣ {salary:,} per hour.")
 
+                elif job_name in self.job_list_2: 
+                    guild_data['users'][user_id]['job']['job_name'] = job_name
+                    guild_data['users'][user_id]['job']['hours_worked'] = 0
+                    hours_needed = self.job_list_2[job_name]["hours_needed"]
+                    salary = self.job_list_2[job_name]["salary"]
+                    await ctx.message.reply(f"{ctx.author.mention} Congratulations, you are now working as a **{(guild_data['users'][user_id]['job']['job_name']).title()} **!\nYou're required to work at least **{hours_needed} times** a day via `-work`, or you'll be fired.\nYou start now, and your salary(the amount of coins you get per hour of work) is ⏣ {salary:,} per hour.")
+            
+                elif job_name in self.job_list_3:
+                    guild_data['users'][user_id]['job']['job_name'] = job_name
+                    guild_data['users'][user_id]['job']['hours_worked'] = 0
+                    hours_needed = self.job_list_3[job_name]["hours_needed"]
+                    salary = self.job_list_3[job_name]["salary"]
+                    await ctx.message.reply(f"{ctx.author.mention} Congratulations, you are now working as a **{(guild_data['users'][user_id]['job']['job_name']).title()} **!\nYou're required to work at least **{hours_needed} times** a day via `-work`, or you'll be fired.\nYou start now, and your salary(the amount of coins you get per hour of work) is ⏣ {salary:,} per hour.")
+                elif job_name not in self.job_list and job_name not in self.job_list_2 and job_name not in self.job_list_3:
+                    await ctx.message.reply(f"lol this job does not exist, try getting another job hehe")
+                    return
         '''if job_name is None and guild_data['users'][user_id]['job']['job_name'] == "discord mod":'''
 
         # , "Retype", "Color Match", "Reverse", "Scramble", "Soccer"]
