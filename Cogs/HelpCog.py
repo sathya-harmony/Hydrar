@@ -114,92 +114,92 @@ class _help(commands.Cog):
             except:
                 pass
 
-        elif arg == 'fun':
-            try:
-                embed2 = discord.Embed(
-                    title="😄Fun Commands",
-                    description="**Desciption:**\nShows the Fun Commands Category. \nHave fun using these commands! :smile:",
-                    color=ctx.author.color)
-                embed2.set_thumbnail(
-                    url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
-                )
-                embed2.add_field(name="**Commands:**",
-                                 value="`8ball`, `ping`, `wanted`, `RIP`, `chat`, `joke`,`quote`, `fact`",
-                                 inline=False)
+        # elif arg == 'fun':
+        try:
+            embed2 = discord.Embed(
+                title="😄Fun Commands",
+                description="**Desciption:**\nShows the Fun Commands Category. \nHave fun using these commands! :smile:",
+                color=ctx.author.color)
+            embed2.set_thumbnail(
+                url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
+            )
+            embed2.add_field(name="**Commands:**",
+                             value="`8ball`, `ping`, `wanted`, `RIP`, `chat`, `joke`,`quote`, `fact`",
+                             inline=False)
 
-                embed2.add_field(name="**Aliases:**",
-                                 value="fun", inline=False)
+            embed2.add_field(name="**Aliases:**",
+                             value="fun", inline=False)
 
-                embed2.add_field(name="**Usage:**",
-                                 value="`-help fun`",
-                                 inline=False)
+            embed2.add_field(name="**Usage:**",
+                             value="`-help fun`",
+                             inline=False)
 
-                embed2.set_footer(
-                    text="Don't forget to use the prefix '-' before each command!",
-                    icon_url=embeds.EmptyEmbed)
+            embed2.set_footer(
+                text="Don't forget to use the prefix '-' before each command!",
+                icon_url=embeds.EmptyEmbed)
 
-                await ctx.message.reply(embed=embed2)
-                return
-            except:
-                pass
+            await ctx.message.reply(embed=embed2)
+            return
+        except:
+            pass
 
-        elif arg == 'moderation':
-            try:
-                embed3 = discord.Embed(
-                    title=":cop: Moderation Commands",
-                    description="**Description:**\nShows the Moderation Commands Category.\nYou and I both need to have specific permissions to use these\ncommands :cop:",
-                    color=ctx.author.color)
-                embed3.set_thumbnail(
-                    url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
-                )
-                embed3.add_field(name="**Commands:**",
-                                 value="`Kick`, `Ban`,`Unban`, `Clear`",
-                                 inline=False)
+        # elif arg == 'moderation':
+        try:
+            embed3 = discord.Embed(
+                title=":cop: Moderation Commands",
+                description="**Description:**\nShows the Moderation Commands Category.\nYou and I both need to have specific permissions to use these\ncommands :cop:",
+                color=ctx.author.color)
+            embed3.set_thumbnail(
+                url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
+            )
+            embed3.add_field(name="**Commands:**",
+                             value="`Kick`, `Ban`,`Unban`, `Clear`",
+                             inline=False)
 
-                embed3.add_field(name="**Aliases:**",
-                                 value="Moderation",
-                                 inline=False)
+            embed3.add_field(name="**Aliases:**",
+                             value="Moderation",
+                             inline=False)
 
-                embed3.add_field(name="**Usage:**",
-                                 value="`-help moderation`",
-                                 inline=False)
+            embed3.add_field(name="**Usage:**",
+                             value="`-help moderation`",
+                             inline=False)
 
-                embed3.set_footer(
-                    text="Don't forget to use the prefix '-' before each command!",
-                    icon_url=embeds.EmptyEmbed)
+            embed3.set_footer(
+                text="Don't forget to use the prefix '-' before each command!",
+                icon_url=embeds.EmptyEmbed)
 
-                await ctx.message.reply(embed=embed3)
-                return
-            except:
-                pass
-        elif arg == 'utility':
-            try:
-                embed4 = discord.Embed(
-                    title=":tools: Utility Commands",
-                    description="**Description:**\nShows the Utility Commands Category.\nUseful commands- Yes, you read it right, I am a useful bot. :rofl:",
-                    color=ctx.author.color)
-                embed4.set_thumbnail(
-                    url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
-                )
-                embed4.add_field(
-                    name="**Commands:**",
-                    value="`Help`, `Server`, `Userinfo`, `Solve`, `Ask`",
-                    inline=False)
-                embed4.add_field(name="**Aliases:**",
-                                 value="utility",
-                                 inline=False)
-                embed4.add_field(name="**Usage:**",
-                                 value="`-help utility`",
-                                 inline=False)
-                embed4.set_footer(
-                    text="Don't forget to use the prefix '-' before each command!",
-                    icon_url=embeds.EmptyEmbed)
-                await ctx.message.reply(embed=embed4)
-                return
-            except:
-                pass
+            await ctx.message.reply(embed=embed3)
+            return
+        except:
+            pass
+        # elif arg == 'utility':
+        try:
+            embed4 = discord.Embed(
+                title=":tools: Utility Commands",
+                description="**Description:**\nShows the Utility Commands Category.\nUseful commands- Yes, you read it right, I am a useful bot. :rofl:",
+                color=ctx.author.color)
+            embed4.set_thumbnail(
+                url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
+            )
+            embed4.add_field(
+                name="**Commands:**",
+                value="`Help`, `Server`, `Userinfo`, `Solve`, `Ask`",
+                inline=False)
+            embed4.add_field(name="**Aliases:**",
+                             value="utility",
+                             inline=False)
+            embed4.add_field(name="**Usage:**",
+                             value="`-help utility`",
+                             inline=False)
+            embed4.set_footer(
+                text="Don't forget to use the prefix '-' before each command!",
+                icon_url=embeds.EmptyEmbed)
+            await ctx.message.reply(embed=embed4)
+            return
+        except:
+            pass
 
-        elif arg == 'currency':
+        # elif arg == 'currency':
             try:
                 embed5 = discord.Embed(
                     title=":tools: Currency Commands",
@@ -226,55 +226,55 @@ class _help(commands.Cog):
             except:
                 pass
 
-        elif arg == 'level':
-            try:
-                embed6 = discord.Embed(
-                    title="📊 levelling Commands",
-                    description="**Description:**\nShows the Levelling Commands category.\nOur bot has a levelling system! You can view your levelling stats too and the person with the most xp!📉",
-                    color=ctx.author.color)
-                embed6.set_thumbnail(
-                    url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
-                )
-                embed6.add_field(name="**Commands:**",
-                                 value="`rank`, `top`",
-                                 inline=False)
-                embed6.add_field(name="**Aliases:**",
-                                 value="level, levels, lvls, lvl",
-                                 inline=False)
-                embed6.add_field(name="**Usage:**",
-                                 value="`-help levels`",
-                                 inline=False)
-                embed6.set_footer(
-                    text="Don't forget to use the prefix '-' before each command!",
-                    icon_url=embeds.EmptyEmbed)
-                await ctx.message.reply(embed=embed6)
-                return
-            except:
-                pass
-        elif arg == 'games':
-            try:
-                embed7 = discord.Embed(
-                    title=":game_die: Game Commands",
-                    description="**Description:**\nShows the Game Commands Category.\nPlay some minigames solo, or with your friends :bowling:",
-                    color=ctx.author.color)
-                embed7.set_thumbnail(
-                    url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
-                )
-                embed7.add_field(name="**Commands:**",
-                                 value="(Launching Soon)",
-                                 inline=False)
-                embed7.add_field(name="**Aliases:**",
-                                 value="games", inline=False)
-                embed7.add_field(name="**Usage:**",
-                                 value="`-help games",
-                                 inline=False)
-                embed7.set_footer(
-                    text="Don't forget to use the prefix '-' before each command!",
-                    icon_url=embeds.EmptyEmbed)
-                await ctx.message.reply(embed=embed7)
-                return
-            except:
-                pass
+        # elif arg == 'level':
+        try:
+            embed6 = discord.Embed(
+                title="📊 levelling Commands",
+                description="**Description:**\nShows the Levelling Commands category.\nOur bot has a levelling system! You can view your levelling stats too and the person with the most xp!📉",
+                color=ctx.author.color)
+            embed6.set_thumbnail(
+                url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
+            )
+            embed6.add_field(name="**Commands:**",
+                             value="`rank`, `top`",
+                             inline=False)
+            embed6.add_field(name="**Aliases:**",
+                             value="level, levels, lvls, lvl",
+                             inline=False)
+            embed6.add_field(name="**Usage:**",
+                             value="`-help levels`",
+                             inline=False)
+            embed6.set_footer(
+                text="Don't forget to use the prefix '-' before each command!",
+                icon_url=embeds.EmptyEmbed)
+            await ctx.message.reply(embed=embed6)
+            return
+        except:
+            pass
+        # elif arg == 'games':
+        try:
+            embed7 = discord.Embed(
+                title=":game_die: Game Commands",
+                description="**Description:**\nShows the Game Commands Category.\nPlay some minigames solo, or with your friends :bowling:",
+                color=ctx.author.color)
+            embed7.set_thumbnail(
+                url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
+            )
+            embed7.add_field(name="**Commands:**",
+                             value="(Launching Soon)",
+                             inline=False)
+            embed7.add_field(name="**Aliases:**",
+                             value="games", inline=False)
+            embed7.add_field(name="**Usage:**",
+                             value="`-help games",
+                             inline=False)
+            embed7.set_footer(
+                text="Don't forget to use the prefix '-' before each command!",
+                icon_url=embeds.EmptyEmbed)
+            await ctx.message.reply(embed=embed7)
+            return
+        except:
+            pass
         while True:
             try:
                 interact = await self.client.wait_for("select_option", timeout=15.0)
@@ -282,12 +282,10 @@ class _help(commands.Cog):
                 if value == 'fun':
                     await interact.edit_origin(embed=embed2)
 
-                '''if ctx.author.id != interact.author.id:
-                    await interact.respond(content=f"{interaction.author.mention} This message is not for you lmao")'''
             except asyncio.TimeoutError:
                 break
         # inside main function
-        if arg == '8ball':
+        '''if arg == '8ball':
             try:
                 embed8 = discord.Embed(
                     title="8ball Info",
@@ -549,7 +547,7 @@ class _help(commands.Cog):
                 await ctx.message.reply(embed=embed12)
                 return
             except:
-                pass
+                pass'''
 
 
 def setup(client):
