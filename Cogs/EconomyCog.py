@@ -317,8 +317,8 @@ class Economy(commands.Cog):
 
     @commands.command(aliases=[])
     async def meme(self, ctx, subred = 'memes'):
-        #msg = await ctx.message.reply('Loading Meme https://tenor.com/view/hug-gif-22743155')
-        async with aiohttp.ClientSession() as cs:
+        msg = await ctx.message.reply('Loading Meme https://tenor.com/view/hug-gif-22743155')
+        '''async with aiohttp.ClientSession() as cs:
             async with cs.get("https://www.reddit.com/r/memes.json") as r:
                 memes = str(r)
                 embed = discord.Embed(color=discord.Color.purple())
@@ -326,9 +326,9 @@ class Economy(commands.Cog):
                     url=memes["data"]["children"][random.randint(0, 25)]["data"]["url"])
                 embed.set_footer(
                     text=f'Powered by r/Memes! | Meme requested by {ctx.author}')
-                await ctx.send(embed=embed)
+                await ctx.send(embed=embed)'''
 
-        '''reddit = asyncpraw.Reddit(client_id='uv7phVm3ez8QL_KF-aS0vg',
+        reddit = asyncpraw.Reddit(client_id='uv7phVm3ez8QL_KF-aS0vg',
                                   client_secret='LyqQDeKxPGsxK2yrVR4pYIXXk3bXRQ',
                                   username='SathyaShrik',
                                   password='CihVirus123',
@@ -351,7 +351,7 @@ class Economy(commands.Cog):
             text=f'Powered by r/Memes! | Meme requested by {ctx.author}', icon_url=ctx.author.avatar_url)
         #await ctx.send(embed=embed)await msg.edit(content=f'<https://reddit.com/r/{subreddit}/> :white_check_mark:')
         await msg.edit(embed=embed, content=f'<https://reddit.com/r/{subreddit}/> <:tick:892291436232446002>')
-        return'''
+        return
 
     @commands.command(aliases=[])
     @commands.cooldown(1, 60*60*24, BucketType.user)
