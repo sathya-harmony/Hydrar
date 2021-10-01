@@ -157,7 +157,7 @@ async def on_member_join(member):
 
 
 # help command
-client.load_extension('Cogs.HelpCog')
+client.load_extension('Cogs.HelpCog_test')
 # ping
 client.load_extension('Cogs.PingCog')
 # 8ball
