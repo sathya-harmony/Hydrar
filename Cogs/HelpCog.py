@@ -279,7 +279,7 @@ class _help(commands.Cog):
             try:
                 interact = await self.client.wait_for("select_option", timeout=15.0)
                 value = interact.component.label
-                if value == 'fun':
+                if value == '😄 Fun':
                     await interact.edit_origin(embed=embed2)
 
                 '''if ctx.author.id != interact.author.id:
