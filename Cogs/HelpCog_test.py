@@ -51,6 +51,29 @@ class _help_(commands.Cog):
             value="`-help Games`\n[Hover for Info](https://rb.gy/o2krdf)",
             inline=False)
         # await ctx.message.reply(embed = embed1)
+
+        embed2 = discord.Embed(
+            title="😄Fun Commands",
+            description="**Desciption:**\nShows the Fun Commands Category. \nHave fun using these commands! :smile:",
+            color=ctx.author.color)
+        embed2.set_thumbnail(
+            url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
+        )
+        embed2.add_field(name="**Commands:**",
+                         value="`8ball`, `ping`, `wanted`, `RIP`, `chat`, `joke`,`quote`, `fact`",
+                         inline=False)
+
+        embed2.add_field(name="**Aliases:**",
+                         value="fun", inline=False)
+
+        embed2.add_field(name="**Usage:**",
+                         value="`-help fun`",
+                         inline=False)
+
+        embed2.set_footer(
+            text="Don't forget to use the prefix '-' before each command!",
+            icon_url=embeds.EmptyEmbed)
+
         await ctx.message.reply(embed=embed1, components=[Select(placeholder="Filter",
                                                                  options=[
                                                                      SelectOption(
@@ -85,34 +108,13 @@ class _help_(commands.Cog):
                                                                  )
                                                           ]
                                 )
-        embed2 = discord.Embed(
-            title="😄Fun Commands",
-            description="**Desciption:**\nShows the Fun Commands Category. \nHave fun using these commands! :smile:",
-            color=ctx.author.color)
-        embed2.set_thumbnail(
-            url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
-        )
-        embed2.add_field(name="**Commands:**",
-                         value="`8ball`, `ping`, `wanted`, `RIP`, `chat`, `joke`,`quote`, `fact`",
-                         inline=False)
-
-        embed2.add_field(name="**Aliases:**",
-                         value="fun", inline=False)
-
-        embed2.add_field(name="**Usage:**",
-                         value="`-help fun`",
-                         inline=False)
-
-        embed2.set_footer(
-            text="Don't forget to use the prefix '-' before each command!",
-            icon_url=embeds.EmptyEmbed)
 
         while True:
             try:
-                interact = await self.client.wait_for("select_option", timeout=15.0)
-                value = interact.component.value
+                interaction = await self.client.wait_for("select_option", timeout=15.0)
+                value = interaction.component.custom_id
                 if value == 'fun':
-                    await interact.edit_origin(embed=embed2)
+                    await interaction.edit_origin(embed=embed2)
             except asyncio.TimeoutError:
                 break
 
