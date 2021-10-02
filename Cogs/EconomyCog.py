@@ -1074,12 +1074,13 @@ class Economy(commands.Cog):
                 return
             elif guild_data['users'][user_id]['job']['job_name'] is not None:
                 channel=ctx.message.channel
-                gamechoice=random.choice(['hangman', 'retype'])
+                '''gamechoice=random.choice(['hangman', 'retype'])
                 if gamechoice == 'hangman':
                     await self.main_hangman(ctx)
                 elif gamechoice == 'retype':
                     await self.main_retype(ctx)
-
+'''
+                self.choose_emoji(ctx)
 
                 # await self.main_hangman(ctx)
 
