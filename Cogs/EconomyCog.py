@@ -275,7 +275,7 @@ class Economy(commands.Cog):
             '🤔', '😛', '😴', '🤐', '🤑', '🤮', '😡', '🤬', '🤢', '👽', '🤖', '🙈', '☠']
         
         
-        emoji_waste_list = (random.sample(emojies, 11))
+        emoji_waste_list = (random.sample(emojies, 10))
         emoji_choice = random.choice(emoji_waste_list)
 
         '''emoji_choice = random.choice(emojies)
@@ -347,15 +347,15 @@ class Economy(commands.Cog):
                                                              ]
                                                         ])
         interaction = await self.client.wait_for("button_click", timeout=15.0)
-        index = 0
-        for items in emoji_waste_list:
-            index += 1
-            if index == 9:
-                break
+        
+        '''for items in emoji_waste_list:
+                       
+                
                         
-            if interaction.component.label == items[index]:
+            if interaction.component.label == items[]:
                 print(items)
-                await ctx.send("gg")
+                await ctx.send("gg")'''
+                
                 
             
             
