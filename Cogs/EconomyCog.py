@@ -350,7 +350,7 @@ class Economy(commands.Cog):
         if emoji_choice == interaction.component.label:
             row1 = []
             row2 = []
-            for x in range(5):
+            for x in range(0, 5):
                 if emoji_waste_list[x] == emojies:
                     row1.append(Button(label = emoji_waste_list[x], style = 3, disabled = True))
                 else:
