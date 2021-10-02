@@ -1080,7 +1080,7 @@ class Economy(commands.Cog):
                 elif gamechoice == 'retype':
                     await self.main_retype(ctx)
 '''
-                self.choose_emoji(ctx)
+                await self.choose_emoji(ctx)
 
                 # await self.main_hangman(ctx)
 
