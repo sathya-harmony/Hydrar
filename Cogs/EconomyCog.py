@@ -286,7 +286,7 @@ class Economy(commands.Cog):
         await asyncio.sleep(5)
         await msg.edit('What was the emoji?', components=[
                                                           [
-                                                            (Button(
+                                                            (Button(ButtonStyle = ButtonStyle.grey,
                                                                 emoji=emoji_waste_list[0],
                                                                  custom_id="1",
                                                                   style=1)
