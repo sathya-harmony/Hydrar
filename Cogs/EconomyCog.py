@@ -347,14 +347,13 @@ class Economy(commands.Cog):
                                                              ]
                                                         ])
         interaction = await self.client.wait_for("button_click", timeout=15.0)
-        i = 0
+        
         for items in emoji_waste_list:
                         
-            if interaction.component.emoji == str(items[i]):
+            if interaction.component.emoji == str(items):
                 await ctx.send("gg")
                 break
-            else:
-                i+=1
+            e
                
             
 
