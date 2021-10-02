@@ -214,11 +214,12 @@ class Economy(commands.Cog):
                 cut_off = random.choice([1.5, 1.75, 1.96, 1.99, 2.12, 2.25])
                 amount = int(salary / cut_off)    
             
-            self.update_bank(ctx.author, amount)
-            embed = discord.Embed(title=f"Terrible Effort, {ctx.author.mention}! I expected better work from you :angry:",
+            
+            embed = discord.Embed(title=f"Terrible Effort, {ctx.author}! I expected better work from you :angry:",
                                   description=f'You lost the mini-game because you ran out of time.\nYou were given {amount} for a sub-par hour of work.')
             
             await ctx.send(embed = embed)        
+        self.update_bank(ctx.author, amount)
 
     async def display_hangman(self, tries):
         
