@@ -360,7 +360,7 @@ class Economy(commands.Cog):
                     row2.append(Button(label = emoji_waste_list[x], style = ButtonStyle.green, disabled = True))
                   else: 
                       row2.append(Button(label = emoji_waste_list[x], disabled = True))
-            await interaction.edit_origin(components = [row1, row2])
+            await interaction.edit_origin(components = [[row1] , [row2]])
             #await interaction.respond(type=6)           
 
             
