@@ -1,4 +1,5 @@
 
+from operator import index
 from typing import Text
 from discord import user
 from discord.ext.commands import bot
@@ -274,8 +275,8 @@ class Economy(commands.Cog):
             '🤔', '😛', '😴', '🤐', '🤑', '🤮', '😡', '🤬', '🤢', '👽', '🤖', '🙈', '☠']
         
         
-        emoji_waste_list = (random.sample(emojies, 10))
-        emoji_choice = random.choice(emojies)  
+        emoji_waste_list = (random.sample(emojies, 11))
+        emoji_choice = random.choice(emoji_waste_list)
 
         '''emoji_choice = random.choice(emojies)
         emoji_waste_list = []
@@ -288,20 +289,25 @@ class Economy(commands.Cog):
                 #emoji_waste_list.append(emoji_choice)
                 emoji_waste_list.insert(index, emoji_choice)'''
 
-        msg = await ctx.message.reply(f"**Work for {job_name} - Emoji Match - Look at the emoji closely!\n{emoji_choice}")
-        await asyncio.sleep(5)
+        msg = await ctx.message.reply(f"**Work for {job_name}** - Emoji Match - Look at the emoji closely!\n{emoji_choice}")
+        await asyncio.sleep(3)
         await msg.edit('What was the emoji?', components=[
                                                           [
                                                             (Button(style = ButtonStyle.grey,
                                                                 emoji=emoji_waste_list[0],
-                                                                 custom_id="1",
+                                                                 custom_id="0",
                                                                   )
                                                                   ),
                                                             (Button(style=ButtonStyle.grey,
                                                                 emoji=emoji_waste_list[1],
-                                                                custom_id="2",
+                                                                custom_id="1",
                                                                 )
                                                              
+                                                             ),
+                                                             (Button(style = ButtonStyle.grey,
+                                                                emoji=emoji_waste_list[2],
+                                                                custom_id="2",
+                                                                )
                                                              ),
                                                              (Button(style = ButtonStyle.grey,
                                                                 emoji=emoji_waste_list[3],
@@ -312,12 +318,12 @@ class Economy(commands.Cog):
                                                                 emoji=emoji_waste_list[4],
                                                                 custom_id="4",
                                                                 )
-                                                             ),
+                                                             )],[
                                                              (Button(style = ButtonStyle.grey,
                                                                 emoji=emoji_waste_list[5],
                                                                 custom_id="5",
                                                                 )
-                                                             )],[
+                                                             ),
                                                              (Button(style = ButtonStyle.grey,
                                                                 emoji=emoji_waste_list[6],
                                                                 custom_id="6",
@@ -328,20 +334,26 @@ class Economy(commands.Cog):
                                                                 custom_id="7",
                                                                 )
                                                              ),
-                                                             (Button(style = ButtonStyle.grey,
-                                                                emoji=emoji_waste_list[8],
-                                                                custom_id="8",
-                                                                )
-                                                             ),
                                                               (Button(style=ButtonStyle.grey,
-                                                                  emoji=emoji_waste_list[9],
-                                                                  custom_id="9",
+                                                                  emoji=emoji_waste_list[8],
+                                                                  custom_id="8",
                                                               )
-                                                               )
+                                                               ),
+                                                              (Button(style=ButtonStyle.grey,
+                                                                      emoji=emoji_waste_list[9],
+                                                                      custom_id="9"))
                                                               
 
                                                              ]
                                                         ])
+        interaction = await self.client.wait_for("button_click", timeout=15.0)
+        itemss = 0
+        for items in emoji_waste_list:
+            if interaction.component.emoji == str(items):
+                await ctx.send("gg")
+                break
+            itemss += 1    
+            print("")
 
 
     def get_bank_data(self, guild_id):
