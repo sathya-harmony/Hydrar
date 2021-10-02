@@ -289,7 +289,7 @@ class Economy(commands.Cog):
                                                             (Button(style = ButtonStyle.grey,
                                                                 emoji=emoji_waste_list[0],
                                                                  custom_id="1",
-                                                                  style=1)
+                                                                  )
                                                                   ),
                                                             (Button(
                                                                 emoji=emoji_waste_list[1],
