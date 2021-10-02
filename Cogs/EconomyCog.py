@@ -400,7 +400,7 @@ class Economy(commands.Cog):
                         Button(label=emoji_waste_list[x], disabled=True))
                     
             for x in range(5, 10):
-                row1.append(
+                row2.append(
                     Button(label=emoji_waste_list[x], disabled=True))
             await interaction.edit_origin(components = [row1, row2])
                        
