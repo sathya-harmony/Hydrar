@@ -311,7 +311,7 @@ class Economy(commands.Cog):
                                                                 emoji=emoji_waste_list[5],
                                                                 custom_id="5",
                                                                 style=1)
-                                                             ),
+                                                             )],[
                                                              (Button(
                                                                 emoji=emoji_waste_list[6],
                                                                 custom_id="6",
@@ -333,7 +333,7 @@ class Economy(commands.Cog):
                                                                   style=1)
                                                                )
 
-                                                           ]
+                                                             ]
                                                         ])
 
 
