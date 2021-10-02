@@ -392,6 +392,7 @@ class Economy(commands.Cog):
                 await ctx.send("terrible work")
         except asyncio.TimeoutError:
             await ctx.send("You were timed out!")
+            
             row1 = []
             row2 = []
             for x in range(0, 5):
@@ -402,7 +403,7 @@ class Economy(commands.Cog):
             for x in range(5, 10):
                 row2.append(
                     Button(label=emoji_waste_list[x], disabled=True))
-            await interaction.edit_origin(components = [row1, row2])
+        await interaction.edit_origin(components = [row1, row2])
                        
                  
 
