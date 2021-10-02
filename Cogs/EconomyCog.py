@@ -351,15 +351,15 @@ class Economy(commands.Cog):
             row1 = []
             row2 = []
             for x in range(0, 5):
-                if emoji_waste_list[x] == emojies:
+                if emoji_waste_list[x] == emoji_choice:
                     row1.append(Button(label = emoji_waste_list[x], style = 3, disabled = True))
                     print("yeaaaaaaaaaaaaaaaaaaa")
                 else:
                     row1.append(Button(label = emoji_waste_list[x],style = ButtonStyle.grey,  disabled = True))    
             for x in range(5, 10):
-                  if emoji_waste_list[x] == emojies:
+                if emoji_waste_list[x] == emoji_choice:
                     row2.append(Button(label = emoji_waste_list[x], style = ButtonStyle.green, disabled = True))
-                  else: 
+                else: 
                       row2.append(Button(label = emoji_waste_list[x], disabled = True))
             await interaction.edit_origin(components = [row1 , row2])
             #await interaction.respond(type=6)           
