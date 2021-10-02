@@ -213,7 +213,7 @@ class Economy(commands.Cog):
                 salary = int(self.job_list_3[job_name]['salary'])   
                 cut_off = random.choice([1.5, 1.75, 1.96, 1.99, 2.12, 2.25])
                 amount = int(salary / cut_off)    
-            self.update_bank(ctx.author, amount, True)
+            self.update_bank(ctx.author, amount,overwrite=True)
             
             embed = discord.Embed(title=f"Terrible Effort, {ctx.author}! I expected better work from you :angry:",
                                   description=f'You lost the mini-game because you ran out of time.\nYou were given {amount} for a sub-par hour of work.')
