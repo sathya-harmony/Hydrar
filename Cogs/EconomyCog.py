@@ -273,8 +273,8 @@ class Economy(commands.Cog):
         emojies = ['😁', '😂', '🤣', '😃', '😅', '😆', '🥰', '😍', '😎', '🤗', '🤩',
             '🤔', '😛', '😴', '🤐', '🤑', '🤮', '😡', '🤬', '🤢', '👽', '🤖', '🙈', '☠']
         
-        emoji_waste_list = []
-        emoji_waste_list.append((random.sample(emojies, 10)))  
+        
+        emoji_waste_list = (random.sample(emojies, 10))
         emoji_choice = random.choice(emojies)  
 
         '''emoji_choice = random.choice(emojies)
