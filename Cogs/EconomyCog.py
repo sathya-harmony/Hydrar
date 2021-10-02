@@ -294,53 +294,53 @@ class Economy(commands.Cog):
         await msg.edit('What was the emoji?', components=[
                                                           [
                                                             (Button(style = ButtonStyle.grey,
-                                                                emoji=emoji_waste_list[0],
+                                                                label=emoji_waste_list[0],
                                                                  custom_id="0",
                                                                   )
                                                                   ),
                                                             (Button(style=ButtonStyle.grey,
-                                                                emoji=emoji_waste_list[1],
+                                                                    label=emoji_waste_list[1],
                                                                 custom_id="1",
                                                                 )
                                                              
                                                              ),
                                                              (Button(style = ButtonStyle.grey,
-                                                                emoji=emoji_waste_list[2],
+                                                                label=emoji_waste_list[2],
                                                                 custom_id="2",
                                                                 )
                                                              ),
                                                              (Button(style = ButtonStyle.grey,
-                                                                emoji=emoji_waste_list[3],
+                                                                label=emoji_waste_list[3],
                                                                 custom_id="3",
                                                                 )
                                                              ),
                                                              (Button(style = ButtonStyle.grey,
-                                                                emoji=emoji_waste_list[4],
+                                                                     label=emoji_waste_list[4],
                                                                 custom_id="4",
                                                                 )
                                                              )],[
                                                              (Button(style = ButtonStyle.grey,
-                                                                emoji=emoji_waste_list[5],
+                                                                label=emoji_waste_list[5],
                                                                 custom_id="5",
                                                                 )
                                                              ),
                                                              (Button(style = ButtonStyle.grey,
-                                                                emoji=emoji_waste_list[6],
+                                                                label=emoji_waste_list[6],
                                                                 custom_id="6",
                                                                 )
                                                              ),
                                                              (Button(style = ButtonStyle.grey,
-                                                                emoji=emoji_waste_list[7],
-                                                                custom_id="7",
+                                                                     label=emoji_waste_list[7],
+                                                                      custom_id="7",
                                                                 )
                                                              ),
                                                               (Button(style=ButtonStyle.grey,
-                                                                  emoji=emoji_waste_list[8],
-                                                                  custom_id="8",
+                                                                      label=emoji_waste_list[8],
+                                                                      custom_id="8",
                                                               )
                                                                ),
                                                               (Button(style=ButtonStyle.grey,
-                                                                      emoji=emoji_waste_list[9],
+                                                                      label=emoji_waste_list[9],
                                                                       custom_id="9"))
                                                               
 
@@ -350,10 +350,11 @@ class Economy(commands.Cog):
         
         for items in emoji_waste_list:
                         
-            if interaction.component.emoji == str(items):
+            if interaction.component.label == items:
+                print(items)
                 await ctx.send("gg")
                 break
-            e
+            
                
             
 
