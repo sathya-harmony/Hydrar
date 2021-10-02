@@ -272,8 +272,12 @@ class Economy(commands.Cog):
         job_name = guild_data['users'][user_id]['job']["job_name"]
         emojies = ['😁', '😂', '🤣', '😃', '😅', '😆', '🥰', '😍', '😎', '🤗', '🤩',
             '🤔', '😛', '😴', '🤐', '🤑', '🤮', '😡', '🤬', '🤢', '👽', '🤖', '🙈', '☠']
+        
+        emoji_waste_list = []
+        emoji_waste_list.append((random.sample(emojies, 10)))  
+        emoji_choice = random.choice(emojies)  
 
-        emoji_choice = random.choice(emojies)
+        '''emoji_choice = random.choice(emojies)
         emoji_waste_list = []
         f = 0
         for i in range(11):
@@ -282,7 +286,7 @@ class Economy(commands.Cog):
             
             if i == index:
                 #emoji_waste_list.append(emoji_choice)
-                emoji_waste_list.insert(index, emoji_choice)
+                emoji_waste_list.insert(index, emoji_choice)'''
 
         msg = await ctx.message.reply(f"**Work for {job_name} - Emoji Match - Look at the emoji closely!\n{emoji_choice}")
         await asyncio.sleep(5)
