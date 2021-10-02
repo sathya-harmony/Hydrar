@@ -347,13 +347,14 @@ class Economy(commands.Cog):
                                                              ]
                                                         ])
         interaction = await self.client.wait_for("button_click", timeout=15.0)
-        itemss = 0
+        i = 0
         for items in emoji_waste_list:
-            if interaction.component.emoji == str(items):
+            i+=1            
+            if interaction.component.emoji == str(items[i]):
                 await ctx.send("gg")
                 break
-            itemss += 1    
-            print("")
+               
+            
 
 
     def get_bank_data(self, guild_id):
