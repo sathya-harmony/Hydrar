@@ -277,9 +277,9 @@ class Economy(commands.Cog):
         emoji_waste_list = []
         f = 0
         for i in range(11):
-            emoji_waste_list.append(emoji_choice)
+            emoji_waste_list.append(emojies)
             index = random.randint(0, 11)
-            f +=1
+            
             if i == index:
                 #emoji_waste_list.append(emoji_choice)
                 emoji_waste_list.insert(index, emoji_choice)
