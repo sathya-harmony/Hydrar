@@ -275,9 +275,11 @@ class Economy(commands.Cog):
 
         emoji_choice = random.choice(emojies)
         emoji_waste_list = []
+        f = 0
         for i in range(10):
             emoji_waste_list.append(emoji_choice)
             index = random.randint(0, 10)
+            f +=1
             if i == index:
                 #emoji_waste_list.append(emoji_choice)
                 emoji_waste_list.insert(index, emoji_choice)
@@ -291,47 +293,51 @@ class Economy(commands.Cog):
                                                                  custom_id="1",
                                                                   )
                                                                   ),
-                                                            (Button(
+                                                            (Button(style=ButtonStyle.grey,
                                                                 emoji=emoji_waste_list[1],
                                                                 custom_id="2",
-                                                                style=1)
+                                                                )
                                                              
                                                              ),
-                                                             (Button(
+                                                             (Button(style = ButtonStyle.grey,
                                                                 emoji=emoji_waste_list[3],
                                                                 custom_id="3",
-                                                                style=1)
+                                                                )
                                                              ),
-                                                             (Button(
+                                                             (Button(style = ButtonStyle.grey,
                                                                 emoji=emoji_waste_list[4],
                                                                 custom_id="4",
-                                                                style=1)
+                                                                )
                                                              ),
-                                                             (Button(
+                                                             (Button(style = ButtonStyle.grey,
                                                                 emoji=emoji_waste_list[5],
                                                                 custom_id="5",
-                                                                style=1)
+                                                                )
                                                              )],[
-                                                             (Button(
+                                                             (Button(style = ButtonStyle.grey,
                                                                 emoji=emoji_waste_list[6],
                                                                 custom_id="6",
-                                                                style=1)
+                                                                )
                                                              ),
-                                                             (Button(
+                                                             (Button(style = ButtonStyle.grey,
                                                                 emoji=emoji_waste_list[7],
                                                                 custom_id="7",
-                                                                style=1)
+                                                                )
                                                              ),
-                                                             (Button(
+                                                             (Button(style = ButtonStyle.grey,
                                                                 emoji=emoji_waste_list[8],
                                                                 custom_id="8",
-                                                                style=1)
+                                                                )
                                                              ),
-                                                              (Button(
+                                                              (Button(style=ButtonStyle.grey,
                                                                   emoji=emoji_waste_list[9],
                                                                   custom_id="9",
-                                                                  style=1)
-                                                               )
+                                                              )
+                                                               ),
+                                                              (Button(style=ButtonStyle.grey,
+                                                                      emoji=emoji_waste_list[10],
+                                                                      custom_id="10",
+                                                                      ))
 
                                                              ]
                                                         ])
