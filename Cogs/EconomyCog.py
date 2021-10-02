@@ -295,66 +295,87 @@ class Economy(commands.Cog):
                                                           [
                                                             (Button(style = ButtonStyle.grey,
                                                                 label=emoji_waste_list[0],
-                                                                 custom_id="0",
+                                                                
                                                                   )
                                                                   ),
                                                             (Button(style=ButtonStyle.grey,
                                                                     label=emoji_waste_list[1],
-                                                                custom_id="1",
+                                                                
                                                                 )
                                                              
                                                              ),
                                                              (Button(style = ButtonStyle.grey,
                                                                 label=emoji_waste_list[2],
-                                                                custom_id="2",
+                                                                
                                                                 )
                                                              ),
                                                              (Button(style = ButtonStyle.grey,
                                                                 label=emoji_waste_list[3],
-                                                                custom_id="3",
+                                                                
                                                                 )
                                                              ),
                                                              (Button(style = ButtonStyle.grey,
                                                                      label=emoji_waste_list[4],
-                                                                custom_id="4",
+                                                                
                                                                 )
                                                              )],[
                                                              (Button(style = ButtonStyle.grey,
                                                                 label=emoji_waste_list[5],
-                                                                custom_id="5",
+                                                                
                                                                 )
                                                              ),
                                                              (Button(style = ButtonStyle.grey,
                                                                 label=emoji_waste_list[6],
-                                                                custom_id="6",
+                                                        
                                                                 )
                                                              ),
                                                              (Button(style = ButtonStyle.grey,
                                                                      label=emoji_waste_list[7],
-                                                                      custom_id="7",
+                                                                      
                                                                 )
                                                              ),
                                                               (Button(style=ButtonStyle.grey,
                                                                       label=emoji_waste_list[8],
-                                                                      custom_id="8",
+                                                                      
                                                               )
                                                                ),
                                                               (Button(style=ButtonStyle.grey,
                                                                       label=emoji_waste_list[9],
-                                                                      custom_id="9"))
+                                                                      ))
                                                               
 
                                                              ]
                                                         ])
-        interaction = await self.client.wait_for("button_click", timeout=15.0)
-        
-        '''for items in emoji_waste_list:
+        interaction = await self.client.wait_for("button_click", check = lambda i:i.component.label in emoji_waste_list,  timeout=15.0)
+        if emoji_choice == interaction.component.label:
+            row1 = []
+            row2 = []
+            for x in range(5):
+                if emoji_waste_list[x] == emojies:
+                    row1.append(Button(label = emoji_waste_list[x], style = 3, disabled = True))
+                else:
+                    row1.append(Button(label = emoji_waste_list[x], disabled = True))    
+            for x in range(5, 10):
+                  if emoji_waste_list[x] == emojies:
+                    row2.append(Button(label = emoji_waste_list[x], style = 3, disabled = True))
+                  else: 
+                      row2.append(Button(label = emoji_waste_list[x], disabled = True))
+            await interaction.message.edit(components = [row1, row2])
+            await interaction.respond(type=6)           
+
+            
+        '''buttons1 = []        
+        buttons2 = []
+        for i in range(5):
+            buttons1.append(Button(style=ButtonStyle.grey,
+                                   label=emoji_waste_list[i],
+                                   ))'''
+
+            
                        
-                
+              
                         
-            if interaction.component.label == items[]:
-                print(items)
-                await ctx.send("gg")'''
+       
                 
                 
             
