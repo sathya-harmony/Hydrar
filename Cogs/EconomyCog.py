@@ -279,7 +279,7 @@ class Economy(commands.Cog):
             emoji_waste_list.append(emoji_choice)
             index = random.randint(0, 10)
             if i == index:
-                emoji_waste_list.append(emoji_choice)[index]
+                emoji_waste_list.append[index](emoji_choice)
 
         msg = await ctx.message.reply(f"**Work for {job_name} - Emoji Match - Look at the emoji closely!\n{emoji_choice}")
         await asyncio.sleep(5)
@@ -294,11 +294,7 @@ class Economy(commands.Cog):
                                                                 emoji=emoji_waste_list[1],
                                                                 custom_id="2",
                                                                 style=1)
-                                                             ),
-                                                             (Button(
-                                                                emoji=emoji_waste_list[2],
-                                                                custom_id="3",
-                                                                style=1)
+                                                             
                                                              ),
                                                              (Button(
                                                                 emoji=emoji_waste_list[3],
