@@ -73,48 +73,74 @@ class _help_(commands.Cog):
         embed2.set_footer(
             text="Don't forget to use the prefix '-' before each command!",
             icon_url=embeds.EmptyEmbed)
+        components = [Select(placeholder="Filter",
+                             options=[
+                                 SelectOption(
+                                     label="😄 Fun",
+                                     value="fun",
+                                     description="Shows the Fun Commands Category!"
 
-        await ctx.message.reply(embed=embed1, components=[Select(placeholder="Filter",
-                                                                 options=[
-                                                                     SelectOption(
-                                                                         label="😄 Fun",
-                                                                         value="fun",
-                                                                         description="Shows the Fun Commands Category!"
+                                 ),
+                                 SelectOption(
+                                     label="👮‍♂️ Moderation",
+                                     value="moderation",
+                                     description="Shows the Moderation Commands Category!"
+                                 ),
+                                 SelectOption(
+                                     label="🛠 Utility",
+                                     value="utility",
+                                     description="Shows the Utility Commands Category!"
+                                 ),
+                                 SelectOption(
+                                     label="💰 Economy",
+                                     value="economy",
+                                     description="Shows the Economy Commands Category!"
+                                 ),
+                                 SelectOption(
+                                     label="📊 Levels",
+                                     value="levels",
+                                     description="Shows the Levels Commands Catergory!"
 
-                                                                     ),
-                                                                     SelectOption(
-                                                                         label="👮‍♂️ Moderation",
-                                                                         value="moderation",
-                                                                         description="Shows the Moderation Commands Category!"
-                                                                     ),
-                                                                     SelectOption(
-                                                                         label="🛠 Utility",
-                                                                         value="utility",
-                                                                         description="Shows the Utility Commands Category!"
-                                                                     ),
-                                                                     SelectOption(
-                                                                         label="💰 Economy",
-                                                                         value="economy",
-                                                                         description="Shows the Economy Commands Category!"
-                                                                     ),
-                                                                     SelectOption(
-                                                                         label="📊 Levels",
-                                                                         value="levels",
-                                                                         description="Shows the Levels Commands Catergory!"
+                                 )
 
-                                                                     )
+                             ]
+                             )
+                      ]
 
-                                                                 ]
-                                                                 )
-                                                          ]
-                                )
+        await ctx.message.reply(embed=embed1, components=components)
 
         while True:
             try:
                 interaction = await self.client.wait_for("select_option", timeout=15.0)
                 value = interaction.values[0]
                 if value == 'fun':
-                    await interaction.edit_origin(embed=embed2)
+                    await interaction.edit_origin(embed=embed2, components=Select(placeholder="😄 Fun Commands",
+                                                                                              options=[
+                                                                                                  SelectOption(
+                                                                                                      label="👮‍♂️ Moderation",
+                                                                                                      value="moderation",
+                                                                                                      description="Shows the Moderation Commands Category!"
+                                                                                                  ),
+                                                                                                  SelectOption(
+                                                                                                      label="🛠 Utility",
+                                                                                                      value="utility",
+                                                                                                      description="Shows the Utility Commands Category!"
+                                                                                                  ),
+                                                                                                  SelectOption(
+                                                                                                      label="💰 Economy",
+                                                                                                      value="economy",
+                                                                                                      description="Shows the Economy Commands Category!"
+                                                                                                  ),
+                                                                                                  SelectOption(
+                                                                                                      label="📊 Levels",
+                                                                                                      value="levels",
+                                                                                                      description="Shows the Levels Commands Catergory!"
+
+                                                                                                  )
+
+                                                                                              ]
+                                                                                  )
+                                                  )
             except asyncio.TimeoutError:
                 break
 
