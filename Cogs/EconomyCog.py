@@ -346,54 +346,55 @@ class Economy(commands.Cog):
 
                                                              ]
                                                         ])
-        try:       
+        try: 
+            while True:      
                                                   
-            interaction = await self.client.wait_for("button_click", check = lambda i:i.component.label in emoji_waste_list,  timeout=15.0)
-            if ctx.author.id != interaction.author.id:
-                    await interaction.respond(content=f"{interaction.author.mention} This message is not for you lmao")
-            else:    
-                if emoji_choice == interaction.component.label:
-                    row1 = []
-                    row2 = []
-                    for x in range(0, 5):
-                        if emoji_waste_list[x] == emoji_choice:
-                            row1.append(Button(label = emoji_waste_list[x], style = 3, disabled = True))
-                            
-                        else:
-                            row1.append(Button(label = emoji_waste_list[x], disabled = True))    
-                    for x in range(5, 10):
-                        if emoji_waste_list[x] == emoji_choice:
-                            row2.append(Button(label = emoji_waste_list[x], style = ButtonStyle.green, disabled = True))
-                        else: 
-                            row2.append(Button(label = emoji_waste_list[x], disabled = True))
-                    await interaction.edit_origin(components = [row1 , row2])
-                    await ctx.send("good work!")
+                interaction = await self.client.wait_for("button_click", check = lambda i:i.component.label in emoji_waste_list,  timeout=15.0)
+                if ctx.author.id != interaction.author.id:
+                        await interaction.respond(content=f"{interaction.author.mention} This message is not for you lmao")
+                else:    
+                    if emoji_choice == interaction.component.label:
+                        row1 = []
+                        row2 = []
+                        for x in range(0, 5):
+                            if emoji_waste_list[x] == emoji_choice:
+                                row1.append(Button(label = emoji_waste_list[x], style = 3, disabled = True))
+                                
+                            else:
+                                row1.append(Button(label = emoji_waste_list[x], disabled = True))    
+                        for x in range(5, 10):
+                            if emoji_waste_list[x] == emoji_choice:
+                                row2.append(Button(label = emoji_waste_list[x], style = ButtonStyle.green, disabled = True))
+                            else: 
+                                row2.append(Button(label = emoji_waste_list[x], disabled = True))
+                        await interaction.edit_origin(components = [row1 , row2])
+                        await ctx.send("good work!")
 
-                else:
-                    row1 = []
-                    row2 = []
-                    for x in range(0, 5):
-                        if emoji_waste_list[x] == emoji_choice:
-                            row1.append(
-                                Button(label=emoji_waste_list[x], style=3, disabled=True))
-                        elif emoji_waste_list[x] ==interaction.component.label:
-                            row1.append(
-                                Button(label=emoji_waste_list[x], style=4, disabled=True))
-                        else:
-                            row1.append(
-                                Button(label=emoji_waste_list[x], disabled=True))  
-                    for x in range(5, 10):
-                        if emoji_waste_list[x] == emoji_choice:
-                            row2.append(
-                                Button(label=emoji_waste_list[x], style=3, disabled=True))
-                        elif emoji_waste_list[x] == interaction.component.label:
-                            row2.append(
-                                Button(label=emoji_waste_list[x], style=4, disabled=True))
-                        else:
-                            row2.append(
-                                Button(label=emoji_waste_list[x], disabled=True))
-                    await interaction.edit_origin(components = [row1,row2])
-                    await ctx.send("terrible work")
+                    else:
+                        row1 = []
+                        row2 = []
+                        for x in range(0, 5):
+                            if emoji_waste_list[x] == emoji_choice:
+                                row1.append(
+                                    Button(label=emoji_waste_list[x], style=3, disabled=True))
+                            elif emoji_waste_list[x] ==interaction.component.label:
+                                row1.append(
+                                    Button(label=emoji_waste_list[x], style=4, disabled=True))
+                            else:
+                                row1.append(
+                                    Button(label=emoji_waste_list[x], disabled=True))  
+                        for x in range(5, 10):
+                            if emoji_waste_list[x] == emoji_choice:
+                                row2.append(
+                                    Button(label=emoji_waste_list[x], style=3, disabled=True))
+                            elif emoji_waste_list[x] == interaction.component.label:
+                                row2.append(
+                                    Button(label=emoji_waste_list[x], style=4, disabled=True))
+                            else:
+                                row2.append(
+                                    Button(label=emoji_waste_list[x], disabled=True))
+                        await interaction.edit_origin(components = [row1,row2])
+                        await ctx.send("terrible work")
         except asyncio.TimeoutError:
             await ctx.send("You were timed out!")
             
