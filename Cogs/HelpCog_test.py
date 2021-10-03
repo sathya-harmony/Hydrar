@@ -405,7 +405,7 @@ class _help_(commands.Cog):
                                                                                    )])
 
             except asyncio.TimeoutError:
-                break
+                await interaction.edit_origin(components=[Select(placeholder="Filter", disabled=True)])
 
 
 def setup(client):
