@@ -196,6 +196,8 @@ class _help_(commands.Cog):
         while True:
             try:
                 interaction = await self.client.wait_for("select_option", timeout=15.0)
+                if ctx.author.id != interaction.author.id:
+                    await interaction.respond(content="This message ain't for you LOL")
                 value = interaction.values[0]
                 if value == 'fun':
                     await interaction.edit_origin(embed=embed2, components=[Select(placeholder="😄 Fun Commands",
