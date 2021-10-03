@@ -260,6 +260,7 @@ class Economy(commands.Cog):
             else:
                 await ctx.send(f"slow brains, you ran out of tries. The word was **{word}**")
         except asyncio.TimeoutError:
+            #making a separate list for every page is not good...
             if job_name in self.job_list:
                 salary = self.job_list[job_name]["salary"]
                 cut_off = random.choice([1.5, 1.75, 1.96, 1.99, 2.12, 2.25])
@@ -280,6 +281,8 @@ class Economy(commands.Cog):
             embed.set_thumbnail(url=ctx.author.avatar_url)
             await ctx.send(embed=embed)
             guild_data['users'][user_id]['wallet'] += amount
+            await ctx.send(guild_data['users'][user_id]['wallet'])
+        
         Economy_MongoDB.update_one(
             {"guild_id": guild_id}, {"$set": guild_data})
 
