@@ -12,8 +12,9 @@ talk_channel = [870541730410270814]'''
 level = ["Level 1"]
 levelnum = [2]
 
+#Problem is here
 cluster = MongoClient(
-    "mongodb+srv://Hydra:jpszYWQcPolIDvCm@hydra.jea2k.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+    "mongodb+srv://Hydra:CihVirus123@hydra.rvrbk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 )
 
 

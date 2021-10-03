@@ -25,6 +25,8 @@ import aiohttp
 
 cluster = MongoClient(
     "mongodb+srv://Hydra:CihVirus123@economy.2xn9e.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+    
+
 
 Economy_MongoDB = cluster["Economy"]["Economy"]
 
