@@ -367,7 +367,7 @@ class _help_(commands.Cog):
                                                                                    ]
                                                                                    )])
                 elif value == 'home':
-                    await interaction.edit_origin(embed=embed1, components=[Select(placeholder="📊 Levels",
+                    await interaction.edit_origin(embed=embed1, components=[Select(placeholder="🏡 Home",
                                                                                    options=[
                                                                                        SelectOption(
                                                                                            label="😄 Fun",
