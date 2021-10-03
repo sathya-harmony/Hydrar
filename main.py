@@ -325,9 +325,9 @@ async def toggle(ctx, *, command):
 @client.command()
 async def servers(ctx):
     activeservers = client.guilds
+    embed = discord.Embed(title="Servers")
     for guild in activeservers:
-        await ctx.send(guild.name)
-        print(guild.name)
+        embed.set_thumbnail(url=guild.icon_url)
 
 
 @client.command()
