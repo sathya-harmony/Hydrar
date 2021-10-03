@@ -271,7 +271,7 @@ class Economy(commands.Cog):
         user_id = str(ctx.author.id)
         guild_data = self.get_bank_data(guild_id)
         job_name = guild_data['users'][user_id]['job']["job_name"]
-        print(job_name)
+        #print(job_name)
         emojies = ['😁', '😂', '🤣', '😃', '😅', '😆', '🥰', '😍', '😎', '🤗', '🤩',
             '🤔', '😛', '😴', '🤐', '🤑', '🤮', '😡', '🤬', '🤢', '👽', '🤖', '🙈', '☠']
         
@@ -411,7 +411,7 @@ class Economy(commands.Cog):
             for x in range(5, 10):
                 row2.append(
                     Button(label=emoji_waste_list[x], disabled=True))
-        await interaction.edit_origin(components = [row1, row2])
+            await interaction.edit_origin(components = [row1, row2])
 
          
                        
