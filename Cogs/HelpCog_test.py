@@ -191,7 +191,7 @@ class _help_(commands.Cog):
                              )
                       ]
 
-        await ctx.message.reply(embed=embed1, components=components)
+        message = await ctx.message.reply(embed=embed1, components=components)
 
         while True:
             try:
@@ -405,13 +405,13 @@ class _help_(commands.Cog):
                                                                                    )])
 
             except asyncio.TimeoutError:
+                await message.edit(components=[Select(placeholder="Filter", disabled=True, options=[SelectOption(
+                    label="💰 Economy",
+                    value="economy",
+                    description="Shows the Economy Commands Category!"
+                ), ])])
 
                 break
-            await interaction.edit_origin(components=[Select(placeholder="Filter", disabled=True, options=[SelectOption(
-                label="💰 Economy",
-                value="economy",
-                description="Shows the Economy Commands Category!"
-            ), ])])
 
 
 def setup(client):
