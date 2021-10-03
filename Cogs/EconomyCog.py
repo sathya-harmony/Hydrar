@@ -1111,8 +1111,7 @@ class Economy(commands.Cog):
 
                 await self.main_hangman(ctx)
 
-                Economy_MongoDB.update_one(
-            {"guild_id": guild_id}, {"$set": guild_data})
+                
 
         elif job_name is not None:
             if guild_data['users'][user_id]['job']['job_name'] is not None:
