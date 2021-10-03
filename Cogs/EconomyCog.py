@@ -349,8 +349,8 @@ class Economy(commands.Cog):
         try:       
                                                   
             interaction = await self.client.wait_for("button_click", check = lambda i:i.component.label in emoji_waste_list,  timeout=15.0)
-            if interaction.author.id != ctx.author.id:
-                await interaction.respond("This message is not for you LMAO")
+            if ctx.author.id != interaction.author.id:
+                    await interaction.respond(content=f"{interaction.author.mention} This message is not for you lmao")
             else:    
                 if emoji_choice == interaction.component.label:
                     row1 = []
