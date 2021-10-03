@@ -216,7 +216,10 @@ class Economy(commands.Cog):
                                   description=f'You lost the mini-game because you ran out of time.\nYou were given {amount} for a sub-par hour of work.')
             embed.set_thumbnail(url=ctx.author.avatar_url)
             await ctx.send(embed=embed)
-            self.update_bank(ctx.author, amount)    
+            guild_data['users'][user_id]['wallet'] +=amount
+        Economy_MongoDB.update_one(
+            {"guild_id": guild_id}, {"$set": guild_data})
+                
 
     async def display_hangman(self, tries):
 
