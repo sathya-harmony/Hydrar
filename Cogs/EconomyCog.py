@@ -427,9 +427,9 @@ class Economy(commands.Cog):
             await interaction.edit_origin(components=[row1, row2])
 
     @ commands.command(aliases=[])
-    async def meme(self, ctx, subred='memes'):
+    async def meme(self, ctx, subred='dankmeme'):
         
-        msg=await ctx.message.reply('Loading Meme https://tenor.com/view/hug-gif-22743155')
+        #msg=await ctx.message.reply('Loading Meme https://tenor.com/view/hug-gif-22743155')
         '''async with aiohttp.ClientSession() as cs:
             async with cs.get("https://www.reddit.com/r/memes.json") as r:
                 memes = str(r)
@@ -462,7 +462,7 @@ class Economy(commands.Cog):
         embed.set_footer(
             text=f'Powered by r/Memes! | Meme requested by {ctx.author}', icon_url=ctx.author.avatar_url)
         # await ctx.send(embed=embed)await msg.edit(content=f'<https://reddit.com/r/{subreddit}/> :white_check_mark:')
-        await msg.edit(embed=embed, content=f'<https://reddit.com/r/{subreddit}/> <:tick:892291436232446002>')
+        await ctx.message.reply(embed=embed, content=f'<https://reddit.com/r/{subreddit}/> <:tick:892291436232446002>')
         return
 
     @ commands.command(aliases=[])
