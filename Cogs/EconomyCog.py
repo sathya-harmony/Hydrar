@@ -89,6 +89,71 @@ class Economy(commands.Cog):
                   'scientist': {"display": "<:x_:892769246319357962> Scientist", "salary": 30000, "hours_needed": 7,
                                  'desc': 'Hours Required Per Day: `7` — Salary: `⏣ 30000 per hour`'}}
 
+                  
+
+    def get_bank_data(self, guild_id):
+
+        if type(guild_id) in [int, float]:
+            guild_id=str(int(guild_id))
+
+        guild_data=Economy_MongoDB.find_one(
+            {"guild_id": guild_id})
+
+        return guild_data
+
+    def update_bank(self, user, change=0, mode="wallet", overwrite=False):
+
+        guild_id=str(user.guild.id)
+        user_id=str(user.id)
+        if type(guild_id) in [int, float]:
+            guild_id=str(int(guild_id))
+        # UPDATE BANK
+        guild_data=self.get_bank_data(guild_id)
+
+        if overwrite:
+            guild_data["users"][str(user_id)][mode]=change
+        else:
+            guild_data["users"][str(user_id)][mode] += change
+
+        Economy_MongoDB.update_one(
+            {"guild_id": guild_id}, {"$set": guild_data})
+
+        return guild_data
+
+    def open_account(self, user):
+        # OPEN ACCOUNT VARIABLE
+        guild_id=str(user.guild.id)
+        user_id=str(user.id)
+
+        guild_data=self.get_bank_data(guild_id)
+        if type(guild_id) in [int, float]:
+            guild_id=str(int(guild_id))
+
+        if guild_data is None:
+            guild_data={"guild_id": guild_id,
+                          "users": {user_id: {"wallet": 100,
+                                              "bank": 0,
+                                              "bank_space": 100,
+                                              "padlock": False,
+                                              "job": {"job_name": None,
+                                                      "hours_worked": 0},
+                                              "inv": {},
+                                              "daily": {"last_used": 0, "streak": 1}
+                                              }
+                                    }
+                          }
+
+            Economy_MongoDB.insert_one(guild_data)
+
+        elif user_id not in guild_data['users']:
+            guild_data['users'][user_id]={
+                'wallet': 100, "bank": 0, "bank_space": 100, "padlock": False, "job": {"job_name": None,
+                                                                                       "hours_worked": 0}, 'inv': {},  "daily": {"last_used": 0, "streak": 1}}
+            Economy_MongoDB.update_one(
+                {"guild_id": guild_id}, {"$set": guild_data})
+
+        return guild_data
+
     def format_word_completion(self, word_completion):
         return "** \n" + '\u205F'.join(word_completion) + "**"
 
@@ -197,29 +262,24 @@ class Economy(commands.Cog):
                 salary = self.job_list[job_name]["salary"]
                 cut_off = random.choice([1.5, 1.75, 1.96, 1.99, 2.12, 2.25])
                 amount = int(salary / cut_off)
-                
 
             elif job_name in self.job_list_2:
                 salary = self.job_list_2[job_name]['salary']
                 cut_off = random.choice([1.5, 1.75, 1.96, 1.99, 2.12, 2.25])
                 amount = int(salary / cut_off)
-                
-                
 
             elif job_name in self.job_list_3:
                 salary = self.job_list_3[job_name]['salary']
                 cut_off = random.choice([1.5, 1.75, 1.96, 1.99, 2.12, 2.25])
                 amount = int(salary / cut_off)
-                
 
             embed = discord.Embed(title=f"Terrible Effort, {ctx.author}!",
                                   description=f'You lost the mini-game because you ran out of time.\nYou were given {amount} for a sub-par hour of work.')
             embed.set_thumbnail(url=ctx.author.avatar_url)
             await ctx.send(embed=embed)
-            guild_data['users'][user_id]['wallet'] +=amount
+            guild_data['users'][user_id]['wallet'] += amount
         Economy_MongoDB.update_one(
             {"guild_id": guild_id}, {"$set": guild_data})
-                
 
     async def display_hangman(self, tries):
 
@@ -255,7 +315,7 @@ class Economy(commands.Cog):
         msg = await ctx.message.reply(f"Retype the following Phrase:-\n**{sentence}**")
         try:
             def check(msg3):
-                    return msg3.author.id == ctx.author.id and msg3.channel.id == ctx.channel.id
+                return msg3.author.id == ctx.author.id and msg3.channel.id == ctx.channel.id
 
             msg2 = await self.client.wait_for('message', check=check, timeout=10)
 
@@ -280,47 +340,52 @@ class Economy(commands.Cog):
         job_name = guild_data['users'][user_id]['job']["job_name"]
         #print(job_name)
         emojies = ['😁', '😂', '🤣', '😃', '😅', '😆', '🥰', '😍', '😎', '🤗', '🤩',
-            '🤔', '😛', '😴', '🤐', '🤑', '🤮', '😡', '🤬', '🤢', '🤖', '🙈', '🤯']        
-        
+                   '🤔', '😛', '😴', '🤐', '🤑', '🤮', '😡', '🤬', '🤢', '🤖', '🙈', '🤯']
+
         emoji_waste_list = (random.sample(emojies, 10))
         emoji_choice = random.choice(emoji_waste_list)
-        
 
         msg = await ctx.message.reply(f"**Work for {job_name}** - Emoji Match - Look at the emoji closely!\n{emoji_choice}")
         await asyncio.sleep(3)
         row1 = []
         row2 = []
-        for x in range(0, 5):                            
-                row1.append(Button(label = emoji_waste_list[x], style = ButtonStyle.grey))
-        for x in range(5, 10):                            
-                row2.append(Button(label = emoji_waste_list[x], style = ButtonStyle.grey))        
-        components = [row1, row2]        
-        await msg.edit('What was the emoji?', components=components)        
-                                                        
-        try: 
-            while True:      
-                                                  
-                interaction = await self.client.wait_for("button_click", check = lambda i:i.component.label in emoji_waste_list,  timeout=15.0)
+        for x in range(0, 5):
+            row1.append(
+                Button(label=emoji_waste_list[x], style=ButtonStyle.grey))
+        for x in range(5, 10):
+            row2.append(
+                Button(label=emoji_waste_list[x], style=ButtonStyle.grey))
+        components = [row1, row2]
+        await msg.edit('What was the emoji?', components=components)
+
+        try:
+            while True:
+
+                interaction = await self.client.wait_for("button_click", check=lambda i: i.component.label in emoji_waste_list,  timeout=15.0)
                 if ctx.author.id != interaction.author.id:
-                        await interaction.respond(content=f"{interaction.author.mention} This message is not for you lmao")
-                else:    
+                    await interaction.respond(content=f"{interaction.author.mention} This message is not for you lmao")
+                else:
                     if emoji_choice == interaction.component.label:
                         row1 = []
                         row2 = []
                         for x in range(0, 5):
                             if emoji_waste_list[x] == emoji_choice:
-                                row1.append(Button(label = emoji_waste_list[x], style = 3, disabled = True))
-                                
+                                row1.append(
+                                    Button(label=emoji_waste_list[x], style=3, disabled=True))
+
                             else:
-                                row1.append(Button(label = emoji_waste_list[x], disabled = True))    
+                                row1.append(
+                                    Button(label=emoji_waste_list[x], disabled=True))
                         for x in range(5, 10):
                             if emoji_waste_list[x] == emoji_choice:
-                                row2.append(Button(label = emoji_waste_list[x], style = ButtonStyle.green, disabled = True))
-                            else: 
-                                row2.append(Button(label = emoji_waste_list[x], disabled = True))
-                        await interaction.edit_origin(components = [row1 , row2])
+                                row2.append(
+                                    Button(label=emoji_waste_list[x], style=ButtonStyle.green, disabled=True))
+                            else:
+                                row2.append(
+                                    Button(label=emoji_waste_list[x], disabled=True))
+                        await interaction.edit_origin(components=[row1, row2])
                         await ctx.send("good work!")
-                        
+
                         break
 
                     else:
@@ -330,12 +395,12 @@ class Economy(commands.Cog):
                             if emoji_waste_list[x] == emoji_choice:
                                 row1.append(
                                     Button(label=emoji_waste_list[x], style=3, disabled=True))
-                            elif emoji_waste_list[x] ==interaction.component.label:
+                            elif emoji_waste_list[x] == interaction.component.label:
                                 row1.append(
                                     Button(label=emoji_waste_list[x], style=4, disabled=True))
                             else:
                                 row1.append(
-                                    Button(label=emoji_waste_list[x], disabled=True))  
+                                    Button(label=emoji_waste_list[x], disabled=True))
                         for x in range(5, 10):
                             if emoji_waste_list[x] == emoji_choice:
                                 row2.append(
@@ -346,86 +411,24 @@ class Economy(commands.Cog):
                             else:
                                 row2.append(
                                     Button(label=emoji_waste_list[x], disabled=True))
-                        await interaction.edit_origin(components = [row1,row2])
+                        await interaction.edit_origin(components=[row1, row2])
                         await ctx.send("terrible work")
                         break
         except asyncio.TimeoutError:
-            await ctx.send("You were timed out!")            
+            await ctx.send("You were timed out!")
             row1 = []
             row2 = []
-            for x in range(0, 5):                    
-                    row1.append(
-                        Button(label=emoji_waste_list[x], disabled=True))
+            for x in range(0, 5):
+                row1.append(
+                    Button(label=emoji_waste_list[x], disabled=True))
             for x in range(5, 10):
                 row2.append(
                     Button(label=emoji_waste_list[x], disabled=True))
-            await interaction.edit_origin(components = [row1, row2])              
-
-    def get_bank_data(self, guild_id):
-
-        if type(guild_id) in [int, float]:
-            guild_id=str(int(guild_id))
-
-        guild_data=Economy_MongoDB.find_one(
-            {"guild_id": guild_id})
-
-        return guild_data
-
-    def update_bank(self, user, change=0, mode="wallet", overwrite=False):
-
-        guild_id=str(user.guild.id)
-        user_id=str(user.id)
-        if type(guild_id) in [int, float]:
-            guild_id=str(int(guild_id))
-        # UPDATE BANK
-        guild_data=self.get_bank_data(guild_id)
-
-        if overwrite:
-            guild_data["users"][str(user_id)][mode]=change
-        else:
-            guild_data["users"][str(user_id)][mode] += change
-
-        Economy_MongoDB.update_one(
-            {"guild_id": guild_id}, {"$set": guild_data})
-
-        return guild_data
-
-    def open_account(self, user):
-        # OPEN ACCOUNT VARIABLE
-        guild_id=str(user.guild.id)
-        user_id=str(user.id)
-
-        guild_data=self.get_bank_data(guild_id)
-        if type(guild_id) in [int, float]:
-            guild_id=str(int(guild_id))
-
-        if guild_data is None:
-            guild_data={"guild_id": guild_id,
-                          "users": {user_id: {"wallet": 100,
-                                              "bank": 0,
-                                              "bank_space": 100,
-                                              "padlock": False,
-                                              "job": {"job_name": None,
-                                                      "hours_worked": 0},
-                                              "inv": {},
-                                              "daily": {"last_used": 0, "streak": 1}
-                                              }
-                                    }
-                          }
-
-            Economy_MongoDB.insert_one(guild_data)
-
-        elif user_id not in guild_data['users']:
-            guild_data['users'][user_id]={
-                'wallet': 100, "bank": 0, "bank_space": 100, "padlock": False, "job": {"job_name": None,
-                                                                                       "hours_worked": 0}, 'inv': {},  "daily": {"last_used": 0, "streak": 1}}
-            Economy_MongoDB.update_one(
-                {"guild_id": guild_id}, {"$set": guild_data})
-
-        return guild_data
+            await interaction.edit_origin(components=[row1, row2])
 
     @ commands.command(aliases=[])
     async def meme(self, ctx, subred='memes'):
+        
         msg=await ctx.message.reply('Loading Meme https://tenor.com/view/hug-gif-22743155')
         '''async with aiohttp.ClientSession() as cs:
             async with cs.get("https://www.reddit.com/r/memes.json") as r:
