@@ -281,10 +281,8 @@ class Economy(commands.Cog):
             embed.set_thumbnail(url=ctx.author.avatar_url)
             await ctx.send(embed=embed)
             guild_data['users'][user_id]['wallet'] += amount
-            await ctx.send(guild_data['users'][user_id]['wallet'])
         
-        Economy_MongoDB.update_one(
-            {"guild_id": guild_id}, {"$set": guild_data})
+        
 
     async def display_hangman(self, tries):
 
@@ -1112,6 +1110,9 @@ class Economy(commands.Cog):
                 #await self.choose_emoji(ctx)
 
                 await self.main_hangman(ctx)
+
+                Economy_MongoDB.update_one(
+            {"guild_id": guild_id}, {"$set": guild_data})
 
         elif job_name is not None:
             if guild_data['users'][user_id]['job']['job_name'] is not None:
