@@ -328,6 +328,7 @@ async def servers(ctx):
     embed = discord.Embed(title="Servers")
     for guild in activeservers:
         embed.set_thumbnail(url=guild.icon_url)
+        await ctx.send(embed = embed)
 
 
 @client.command()
