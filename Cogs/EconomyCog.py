@@ -271,6 +271,7 @@ class Economy(commands.Cog):
         user_id = str(ctx.author.id)
         guild_data = self.get_bank_data(guild_id)
         job_name = guild_data['users'][user_id]['job']["job_name"]
+        print(job_name)
         emojies = ['😁', '😂', '🤣', '😃', '😅', '😆', '🥰', '😍', '😎', '🤗', '🤩',
             '🤔', '😛', '😴', '🤐', '🤑', '🤮', '😡', '🤬', '🤢', '👽', '🤖', '🙈', '☠']
         
