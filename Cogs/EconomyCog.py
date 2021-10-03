@@ -256,31 +256,73 @@ class Economy(commands.Cog):
                     await msg.edit(embed=embed2)
             if guessed:
                 await msg.edit(f"Congrats, you guessed the word **{word}**")
+                if job_name in self.job_list:
+                    amount = self.job_list[job_name]["salary"]
+                    
+
+                elif job_name in self.job_list_2:
+                    amount = self.job_list[job_name]["salary"]
+
+                elif job_name in self.job_list_3:
+                    amount = self.job_list[job_name]["salary"]
+                embed = discord.Embed(title=f"Great Work!",
+                                      description=f"You were given `⏣ {amount:,}` for an hour of work.")
+                embed.set_thumbnail(url=ctx.author.avatar_url)
+                embed.set_footer(text=f"Working as a {job_name.title()}")
+                await ctx.message.reply(embed=embed)
+                guild_data['users'][user_id]['wallet'] += amount
+
+                return guild_data
+
 
             else:
-                await msg.edit(f"slow brains, you ran out of tries. The word was **{word}**")
+                await msg.edit(f"RIP, Bad Luck ig...The word was **{word}**")
+                if job_name in self.job_list:
+                    salary = self.job_list[job_name]["salary"]
+                    cut_off = random.choice([1.5, 1.75, 1.95, 2, 2.25, 2.5])
+                    amount = int(salary / cut_off)
+
+                elif job_name in self.job_list_2:
+                    salary = self.job_list_2[job_name]['salary']
+                    cut_off = random.choice([1.5, 1.75, 1.95, 2, 2.25, 2.5])
+                    amount = int(salary / cut_off)
+
+                elif job_name in self.job_list_3:
+                    salary = self.job_list_3[job_name]['salary']
+                    cut_off = random.choice([1.5, 1.75, 1.95, 2, 2.25, 2.5])
+                    amount = int(salary / cut_off)
+
+                embed = discord.Embed(title=f"Terrible Effort!",
+                                    description=f"You lost the mini-game because you did't guess the word properly.\nYou were given `⏣ {amount:,}` for a sub-par hour of work.")
+                embed.set_thumbnail(url=ctx.author.avatar_url)
+                embed.set_footer(text=f"Working as a {job_name.title()}")
+                await ctx.message.reply(embed=embed)
+                guild_data['users'][user_id]['wallet'] += amount
+
+                return guild_data
+                
         except asyncio.TimeoutError:
             #making a separate list for every page is not good...
             if job_name in self.job_list:
                 salary = self.job_list[job_name]["salary"]
-                cut_off = random.choice([1.5, 1.75, 1.96, 1.99, 2.12, 2.25])
+                cut_off = random.choice([1.90, 1.96, 1.99, 2.25, 3,3.5])
                 amount = int(salary / cut_off)
 
             elif job_name in self.job_list_2:
                 salary = self.job_list_2[job_name]['salary']
-                cut_off = random.choice([1.5, 1.75, 1.96, 1.99, 2.12, 2.25])
+                cut_off = random.choice([1.90, 1.96, 1.99, 2.25, 3, 3.5])
                 amount = int(salary / cut_off)
 
             elif job_name in self.job_list_3:
                 salary = self.job_list_3[job_name]['salary']
-                cut_off = random.choice([1.5, 1.75, 1.96, 1.99, 2.12, 2.25])
+                cut_off = random.choice([1.90, 1.96, 1.99, 2.25, 3, 3.5])
                 amount = int(salary / cut_off)
 
             embed = discord.Embed(title=f"Terrible Effort!",
-                                  description=f'You lost the mini-game because you ran out of time.\nYou were given `⏣ {amount:,}`` for a sub-par hour of work.')
+                                  description=f'You lost the mini-game because you ran out of time.\nYou were given `⏣ {amount:,}` for a sub-par hour of work.')
             embed.set_thumbnail(url=ctx.author.avatar_url)
             embed.set_footer(text = f"Working as a {job_name.title()}")
-            await ctx.send(embed=embed)
+            await ctx.message.reply(embed=embed)
             guild_data['users'][user_id]['wallet'] += amount
         
         return guild_data
@@ -316,7 +358,11 @@ class Economy(commands.Cog):
         return sentence
 
     async def retype(self, ctx, sentence):
-        msg = await ctx.message.reply(f"Retype the following Phrase:-\n**{sentence}**")
+        guild_id = str(ctx.guild.id)
+        user_id = str(ctx.author.id)
+        guild_data = self.get_bank_data(guild_id)
+        job_name = guild_data['users'][user_id]['job']["job_name"]
+        msg = await ctx.message.reply(f"**Work for {job_name}** - Retype - Retype the following Phrase:-\n{sentence}")
         try:
             def check(msg3):
                 return msg3.author.id == ctx.author.id and msg3.channel.id == ctx.channel.id
@@ -326,12 +372,69 @@ class Economy(commands.Cog):
             sentence_upper = sentence.upper()
             guess = msg2.content.upper()
             if sentence_upper == guess:
-                await ctx.send(f"{ctx.author.mention} Great work! You rewrote the sentence correctly.")
+                if job_name in self.job_list:
+                    amount = self.job_list[job_name]["salary"]
+
+                elif job_name in self.job_list_2:
+                    amount = self.job_list[job_name]["salary"]
+
+                elif job_name in self.job_list_3:
+                    amount = self.job_list[job_name]["salary"]
+                embed = discord.Embed(title=f"Great Work!",
+                                      description=f"You were given `⏣ {amount:,}` for an hour of work.")
+                embed.set_thumbnail(url=ctx.author.avatar_url)
+                embed.set_footer(text=f"Working as a {job_name.title()}")
+                await ctx.message.reply(embed=embed)
+                guild_data['users'][user_id]['wallet'] += amount
+
+                return guild_data
 
             else:
-                await ctx.send(f"{ctx.author.mention} Terrible effort. Expected better work from you!")
+                if job_name in self.job_list:
+                    salary = self.job_list[job_name]["salary"]
+                    cut_off = random.choice([1.5, 1.75, 1.95, 2, 2.25, 2.5])
+                    amount = int(salary / cut_off)
+
+                elif job_name in self.job_list_2:
+                    salary = self.job_list_2[job_name]['salary']
+                    cut_off = random.choice([1.5, 1.75, 1.95, 2, 2.25, 2.5])
+                    amount = int(salary / cut_off)
+
+                elif job_name in self.job_list_3:
+                    salary = self.job_list_3[job_name]['salary']
+                    cut_off = random.choice([1.5, 1.75, 1.95, 2, 2.25, 2.5])
+                    amount = int(salary / cut_off)
+
+                embed = discord.Embed(title=f"Terrible Effort!",
+                                      description=f"You lost the mini-game because you did't retype the phrase properly.\nYou were given `⏣ {amount:,}` for a sub-par hour of work.")
+                embed.set_thumbnail(url=ctx.author.avatar_url)
+                embed.set_footer(text=f"Working as a {job_name.title()}")
+                await ctx.message.reply(embed=embed)
+                guild_data['users'][user_id]['wallet'] += amount
+
+                return guild_data
         except asyncio.TimeoutError:
-            await ctx.send(f"{ctx.author.mention} Terrible effort. You were timed out.")
+            if job_name in self.job_list:
+                salary = self.job_list[job_name]["salary"]
+                cut_off = random.choice([1.90, 1.96, 1.99, 2.25, 3, 3.5])
+                amount = int(salary / cut_off)
+
+            elif job_name in self.job_list_2:
+                salary = self.job_list_2[job_name]['salary']
+                cut_off = random.choice([1.90, 1.96, 1.99, 2.25, 3, 3.5])
+                amount = int(salary / cut_off)
+
+            elif job_name in self.job_list_3:
+                salary = self.job_list_3[job_name]['salary']
+                cut_off = random.choice([1.90, 1.96, 1.99, 2.25, 3, 3.5])
+                amount = int(salary / cut_off)
+
+            embed = discord.Embed(title=f"Terrible Effort!",
+                                  description=f'You lost the mini-game because you ran out of time.\nYou were given `⏣ {amount:,}` for a sub-par hour of work.')
+            embed.set_thumbnail(url=ctx.author.avatar_url)
+            embed.set_footer(text=f"Working as a {job_name.title()}")
+            await ctx.message.reply(embed=embed)
+            guild_data['users'][user_id]['wallet'] += amount
 
     async def main_retype(self, ctx):
         sentence = self.get_sentence()
@@ -372,6 +475,20 @@ class Economy(commands.Cog):
                     if emoji_choice == interaction.component.label:
                         row1 = []
                         row2 = []
+                        if job_name in self.job_list:
+                            amount = self.job_list[job_name]["salary"]
+
+                        elif job_name in self.job_list_2:
+                            amount = self.job_list[job_name]["salary"]
+
+                        elif job_name in self.job_list_3:
+                            amount = self.job_list[job_name]["salary"]
+                        embed = discord.Embed(title=f"Great Work!",
+                                            description=f"You were given `⏣ {amount:,}` for an hour of work.")
+                        embed.set_thumbnail(url=ctx.author.avatar_url)
+                        embed.set_footer(text=f"Working as a {job_name.title()}")
+                
+                        
                         for x in range(0, 5):
                             if emoji_waste_list[x] == emoji_choice:
                                 row1.append(
@@ -388,7 +505,10 @@ class Economy(commands.Cog):
                                 row2.append(
                                     Button(label=emoji_waste_list[x], disabled=True))
                         await interaction.edit_origin(components=[row1, row2])
-                        await ctx.send("good work!")
+                        await ctx.message.reply(embed = embed)
+                        guild_data['users'][user_id]['wallet'] += amount
+
+                        return guild_data
 
                         break
 
@@ -1108,9 +1228,9 @@ class Economy(commands.Cog):
                 elif gamechoice == 'retype':
                     await self.main_retype(ctx)
 '''
-                #await self.choose_emoji(ctx)
+                await self.choose_emoji(ctx)
 
-                guild_data = await self.main_hangman(ctx)
+                #guild_data = await self.main_hangman(ctx)
 
         elif job_name is not None:
             if guild_data['users'][user_id]['job']['job_name'] is not None:
