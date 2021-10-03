@@ -1096,9 +1096,9 @@ class Economy(commands.Cog):
                 elif gamechoice == 'retype':
                     await self.main_retype(ctx)
 '''
-                await self.choose_emoji(ctx)
+                #await self.choose_emoji(ctx)
 
-                # await self.main_hangman(ctx)
+                await self.main_hangman(ctx)
 
         elif job_name is not None:
             if guild_data['users'][user_id]['job']['job_name'] is not None:
