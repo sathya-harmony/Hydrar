@@ -292,61 +292,68 @@ class Economy(commands.Cog):
 
         msg = await ctx.message.reply(f"**Work for {job_name}** - Emoji Match - Look at the emoji closely!\n{emoji_choice}")
         await asyncio.sleep(3)
-        await msg.edit('What was the emoji?', components=[
-                                                          [
-                                                            (Button(style = ButtonStyle.grey,
-                                                                label=emoji_waste_list[0],
-                                                                
-                                                                  )
-                                                                  ),
-                                                            (Button(style=ButtonStyle.grey,
-                                                                    label=emoji_waste_list[1],
-                                                                
-                                                                )
-                                                             
-                                                             ),
-                                                             (Button(style = ButtonStyle.grey,
-                                                                label=emoji_waste_list[2],
-                                                                
-                                                                )
-                                                             ),
-                                                             (Button(style = ButtonStyle.grey,
-                                                                label=emoji_waste_list[3],
-                                                                
-                                                                )
-                                                             ),
-                                                             (Button(style = ButtonStyle.grey,
-                                                                     label=emoji_waste_list[4],
-                                                                
-                                                                )
-                                                             )],[
-                                                             (Button(style = ButtonStyle.grey,
-                                                                label=emoji_waste_list[5],
-                                                                
-                                                                )
-                                                             ),
-                                                             (Button(style = ButtonStyle.grey,
-                                                                label=emoji_waste_list[6],
-                                                        
-                                                                )
-                                                             ),
-                                                             (Button(style = ButtonStyle.grey,
-                                                                     label=emoji_waste_list[7],
-                                                                      
-                                                                )
-                                                             ),
-                                                              (Button(style=ButtonStyle.grey,
-                                                                      label=emoji_waste_list[8],
-                                                                      
-                                                              )
-                                                               ),
-                                                              (Button(style=ButtonStyle.grey,
-                                                                      label=emoji_waste_list[9],
-                                                                      ))
-                                                              
+        row1 = []
+        row2 = []
+        for x in range(0, 5):                            
+                row1.append(Button(label = emoji_waste_list[x], style = ButtonStyle.grey))
+        for x in range(5, 10):                            
+                row2.append(Button(label = emoji_waste_list[x], style = ButtonStyle.grey))        
+        components = [row1, row2]        
+        await msg.edit('What was the emoji?', components=components)
+        '''[
+        (Button(style = ButtonStyle.grey,
+            label=emoji_waste_list[0],
+            
+                )
+                ),
+        (Button(style=ButtonStyle.grey,
+                label=emoji_waste_list[1],
+            
+            )
+            
+            ),
+            (Button(style = ButtonStyle.grey,
+            label=emoji_waste_list[2],
+            
+            )
+            ),
+            (Button(style = ButtonStyle.grey,
+            label=emoji_waste_list[3],
+            
+            )
+            ),
+            (Button(style = ButtonStyle.grey,
+                    label=emoji_waste_list[4],
+            
+            )
+            )],[
+            (Button(style = ButtonStyle.grey,
+            label=emoji_waste_list[5],
+            
+            )
+            ),
+            (Button(style = ButtonStyle.grey,
+            label=emoji_waste_list[6],
+    
+            )
+            ),
+            (Button(style = ButtonStyle.grey,
+                    label=emoji_waste_list[7],
+                    
+            )
+            ),
+            (Button(style=ButtonStyle.grey,
+                    label=emoji_waste_list[8],
+                    
+            )
+            ),
+            (Button(style=ButtonStyle.grey,
+                    label=emoji_waste_list[9],
+                    ))
+            
 
-                                                             ]
-                                                        ])
+            ]'''
+                                                        
         try: 
             while True:      
                                                   
@@ -399,15 +406,12 @@ class Economy(commands.Cog):
                         await ctx.send("terrible work")
                         break
         except asyncio.TimeoutError:
-            await ctx.send("You were timed out!")
-            
+            await ctx.send("You were timed out!")            
             row1 = []
             row2 = []
-            for x in range(0, 5):
-                    
+            for x in range(0, 5):                    
                     row1.append(
                         Button(label=emoji_waste_list[x], disabled=True))
-                    
             for x in range(5, 10):
                 row2.append(
                     Button(label=emoji_waste_list[x], disabled=True))
