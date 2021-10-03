@@ -323,6 +323,14 @@ async def toggle(ctx, *, command):
 
 
 @client.command()
+async def servers(ctx):
+    activeservers = client.guilds
+    for guild in activeservers:
+        await ctx.send(guild.name)
+        print(guild.name)
+
+
+@client.command()
 async def rcogs(ctx, cog=None):
     if await op(ctx):
         if not cog:
