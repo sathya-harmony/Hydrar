@@ -476,13 +476,13 @@ class Economy(commands.Cog):
                         row1 = []
                         row2 = []
                         if job_name in self.job_list:
-                            amount = self.job_list[job_name]["salary"]
+                            amount = self.job_list_2[job_name]["salary"]
 
                         elif job_name in self.job_list_2:
                             amount = self.job_list[job_name]["salary"]
 
                         elif job_name in self.job_list_3:
-                            amount = self.job_list[job_name]["salary"]
+                            amount = self.job_list_2[job_name]["salary"]
                         embed = discord.Embed(title=f"Great Work!",
                                             description=f"You were given `⏣ {amount:,}` for an hour of work.")
                         embed.set_thumbnail(url=ctx.author.avatar_url)
