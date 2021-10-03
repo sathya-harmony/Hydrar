@@ -114,32 +114,32 @@ class _help_(commands.Cog):
                 interaction = await self.client.wait_for("select_option", timeout=15.0)
                 value = interaction.values[0]
                 if value == 'fun':
-                    await interaction.edit_origin(embed=embed2, components=Select(placeholder="😄 Fun Commands",
-                                                                                              options=[
-                                                                                                  SelectOption(
-                                                                                                      label="👮‍♂️ Moderation",
-                                                                                                      value="moderation",
-                                                                                                      description="Shows the Moderation Commands Category!"
-                                                                                                  ),
-                                                                                                  SelectOption(
-                                                                                                      label="🛠 Utility",
-                                                                                                      value="utility",
-                                                                                                      description="Shows the Utility Commands Category!"
-                                                                                                  ),
-                                                                                                  SelectOption(
-                                                                                                      label="💰 Economy",
-                                                                                                      value="economy",
-                                                                                                      description="Shows the Economy Commands Category!"
-                                                                                                  ),
-                                                                                                  SelectOption(
-                                                                                                      label="📊 Levels",
-                                                                                                      value="levels",
-                                                                                                      description="Shows the Levels Commands Catergory!"
+                    await interaction.edit_origin(embed=embed2, components=[Select(placeholder="😄 Fun Commands",
+                                                                                   options=[
+                                                                                       SelectOption(
+                                                                                           label="👮‍♂️ Moderation",
+                                                                                           value="moderation",
+                                                                                           description="Shows the Moderation Commands Category!"
+                                                                                       ),
+                                                                                       SelectOption(
+                                                                                           label="🛠 Utility",
+                                                                                           value="utility",
+                                                                                           description="Shows the Utility Commands Category!"
+                                                                                       ),
+                                                                                       SelectOption(
+                                                                                           label="💰 Economy",
+                                                                                           value="economy",
+                                                                                           description="Shows the Economy Commands Category!"
+                                                                                       ),
+                                                                                       SelectOption(
+                                                                                           label="📊 Levels",
+                                                                                           value="levels",
+                                                                                           description="Shows the Levels Commands Catergory!"
 
-                                                                                                  )
+                                                                                       )
 
-                                                                                              ]
-                                                                                  )
+                                                                                   ]
+                                                                                   )]
                                                   )
             except asyncio.TimeoutError:
                 break
