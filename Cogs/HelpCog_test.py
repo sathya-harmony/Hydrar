@@ -97,8 +97,6 @@ class _help_(commands.Cog):
             text="Don't forget to use the prefix '-' before each command!",
             icon_url=embeds.EmptyEmbed)
 
-        await ctx.message.reply(embed=embed3)
-
         embed4 = discord.Embed(
             title=":tools: Utility Commands",
             description="**Description:**\nShows the Utility Commands Category.\nUseful commands- Yes, you read it right, I am a useful bot. :rofl:",
@@ -119,7 +117,6 @@ class _help_(commands.Cog):
         embed4.set_footer(
             text="Don't forget to use the prefix '-' before each command!",
             icon_url=embeds.EmptyEmbed)
-        await ctx.message.reply(embed=embed4)
 
         embed5 = discord.Embed(
             title=":tools: Currency Commands",
@@ -140,7 +137,6 @@ class _help_(commands.Cog):
         embed5.set_footer(
             text="Don't forget to use the prefix '-' before each command!",
             icon_url=embeds.EmptyEmbed)
-        await ctx.message.reply(embed=embed5)
 
         embed6 = discord.Embed(
             title="📊 levelling Commands",
@@ -161,7 +157,6 @@ class _help_(commands.Cog):
         embed6.set_footer(
             text="Don't forget to use the prefix '-' before each command!",
             icon_url=embeds.EmptyEmbed)
-        await ctx.message.reply(embed=embed6)
         components = [Select(placeholder="Filter",
                              options=[
                                  SelectOption(
@@ -339,7 +334,7 @@ class _help_(commands.Cog):
                                                                                    ]
                                                                                    )])
                 elif value == 'levels':
-                    await interaction.edit_origin(embed=embed5, components=[Select(placeholder="📊 Levels",
+                    await interaction.edit_origin(embed=embed6, components=[Select(placeholder="📊 Levels",
                                                                                    options=[
                                                                                        SelectOption(
                                                                                            label="😄 Fun",
@@ -372,7 +367,7 @@ class _help_(commands.Cog):
                                                                                    ]
                                                                                    )])
                 elif value == 'home':
-                    await interaction.edit_origin(embed=embed5, components=[Select(placeholder="📊 Levels",
+                    await interaction.edit_origin(embed=embed1, components=[Select(placeholder="📊 Levels",
                                                                                    options=[
                                                                                        SelectOption(
                                                                                            label="😄 Fun",
