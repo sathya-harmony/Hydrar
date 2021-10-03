@@ -308,7 +308,7 @@ async def button(ctx):
     await interaction.respond(content="Button clicked")'''
 
 
-'''@client.command(name="toggle")
+@client.command(name="toggle")
 async def toggle(ctx, *, command):
     command = client.get_command(command)
     if command is None:
@@ -319,7 +319,7 @@ async def toggle(ctx, *, command):
         command.enabled = not command.enabled
         ternary = "enabled" if command.enabled else "disabled"
         ternary2 = "disabled" if command.enabled else "enabled"
-        await ctx.send(f"I have {ternary} {command.qualified_name}. Until this command is {ternary2}")'''
+        await ctx.send(f"I have {ternary} {command.qualified_name}. Until this command is {ternary2}")
 
 
 @client.command()
