@@ -282,7 +282,7 @@ class Economy(commands.Cog):
             await ctx.send(embed=embed)
             guild_data['users'][user_id]['wallet'] += amount
         
-        
+        return guild_data
 
     async def display_hangman(self, tries):
 
@@ -308,7 +308,7 @@ class Economy(commands.Cog):
 
     async def main_hangman(self, ctx):
         word = self.get_word()
-        await self.play(ctx=ctx, word=word)
+        return await self.play(ctx=ctx, word=word)
 
     def get_sentence(self):
         sentence = random.choice(title_choices.sentence_list)
@@ -1109,9 +1109,7 @@ class Economy(commands.Cog):
 '''
                 #await self.choose_emoji(ctx)
 
-                await self.main_hangman(ctx)
-
-                
+                guild_data = await self.main_hangman(ctx)
 
         elif job_name is not None:
             if guild_data['users'][user_id]['job']['job_name'] is not None:
@@ -1159,8 +1157,7 @@ class Economy(commands.Cog):
 
         # , "Retype", "Color Match", "Reverse", "Scramble", "Soccer"]
 
-        Economy_MongoDB.update_one(
-            {"guild_id": guild_id}, {"$set": guild_data})
+        Economy_MongoDB.update_one({"guild_id": guild_id}, {"$set": guild_data})
 
 
 
