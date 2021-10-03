@@ -194,20 +194,22 @@ class Economy(commands.Cog):
                 await ctx.send(f"slow brains, you ran out of tries. The word was **{word}**")
         except asyncio.TimeoutError:
             if job_name in self.job_list:
-                salary = int(self.job_list[job_name]['salary'])
+                salary = self.job_list[job_name]["salary"]
                 cut_off = random.choice([1.5, 1.75, 1.96, 1.99, 2.12, 2.25])
                 amount = int(salary / cut_off)
+                self.update_bank(ctx.author, amount)
 
             elif job_name in self.job_list_2:
-                salary = int(self.job_list_2[job_name]['salary'])
+                salary = self.job_list_2[job_name]['salary']
                 cut_off = random.choice([1.5, 1.75, 1.96, 1.99, 2.12, 2.25])
                 amount = int(salary / cut_off)
+                self.update_bank(ctx.author, amount)
 
             elif job_name in self.job_list_3:
-                salary = int(self.job_list_3[job_name]['salary'])
+                salary = self.job_list_3[job_name]['salary']
                 cut_off = random.choice([1.5, 1.75, 1.96, 1.99, 2.12, 2.25])
                 amount = int(salary / cut_off)
-            self.update_bank(ctx.author, amount, overwrite=True)
+                self.update_bank(ctx.author, amount)
 
             embed = discord.Embed(title=f"Terrible Effort, {ctx.author}!",
                                   description=f'You lost the mini-game because you ran out of time.\nYou were given {amount} for a sub-par hour of work.')
@@ -273,22 +275,11 @@ class Economy(commands.Cog):
         job_name = guild_data['users'][user_id]['job']["job_name"]
         #print(job_name)
         emojies = ['😁', '😂', '🤣', '😃', '😅', '😆', '🥰', '😍', '😎', '🤗', '🤩',
-            '🤔', '😛', '😴', '🤐', '🤑', '🤮', '😡', '🤬', '🤢', '👽', '🤖', '🙈', '☠']
-        
+            '🤔', '😛', '😴', '🤐', '🤑', '🤮', '😡', '🤬', '🤢', '🤖', '🙈', '🤯']        
         
         emoji_waste_list = (random.sample(emojies, 10))
         emoji_choice = random.choice(emoji_waste_list)
-
-        '''emoji_choice = random.choice(emojies)
-        emoji_waste_list = []
-        f = 0
-        for i in range(11):
-            emoji_waste_list.append(emojies)
-            index = random.randint(0, 11)
-            
-            if i == index:
-                #emoji_waste_list.append(emoji_choice)
-                emoji_waste_list.insert(index, emoji_choice)'''
+        
 
         msg = await ctx.message.reply(f"**Work for {job_name}** - Emoji Match - Look at the emoji closely!\n{emoji_choice}")
         await asyncio.sleep(3)
@@ -299,60 +290,7 @@ class Economy(commands.Cog):
         for x in range(5, 10):                            
                 row2.append(Button(label = emoji_waste_list[x], style = ButtonStyle.grey))        
         components = [row1, row2]        
-        await msg.edit('What was the emoji?', components=components)
-        '''[
-        (Button(style = ButtonStyle.grey,
-            label=emoji_waste_list[0],
-            
-                )
-                ),
-        (Button(style=ButtonStyle.grey,
-                label=emoji_waste_list[1],
-            
-            )
-            
-            ),
-            (Button(style = ButtonStyle.grey,
-            label=emoji_waste_list[2],
-            
-            )
-            ),
-            (Button(style = ButtonStyle.grey,
-            label=emoji_waste_list[3],
-            
-            )
-            ),
-            (Button(style = ButtonStyle.grey,
-                    label=emoji_waste_list[4],
-            
-            )
-            )],[
-            (Button(style = ButtonStyle.grey,
-            label=emoji_waste_list[5],
-            
-            )
-            ),
-            (Button(style = ButtonStyle.grey,
-            label=emoji_waste_list[6],
-    
-            )
-            ),
-            (Button(style = ButtonStyle.grey,
-                    label=emoji_waste_list[7],
-                    
-            )
-            ),
-            (Button(style=ButtonStyle.grey,
-                    label=emoji_waste_list[8],
-                    
-            )
-            ),
-            (Button(style=ButtonStyle.grey,
-                    label=emoji_waste_list[9],
-                    ))
-            
-
-            ]'''
+        await msg.edit('What was the emoji?', components=components)        
                                                         
         try: 
             while True:      
@@ -377,6 +315,7 @@ class Economy(commands.Cog):
                                 row2.append(Button(label = emoji_waste_list[x], disabled = True))
                         await interaction.edit_origin(components = [row1 , row2])
                         await ctx.send("good work!")
+                        
                         break
 
                     else:
@@ -415,35 +354,7 @@ class Economy(commands.Cog):
             for x in range(5, 10):
                 row2.append(
                     Button(label=emoji_waste_list[x], disabled=True))
-            await interaction.edit_origin(components = [row1, row2])
-
-         
-                       
-                 
-
-           
-
-            
-        '''buttons1 = []        
-        buttons2 = []
-        for i in range(5):
-            buttons1.append(Button(style=ButtonStyle.grey,
-                                   label=emoji_waste_list[i],
-                                   ))'''
-
-            
-                       
-              
-                        
-       
-                
-                
-            
-            
-            
-               
-            
-
+            await interaction.edit_origin(components = [row1, row2])              
 
     def get_bank_data(self, guild_id):
 
