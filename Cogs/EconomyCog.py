@@ -255,10 +255,10 @@ class Economy(commands.Cog):
                     embed2.set_thumbnail(url=f"{file}")
                     await msg.edit(embed=embed2)
             if guessed:
-                await ctx.send(f"Congrats, you guessed the word **{word}**")
+                await msg.edit(f"Congrats, you guessed the word **{word}**")
 
             else:
-                await ctx.send(f"slow brains, you ran out of tries. The word was **{word}**")
+                await msg.edit(f"slow brains, you ran out of tries. The word was **{word}**")
         except asyncio.TimeoutError:
             #making a separate list for every page is not good...
             if job_name in self.job_list:
@@ -276,9 +276,10 @@ class Economy(commands.Cog):
                 cut_off = random.choice([1.5, 1.75, 1.96, 1.99, 2.12, 2.25])
                 amount = int(salary / cut_off)
 
-            embed = discord.Embed(title=f"Terrible Effort, {ctx.author}!",
-                                  description=f'You lost the mini-game because you ran out of time.\nYou were given {amount} for a sub-par hour of work.')
+            embed = discord.Embed(title=f"Terrible Effort!",
+                                  description=f'You lost the mini-game because you ran out of time.\nYou were given `⏣ {amount:,}`` for a sub-par hour of work.')
             embed.set_thumbnail(url=ctx.author.avatar_url)
+            embed.set_footer(text = f"Working as a {job_name.title()}")
             await ctx.send(embed=embed)
             guild_data['users'][user_id]['wallet'] += amount
         
