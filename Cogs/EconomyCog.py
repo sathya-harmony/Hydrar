@@ -508,9 +508,9 @@ class Economy(commands.Cog):
                         embed.set_thumbnail(url=ctx.author.avatar_url)
                         embed.set_footer(
                             text=f"Working as a {job_name.title()}")
-                        await ctx.message.reply(embed=embed)
-                        await ctx.message.reply(embed=embed)
+                        await ctx.message.reply(embed=embed)                    
                         guild_data['users'][user_id]['wallet'] += amount
+                        
                         return guild_data
                         
 
