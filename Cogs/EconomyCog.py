@@ -487,6 +487,7 @@ class Economy(commands.Cog):
                                             description=f"You were given `⏣ {amount:,}` for an hour of work.")
                         embed.set_thumbnail(url=ctx.author.avatar_url)
                         embed.set_footer(text=f"Working as a {job_name.title()}")
+                        await ctx.message.reply(embed = embed)
                 
                         
                         for x in range(0, 5):
@@ -505,13 +506,12 @@ class Economy(commands.Cog):
                                 row2.append(
                                     Button(label=emoji_waste_list[x], disabled=True))
                         await interaction.edit_origin(components=[row1, row2])
-                        await ctx.message.reply(embed = embed)
-                        guild_data['users'][user_id]['wallet'] += amount
-
-                        return guild_data
-
                         break
+                        
 
+                    
+
+                        
                     else:
                         row1 = []
                         row2 = []
