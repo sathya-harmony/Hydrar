@@ -435,7 +435,7 @@ class Economy(commands.Cog):
             embed.set_footer(text=f"Working as a {job_name.title()}")
             await ctx.message.reply(embed=embed)
             guild_data['users'][user_id]['wallet'] += amount
-
+            return guild_data
     async def main_retype(self, ctx):
         sentence = self.get_sentence()
         await self.retype(ctx=ctx, sentence=sentence)
@@ -487,12 +487,8 @@ class Economy(commands.Cog):
                                                   description=f"You were given `⏣ {amount:,}` for an hour of work.")
                         embed.set_thumbnail(url=ctx.author.avatar_url)
                         embed.set_footer(
-                            text=f"Working as a {job_name.title()}")
-                        
+                            text=f"Working as a {job_name.title()}")               
 
-                        
-                
-                        
                         for x in range(0, 5):
                             if emoji_waste_list[x] == emoji_choice:
                                 row1.append(
@@ -511,10 +507,7 @@ class Economy(commands.Cog):
                         await interaction.edit_origin(components=[row1, row2])
                         await ctx.message.reply(embed=embed)
                         guild_data['users'][user_id]['wallet'] += amount
-
-                        return guild_data                  
-                                             
-                   
+                        return guild_data            
                       
                     else:
                         row1 = []

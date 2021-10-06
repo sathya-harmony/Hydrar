@@ -9,7 +9,7 @@ import sys
 from alexa_reply import reply
 import pymongo
 import os
-from discord_buttons_plugin.__main__ import ButtonsClient
+#from discord_buttons_plugin.__main__ import ButtonsClient
 from discord_components import DiscordComponents, Button, ButtonStyle, InteractionEventType
 import aiohttp
 
@@ -50,7 +50,7 @@ prefix = '-'
 client = commands.Bot(command_prefix=prefix,
                       case_insensitive=True,
                       intents=discord.Intents.all())
-buttons = ButtonsClient(client)
+#buttons = ButtonsClient(client)
 
 client.remove_command('help')
 
@@ -328,7 +328,7 @@ async def servers(ctx):
     embed = discord.Embed(title="Servers")
     for guild in activeservers:
         embed.set_thumbnail(url=guild.icon_url)
-        await ctx.send(embed = embed)
+        await ctx.send(embed=embed)
 
 
 @client.command()
