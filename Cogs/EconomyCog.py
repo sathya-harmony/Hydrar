@@ -467,7 +467,7 @@ class Economy(commands.Cog):
 
         try:            
 
-            interaction = await self.client.wait_for("button_click", check=lambda i: i.component.label in emoji_waste_list,  timeout=15.0)
+            interaction = await self.client.wait_for("button_click", check=lambda i: i.component.label in emoji_waste_list and i.user.id == ctx.author.id,  timeout=15.0)
             if ctx.author.id != interaction.author.id:
                 await interaction.respond(content=f"{interaction.author.mention} This message is not for you lmao")
             else:
@@ -534,7 +534,7 @@ class Economy(commands.Cog):
                     await ctx.send("terrible work")
                     return guild_data
         except asyncio.TimeoutError:
-            await ctx.send("You were timed out!")
+            
             row1 = []
             row2 = []
             for x in range(0, 5):
@@ -544,6 +544,7 @@ class Economy(commands.Cog):
                 row2.append(
                     Button(label=emoji_waste_list[x], disabled=True))
             await interaction.edit_origin(components=[row1, row2])
+            await ctx.send("You were timed out!")
         
           
 
