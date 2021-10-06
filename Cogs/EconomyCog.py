@@ -544,7 +544,7 @@ class Economy(commands.Cog):
                 row2.append(
                     Button(label=emoji_waste_list[x], disabled=True))
             await interaction.edit_origin(components=[row1, row2])
-        return guild_data
+        
           
 
     @ commands.command(aliases=[])
