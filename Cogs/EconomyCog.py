@@ -507,7 +507,7 @@ class Economy(commands.Cog):
                         await interaction.edit_origin(components=[row1, row2])
                         await ctx.message.reply(embed=embed)
                         guild_data['users'][user_id]['wallet'] += amount
-                        return guild_data            
+                                   
                       
                     else:
                         row1 = []
@@ -546,6 +546,7 @@ class Economy(commands.Cog):
                 row2.append(
                     Button(label=emoji_waste_list[x], disabled=True))
             await interaction.edit_origin(components=[row1, row2])
+        return guild_data    
 
     @ commands.command(aliases=[])
     async def meme(self, ctx, subred='dankmeme'):
