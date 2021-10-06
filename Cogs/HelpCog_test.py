@@ -405,11 +405,7 @@ class _help_(commands.Cog):
                                                                                    )])
 
             except asyncio.TimeoutError:
-                await message.edit(components=[Select(placeholder="Filter", disabled=True, options=[SelectOption(
-                    label="💰 Economy",
-                    value="economy",
-                    description="Shows the Economy Commands Category!"
-                ), ])])
+                await message.edit(components=[Select(placeholder="Filter", disabled=True, options=None)])
 
                 break
 
