@@ -465,8 +465,7 @@ class Economy(commands.Cog):
         components = [row1, row2]
         await msg.edit('What was the emoji?', components=components)
 
-        try:
-            
+        try:            
 
             interaction = await self.client.wait_for("button_click", check=lambda i: i.component.label in emoji_waste_list,  timeout=15.0)
             if ctx.author.id != interaction.author.id:
@@ -507,13 +506,10 @@ class Economy(commands.Cog):
                     await interaction.edit_origin(components=[row1, row2])
                     await ctx.message.reply(embed=embed)
                     guild_data['users'][user_id]['wallet'] += amount
-                    return guild_data
-                    
+                    return guild_data                   
                                 
                     
-                else:
-                    row1 = []
-                    row2 = []
+                else:                    
                     for x in range(0, 5):
                         if emoji_waste_list[x] == emoji_choice:
                             row1.append(
@@ -548,7 +544,7 @@ class Economy(commands.Cog):
                 row2.append(
                     Button(label=emoji_waste_list[x], disabled=True))
             await interaction.edit_origin(components=[row1, row2])
-            return guild_data
+        return guild_data
           
 
     @ commands.command(aliases=[])
