@@ -411,7 +411,7 @@ class _help_(commands.Cog):
                         value="fun",
                         description="Shows the Fun Commands Category!"
 
-                    )])], disabled=True)
+                    )], disabled=True)])
 
                 break
 
