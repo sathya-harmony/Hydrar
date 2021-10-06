@@ -466,75 +466,77 @@ class Economy(commands.Cog):
         await msg.edit('What was the emoji?', components=components)
 
         try:
-            while True:
+            
 
-                interaction = await self.client.wait_for("button_click", check=lambda i: i.component.label in emoji_waste_list,  timeout=15.0)
-                if ctx.author.id != interaction.author.id:
-                    await interaction.respond(content=f"{interaction.author.mention} This message is not for you lmao")
+            interaction = await self.client.wait_for("button_click", check=lambda i: i.component.label in emoji_waste_list,  timeout=15.0)
+            if ctx.author.id != interaction.author.id:
+                await interaction.respond(content=f"{interaction.author.mention} This message is not for you lmao")
+            else:
+                if emoji_choice == interaction.component.label:
+                    row1 = []
+                    row2 = []
+                    if job_name in self.job_list:
+                        amount = self.job_list[job_name]["salary"]
+
+                    elif job_name in self.job_list_2:
+                        amount = self.job_list_2[job_name]["salary"]
+
+                    elif job_name in self.job_list_3:
+                        amount = self.job_list_3[job_name]["salary"]
+                    embed = discord.Embed(title=f"Great Work!",
+                                                description=f"You were given `⏣ {amount:,}` for an hour of work.")
+                    embed.set_thumbnail(url=ctx.author.avatar_url)
+                    embed.set_footer(
+                        text=f"Working as a {job_name.title()}")               
+
+                    for x in range(0, 5):
+                        if emoji_waste_list[x] == emoji_choice:
+                            row1.append(
+                                Button(label=emoji_waste_list[x], style=3, disabled=True))
+
+                        else:
+                            row1.append(
+                                Button(label=emoji_waste_list[x], disabled=True))
+                    for x in range(5, 10):
+                        if emoji_waste_list[x] == emoji_choice:
+                            row2.append(
+                                Button(label=emoji_waste_list[x], style=ButtonStyle.green, disabled=True))
+                        else:
+                            row2.append(
+                                Button(label=emoji_waste_list[x], disabled=True))
+                    await interaction.edit_origin(components=[row1, row2])
+                    await ctx.message.reply(embed=embed)
+                    guild_data['users'][user_id]['wallet'] += amount
+                    return guild_data
+                    
+                                
+                    
                 else:
-                    if emoji_choice == interaction.component.label:
-                        row1 = []
-                        row2 = []
-                        if job_name in self.job_list:
-                            amount = self.job_list[job_name]["salary"]
-
-                        elif job_name in self.job_list_2:
-                            amount = self.job_list_2[job_name]["salary"]
-
-                        elif job_name in self.job_list_3:
-                            amount = self.job_list_3[job_name]["salary"]
-                        embed = discord.Embed(title=f"Great Work!",
-                                                  description=f"You were given `⏣ {amount:,}` for an hour of work.")
-                        embed.set_thumbnail(url=ctx.author.avatar_url)
-                        embed.set_footer(
-                            text=f"Working as a {job_name.title()}")               
-
-                        for x in range(0, 5):
-                            if emoji_waste_list[x] == emoji_choice:
-                                row1.append(
-                                    Button(label=emoji_waste_list[x], style=3, disabled=True))
-
-                            else:
-                                row1.append(
-                                    Button(label=emoji_waste_list[x], disabled=True))
-                        for x in range(5, 10):
-                            if emoji_waste_list[x] == emoji_choice:
-                                row2.append(
-                                    Button(label=emoji_waste_list[x], style=ButtonStyle.green, disabled=True))
-                            else:
-                                row2.append(
-                                    Button(label=emoji_waste_list[x], disabled=True))
-                        await interaction.edit_origin(components=[row1, row2])
-                        await ctx.message.reply(embed=embed)
-                        guild_data['users'][user_id]['wallet'] += amount
-                                   
-                      
-                    else:
-                        row1 = []
-                        row2 = []
-                        for x in range(0, 5):
-                            if emoji_waste_list[x] == emoji_choice:
-                                row1.append(
-                                    Button(label=emoji_waste_list[x], style=3, disabled=True))
-                            elif emoji_waste_list[x] == interaction.component.label:
-                                row1.append(
-                                    Button(label=emoji_waste_list[x], style=4, disabled=True))
-                            else:
-                                row1.append(
-                                    Button(label=emoji_waste_list[x], disabled=True))
-                        for x in range(5, 10):
-                            if emoji_waste_list[x] == emoji_choice:
-                                row2.append(
-                                    Button(label=emoji_waste_list[x], style=3, disabled=True))
-                            elif emoji_waste_list[x] == interaction.component.label:
-                                row2.append(
-                                    Button(label=emoji_waste_list[x], style=4, disabled=True))
-                            else:
-                                row2.append(
-                                    Button(label=emoji_waste_list[x], disabled=True))
-                        await interaction.edit_origin(components=[row1, row2])
-                        await ctx.send("terrible work")
-                        break
+                    row1 = []
+                    row2 = []
+                    for x in range(0, 5):
+                        if emoji_waste_list[x] == emoji_choice:
+                            row1.append(
+                                Button(label=emoji_waste_list[x], style=3, disabled=True))
+                        elif emoji_waste_list[x] == interaction.component.label:
+                            row1.append(
+                                Button(label=emoji_waste_list[x], style=4, disabled=True))
+                        else:
+                            row1.append(
+                                Button(label=emoji_waste_list[x], disabled=True))
+                    for x in range(5, 10):
+                        if emoji_waste_list[x] == emoji_choice:
+                            row2.append(
+                                Button(label=emoji_waste_list[x], style=3, disabled=True))
+                        elif emoji_waste_list[x] == interaction.component.label:
+                            row2.append(
+                                Button(label=emoji_waste_list[x], style=4, disabled=True))
+                        else:
+                            row2.append(
+                                Button(label=emoji_waste_list[x], disabled=True))
+                    await interaction.edit_origin(components=[row1, row2])
+                    await ctx.send("terrible work")
+                    return guild_data
         except asyncio.TimeoutError:
             await ctx.send("You were timed out!")
             row1 = []
@@ -546,7 +548,8 @@ class Economy(commands.Cog):
                 row2.append(
                     Button(label=emoji_waste_list[x], disabled=True))
             await interaction.edit_origin(components=[row1, row2])
-        return guild_data    
+            return guild_data
+          
 
     @ commands.command(aliases=[])
     async def meme(self, ctx, subred='dankmeme'):
