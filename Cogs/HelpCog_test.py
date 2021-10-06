@@ -405,7 +405,13 @@ class _help_(commands.Cog):
                                                                                    )])
 
             except asyncio.TimeoutError:
-                await message.edit(components=[Select(disabled=True)])
+                await message.edit(components=[Select(options=[
+                    SelectOption(
+                        label="😄 Fun",
+                        value="fun",
+                        description="Shows the Fun Commands Category!"
+
+                    )])], disabled=True)
 
                 break
 
