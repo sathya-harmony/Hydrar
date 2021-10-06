@@ -371,34 +371,34 @@ class _help_(commands.Cog):
                 elif value == 'home':
                     await interaction.edit_origin(embed=embed1, components=[Select(placeholder="🏡 Home",
                                                                                    options=[
-                                                                                       SelectOption(
+                                                                                       [SelectOption(
                                                                                            label="😄 Fun",
                                                                                            value="fun",
                                                                                            description="Shows the Fun Commands Category!"
 
-                                                                                       ),
+                                                                                       )],
 
-                                                                                       SelectOption(
+                                                                                       [SelectOption(
                                                                                            label="👮‍♂️ Moderation",
                                                                                            value="moderation",
                                                                                            description="Shows the Moderation Commands Category!"
-                                                                                       ),
-                                                                                       SelectOption(
+                                                                                       )],
+                                                                                       [SelectOption(
                                                                                            label="🛠 Utility",
                                                                                            value="utility",
                                                                                            description="Shows the Utility Commands Category!"
-                                                                                       ),
-                                                                                       SelectOption(
+                                                                                       )],
+                                                                                       [SelectOption(
                                                                                            label="💰 Economy",
                                                                                            value="economy",
                                                                                            description="Shows the Economy Commands Category!"
-                                                                                       ),
-                                                                                       SelectOption(
+                                                                                       )],
+                                                                                       [SelectOption(
                                                                                            label="📊 Levels",
                                                                                            value="levels",
                                                                                            description="Shows the Levels Commands Catergory!"
 
-                                                                                       )
+                                                                                       )]
 
 
                                                                                    ]
