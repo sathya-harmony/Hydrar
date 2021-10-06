@@ -405,7 +405,7 @@ class _help_(commands.Cog):
                                                                                    )])
 
             except asyncio.TimeoutError:
-                await message.edit(components=[Select(placeholder="Filter", disabled=True, options=None)])
+                await message.edit(components=[Select(disabled=True)])
 
                 break
 
