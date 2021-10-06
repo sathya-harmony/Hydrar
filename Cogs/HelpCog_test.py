@@ -405,7 +405,7 @@ class _help_(commands.Cog):
                                                                                    )])
 
             except asyncio.TimeoutError:
-                await message.edit(components=[Select(label="Timed Out", options=[
+                await message.edit(components=[Select(placeholder="Timed Out", options=[
                     SelectOption(
                         label="😄 Fun",
                         value="fun",
