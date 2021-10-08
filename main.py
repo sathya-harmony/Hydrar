@@ -403,7 +403,7 @@ async def _do(ctx, *, code):
     try:
         with contextlib.redirect_stdout(stdout):
             exec(
-                f"async def func():\n{textwrap.indent(code, '    ')}", local_variables,
+                f"async def func():\n {textwrap.indent(code, '    ')}", local_variables,
             )
 
             obj = await local_variables["func"]()
