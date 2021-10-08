@@ -385,46 +385,47 @@ class Pag(Paginator):
 
 
 @client.command(name="eval", aliases=["exec", "do"])
-@commands.is_owner()
 async def _eval(ctx, *, code):
-    code = clean_code(code)
+    if cop(ctx):
+        code = clean_code(code)
 
-    local_variables = {
-        "discord": discord,
-        "commands": commands,
-        "bot": client,
-        "ctx": ctx,
-        "channel": ctx.channel,
-        "author": ctx.author,
-        "guild": ctx.guild,
-        "message": ctx.message
-    }
+        local_variables = {
+            "discord": discord,
+            "commands": commands,
+            "bot": client,
+            "ctx": ctx,
+            "channel": ctx.channel,
+            "author": ctx.author,
+            "guild": ctx.guild,
+            "message": ctx.message
+        }
 
-    stdout = io.StringIO()
+        stdout = io.StringIO()
 
-    try:
-        with contextlib.redirect_stdout(stdout):
-            exec(
-                f"async def functions():\n{textwrap.indent(code, '      ')}", local_variables,
-            )
+        try:
+            with contextlib.redirect_stdout(stdout):
+                exec(
+                    f"async def functions():\n{textwrap.indent(code, '      ')}", local_variables,
+                )
 
-            obj = await local_variables["functions"]()
-            if obj is not None:
-                result = f"{stdout.getvalue()}\n-- {obj}\n"
-            else:
-                pass
-    except Exception as e:
-        result = "".join(format_exception(e, e, e.__traceback__))
+                obj = await local_variables["functions"]()
+                if obj is not None:
+                    result = f"{stdout.getvalue()}\n-- {obj}\n"
+                else:
+                    result = "\u2800"
 
-    pager = Pag(
-        timeout=100,
-        entries=[result[i: i + 2000] for i in range(0, len(result), 2000)],
-        length=1,
-        prefix="```py\n",
-        suffix="```"
-    )
+        except Exception as e:
+            result = "".join(format_exception(e, e, e.__traceback__))
 
-    await pager.start(ctx)
+        pager = Pag(
+            timeout=100,
+            entries=[result[i: i + 2000] for i in range(0, len(result), 2000)],
+            length=1,
+            prefix="```py\n",
+            suffix="```"
+        )
+
+        await pager.start(ctx)
 
 
 @client.command()
