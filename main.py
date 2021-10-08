@@ -412,7 +412,7 @@ async def _eval(ctx, *, code):
             if obj is not None:
                 result = f"{stdout.getvalue()}\n-- {obj}\n"
             else:
-                result = None
+                pass
     except Exception as e:
         result = "".join(format_exception(e, e, e.__traceback__))
 
