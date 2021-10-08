@@ -385,20 +385,21 @@ class Pag(Paginator):
             pass
 
 
-@client.command(name="do")
-async def _do(ctx, *, code):
-    if await op(ctx):
-        code = clean_code(code)
-        local_variables = {
-            "discord": discord,
-            "commands": commands,
-            "bot": client,
-            "ctx": ctx,
-            "channel": ctx.channel,
-            "author": ctx.author,
-            "guild": ctx.guild,
-            "message": ctx.message
-        }
+@client.command(name="eval", aliases=["exec", "do"])
+@commands.is_owner()
+async def _eval(ctx, *, code):
+    code = clean_code(code)
+
+    local_variables = {
+        "discord": discord,
+        "commands": commands,
+        "bot": client,
+        "ctx": ctx,
+        "channel": ctx.channel,
+        "author": ctx.author,
+        "guild": ctx.guild,
+        "message": ctx.message
+    }
 
     stdout = io.StringIO()
 
