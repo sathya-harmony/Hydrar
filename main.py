@@ -386,7 +386,7 @@ class Pag(Paginator):
 
 @client.command(name="eval", aliases=["exec", "do"])
 async def _eval(ctx, *, code):
-    if await cop(ctx):
+    if await op(ctx):
         code = clean_code(code)
 
         local_variables = {
