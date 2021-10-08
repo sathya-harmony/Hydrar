@@ -274,12 +274,12 @@ async def on_message(message):
             await asyncio.sleep(300)'''
 
 
-@client.command()
+'''@client.command()
 async def do(ctx, *, python_code):
     if await op(ctx):
 
         x = eval(python_code)
-        await ctx.send(x)
+        await ctx.send(x)'''
 
 
 @client.command()
