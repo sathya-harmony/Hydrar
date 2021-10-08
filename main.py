@@ -409,10 +409,8 @@ async def _eval(ctx, *, code):
                 )
 
                 obj = await local_variables["functions"]()
-                if obj is not None:
-                    result = f"{stdout.getvalue()}\n-- {obj}\n"
-                else:
-                    result = "\u2800"
+
+                result = f"{stdout.getvalue()}\n-- {obj}\n"
 
         except Exception as e:
             result = "".join(format_exception(e, e, e.__traceback__))
