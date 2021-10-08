@@ -371,8 +371,7 @@ async def rcogs(ctx, cog=None):
 
 def clean_code(content):
     if content.startswith("```") and content.endswith("```"):
-        return "\n".join(content.split("\n")[1:][:-3])
-
+        return "\n".join(content.split("\n")[1:])[:-3]
     else:
         return content
 
@@ -406,10 +405,10 @@ async def _eval(ctx, *, code):
     try:
         with contextlib.redirect_stdout(stdout):
             exec(
-                f"async def func():\n{textwrap.indent(code, '          ')}", local_variables,
+                f"async def functions():\n{textwrap.indent(code, '      ')}", local_variables,
             )
 
-            obj = await local_variables["func"]()
+            obj = await local_variables["functions"]()
             result = f"{stdout.getvalue()}\n-- {obj}\n"
     except Exception as e:
         result = "".join(format_exception(e, e, e.__traceback__))
