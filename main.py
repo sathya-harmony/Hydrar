@@ -12,6 +12,10 @@ import os
 #from discord_buttons_plugin.__main__ import ButtonsClient
 from discord_components import DiscordComponents, Button, ButtonStyle, InteractionEventType
 import aiohttp
+import io
+import textwrap
+import contextlib
+from traceback import format_exception
 
 #import Cogs.EconomyCog
 #import Dashboard.main
@@ -278,34 +282,10 @@ async def do(ctx, *, python_code):
         await ctx.send(x)
 
 
-'''@client.command()
-async def rcogs(ctx):
-
-    if await op(ctx, cog:):
-
-        async with ctx.typing():
-            for ext in os.listdir("Cogs"):
-                if ext.endswith('.py') and not ext.startswith("_"):
-
-                    try:
-                        client.unload_extension(f"Cogs.{ext[:-3]}")
-                        client.load_extension(f"Cogs.{ext[:-3]}")
-                        await ctx.send(f"Reloaded {ext}")
-                    except Exception:
-                        await ctx.send("Some error occured. I couldn't reload the cogs!")'''
-
-
 @client.command()
 async def disable(ctx, member: discord.Member):
     if await op(ctx):
         YOURLIST.append(member.id)
-
-
-'''@client.command()
-async def button(ctx):
-    await ctx.send("lol", components=[Button(label='Click meh!')])
-    interaction = await client.wait_for("button_click", check=lambda i: i.component.label.startswith('Click'))
-    await interaction.respond(content="Button clicked")'''
 
 
 @client.command(name="toggle")
@@ -320,15 +300,6 @@ async def toggle(ctx, *, command):
         ternary = "enabled" if command.enabled else "disabled"
         ternary2 = "disabled" if command.enabled else "enabled"
         await ctx.send(f"I have {ternary} {command.qualified_name}. Until this command is {ternary2}")
-
-
-@client.command()
-async def servers(ctx):
-    activeservers = client.guilds
-    embed = discord.Embed(title="Servers")
-    for guild in activeservers:
-        embed.set_thumbnail(url=guild.icon_url)
-        await ctx.send(embed=embed)
 
 
 @client.command()
@@ -394,6 +365,43 @@ async def rcogs(ctx, cog=None):
                             inline=False
                         )
                 await ctx.send(embed=embed)
+
+
+def clean_code(content):
+    if content.startswith("```") and content.endswith("```"):
+        return "\n".join(content.split("\n")[1:][:-3])
+    return content
+
+
+@client.command(name="do")
+async def _do(ctx, *, code):
+    if await op(ctx):
+        code = clean_code(code)
+        local_var = {
+            "discord": discord,
+            "commands": commands,
+            "client": client,
+            "ctx": ctx,
+            "channel": ctx.channel,
+            "author": ctx.author,
+            "guild": ctx.guild,
+            "message": ctx.message
+
+        }
+        stdout = io.StringIO()
+        try:
+            with contextlib.redirect_stdout(stdout):
+                exec(
+                    f"async def func():\n{textwrap.indent(code, '    ')}", local_var
+                )
+                obj = await local_var["func"]()
+                result = f"{stdout.getvalue()}\n-- {obj}\n"
+
+        except Exception as e:
+            result = "".join(format_exception(e, e, e.__traceback__))
+
+        embed = discord.Embed(
+            Title="Successfully ran your code!!", description=result)
 
 
 @client.command()

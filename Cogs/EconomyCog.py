@@ -465,7 +465,8 @@ class Economy(commands.Cog):
         components = [row1, row2]
         await msg.edit('What was the emoji?', components=components)
 
-        try:            
+        try:     
+                   
 
             interaction = await self.client.wait_for("button_click", check=lambda i: i.component.label in emoji_waste_list and i.user.id == ctx.author.id,  timeout=15.0)
             if ctx.author.id != interaction.author.id:
