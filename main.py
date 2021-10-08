@@ -16,6 +16,8 @@ import io
 import textwrap
 import contextlib
 from traceback import format_exception
+from discord.ext.buttons import Paginator
+
 
 #import Cogs.EconomyCog
 #import Dashboard.main
@@ -373,36 +375,51 @@ def clean_code(content):
     return content
 
 
+class Pag(Paginator):
+    async def teardown(self):
+        try:
+            await self.page.clear_reactions()
+        except discord.HTTPException:
+            pass
+
+
 @client.command(name="do")
 async def _do(ctx, *, code):
     if await op(ctx):
         code = clean_code(code)
-        local_var = {
+        local_variables = {
             "discord": discord,
             "commands": commands,
-            "client": client,
+            "bot": client,
             "ctx": ctx,
             "channel": ctx.channel,
             "author": ctx.author,
             "guild": ctx.guild,
             "message": ctx.message
-
         }
-        stdout = io.StringIO()
-        try:
-            with contextlib.redirect_stdout(stdout):
-                exec(
-                    f"async def func():\n{textwrap.indent(code, '    ')}", local_var
-                )
-                obj = await local_var["func"]()
-                result = f"{stdout.getvalue()}\n-- {obj}\n"
 
-        except Exception as e:
-            result = "".join(format_exception(e, e, e.__traceback__))
+    stdout = io.StringIO()
 
-        embed = discord.Embed(
-            Title="Successfully ran your code!!", description=result)
-        await ctx.send(embed=embed)
+    try:
+        with contextlib.redirect_stdout(stdout):
+            exec(
+                f"async def func():\n{textwrap.indent(code, '    ')}", local_variables,
+            )
+
+            obj = await local_variables["func"]()
+            result = f"{stdout.getvalue()}\n-- {obj}\n"
+    except Exception as e:
+        result = "".join(format_exception(e, e, e.__traceback__))
+
+    pager = Pag(
+        timeout=100,
+        entries=[result[i: i + 2000] for i in range(0, len(result), 2000)],
+        length=1,
+        prefix="```py\n",
+        suffix="```"
+    )
+
+    await pager.start(ctx)
 
 
 @client.command()
