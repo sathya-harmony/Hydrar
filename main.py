@@ -402,6 +402,7 @@ async def _do(ctx, *, code):
 
         embed = discord.Embed(
             Title="Successfully ran your code!!", description=result)
+        await ctx.send(embed=embed)
 
 
 @client.command()
