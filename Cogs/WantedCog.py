@@ -44,7 +44,7 @@ def remove(afk):
 @commands.Cog.listener()
 async def on_message(self, message):
     user_data = self.get_extra_data(message.author.id)
-    if str(message.author.id) in user_data["user_id"].keys():
+    if str(message.author.id) in user_data["user_id"]:
         user_data["user_id"].pop(str(message.author.id))
         try:
             await message.author.edit(nick=remove(message.author.display_name))
@@ -59,7 +59,7 @@ async def on_message(self, message):
     # for reason in user_data["user_id"][str(member)]:
 
     Extras_MongoDB.update_one(
-        {"user_id": {str(member.id)}}, {"$unset": user_data})
+        {"user_id": {str(message.author.id)}}, {"$set": user_data})
 
 
 class Wanted(commands.Cog):
