@@ -190,6 +190,8 @@ class Wanted(commands.Cog):
     async def afk(self, ctx, *, reason="No reason provided"):
         user_data = self.get_extra_data(ctx.author.id)
         member = ctx.author
+        if user_data is None:
+            user_data = {}
         if member.id in user_data.keys():
             user_data.pop(member.id)
 
