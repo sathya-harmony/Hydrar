@@ -224,7 +224,7 @@ async def log(*args, **kwargs):
     global log_channel
 
     if log_channel is None:
-        log_channel = await client.fetch_channel(844871857169760306)
+        log_channel = await client.fetch_channel(896428684158844928)
 
     # Return the logged message.
     return await log_channel.send(*args, **kwargs)
