@@ -368,8 +368,41 @@ class _help_(commands.Cog):
 
                                                                                    ]
                                                                                    )])
-                '''elif value == 'home':
-                    await interaction.edit_origin(embed=embed1, components=[Select(placeholder="🏡 Home",'''
+                elif value == 'home':
+                    await interaction.edit_origin(embed=embed1, components=[Select(placeholder="🏡 Home",
+                                                                                   options=[
+                                                                                       SelectOption(
+                                                                                           label="😄 Fun",
+                                                                                           value="fun",
+                                                                                           description="Shows the Fun Commands Category!"
+
+                                                                                       ),
+
+                                                                                       SelectOption(
+                                                                                           label="👮‍♂️ Moderation",
+                                                                                           value="moderation",
+                                                                                           description="Shows the Moderation Commands Category!"
+                                                                                       ),
+                                                                                       SelectOption(
+                                                                                           label="🛠 Utility",
+                                                                                           value="utility",
+                                                                                           description="Shows the Utility Commands Category!"
+                                                                                       ),
+                                                                                       SelectOption(
+                                                                                           label="💰 Economy",
+                                                                                           value="economy",
+                                                                                           description="Shows the Economy Commands Category!"
+                                                                                       ),
+                                                                                       SelectOption(
+                                                                                           label="📊 Levels",
+                                                                                           value="levels",
+                                                                                           description="Shows the Levels Commands Catergory!"
+
+                                                                                       )
+
+
+                                                                                   ]
+                                                                                   )])
 
             except asyncio.TimeoutError:
                 await message.edit(components=[Select(placeholder="Timed Out", options=[
