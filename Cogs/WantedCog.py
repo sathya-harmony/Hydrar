@@ -202,7 +202,7 @@ class Wanted(commands.Cog):
             except:
                 pass
 
-        embed = discord.embed(
+        embed = discord.Embed(
             title=":zzz: Member AFK", description=f"{member.mention} has gone **AFK**", color=member.color)
         embed.set_thumbnail(url=member.avatar_url)
         embed.set_footer(name=self.client.user.name,
