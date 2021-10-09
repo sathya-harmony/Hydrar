@@ -200,18 +200,18 @@ class Wanted(commands.Cog):
             try:
                 user_data[member.id] = reason
                 member.edit(nick=f"[AFK] {member.display_name}")
+                Extras_MongoDB.update_one(
+                    {"user_id": member.id}, {"$set": user_data})
             except:
                 pass
 
         embed = discord.Embed(
             title=":zzz: Member AFK", description=f"{member.mention} has gone **AFK**", color=member.color)
         embed.set_thumbnail(url=member.avatar_url)
-        embed.set_footer(text = self.client.user.name,
+        embed.set_footer(text=self.client.user.name,
                          icon_url=self.client.user.avatar_url)
         embed.add_field(name='AFK Note:', value=reason)
         await ctx.message.reply(embed=embed)
-        Extras_MongoDB.update_one(
-            user_data)
 
 
 def setup(client):
