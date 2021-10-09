@@ -192,6 +192,7 @@ class Wanted(commands.Cog):
         member = ctx.author
         if user_data is None:
             user_data = {}
+            Extras_MongoDB.insert_one(user_data)
         if member.id in user_data.keys():
             user_data.pop(member.id)
 
@@ -209,6 +210,8 @@ class Wanted(commands.Cog):
                          icon_url=self.client.user.avatar_url)
         embed.add_field(name='AFK Note:', value=reason)
         await ctx.message.reply(embed=embed)
+        Extras_MongoDB.update_one(
+            user_data)
 
 
 def setup(client):
