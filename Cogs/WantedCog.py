@@ -4,9 +4,17 @@ from PIL import Image, ImageDraw, ImageFont
 from io import BytesIO
 import asyncio
 import random
+from discord.utils import get
+from discord_components.dpy_overrides import fetch_message
+from pymongo import MongoClient
 
 
 from discord.ext import commands
+cluster = MongoClient(
+    "mongodb+srv://Hydra:CihVirus123@economy.2xn9e.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+
+
+Extras_MongoDB = cluster["Extras"]["Extras"]
 prefix = '-'
 client = commands.Bot(command_prefix=prefix,
                       case_insensitive=True,
@@ -24,6 +32,30 @@ async def on_command_error(ctx, error):
         await ctx.message.reply('Please give proper input.')
     elif isinstance(error, commands.CommandNotFound):
         await ctx.message.reply("Invalid command.")
+
+
+def remove(afk):
+    if "[AFK]" in afk.split():
+        return " ".join(afk.split()[1:])
+    else:
+        return afk
+
+
+@commands.Cog.listener()
+async def on_message(self, message):
+    user_data = self.get_extra_data(message.author.id)
+    if message.author.id in user_data.keys():
+        user_data.pop(message.author.id)
+        try:
+            await message.author.edit(nick=remove(message.author.display_name))
+
+        except:
+            pass
+        await message.channel.send(f"Welcome back {message.author.mention}, I removed your AFK!")
+    for id, reason in user_data.items():
+        member = get(member.guild.members, id=id)
+        if (message.reference and member == (await message.channel.fetch_message(message.reference.message_id)).author) or member.id in message.raw_mentions:
+            await message.reply(f"{member.name} is AFK. AFK Note: {reason}")
 
 
 class Wanted(commands.Cog):
@@ -143,6 +175,38 @@ class Wanted(commands.Cog):
             img.save(buf, format="png")
             buf.seek(0)
             await ctx.message.reply(file=discord.File(buf, f"Profile of {user.name}#{user.discriminator}.png"))
+
+    def get_extra_data(self, user_id):
+
+        if type(user_id) in [int, float]:
+            user_id = str(int(user_id))
+
+        guild_data = Extras_MongoDB.find_one(
+            {"users": user_id})
+
+        return guild_data
+
+    @commands.command()
+    async def afk(self, ctx, *, reason="No reason provided"):
+        user_data = self.get_extra_data(ctx.author.id)
+        member = ctx.author
+        if member.id in user_data.keys():
+            user_data.pop(member.id)
+
+        else:
+            try:
+                user_data[member.id] = reason
+                member.edit(nick=f"[AFK] {member.display_name}")
+            except:
+                pass
+
+        embed = discord.embed(
+            title=":zzz: Member AFK", description=f"{member.mention} has gone **AFK**", color=member.color)
+        embed.set_thumbnail(url=member.avatar_url)
+        embed.set_footer(name=self.client.user.name,
+                         icon_url=self.client.user.avatar_url)
+        embed.add_field(name='AFK Note:', value=reason)
+        await ctx.message.reply(embed=embed)
 
 
 def setup(client):
