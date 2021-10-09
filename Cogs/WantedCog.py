@@ -182,7 +182,7 @@ class Wanted(commands.Cog):
             user_id = str(int(user_id))
 
         guild_data = Extras_MongoDB.find_one(
-            {"users": user_id})
+            {"user_id": user_id})
 
         return guild_data
 
@@ -191,9 +191,9 @@ class Wanted(commands.Cog):
         user_data = self.get_extra_data(ctx.author.id)
         member = ctx.author
         if user_data is None:
-            user_data = {}
+            user_data = {"user_id": {member.id: {"reason": {}}}}
             Extras_MongoDB.insert_one(user_data)
-        if member.id in user_data.keys():
+        if member.id in user_data["user_id"].keys():
             user_data.pop(member.id)
 
         else:
@@ -201,7 +201,7 @@ class Wanted(commands.Cog):
                 user_data[member.id] = reason
                 await member.edit(nick=f"[AFK] {member.display_name}")
                 Extras_MongoDB.update_one(
-                    {"user_id": member.id}, {"$set": user_data})
+                    {"user_id": {member.id}}, {"$set": user_data})
             except:
                 pass
 
