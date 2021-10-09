@@ -199,7 +199,7 @@ class Wanted(commands.Cog):
         else:
             try:
                 user_data[member.id] = reason
-                member.edit(nick=f"[AFK] {member.display_name}")
+                await member.edit(nick=f"[AFK] {member.display_name}")
                 Extras_MongoDB.update_one(
                     {"user_id": member.id}, {"$set": user_data})
             except:
