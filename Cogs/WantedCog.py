@@ -191,7 +191,7 @@ class Wanted(commands.Cog):
         user_data = self.get_extra_data(ctx.author.id)
         member = ctx.author
         if user_data is None:
-            user_data = {"user_id": {str(member.id): {"reason": {}}}}
+            user_data = {"user_id": {str(member.id): reason}}
             Extras_MongoDB.insert_one(user_data)
         if member.id in user_data["user_id"].keys():
             user_data["user_id"].pop(str(member.id))
