@@ -44,8 +44,8 @@ def remove(afk):
 @commands.Cog.listener()
 async def on_message(self, message):
     user_data = self.get_extra_data(message.author.id)
-    if message.author.id in user_data["user_id"].keys():
-        user_data["user_id"].pop(message.author.id)
+    if str(message.author.id) in user_data["user_id"].keys():
+        user_data["user_id"].pop(str(message.author.id))
         try:
             await message.author.edit(nick=remove(message.author.display_name))
 
@@ -56,8 +56,10 @@ async def on_message(self, message):
         member = get(member.guild.members, id=id)
         if (message.reference and member == (await message.channel.fetch_message(message.reference.message_id)).author) or member.id in message.raw_mentions:
             await message.reply(f"{member.name} is AFK. AFK Note: {reason}")
+    # for reason in user_data["user_id"][str(member)]:
+
     Extras_MongoDB.update_one(
-        {"user_id": {str(member.id)}}, {"$set": user_data})
+        {"user_id": {str(member.id)}}, {"$unset": user_data})
 
 
 class Wanted(commands.Cog):
