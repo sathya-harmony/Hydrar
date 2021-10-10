@@ -13,7 +13,7 @@ class _help_(commands.Cog):
 
     @commands.command(name='help',
                       aliases=["helpme", "command", "commands", "cmd", "cmds"])
-    async def help(self, ctx, arg):
+    async def help(self, ctx, arg=''):
 
         embed1 = discord.Embed(
             title="Hydrargyrum - Command Categories",
