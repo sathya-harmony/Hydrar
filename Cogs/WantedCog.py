@@ -43,8 +43,9 @@ def remove(afk):
 
 @commands.Cog.listener()
 async def on_message(self, message):
+    stats = Extras_MongoDB.find_one({"user_id": {str(message.author.id)}})
     user_data = self.get_extra_data(message.author.id)
-    if str(message.author.id) in user_data["user_id"]:
+    if str(message.author.id) in user_data["user_id"].keys():
         user_data["user_id"].pop(str(message.author.id))
         try:
             await message.author.edit(nick=remove(message.author.display_name))
@@ -52,11 +53,12 @@ async def on_message(self, message):
         except:
             pass
         await message.channel.send(f"Welcome back {message.author.mention}, I removed your AFK!")
-    for id, reason in user_data["user_id"].items():
-        member = get(member.guild.members, id=id)
-        # if (message.reference and member == (await message.channel.fetch_message(message.reference.message_id)).author) or member.id in message.raw_mentions:
-        if member in message.mentions:
-            await message.reply(f"{member.name} is AFK. AFK Note: {reason}")
+    else:
+        for id, reason in user_data["user_id"].items():
+            member = get(member.guild.members, id=id)
+            # if (message.reference and member == (await message.channel.fetch_message(message.reference.message_id)).author) or member.id in message.raw_mentions:
+            if member in message.mentions:
+                await message.reply(f"{member.name} is AFK. AFK Note: {reason}")
     # for reason in user_data["user_id"][str(member)]:
 
     Extras_MongoDB.update_one(
