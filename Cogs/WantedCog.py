@@ -15,70 +15,6 @@ cluster = MongoClient(
 
 
 Extras_MongoDB = cluster["Extras"]["Extras"]
-prefix = '-'
-client = commands.Bot(command_prefix=prefix,
-                      case_insensitive=True,
-                      intents=discord.Intents.all())
-
-
-@commands.Cog.listener()
-async def on_command_error(ctx, error):
-    if isinstance(error, commands.UserInputError):
-        await ctx.message.reply('Please give proper input.')
-    elif isinstance(error, commands.MissingPermissions):
-        await ctx.message.reply(
-            "You don't have the permissions to execute this command.")
-    elif isinstance(error, commands.MissingRequiredArgument):
-        await ctx.message.reply('Please give proper input.')
-    elif isinstance(error, commands.CommandNotFound):
-        await ctx.message.reply("Invalid command.")
-
-
-def remove(display_name):
-    '''if "[AFK]" in afk.split():
-        return " ".join(afk.split()[1:])
-    else:
-        return afk'''
-
-    if display_name.lower().startswith('[afk]'):
-        return display_name[5:].strip()
-
-    return display_name
-
-
-@commands.Cog.listener()
-async def on_message(self, message):
-    #stats = Extras_MongoDB.find_one({"user_id": {str(message.author.id)}})
-
-    #user_data = self.get_extra_data(message.author.id)
-    # if str(message.author.id) in user_data["user_id"].keys():
-    if message.author.id in self.afk_users:
-        # user_data["user_id"].pop(str(message.author.id))
-        self.afk_users.pop(message.author.id)
-        Extras_MongoDB.delete_one({'user_id': message.author.id})
-
-        try:
-            new_nickname = remove(message.author.display_name)
-
-            if new_nickname != message.author.display_name:
-                await message.author.edit(nick=new_nickname)
-        except:
-            pass
-
-        await message.channel.send(f"Welcome back {message.author.mention}, I removed your AFK!")
-    else:
-        '''for id, reason in user_data["user_id"].items():
-            member = get(member.guild.members, id=id)
-            # if (message.reference and member == (await message.channel.fetch_message(message.reference.message_id)).author) or member.id in message.raw_mentions:
-            if member in message.mentions:
-                await message.reply(f"{member.name} is AFK. AFK Note: {reason}")
-    # for reason in user_data["user_id"][str(member)]:'''
-
-        for mention in message.mentions:
-            if mention.id in self.afk_users:
-                await message.reply(f"{mention} is AFK.\nAFK Note: {self.afk_users[mention.id]}")
-
-    #Extras_MongoDB.update_one({"user_id": {str(message.author.id)}}, {"$set": user_data})
 
 
 class Wanted(commands.Cog):
@@ -249,6 +185,63 @@ class Wanted(commands.Cog):
                          icon_url=self.client.user.avatar_url)
         embed.add_field(name='**AFK Note:**', value=reason)
         await ctx.message.reply(embed=embed)
+
+    @commands.Cog.listener()
+    async def on_command_error(ctx, error):
+        if isinstance(error, commands.UserInputError):
+            await ctx.message.reply('Please give proper input.')
+        elif isinstance(error, commands.MissingPermissions):
+            await ctx.message.reply(
+                "You don't have the permissions to execute this command.")
+        elif isinstance(error, commands.MissingRequiredArgument):
+            await ctx.message.reply('Please give proper input.')
+        elif isinstance(error, commands.CommandNotFound):
+            await ctx.message.reply("Invalid command.")
+
+    def remove(display_name):
+        '''if "[AFK]" in afk.split():
+            return " ".join(afk.split()[1:])
+        else:
+            return afk'''
+
+        if display_name.lower().startswith('[afk]'):
+            return display_name[5:].strip()
+
+        return display_name
+
+    @commands.Cog.listener()
+    async def on_message(self, message):
+        #stats = Extras_MongoDB.find_one({"user_id": {str(message.author.id)}})
+
+        #user_data = self.get_extra_data(message.author.id)
+        # if str(message.author.id) in user_data["user_id"].keys():
+        if message.author.id in self.afk_users:
+            # user_data["user_id"].pop(str(message.author.id))
+            self.afk_users.pop(message.author.id)
+            Extras_MongoDB.delete_one({'user_id': message.author.id})
+
+            try:
+                new_nickname = self.remove(message.author.display_name)
+
+                if new_nickname != message.author.display_name:
+                    await message.author.edit(nick=new_nickname)
+            except:
+                pass
+
+            await message.channel.send(f"Welcome back {message.author.mention}, I removed your AFK!")
+        else:
+            '''for id, reason in user_data["user_id"].items():
+                member = get(member.guild.members, id=id)
+                # if (message.reference and member == (await message.channel.fetch_message(message.reference.message_id)).author) or member.id in message.raw_mentions:
+                if member in message.mentions:
+                    await message.reply(f"{member.name} is AFK. AFK Note: {reason}")
+        # for reason in user_data["user_id"][str(member)]:'''
+
+            for mention in message.mentions:
+                if mention.id in self.afk_users:
+                    await message.reply(f"{mention} is AFK.\nAFK Note: {self.afk_users[mention.id]}")
+
+        #Extras_MongoDB.update_one({"user_id": {str(message.author.id)}}, {"$set": user_data})
 
 
 def setup(client):
