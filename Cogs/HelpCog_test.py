@@ -13,7 +13,7 @@ class _help_(commands.Cog):
 
     @commands.command(name='help',
                       aliases=["helpme", "command", "commands", "cmd", "cmds"])
-    async def help(self, ctx):
+    async def help(self, ctx, arg):
 
         embed1 = discord.Embed(
             title="Hydrargyrum - Command Categories",
@@ -190,230 +190,495 @@ class _help_(commands.Cog):
                              ]
                              )
                       ]
+        if arg is None:
 
-        message = await ctx.message.reply(embed=embed1, components=components)
+            message = await ctx.message.reply(embed=embed1, components=components)
 
-        while True:
+            while True:
+                try:
+                    interaction = await self.client.wait_for("select_option", timeout=15.0)
+                    if ctx.author.id != interaction.author.id:
+                        await interaction.respond(content="This message ain't for you LOL")
+                    value = interaction.values[0]
+                    if value == 'fun':
+                        await interaction.edit_origin(embed=embed2, components=[Select(placeholder="😄 Fun Commands",
+                                                                                       options=[
+                                                                                           SelectOption(
+                                                                                               label="👮‍♂️ Moderation",
+                                                                                               value="moderation",
+                                                                                               description="Shows the Moderation Commands Category!"
+                                                                                           ),
+                                                                                           SelectOption(
+                                                                                               label="🛠 Utility",
+                                                                                               value="utility",
+                                                                                               description="Shows the Utility Commands Category!"
+                                                                                           ),
+                                                                                           SelectOption(
+                                                                                               label="💰 Economy",
+                                                                                               value="economy",
+                                                                                               description="Shows the Economy Commands Category!"
+                                                                                           ),
+                                                                                           SelectOption(
+                                                                                               label="📊 Levels",
+                                                                                               value="levels",
+                                                                                               description="Shows the Levels Commands Catergory!"
+
+                                                                                           ),
+                                                                                           SelectOption(
+                                                                                               label="🏡 Home",
+                                                                                               value="home",
+                                                                                               description="Return to the main help page!")
+
+
+                                                                                       ]
+                                                                                       )])
+
+                    elif value == 'moderation':
+                        await interaction.edit_origin(embed=embed3, components=[Select(placeholder="👮‍♂️ Moderation",
+                                                                                       options=[
+                                                                                           SelectOption(
+                                                                                               label="😄 Fun",
+                                                                                               value="fun",
+                                                                                               description="Shows the Fun Commands Category!"
+
+                                                                                           ),
+
+                                                                                           SelectOption(
+                                                                                               label="🛠 Utility",
+                                                                                               value="utility",
+                                                                                               description="Shows the Utility Commands Category!"
+                                                                                           ),
+                                                                                           SelectOption(
+                                                                                               label="💰 Economy",
+                                                                                               value="economy",
+                                                                                               description="Shows the Economy Commands Category!"
+                                                                                           ),
+                                                                                           SelectOption(
+                                                                                               label="📊 Levels",
+                                                                                               value="levels",
+                                                                                               description="Shows the Levels Commands Catergory!"
+
+                                                                                           ),
+                                                                                           SelectOption(
+                                                                                               label="🏡 Home",
+                                                                                               value="home",
+                                                                                               description="Return to the main help page!")
+
+
+                                                                                       ]
+                                                                                       )])
+
+                    elif value == 'utility':
+                        await interaction.edit_origin(embed=embed4, components=[Select(placeholder="🛠 Utility",
+                                                                                       options=[
+                                                                                           SelectOption(
+                                                                                               label="😄 Fun",
+                                                                                               value="fun",
+                                                                                               description="Shows the Fun Commands Category!"
+
+                                                                                           ),
+
+                                                                                           SelectOption(
+                                                                                               label="👮‍♂️ Moderation",
+                                                                                               value="moderation",
+                                                                                               description="Shows the Moderation Commands Category!"
+                                                                                           ),
+                                                                                           SelectOption(
+                                                                                               label="💰 Economy",
+                                                                                               value="economy",
+                                                                                               description="Shows the Economy Commands Category!"
+                                                                                           ),
+                                                                                           SelectOption(
+                                                                                               label="📊 Levels",
+                                                                                               value="levels",
+                                                                                               description="Shows the Levels Commands Catergory!"
+
+                                                                                           ),
+                                                                                           SelectOption(
+                                                                                               label="🏡 Home",
+                                                                                               value="home",
+                                                                                               description="Return to the main help page!")
+
+
+                                                                                       ]
+                                                                                       )])
+                    elif value == 'economy':
+                        await interaction.edit_origin(embed=embed5, components=[Select(placeholder="💰 Economy",
+                                                                                       options=[
+                                                                                           SelectOption(
+                                                                                               label="😄 Fun",
+                                                                                               value="fun",
+                                                                                               description="Shows the Fun Commands Category!"
+
+                                                                                           ),
+
+                                                                                           SelectOption(
+                                                                                               label="👮‍♂️ Moderation",
+                                                                                               value="moderation",
+                                                                                               description="Shows the Moderation Commands Category!"
+                                                                                           ),
+                                                                                           SelectOption(
+                                                                                               label="🛠 Utility",
+                                                                                               value="utility",
+                                                                                               description="Shows the Utility Commands Category!"
+                                                                                           ),
+                                                                                           SelectOption(
+                                                                                               label="📊 Levels",
+                                                                                               value="levels",
+                                                                                               description="Shows the Levels Commands Catergory!"
+
+                                                                                           ),
+                                                                                           SelectOption(
+                                                                                               label="🏡 Home",
+                                                                                               value="home",
+                                                                                               description="Return to the main help page!")
+
+
+                                                                                       ]
+                                                                                       )])
+                    elif value == 'levels':
+                        await interaction.edit_origin(embed=embed6, components=[Select(placeholder="📊 Levels",
+                                                                                       options=[
+                                                                                           SelectOption(
+                                                                                               label="😄 Fun",
+                                                                                               value="fun",
+                                                                                               description="Shows the Fun Commands Category!"
+
+                                                                                           ),
+
+                                                                                           SelectOption(
+                                                                                               label="👮‍♂️ Moderation",
+                                                                                               value="moderation",
+                                                                                               description="Shows the Moderation Commands Category!"
+                                                                                           ),
+                                                                                           SelectOption(
+                                                                                               label="🛠 Utility",
+                                                                                               value="utility",
+                                                                                               description="Shows the Utility Commands Category!"
+                                                                                           ),
+                                                                                           SelectOption(
+                                                                                               label="💰 Economy",
+                                                                                               value="economy",
+                                                                                               description="Shows the Economy Commands Category!"
+                                                                                           ),
+                                                                                           SelectOption(
+                                                                                               label="🏡 Home",
+                                                                                               value="home",
+                                                                                               description="Return to the main help page!")
+
+
+                                                                                       ]
+                                                                                       )])
+                    elif value == 'home':
+                        await interaction.edit_origin(embed=embed1, components=[Select(placeholder="🏡 Home",
+                                                                                       options=[
+                                                                                           SelectOption(
+                                                                                               label="😄 Fun",
+                                                                                               value="fun",
+                                                                                               description="Shows the Fun Commands Category!"
+
+                                                                                           ),
+
+                                                                                           SelectOption(
+                                                                                               label="👮‍♂️ Moderation",
+                                                                                               value="moderation",
+                                                                                               description="Shows the Moderation Commands Category!"
+                                                                                           ),
+                                                                                           SelectOption(
+                                                                                               label="🛠 Utility",
+                                                                                               value="utility",
+                                                                                               description="Shows the Utility Commands Category!"
+                                                                                           ),
+                                                                                           SelectOption(
+                                                                                               label="💰 Economy",
+                                                                                               value="economy",
+                                                                                               description="Shows the Economy Commands Category!"
+                                                                                           ),
+                                                                                           SelectOption(
+                                                                                               label="📊 Levels",
+                                                                                               value="levels",
+                                                                                               description="Shows the Levels Commands Catergory!"
+
+                                                                                           )
+
+
+                                                                                       ]
+                                                                                       )])
+
+                except asyncio.TimeoutError:
+                    await message.edit(components=[Select(placeholder="Timed Out", options=[
+                        SelectOption(
+                            label="😄 Fun",
+                            value="fun",
+                            description="Shows the Fun Commands Category!"
+
+                        )], disabled=True)])
+
+                    break
+
+        if arg == '8ball':
             try:
-                interaction = await self.client.wait_for("select_option", timeout=15.0)
-                if ctx.author.id != interaction.author.id:
-                    await interaction.respond(content="This message ain't for you LOL")
-                value = interaction.values[0]
-                if value == 'fun':
-                    await interaction.edit_origin(embed=embed2, components=[Select(placeholder="😄 Fun Commands",
-                                                                                   options=[
-                                                                                       SelectOption(
-                                                                                           label="👮‍♂️ Moderation",
-                                                                                           value="moderation",
-                                                                                           description="Shows the Moderation Commands Category!"
-                                                                                       ),
-                                                                                       SelectOption(
-                                                                                           label="🛠 Utility",
-                                                                                           value="utility",
-                                                                                           description="Shows the Utility Commands Category!"
-                                                                                       ),
-                                                                                       SelectOption(
-                                                                                           label="💰 Economy",
-                                                                                           value="economy",
-                                                                                           description="Shows the Economy Commands Category!"
-                                                                                       ),
-                                                                                       SelectOption(
-                                                                                           label="📊 Levels",
-                                                                                           value="levels",
-                                                                                           description="Shows the Levels Commands Catergory!"
+                embed8 = discord.Embed(
+                    title="8ball Info",
+                    description="**Description:**\nAsk the magic (and kinda rude) 8ball about your future!",
+                    color=ctx.author.color)
+                embed8.set_thumbnail(
+                    url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
+                )
 
-                                                                                       ),
-                                                                                       SelectOption(
-                                                                                           label="🏡 Home",
-                                                                                           value="home",
-                                                                                           description="Return to the main help page!")
+                embed8.add_field(name="**Usage:**",
+                                 value="`-8ball <question>`",
+                                 inline=False)
+                embed8.add_field(name="**Aliases:**",
+                                 value="8ball, 8b",
+                                 inline=False)
+                embed8.set_footer(
+                    text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
+                    icon_url=embeds.EmptyEmbed)
+                await ctx.message.reply(embed=embed8)
+                return
+            except:
+                pass
 
+        if arg == 'wanted':
+            try:
+                embed9 = discord.Embed(
+                    title="Wanted Info",
+                    description="**Description:**\nGet a person chased down by the cops! (by applying some posters lol)",
+                    color=ctx.author.color)
+                embed9.set_thumbnail(
+                    url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
+                )
 
-                                                                                   ]
-                                                                                   )])
+                embed9.add_field(name="**Usage:**",
+                                 value="`-wanted [member]`",
+                                 inline=False)
+                embed9.add_field(name="**Aliases:**",
+                                 value="wanted",
+                                 inline=False)
+                embed9.set_footer(
+                    text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
+                    icon_url=embeds.EmptyEmbed)
+                await ctx.message.reply(embed=embed9)
+                return
+            except:
+                pass
 
-                elif value == 'moderation':
-                    await interaction.edit_origin(embed=embed3, components=[Select(placeholder="👮‍♂️ Moderation",
-                                                                                   options=[
-                                                                                       SelectOption(
-                                                                                           label="😄 Fun",
-                                                                                           value="fun",
-                                                                                           description="Shows the Fun Commands Category!"
+        if arg == 'rip':
+            try:
+                embed10 = discord.Embed(
+                    title="RIP Info",
+                    description="**Description:**\nKill a person instantly! (this person will be remembered lol)",
+                    color=ctx.author.color)
+                embed10.set_thumbnail(
+                    url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
+                )
 
-                                                                                       ),
+                embed10.add_field(name="**Usage:**",
+                                  value="`-rip [member]`",
+                                  inline=False)
+                embed10.add_field(name="**Aliases:**",
+                                  value="rip, Rip, RIP",
+                                  inline=False)
+                embed10.set_footer(
+                    text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
+                    icon_url=embeds.EmptyEmbed)
+                await ctx.message.reply(embed=embed10)
+                return
+            except:
+                pass
 
-                                                                                       SelectOption(
-                                                                                           label="🛠 Utility",
-                                                                                           value="utility",
-                                                                                           description="Shows the Utility Commands Category!"
-                                                                                       ),
-                                                                                       SelectOption(
-                                                                                           label="💰 Economy",
-                                                                                           value="economy",
-                                                                                           description="Shows the Economy Commands Category!"
-                                                                                       ),
-                                                                                       SelectOption(
-                                                                                           label="📊 Levels",
-                                                                                           value="levels",
-                                                                                           description="Shows the Levels Commands Catergory!"
+        if arg == 'chat':
+            try:
+                embed11 = discord.Embed(
+                    title="Chat Info",
+                    description="**Description:**\nChat with the smartest bot!(im srs lol, this bot is very smart)",
+                    color=ctx.author.color)
+                embed11.set_thumbnail(
+                    url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
+                )
 
-                                                                                       ),
-                                                                                       SelectOption(
-                                                                                           label="🏡 Home",
-                                                                                           value="home",
-                                                                                           description="Return to the main help page!")
+                embed11.add_field(name="**Usage:**",
+                                  value="`-chat <input>`",
+                                  inline=False)
+                embed11.add_field(name="**Aliases:**",
+                                  value="Chat, chat",
+                                  inline=False)
+                embed11.set_footer(
+                    text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
+                    icon_url=embeds.EmptyEmbed)
+                await ctx.message.reply(embed=embed11)
+                return
+            except:
+                pass
 
+        if arg == 'Ban':
+            try:
+                embed12 = discord.Embed(
+                    title="Ban Info",
+                    description="**Description:**\nBan someone from the server! (Only works if you have `Manage Members` permission. The person cannot join back the server until he is unbanned.)",
+                    color=ctx.author.color)
+                embed12.set_thumbnail(
+                    url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
+                )
 
-                                                                                   ]
-                                                                                   )])
+                embed12.add_field(name="**Usage:**",
+                                  value="`-ban <member> [reason]`",
+                                  inline=False)
+                embed12.add_field(name="**Aliases:**",
+                                  value="ban",
+                                  inline=False)
+                embed12.set_footer(
+                    text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
+                    icon_url=embeds.EmptyEmbed)
+                await ctx.message.reply(embed=embed12)
+                return
+            except:
+                pass
 
-                elif value == 'utility':
-                    await interaction.edit_origin(embed=embed4, components=[Select(placeholder="🛠 Utility",
-                                                                                   options=[
-                                                                                       SelectOption(
-                                                                                           label="😄 Fun",
-                                                                                           value="fun",
-                                                                                           description="Shows the Fun Commands Category!"
+        if arg == 'Kick':
+            try:
+                embed13 = discord.Embed(
+                    title="Kick Info",
+                    description="**Description:**\nkick someone from the server! (Only works if you have `Manage Members` permission. The person can join back the server with another invite link.)",
+                    color=ctx.author.color)
+                embed13.set_thumbnail(
+                    url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
+                )
 
-                                                                                       ),
+                embed13.add_field(name="**Usage:**",
+                                  value="`-kick <member> [reason]`",
+                                  inline=False)
+                embed13.add_field(name="**Aliases:**",
+                                  value="kick",
+                                  inline=False)
+                embed13.set_footer(
+                    text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
+                    icon_url=embeds.EmptyEmbed)
+                await ctx.message.reply(embed=embed13)
+                return
+            except:
+                pass
 
-                                                                                       SelectOption(
-                                                                                           label="👮‍♂️ Moderation",
-                                                                                           value="moderation",
-                                                                                           description="Shows the Moderation Commands Category!"
-                                                                                       ),
-                                                                                       SelectOption(
-                                                                                           label="💰 Economy",
-                                                                                           value="economy",
-                                                                                           description="Shows the Economy Commands Category!"
-                                                                                       ),
-                                                                                       SelectOption(
-                                                                                           label="📊 Levels",
-                                                                                           value="levels",
-                                                                                           description="Shows the Levels Commands Catergory!"
+        if arg == 'Unban':
+            try:
+                embed11 = discord.Embed(
+                    title="Clear Info",
+                    description="**Description:**\nUnban someone! (Only works if you have `Manage Members` permission. Only works when the member has already been banned and is in the ban list of the server.)",
+                    color=ctx.author.color)
+                embed11.set_thumbnail(
+                    url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
+                )
 
-                                                                                       ),
-                                                                                       SelectOption(
-                                                                                           label="🏡 Home",
-                                                                                           value="home",
-                                                                                           description="Return to the main help page!")
+                embed11.add_field(name="**Usage:**",
+                                  value="`-unban <member> [reason]`",
+                                  inline=False)
+                embed11.add_field(name="**Aliases:**",
+                                  value="unban",
+                                  inline=False)
+                embed11.set_footer(
+                    text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
+                    icon_url=embeds.EmptyEmbed)
+                await ctx.message.reply(embed=embed11)
+                return
+            except:
+                pass
 
+        if arg == 'clear':
+            try:
+                embed12 = discord.Embed(
+                    title="Clear Info",
+                    description="**Description:**\nClear any number of messages in the channel you're using the command in!(You need admin perms to use this command.)",
+                    color=ctx.author.color)
+                embed12.set_thumbnail(
+                    url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
+                )
 
-                                                                                   ]
-                                                                                   )])
-                elif value == 'economy':
-                    await interaction.edit_origin(embed=embed5, components=[Select(placeholder="💰 Economy",
-                                                                                   options=[
-                                                                                       SelectOption(
-                                                                                           label="😄 Fun",
-                                                                                           value="fun",
-                                                                                           description="Shows the Fun Commands Category!"
+                embed12.add_field(name="**Usage:**",
+                                  value="**.** `-clear <amount>`\n**.** `-clear all`",
+                                  inline=False)
+                embed12.add_field(name="**Aliases:**",
+                                  value="kick",
+                                  inline=False)
+                embed12.set_footer(
+                    text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
+                    icon_url=embeds.EmptyEmbed)
+                await ctx.message.reply(embed=embed12)
+                return
+            except:
+                pass
 
-                                                                                       ),
+        if arg == 'Userinfo':
+            try:
+                embed13 = discord.Embed(
+                    title="User Info",
+                    description="**Description:**\nShows information on a mentioned user of the server.",
+                    color=ctx.author.color)
+                embed13.set_thumbnail(
+                    url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
+                )
 
-                                                                                       SelectOption(
-                                                                                           label="👮‍♂️ Moderation",
-                                                                                           value="moderation",
-                                                                                           description="Shows the Moderation Commands Category!"
-                                                                                       ),
-                                                                                       SelectOption(
-                                                                                           label="🛠 Utility",
-                                                                                           value="utility",
-                                                                                           description="Shows the Utility Commands Category!"
-                                                                                       ),
-                                                                                       SelectOption(
-                                                                                           label="📊 Levels",
-                                                                                           value="levels",
-                                                                                           description="Shows the Levels Commands Catergory!"
+                embed13.add_field(name="**Usage:**",
+                                  value="`-about [member]`",
+                                  inline=False)
+                embed13.add_field(name="**Aliases:**",
+                                  value="userinfo, about",
+                                  inline=False)
+                embed13.set_footer(
+                    text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
+                    icon_url=embeds.EmptyEmbed)
+                await ctx.message.reply(embed=embed13)
+                return
+            except:
+                pass
 
-                                                                                       ),
-                                                                                       SelectOption(
-                                                                                           label="🏡 Home",
-                                                                                           value="home",
-                                                                                           description="Return to the main help page!")
+        if arg == 'ask':
+            try:
+                embed14 = discord.Embed(
+                    title="User Info",
+                    description="**Description:**\nThis bot can solve any question. May it be math, science ANYTHING(Just use ask command lol)",
+                    color=ctx.author.color)
+                embed14.set_thumbnail(
+                    url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
+                )
 
+                embed14.add_field(name="**Usage:**",
+                                  value="`-ask <question>`",
+                                  inline=False)
+                embed14.add_field(name="**Aliases:**",
+                                  value="ask, solve",
+                                  inline=False)
+                embed14.set_footer(
+                    text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
+                    icon_url=embeds.EmptyEmbed)
+                await ctx.message.reply(embed=embed12)
+                return
+            except:
+                pass
 
-                                                                                   ]
-                                                                                   )])
-                elif value == 'levels':
-                    await interaction.edit_origin(embed=embed6, components=[Select(placeholder="📊 Levels",
-                                                                                   options=[
-                                                                                       SelectOption(
-                                                                                           label="😄 Fun",
-                                                                                           value="fun",
-                                                                                           description="Shows the Fun Commands Category!"
+        if arg == 'daily':
+            try:
+                embed14 = discord.Embed(
+                    title="Daily Info",
+                    description="**Description:**\nCollect your daily coins. You earn more if your streak is higher!",
+                    color=ctx.author.color)
+                embed14.set_thumbnail(
+                    url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
+                )
 
-                                                                                       ),
-
-                                                                                       SelectOption(
-                                                                                           label="👮‍♂️ Moderation",
-                                                                                           value="moderation",
-                                                                                           description="Shows the Moderation Commands Category!"
-                                                                                       ),
-                                                                                       SelectOption(
-                                                                                           label="🛠 Utility",
-                                                                                           value="utility",
-                                                                                           description="Shows the Utility Commands Category!"
-                                                                                       ),
-                                                                                       SelectOption(
-                                                                                           label="💰 Economy",
-                                                                                           value="economy",
-                                                                                           description="Shows the Economy Commands Category!"
-                                                                                       ),
-                                                                                       SelectOption(
-                                                                                           label="🏡 Home",
-                                                                                           value="home",
-                                                                                           description="Return to the main help page!")
-
-
-                                                                                   ]
-                                                                                   )])
-                elif value == 'home':
-                    await interaction.edit_origin(embed=embed1, components=[Select(placeholder="🏡 Home",
-                                                                                   options=[
-                                                                                       SelectOption(
-                                                                                           label="😄 Fun",
-                                                                                           value="fun",
-                                                                                           description="Shows the Fun Commands Category!"
-
-                                                                                       ),
-
-                                                                                       SelectOption(
-                                                                                           label="👮‍♂️ Moderation",
-                                                                                           value="moderation",
-                                                                                           description="Shows the Moderation Commands Category!"
-                                                                                       ),
-                                                                                       SelectOption(
-                                                                                           label="🛠 Utility",
-                                                                                           value="utility",
-                                                                                           description="Shows the Utility Commands Category!"
-                                                                                       ),
-                                                                                       SelectOption(
-                                                                                           label="💰 Economy",
-                                                                                           value="economy",
-                                                                                           description="Shows the Economy Commands Category!"
-                                                                                       ),
-                                                                                       SelectOption(
-                                                                                           label="📊 Levels",
-                                                                                           value="levels",
-                                                                                           description="Shows the Levels Commands Catergory!"
-
-                                                                                       )
-
-
-                                                                                   ]
-                                                                                   )])
-
-            except asyncio.TimeoutError:
-                await message.edit(components=[Select(placeholder="Timed Out", options=[
-                    SelectOption(
-                        label="😄 Fun",
-                        value="fun",
-                        description="Shows the Fun Commands Category!"
-
-                    )], disabled=True)])
-
-                break
+                embed14.add_field(name="**Usage:**",
+                                  value="`-ask <question>`",
+                                  inline=False)
+                embed14.add_field(name="**Aliases:**",
+                                  value="ask, solve",
+                                  inline=False)
+                embed14.set_footer(
+                    text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
+                    icon_url=embeds.EmptyEmbed)
+                await ctx.message.reply(embed=embed12)
+                return
+            except:
+                pass
 
 
 def setup(client):

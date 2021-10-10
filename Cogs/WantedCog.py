@@ -241,6 +241,8 @@ class Wanted(commands.Cog):
                 if mention.id in self.afk_users:
                     await message.reply(f"{mention} is AFK.\nAFK Note: {self.afk_users[mention.id]}")
 
+        print(message)
+
         #Extras_MongoDB.update_one({"user_id": {str(message.author.id)}}, {"$set": user_data})
 
 
