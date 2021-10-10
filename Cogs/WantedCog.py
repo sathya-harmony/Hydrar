@@ -54,7 +54,8 @@ async def on_message(self, message):
         await message.channel.send(f"Welcome back {message.author.mention}, I removed your AFK!")
     for id, reason in user_data["user_id"].items():
         member = get(member.guild.members, id=id)
-        if (message.reference and member == (await message.channel.fetch_message(message.reference.message_id)).author) or member.id in message.raw_mentions:
+        # if (message.reference and member == (await message.channel.fetch_message(message.reference.message_id)).author) or member.id in message.raw_mentions:
+        if member in message.mentions:
             await message.reply(f"{member.name} is AFK. AFK Note: {reason}")
     # for reason in user_data["user_id"][str(member)]:
 
