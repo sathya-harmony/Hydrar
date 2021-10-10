@@ -190,7 +190,8 @@ class _help_(commands.Cog):
                              ]
                              )
                       ]
-        if arg is None:
+        arg = arg.lower()
+        if arg == '':
 
             message = await ctx.message.reply(embed=embed1, components=components)
 
