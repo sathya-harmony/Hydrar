@@ -34,40 +34,62 @@ async def on_command_error(ctx, error):
         await ctx.message.reply("Invalid command.")
 
 
-def remove(afk):
-    if "[AFK]" in afk.split():
+def remove(display_name):
+    '''if "[AFK]" in afk.split():
         return " ".join(afk.split()[1:])
     else:
-        return afk
+        return afk'''
+
+    if display_name.lower().startswith('[afk]'):
+        return display_name[5:].strip()
+
+    return display_name
 
 
 @commands.Cog.listener()
 async def on_message(self, message):
-    stats = Extras_MongoDB.find_one({"user_id": {str(message.author.id)}})
-    user_data = self.get_extra_data(message.author.id)
-    if str(message.author.id) in user_data["user_id"].keys():
-        user_data["user_id"].pop(str(message.author.id))
-        try:
-            await message.author.edit(nick=remove(message.author.display_name))
+    #stats = Extras_MongoDB.find_one({"user_id": {str(message.author.id)}})
 
+    #user_data = self.get_extra_data(message.author.id)
+    # if str(message.author.id) in user_data["user_id"].keys():
+    if message.author.id in self.afk_users:
+        # user_data["user_id"].pop(str(message.author.id))
+        self.afk_users.pop(message.author.id)
+        Extras_MongoDB.delete_one({'user_id': message.author.id})
+
+        try:
+            new_nickname = remove(message.author.display_name)
+
+            if new_nickname != message.author.display_name:
+                await message.author.edit(nick=new_nickname)
         except:
             pass
+
         await message.channel.send(f"Welcome back {message.author.mention}, I removed your AFK!")
     else:
-        for id, reason in user_data["user_id"].items():
+        '''for id, reason in user_data["user_id"].items():
             member = get(member.guild.members, id=id)
             # if (message.reference and member == (await message.channel.fetch_message(message.reference.message_id)).author) or member.id in message.raw_mentions:
             if member in message.mentions:
                 await message.reply(f"{member.name} is AFK. AFK Note: {reason}")
-    # for reason in user_data["user_id"][str(member)]:
+    # for reason in user_data["user_id"][str(member)]:'''
 
-    Extras_MongoDB.update_one(
-        {"user_id": {str(message.author.id)}}, {"$set": user_data})
+        for mention in message.mentions:
+            if mention.id in self.afk_users:
+                await message.reply(f"{mention} is AFK.\nAFK Note: {self.afk_users[mention.id]}")
+
+    #Extras_MongoDB.update_one({"user_id": {str(message.author.id)}}, {"$set": user_data})
 
 
 class Wanted(commands.Cog):
+
+    afk_users = dict()  # {123456789: 'reason'}
+
     def __init__(self, client):
         self.client = client
+
+        for item in Extras_MongoDB.find():
+            self.afk_users[item['user_id']] = item['reason']
 
     @commands.command()
     async def wanted(self, ctx, user: discord.Member = None):
@@ -197,18 +219,26 @@ class Wanted(commands.Cog):
     async def afk(self, ctx, *, reason="No reason provided"):
         user_data = self.get_extra_data(ctx.author.id)
         member = ctx.author
+
         if user_data is None:
-            user_data = {"user_id": {str(member.id): reason}}
+            #user_data = {"user_id": {str(member.id): reason}}
+            user_data = {"user_id": member.id,
+                         'reason': reason}
             Extras_MongoDB.insert_one(user_data)
-        if member.id in user_data["user_id"].keys():
-            user_data["user_id"].pop(str(member.id))
+
+            '''if member.id == user_data["user_id"].keys():
+            user_data["user_id"].pop(str(member.id))'''
 
         else:
             try:
-                user_data[str(member.id)] = reason
-                await member.edit(nick=f"[AFK] {member.display_name}")
+                #user_data[str(member.id)] = reason
+                user_data['reason'] = reason
                 Extras_MongoDB.update_one(
-                    {"user_id": {str(member.id)}}, {"$set": user_data})
+                    {"user_id": member.id}, {"$set": user_data})
+
+                self.afk_users[member.id] = reason
+
+                await member.edit(nick=f"[AFK] {member.display_name}")
             except:
                 pass
 
@@ -217,7 +247,7 @@ class Wanted(commands.Cog):
         embed.set_thumbnail(url=member.avatar_url)
         embed.set_footer(text=self.client.user.name,
                          icon_url=self.client.user.avatar_url)
-        embed.add_field(name='AFK Note:', value=reason)
+        embed.add_field(name='**AFK Note:**', value=reason)
         await ctx.message.reply(embed=embed)
 
 
