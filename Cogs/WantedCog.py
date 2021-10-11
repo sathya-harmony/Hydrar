@@ -19,13 +19,14 @@ Extras_MongoDB = cluster["Extras"]["Extras"]
 
 class Wanted(commands.Cog):
 
-    afk_users = dict()  # {123456789: 'reason'}
+    afk_users_cache = dict()  # {123456789: 'reason'}
+    newly_added_afk_users = []
 
     def __init__(self, client):
         self.client = client
 
         for item in Extras_MongoDB.find():
-            self.afk_users[item['user_id']] = item['reason']
+            self.afk_users_cache[item['user_id']] = item['reason']
 
     @commands.command()
     async def wanted(self, ctx, user: discord.Member = None):
@@ -156,6 +157,9 @@ class Wanted(commands.Cog):
         user_data = self.get_extra_data(ctx.author.id)
         member = ctx.author
 
+        self.afk_users_cache[member.id] = reason
+        self.newly_added_afk_users.append(member.id)
+
         if user_data is None:
             #user_data = {"user_id": {str(member.id): reason}}
             user_data = {"user_id": member.id,
@@ -171,8 +175,6 @@ class Wanted(commands.Cog):
                 user_data['reason'] = reason
                 Extras_MongoDB.update_one(
                     {"user_id": member.id}, {"$set": user_data})
-
-                self.afk_users[member.id] = reason
 
                 await member.edit(nick=f"[AFK] {member.display_name}")
             except:
@@ -198,7 +200,7 @@ class Wanted(commands.Cog):
         elif isinstance(error, commands.CommandNotFound):
             await ctx.message.reply("Invalid command.")
 
-    def remove(display_name):
+    def remove_afk_prefix(display_name):
         '''if "[AFK]" in afk.split():
             return " ".join(afk.split()[1:])
         else:
@@ -215,20 +217,25 @@ class Wanted(commands.Cog):
 
         #user_data = self.get_extra_data(message.author.id)
         # if str(message.author.id) in user_data["user_id"].keys():
-        if message.author.id in self.afk_users:
+        if message.author.id in self.afk_users_cache:
             # user_data["user_id"].pop(str(message.author.id))
-            self.afk_users.pop(message.author.id)
-            Extras_MongoDB.delete_one({'user_id': message.author.id})
 
-            try:
-                new_nickname = self.remove(message.author.display_name)
+            if message.author.id in self.newly_added_afk_users:
+                self.newly_added_afk_users.remove(message.author.id)
+            else:
+                self.afk_users_cache.pop(message.author.id)
+                Extras_MongoDB.delete_one({'user_id': message.author.id})
 
-                if new_nickname != message.author.display_name:
-                    await message.author.edit(nick=new_nickname)
-            except:
-                pass
+                try:
+                    new_nickname = self.remove_afk_prefix(
+                        message.author.display_name)
 
-            await message.channel.send(f"Welcome back {message.author.mention}, I removed your AFK!")
+                    if new_nickname != message.author.display_name:
+                        await message.author.edit(nick=new_nickname)
+                except:
+                    pass
+
+                await message.channel.send(f"Welcome back {message.author.mention}, I removed your AFK!")
         else:
             '''for id, reason in user_data["user_id"].items():
                 member = get(member.guild.members, id=id)
@@ -238,11 +245,8 @@ class Wanted(commands.Cog):
         # for reason in user_data["user_id"][str(member)]:'''
 
             for mention in message.mentions:
-                print(mention, mention.id)
-                if mention.id in self.afk_users:
-                    await message.reply(f"{mention} is AFK.\nAFK Note: {self.afk_users[mention.id]}")
-
-        print(message.author.id, self.afk_users)
+                if mention.id in self.afk_users_cache:
+                    await message.reply(f"{mention} is AFK.\nAFK Note: {self.afk_users_cache[mention.id]}")
 
         #Extras_MongoDB.update_one({"user_id": {str(message.author.id)}}, {"$set": user_data})
 
