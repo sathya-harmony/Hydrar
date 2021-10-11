@@ -2,6 +2,8 @@ import os
 import random
 import discord
 from discord.ext import commands
+from discord_slash import *
+from discord_slash.utils.manage_commands import *
 
 
 @commands.Cog.listener()
@@ -18,7 +20,9 @@ async def on_command_error(ctx, error):
 
 
 class eightball(commands.Cog):
+
     def __init__(self, client):
+        #slash = SlashCommand(self.client, sync_commands=True)
         self.client = client
 
     @commands.command(aliases=['8B', '8Ball'])

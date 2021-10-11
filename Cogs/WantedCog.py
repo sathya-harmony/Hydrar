@@ -151,7 +151,7 @@ class Wanted(commands.Cog):
 
         return guild_data
 
-    @commands.command()
+    @commands.command()  # HERE COME HERE  ONCE U FINISH BEING AFK NO!
     async def afk(self, ctx, *, reason="No reason provided"):
         user_data = self.get_extra_data(ctx.author.id)
         member = ctx.author

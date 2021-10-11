@@ -183,7 +183,7 @@ client.load_extension('Cogs.MathCog')
 # Quote
 client.load_extension('Cogs.QuoteCog')
 # Wanted
-#client.load_extension('Cogs.WantedCog')
+client.load_extension('Cogs.WantedCog')
 # Facts
 client.load_extension('Cogs.FactsCog')
 #
