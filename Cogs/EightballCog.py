@@ -2,8 +2,8 @@ import os
 import random
 import discord
 from discord.ext import commands
-from discord_slash import *
-from discord_slash.utils.manage_commands import *
+#from discord_slash import *
+#from discord_slash.utils.manage_commands import *
 
 
 @commands.Cog.listener()
