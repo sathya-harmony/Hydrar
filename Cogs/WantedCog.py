@@ -246,7 +246,8 @@ class Wanted(commands.Cog):
 
             for mention in message.mentions:
                 if mention.id in self.afk_users_cache:
-                    await message.reply(f"{mention} is AFK.\nAFK Note: {self.afk_users_cache[mention.id]}")
+
+                    await message.channel.send(f"**{mention}** is AFK.\nAFK Note: {self.afk_users_cache[mention.id]}")
 
         #Extras_MongoDB.update_one({"user_id": {str(message.author.id)}}, {"$set": user_data})
 
