@@ -238,6 +238,7 @@ class Wanted(commands.Cog):
         # for reason in user_data["user_id"][str(member)]:'''
 
             for mention in message.mentions:
+                print(mention, mention.id)
                 if mention.id in self.afk_users:
                     await message.reply(f"{mention} is AFK.\nAFK Note: {self.afk_users[mention.id]}")
 
