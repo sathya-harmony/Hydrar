@@ -7,9 +7,8 @@ from discord.ext.commands.cog import Cog
 import traceback
 import sys
 from alexa_reply import reply
-import pymongo
+from pymongo import MongoClient
 import os
-#from discord_buttons_plugin.__main__ import ButtonsClient
 from discord_components import DiscordComponents, Button, ButtonStyle, InteractionEventType
 import aiohttp
 import io
@@ -17,6 +16,12 @@ import textwrap
 import contextlib
 from traceback import format_exception
 from discord.ext.buttons import Paginator
+
+
+cluster = MongoClient(
+    "mongodb+srv://Hydra:CihVirus123@economy.2xn9e.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+
+Prefixes_MongoDB = cluster["Extras"]["Prefix"]
 
 
 #import Cogs.EconomyCog
@@ -48,17 +53,33 @@ from random import choice, randint'''
         print(endpoint, "raised", error)'''
 
 
-prefix = '-'
 #api_key = "RRcoNdt3Qs8k"
 #rs = RandomStuff(async_mode = True, api_key = api_key)
+def get_prefix(client, message):
+    '''if type(user_id) in [int, float]:
+            user_id = str(int(user_id))'''
+
+    Prefixes = Prefixes_MongoDB.find_one(
+        {"guild_id": str(message.guild.id)})
+
+    return Prefixes['Prefix']
 
 
-client = commands.Bot(command_prefix=prefix,
+client = commands.Bot(command_prefix=get_prefix,
                       case_insensitive=True,
                       intents=discord.Intents.all())
-#buttons = ButtonsClient(client)
 
 client.remove_command('help')
+
+
+@client.event
+async def on_guild_join(guild):
+    Prefixes = Prefixes_MongoDB.find_one(
+        {"guild_id": str(guild.id)})
+    if Prefixes is None:
+        new_guild = {"guild_id": str(guild.id),
+                     "Prefix": '-'}
+        Prefixes = Prefixes_MongoDB.insert_one(new_guild)
 
 
 '''@client.ipc.route()
@@ -102,6 +123,18 @@ async def on_message_delete(message):
 
 @client.event
 async def on_message(msg):
+    try:
+        if msg.mentions[0] == client.user:
+            Prefixes = Prefixes_MongoDB.find_one(
+                {"guild_id": str(msg.guild.id)})
+            if Prefixes is None:
+                new_guild = {"guild_id": str(msg.guild.id),
+                             "Prefix": '-'}
+                Prefixes = Prefixes_MongoDB.insert_one(new_guild)
+                prefix = Prefixes["Prefix"]
+            await msg.reply(f"My Prefix for this server is {prefix}")
+    except:
+        pass
     if msg.author.id not in YOURLIST:
         await client.process_commands(msg)
 
@@ -235,6 +268,26 @@ def owner_or_perm(**perms):
                 or is_bot_owner) or await original(ctx)
 
     return commands.check(extended_check)
+
+
+@client.command()
+@owner_or_perm(administrator=True)
+async def changeprefix(ctx, prefix):
+    Prefixes = Prefixes_MongoDB.find_one(
+        {"guild_id": str(ctx.guild.id)})
+    if Prefixes is None:
+        new_guild = {"guild_id": str(ctx.guild.id),
+                     "Prefix": '-'}
+        Prefixes = Prefixes_MongoDB.insert_one(new_guild)
+        return Prefixes
+
+    Prefixes["Prefix"] = prefix
+    embed = discord.Embed(title=f"Successfully Changed The Sever Prefix For Hydrardyrum",
+                          description=f"Current Prefix is:\n`{prefix}`")
+
+    await ctx.message.reply(embed=embed)
+    Prefixes_MongoDB.update_one(
+        {"guild_id": str(ctx.guild.id)}, {"$set": Prefixes})
 
 
 # Execute this whenever the bot is ready.
