@@ -154,14 +154,6 @@ async def on_command_error(ctx, error):
 #intents.members = True
 
 
-'''@client.event
-async def on_member_join(member):
-    guild = client.get_guild(846947170782281729)
-    channel = guild.get_channel(846947170782281732)
-    intro = "<#847508482454323270>"
-    await channel.send(f"Welcome to {guild.name} {member.mention}! Please Introduce yourself in {intro}")'''
-
-
 # help command
 client.load_extension('Cogs.HelpCog_test')
 # ping
@@ -255,33 +247,6 @@ async def on_ready():
     print('The bot has booted up.')
     await log('The bot, Running on **Local Machine** is **Online**')
     DiscordComponents(client)
-    '''while True:
-        await asyncio.sleep(10)
-        with open("Cogs/spamdetect.txt", "r+") as file:
-            file.truncate(0)'''
-
-
-'''@client.event
-async def on_message(message):
-    counter = 0
-    with open("Cogs/spamdetect.txt", "r+") as file:
-        for lines in file:
-            if lines.strip("\n") == str(message.author.id):
-                counter += 1
-
-        file.writelines(f"{str(message.author.id)}\n")
-        if counter > 3:
-            role = discord.Role('muted')
-            await discord.Member.add_roles(role)
-            await asyncio.sleep(300)'''
-
-
-'''@client.command()
-async def do(ctx, *, python_code):
-    if await op(ctx):
-
-        x = eval(python_code)
-        await ctx.send(x)'''
 
 
 @client.command()

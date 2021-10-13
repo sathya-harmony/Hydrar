@@ -172,11 +172,11 @@ class Wanted(commands.Cog):
         else:
             try:
                 #user_data[str(member.id)] = reason
-                user_data['reason'] = reason
-                Extras_MongoDB.update_one(
-                    {"user_id": member.id}, {"$set": user_data})
+                user_data['reason'] = reason              
 
                 await member.edit(nick=f"[AFK] {member.display_name}")
+                Extras_MongoDB.update_one(
+                    {"user_id": member.id}, {"$set": user_data})
             except:
                 pass
 
