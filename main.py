@@ -62,6 +62,11 @@ def get_prefix(client, message):
     Prefixes = Prefixes_MongoDB.find_one(
         {"guild_id": str(message.guild.id)})
 
+    if Prefixes is None:
+        new_guild = {"guild_id": str(message.guild.id),
+                     "Prefix": '-'}
+        Prefixes = Prefixes_MongoDB.insert_one(new_guild)
+
     return Prefixes['Prefix']
 
 
