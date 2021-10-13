@@ -66,8 +66,9 @@ def get_prefix(client, message):
         new_guild = {"guild_id": str(message.guild.id),
                      "Prefix": '-'}
         Prefixes = Prefixes_MongoDB.insert_one(new_guild)
+    prefix = Prefixes['Prefix']
 
-    return str(Prefixes['Prefix'])
+    return prefix
 
 
 client = commands.Bot(command_prefix=get_prefix,
