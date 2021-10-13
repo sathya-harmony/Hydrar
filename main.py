@@ -131,16 +131,15 @@ async def on_message_delete(message):
 @client.event
 async def on_message(msg):
     try:
-        for mention in msg.mentions:
-            if mention.id == client.id:
-                Prefixes = Prefixes_MongoDB.find_one(
-                    {"guild_id": str(msg.guild.id)})
-                if Prefixes is None:
-                    new_guild = {"guild_id": str(msg.guild.id),
-                                 "Prefix": '-'}
-                    Prefixes = Prefixes_MongoDB.insert_one(new_guild)
-                    prefix = Prefixes["Prefix"]
-                await msg.reply(f"My Prefix for this server is {prefix}")
+        if msg.mentions[0] == client.user.id:
+            Prefixes = Prefixes_MongoDB.find_one(
+                {"guild_id": str(msg.guild.id)})
+            if Prefixes is None:
+                new_guild = {"guild_id": str(msg.guild.id),
+                             "Prefix": '-'}
+                Prefixes = Prefixes_MongoDB.insert_one(new_guild)
+                prefix = Prefixes["Prefix"]
+            await msg.reply(f"My Prefix for this server is {prefix}")
     except:
         pass
     if msg.author.id not in YOURLIST:
