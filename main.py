@@ -225,7 +225,7 @@ client.load_extension('Cogs.LevelsCog')
 # tts
 # client.load_extension('Cogs.TTSCog')
 # Economy system
-# client.load_extension('Cogs.EconomyCog')
+client.load_extension('Cogs.EconomyCog')
 # music
 # lient.load_extension('Supporting.MusicCog')
 
