@@ -142,8 +142,8 @@ async def on_message(msg):
             await msg.reply(f"My Prefix for this server is {prefix}")
     except:
         pass
-    if msg.author.id not in YOURLIST:
-        await client.process_commands(msg)
+
+    await client.process_commands(msg)
 
 
 @client.command()
