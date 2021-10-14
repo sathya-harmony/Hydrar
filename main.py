@@ -9,8 +9,7 @@ import sys
 from alexa_reply import reply
 #from pymongo import MongoClient
 import os
-from discord_components import DiscordComponents, Button, ButtonStyle, InteractionEventType
-import aiohttp
+from discord_components import DiscordComponents
 import io
 import textwrap
 import contextlib

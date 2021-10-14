@@ -1,11 +1,11 @@
 import discord
-import os
+
 from PIL import Image, ImageDraw, ImageFont
 from io import BytesIO
-import asyncio
+
 import random
-from discord.utils import get
-from discord_components.dpy_overrides import fetch_message
+#from discord.utils import get
+#from discord_components.dpy_overrides import fetch_message
 #from pymongo import MongoClient
 
 from discord.ext import commands
