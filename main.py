@@ -16,6 +16,7 @@ import contextlib
 from traceback import format_exception
 from discord.ext.buttons import Paginator
 from modules.common import *
+import threading
 
 print('Hydrargyrum is loading...')
 # cluster = MongoClient(

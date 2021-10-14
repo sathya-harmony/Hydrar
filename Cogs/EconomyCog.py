@@ -1,27 +1,27 @@
 
-from operator import index
-from typing import Text
-from discord import user
-from discord.ext.commands import bot
+
+
+
+
 from discord.ext.commands.cooldowns import BucketType
-from discord_components.dpy_overrides import send
+
 import modules.title_choices_beg_economy as title_choices
 import random
 import discord
-from discord import client
+
 from discord import embeds
 from discord.ext import commands
-import os
+
 #from pymongo import MongoClient
 import time
 import math
 from math import *
 from discord_components import *
-from io import BytesIO
+
 import asyncio
-import asyncpraw
-import aiohttp
+import threading
 from modules.common import *
+import asyncpraw
 
 
 # cluster = MongoClient(
@@ -1469,5 +1469,17 @@ class Economy(commands.Cog):
         await ctx.message.reply(embed=em)
 
 
+
+
+
 def setup(client):
     client.add_cog(Economy(client))
+
+threads = []
+for _ in range(10):
+    t = threading.Thread(target=setup)
+    t.start()
+    threads.append(t)
+for thread in threads:
+    thread.join()
+    
