@@ -133,13 +133,17 @@ async def on_message(msg):
     try:
         if client.user.id in (member.id for member in msg.mentions):
             Prefixes = Prefixes_MongoDB.find_one(
-                {"guild_id": str(msg.guild.id)})
+                {"guild_id": msg.guild.id})
+
             if Prefixes is None:
-                new_guild = {"guild_id": str(msg.guild.id),
+                new_guild = {"guild_id": msg.guild.id,
                              "Prefix": '-'}
                 Prefixes = Prefixes_MongoDB.insert_one(new_guild)
+                prefix = new_guild["Prefix"]
+            else:
                 prefix = Prefixes["Prefix"]
-            await msg.reply(f"My Prefix for this server is {prefix}")
+
+            await msg.reply(f"My Prefix for this server is `{prefix}`.")
     except:
         pass
 
