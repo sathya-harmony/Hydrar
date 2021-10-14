@@ -191,15 +191,15 @@ class Wanted(commands.Cog):
         await ctx.channel.send(embed=embed)
 
     @commands.Cog.listener()
-    async def on_command_error(ctx, error):
-        if isinstance(error, commands.UserInputError):
+    async def on_command_error(ctx, error1):
+        if isinstance(error1, commands.UserInputError):
             await ctx.message.reply('Please give proper input.')
-        elif isinstance(error, commands.MissingPermissions):
+        elif isinstance(error1, commands.MissingPermissions):
             await ctx.message.reply(
                 "You don't have the permissions to execute this command.")
-        elif isinstance(error, commands.MissingRequiredArgument):
+        elif isinstance(error1, commands.MissingRequiredArgument):
             await ctx.message.reply('Please give proper input.')
-        elif isinstance(error, commands.CommandNotFound):
+        elif isinstance(error1, commands.CommandNotFound):
             await ctx.message.reply("Invalid command.")
 
     def remove_afk_prefix(display_name):
