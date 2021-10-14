@@ -1475,11 +1475,5 @@ class Economy(commands.Cog):
 def setup(client):
     client.add_cog(Economy(client))
 
-threads = []
-for _ in range(10):
-    t = threading.Thread(target=setup)
-    t.start()
-    threads.append(t)
-for thread in threads:
-    thread.join()
+
     
