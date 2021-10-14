@@ -139,7 +139,7 @@ async def on_message(msg):
                              "Prefix": '-'}
                 Prefixes = Prefixes_MongoDB.insert_one(new_guild)
             prefix = Prefixes["Prefix"]
-            await msg.reply(f"My Prefix for this server is {prefix}")
+            await msg.reply(f"My Prefix for this server is `{prefix}`")
     except:
         pass
 
