@@ -132,8 +132,7 @@ async def on_message_delete(message):
 async def on_message(msg):
     try:
         # print(msg.content)
-        # if client.user.id in (member.id for member in msg.mentions):
-        if client.user.mentioned_in and len(msg.mentions) == 1:
+        if client.user.id in (member.id for member in msg.mentions) and len(msg.mentions) == 1:
             Prefixes = Prefixes_MongoDB.find_one(
                 {"guild_id": str(msg.guild.id)})
             if Prefixes is None:
