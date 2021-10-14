@@ -7,7 +7,7 @@ from discord.ext.commands.cog import Cog
 import traceback
 import sys
 from alexa_reply import reply
-from pymongo import MongoClient
+#from pymongo import MongoClient
 import os
 from discord_components import DiscordComponents, Button, ButtonStyle, InteractionEventType
 import aiohttp
@@ -16,10 +16,11 @@ import textwrap
 import contextlib
 from traceback import format_exception
 from discord.ext.buttons import Paginator
+from modules.common import *
 
-
-cluster = MongoClient(
-    "mongodb+srv://Hydra:CihVirus123@economy.2xn9e.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+print('Hydrargyrum is loading...')
+# cluster = MongoClient(
+#     "mongodb+srv://Hydra:CihVirus123@economy.2xn9e.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
 
 Prefixes_MongoDB = cluster["Extras"]["Prefix"]
 
@@ -222,7 +223,7 @@ client.load_extension('Cogs.FactsCog')
 #
 client.load_extension('Cogs.LevelsCog')
 # tts
-client.load_extension('Cogs.TTSCog')
+# client.load_extension('Cogs.TTSCog')
 # Economy system
 client.load_extension('Cogs.EconomyCog')
 # music

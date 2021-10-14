@@ -6,12 +6,14 @@ import asyncio
 import random
 from discord.utils import get
 from discord_components.dpy_overrides import fetch_message
-from pymongo import MongoClient
-
+#from pymongo import MongoClient
 
 from discord.ext import commands
-cluster = MongoClient(
-    "mongodb+srv://Hydra:CihVirus123@economy.2xn9e.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+
+from modules.common import *
+
+# cluster = MongoClient(
+#     "mongodb+srv://Hydra:CihVirus123@economy.2xn9e.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
 
 
 Extras_MongoDB = cluster["Extras"]["Extras"]

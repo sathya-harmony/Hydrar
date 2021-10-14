@@ -12,7 +12,7 @@ from discord import client
 from discord import embeds
 from discord.ext import commands
 import os
-from pymongo import MongoClient
+#from pymongo import MongoClient
 import time
 import math
 from math import *
@@ -21,10 +21,11 @@ from io import BytesIO
 import asyncio
 import asyncpraw
 import aiohttp
+from modules.common import *
 
 
-cluster = MongoClient(
-    "mongodb+srv://Hydra:CihVirus123@economy.2xn9e.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+# cluster = MongoClient(
+#     "mongodb+srv://Hydra:CihVirus123@economy.2xn9e.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
     
 
 
