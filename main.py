@@ -289,8 +289,8 @@ async def changeprefix(ctx, prefix):
         return Prefixes
 
     Prefixes["Prefix"] = prefix
-
-    await ctx.message.reply(f"Prefix for {client.user.mention} was changed to **{Prefixes}**")
+    _prefix = Prefixes["Prefix"]
+    await ctx.message.reply(f"Prefix for {client.user.mention} was changed to **{_prefix}**")
     Prefixes_MongoDB.update_one(
         {"guild_id": str(ctx.guild.id)}, {"$set": Prefixes})
 
