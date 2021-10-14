@@ -289,10 +289,8 @@ async def changeprefix(ctx, prefix):
         return Prefixes
 
     Prefixes["Prefix"] = prefix
-    embed = discord.Embed(title=f"Successfully Changed The Sever Prefix For Hydrardyrum",
-                          description=f"Current Prefix is:\n`{prefix}`")
 
-    await ctx.message.reply(embed=embed)
+    await ctx.message.reply(f"Prefix for {client.user.mention} was changed to {Prefixes}")
     Prefixes_MongoDB.update_one(
         {"guild_id": str(ctx.guild.id)}, {"$set": Prefixes})
 
