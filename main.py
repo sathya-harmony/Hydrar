@@ -149,6 +149,7 @@ async def on_message(msg):
                 Prefixes = Prefixes_MongoDB.insert_one(new_guild)
             prefix = Prefixes["Prefix"]
             await msg.channel.send(f"My Prefix for this server is `{prefix}`")
+            return
     except:
         pass
 
