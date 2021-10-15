@@ -8,13 +8,9 @@ wikipedia
 pillow
 dnspython
 pyjokes
-#oogle_trans_new
-###translate
-#gtts
-#youtube_dl
-#modules.title_choices_beg_economy
+
 discord_components
-#discord_buttons_plugin
+
 PyNaCl
 asyncpraw
 buttons

@@ -36,8 +36,9 @@ class Wanted(commands.Cog):
             user = ctx.author
 
         wanted = Image.open("Cogs/Pics/Wanted.jpg")
-        asset = user.avatar_url_as(size=128)
-        data = BytesIO(await asset.read())
+        read = user.avatar_url_as(size=128)
+        print(await read.read())
+        data = BytesIO(await read.read())
         pfp = Image.open(data)
         pfp = pfp.resize((328, 321))
         wanted.paste(pfp, (122, 251))
