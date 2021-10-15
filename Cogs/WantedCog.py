@@ -2,6 +2,7 @@ import discord
 
 from PIL import Image, ImageDraw, ImageFont
 from io import BytesIO
+import io
 
 import random
 #from discord.utils import get
@@ -49,14 +50,15 @@ class Wanted(commands.Cog):
     async def rip(self, ctx, user: discord.Member = None):
         if user == None:
             user = ctx.author
-
+        byteImgIO = io.BytesIO()
         rip = Image.open("Cogs/Pics/RIP.jpg")
         asset = user.avatar_url_as(size=128)
         data = BytesIO(await asset.read())
         pfp = Image.open(data)
+        byteImgIO.seek(0)
         pfp = pfp.resize((142, 125))
         rip.paste(pfp, (81, 145))
-        rip.save("ReturnPICS/rip.jpg")
+        rip.save(byteImgIO, "ReturnPICS/rip.jpg")
         await ctx.message.reply(file=discord.File("ReturnPICS/rip.jpg"))
 
     @commands.command()

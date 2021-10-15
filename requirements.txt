@@ -8,9 +8,7 @@ wikipedia
 pillow
 dnspython
 pyjokes
-
 discord_components
-
 PyNaCl
 asyncpraw
 buttons
