@@ -193,17 +193,7 @@ class Wanted(commands.Cog):
         embed.add_field(name='**AFK Note:**', value=reason)
         await ctx.channel.send(embed=embed)
 
-    @commands.Cog.listener()
-    async def on_command_error(ctx, error1):
-        if isinstance(error1, commands.UserInputError):
-            await ctx.message.reply('Please give proper input.')
-        elif isinstance(error1, commands.MissingPermissions):
-            await ctx.message.reply(
-                "You don't have the permissions to execute this command.")
-        elif isinstance(error1, commands.MissingRequiredArgument):
-            await ctx.message.reply('Please give proper input.')
-        elif isinstance(error1, commands.CommandNotFound):
-            await ctx.message.reply("Invalid command.")
+    '''@commands.Cog.listener()'''
 
     def remove_afk_prefix(display_name):
         '''if "[AFK]" in afk.split():
@@ -253,6 +243,17 @@ class Wanted(commands.Cog):
                 if mention.id in self.afk_users_cache:
 
                     await kumar.reply(f"**{mention}** is AFK.\nAFK Note: {self.afk_users_cache[mention.id]}")
+
+    async def on_command_error(ctx, error1):
+        if isinstance(error1, commands.UserInputError):
+            await ctx.message.reply('Please give proper input.')
+        elif isinstance(error1, commands.MissingPermissions):
+            await ctx.message.reply(
+                "You don't have the permissions to execute this command.")
+        elif isinstance(error1, commands.MissingRequiredArgument):
+            await ctx.message.reply('Please give proper input.')
+        elif isinstance(error1, commands.CommandNotFound):
+            await ctx.message.reply("Invalid command.")
 
         #Extras_MongoDB.update_one({"user_id": {str(message.author.id)}}, {"$set": user_data})
 
