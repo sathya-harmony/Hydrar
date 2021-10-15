@@ -73,7 +73,14 @@ def get_prefix(client, message):
     return prefix
 
 
+def strip_prefix(prefix):
+    prefix = get_prefix
+    if len(prefix) > 1:
+        return True
+
+
 client = commands.Bot(command_prefix=get_prefix,
+                      strip_after_prefix=strip_prefix,
                       case_insensitive=True,
                       intents=discord.Intents.all())
 
