@@ -164,12 +164,18 @@ class kick_ban(commands.Cog):
             except discord.Forbidden:
                 await ctx.send(f"Cannot DM this user!")
         else:
-            embed = discord.Embed(
-                title=f"🔇Muted {member.display_name} | Reason: {reason}")
-            await ctx.message.reply(embed=embed)
-            await member.send(f"You have been **Muted** from **{guild.name}** | Reason: **{reason}**")
+            if muteRole in member.roles:
+                embed = discord.Embed(
+                    title=f"❌{member.display_name} already has the role {muteRole} or is already muted")
+                await ctx.message.reply(embed=embed)
 
-            await member.add_roles(muteRole, reason=reason)
+            else:
+                embed = discord.Embed(
+                    title=f"🔇Muted {member.display_name} | Reason: {reason}")
+                await ctx.message.reply(embed=embed)
+                await member.send(f"You have been **Muted** from **{guild.name}** | Reason: **{reason}**")
+
+                await member.add_roles(muteRole, reason=reason)
 
     @commands.command()
     async def unmute(self, ctx, member: discord.Member, *, reason="No reason provided!"):
@@ -185,14 +191,20 @@ class kick_ban(commands.Cog):
         if not muteRole:
             pass
 
-        await member.remove_roles(muteRole, reason=reason)
-        embed = discord.Embed(
-            title=f"🔊Unmuted {member.display_name} | Reason: {reason}")
-        await ctx.message.reply(embed=embed)
-        try:
-            await member.send(f"You have been **Unmuted** from **{guild.name}** | Reason: **{reason}**")
-        except discord.Forbidden:
-            await ctx.send(f"Cannot DM this user!")
+        if muteRole not in member.roles:
+            embed = discord.Embed(
+                title=f"❌{member.display_name} does not have the role {muteRole} or is already unmuted")
+            await ctx.message.reply(embed=embed)
+
+        else:
+            await member.remove_roles(muteRole, reason=reason)
+            embed = discord.Embed(
+                title=f"🔊Unmuted {member.display_name} | Reason: {reason}")
+            await ctx.message.reply(embed=embed)
+            try:
+                await member.send(f"You have been **Unmuted** from **{guild.name}** | Reason: **{reason}**")
+            except discord.Forbidden:
+                pass
 
 
 def setup(client):
