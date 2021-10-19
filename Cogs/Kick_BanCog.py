@@ -132,7 +132,7 @@ class kick_ban(commands.Cog):
             await ctx.message.reply("LMAO did you just try Muting urself?")
             return
 
-        elif ctx.author.top_role < member.top_role:
+        elif ctx.author.top_role <= member.top_role:
             await ctx.message.reply("Lol nop, you can't mute an admin")
             return
 
