@@ -202,7 +202,7 @@ class Wanted(commands.Cog):
             return afk'''
 
         if display_name.lower().startswith('[afk]'):
-            return display_name[5:].strip()
+            display_name[6:].strip()
 
         return display_name
 
