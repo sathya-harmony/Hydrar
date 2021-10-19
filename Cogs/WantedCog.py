@@ -207,30 +207,30 @@ class Wanted(commands.Cog):
         return display_name
 
     @commands.Cog.listener()
-    async def on_message(self, kumar):
+    async def on_message(self, message):
         #stats = Extras_MongoDB.find_one({"user_id": {str(message.author.id)}})
 
         #user_data = self.get_extra_data(message.author.id)
         # if str(message.author.id) in user_data["user_id"].keys():
-        if kumar.author.id in self.afk_users_cache:
+        if message.author.id in self.afk_users_cache:
             # user_data["user_id"].pop(str(message.author.id))
 
-            if kumar.author.id in self.newly_added_afk_users:
-                self.newly_added_afk_users.remove(kumar.author.id)
+            if message.author.id in self.newly_added_afk_users:
+                self.newly_added_afk_users.remove(message.author.id)
             else:
-                self.afk_users_cache.pop(kumar.author.id)
-                Extras_MongoDB.delete_one({'user_id': kumar.author.id})
+                self.afk_users_cache.pop(message.author.id)
+                Extras_MongoDB.delete_one({'user_id': message.author.id})
 
                 try:
                     new_nickname = self.remove_afk_prefix(
-                        kumar.author.display_name)
+                        message.author.display_name)
 
-                    if new_nickname != kumar.author.display_name:
-                        await kumar.author.edit(nick=new_nickname)
+                    if new_nickname != message.author.display_name:
+                        await message.author.edit(nick=new_nickname)
                 except:
                     pass
 
-                await kumar.channel.send(f"Welcome back {kumar.author.mention}, I removed your AFK!")
+                await message.channel.send(f"Welcome back {message.author.mention}, I removed your AFK!")
         else:
             '''for id, reason in user_data["user_id"].items():
                 member = get(member.guild.members, id=id)
@@ -239,10 +239,10 @@ class Wanted(commands.Cog):
                     await message.reply(f"{member.name} is AFK. AFK Note: {reason}")
         # for reason in user_data["user_id"][str(member)]:'''
 
-            for mention in kumar.mentions:
+            for mention in message.mentions:
                 if mention.id in self.afk_users_cache:
 
-                    await kumar.reply(f"**{mention}** is AFK.\nAFK Note: {self.afk_users_cache[mention.id]}")
+                    await message.reply(f"**{mention}** is AFK.\nAFK Note: {self.afk_users_cache[mention.id]}")
 
     async def on_command_error(ctx, error1):
         if isinstance(error1, commands.UserInputError):
