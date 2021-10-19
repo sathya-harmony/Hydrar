@@ -242,7 +242,7 @@ class Wanted(commands.Cog):
             for mention in message.mentions:
                 if mention.id in self.afk_users_cache:
 
-                    await message.reply(f"**{mention}** is AFK.\nAFK Note: {self.afk_users_cache[mention.id]}")
+                    await message.reply(f"**{mention}** is AFK.\n**AFK Note:** `{self.afk_users_cache[mention.id]}`")
 
     async def on_command_error(ctx, error1):
         if isinstance(error1, commands.UserInputError):
