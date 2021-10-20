@@ -174,7 +174,7 @@ class levels(commands.Cog):
             online = Image.open("Cogs/Pics/DNDStatus.png")
             online = online.resize((50, 50))
             img.paste(online, (155, 155), mask=online)
-            print("Hehehe")
+            # print("Hehehe")
 
             #print("here", img.size)
 
@@ -199,7 +199,7 @@ class levels(commands.Cog):
         # Placing Level text (right-upper part)
         text_size = draw.textsize(f"{level}", font=big_font)
         offset_x = 1000-15 - text_size[0]
-        offset_y = 5
+        offset_y = 8
         draw.text((offset_x, offset_y),
                   f"{level}", font=big_font, fill="#11ebf2")
         text_size = draw.textsize('LEVEL', font=small_font)
@@ -294,7 +294,7 @@ class levels(commands.Cog):
         text = f'#{member.discriminator}'
         text_offset_x += text_size[0] + 10
         text_size = draw.textsize(text, font=small_font)
-        text_offset_y = bar_offset_y - text_size[1] - 10
+        text_offset_y = bar_offset_y - text_size[1] - 20
         draw.text((text_offset_x, text_offset_y), text,
                   font=small_font, fill="#727175")
 
