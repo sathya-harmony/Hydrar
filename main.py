@@ -23,7 +23,10 @@ print('Hydrargyrum is loading...')
 #     "mongodb+srv://Hydra:CihVirus123@economy.2xn9e.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
 
 Prefixes_MongoDB = cluster["Extras"]["Prefix"]
-
+'''intents = discord.Intents().default()
+intents.presences = True
+intents.members = True
+'''
 
 #import Cogs.EconomyCog
 #import Dashboard.main
@@ -125,7 +128,7 @@ async def get_guild(data):
     return guild_data'''
 
 
-owner_perms = [611210739830620165,773399620927619103 ]
+owner_perms = [611210739830620165, 773399620927619103]
 client.sniped_messages = {}
 YOURLIST = []
 
@@ -348,7 +351,7 @@ async def rcogs(ctx, cog=None):
                     color=0x808080,
                     timestamp=ctx.message.created_at
                 )
-                for ext in os.listdir(r"Cogs"):
+                for ext in os.listdir("./Cogs/"):
                     if ext.endswith(".py") and not ext.startswith("_"):
                         try:
                             client.unload_extension(f"Cogs.{ext[:-3]}")
@@ -374,8 +377,8 @@ async def rcogs(ctx, cog=None):
                     color=0x808080,
                     timestamp=ctx.message.created_at
                 )
-                ext = f"{cog}"
-                if not os.path.exists(f"Cogs.{ext}"):
+                ext = f"{cog}.py"
+                if not os.path.exists(f"./Cogs/{ext}"):
                     # if the file does not exist
                     embed.add_field(
                         name=f"Failed to reload: `{ext}`",
@@ -383,7 +386,7 @@ async def rcogs(ctx, cog=None):
                         inline=False
                     )
 
-                elif os.path.exists(f"Cogs.{ext}") and ext.endswith(".py") and not ext.startswith("_"):
+                elif ext.endswith(".py") and not ext.startswith("_"):
                     try:
                         client.unload_extension(f"Cogs.{ext[:-3]}")
                         client.load_extension(f"Cogs.{ext[:-3]}")
