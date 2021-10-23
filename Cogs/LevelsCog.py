@@ -9,6 +9,7 @@ from discord.utils import get
 import aiohttp
 import io
 from PIL import Image, ImageDraw, ImageFont
+from modules.common import *
 
 
 '''bot_channel = 870541730410270814
@@ -18,20 +19,58 @@ levelnum = [2]
 
 
 #Problem is here
-cluster = MongoClient(
+level_cluster = MongoClient(
     "mongodb+srv://Hydra:CihVirus123@hydra.rvrbk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 )
 
 
-levelling = cluster["Hydra"]["Hydra"]
+Channel_data_mongo = cluster["Extras"]["Levelchannel"]
+levelling = level_cluster["Hydra"]["Hydra"]
 
 
 class levels(commands.Cog):
     def __init__(self, client):
         self.client = client
 
+    def get_channel_from_database(self, guild_id):
+        if type(guild_id) in [int, float]:
+            guild_id = str(int(guild_id))
+            guild_data = Channel_data_mongo.find_one(
+                {"guild_id": guild_id})
+            return guild_data
+
+    def add_channel_to_database(self, guild_id, channel_id):
+        guild_data = self.get_channel_from_database(guild_id)
+        if type(guild_id) in [int, float]:
+            guild_id = str(int(guild_id))
+        if guild_data is None:
+            guild_data = {"guild_id": guild_id,
+                          "channel_id": str(channel_id)}
+            Channel_data_mongo.insert_one(guild_data)
+            return guild_data
+
+    '''def edit_channel_to_database(self, guild_id, channel_id):
+        guild_data = self.get_channel_from_database(guild_id)
+        if type(guild_id) in [int, float]:
+            guild_id = str(int(guild_id))
+            Channel_data_mongo.update_one(
+                {"guild_id": guild_id}, {"$set": guild_data})'''
+
+    @commands.command()
+    async def levelupmessage(self, ctx, channel_id):
+        guild_id = str(ctx.guild.id)
+        guild_data = self.get_channel_from_database(guild_id)
+        if not guild_data:
+            self.add_channel_to_database(guild_id, channel_id)
+
+        else:
+            Channel_data_mongo.update_one(
+                {"guild_id": guild_id}, {"$set": guild_data})
+        await ctx.message.reply(f"Successfully set the Level Up Message channel to <#{channel_id}>")
+
     @ commands.Cog.listener()
     async def on_message(self, message):
+
         try:
             user_id = str(message.author.id)
             guild_id = message.guild.id
@@ -71,9 +110,18 @@ class levels(commands.Cog):
                     xp -= abs(((50 * (lvl - 1)**2)) + (50 * (lvl - 1)))
 
                     if xp == 0:
-                        await message.channel.send(
-                            f"Congratulations, {message.author.mention}! You just levelled up to **level {lvl}**!"
-                        )
+                        guild_data = self.get_channel_from_database(
+                            message.guild.id)
+                        if not guild_data:
+                            await message.channel.send(f"Congratulations, {message.author.mention}! You just levelled up to **level {lvl}**!")
+                        else:
+                            channel_id = guild_data["channel_id"]
+                            # print(channel_id.name)
+                            #channel = client.get_channel(channel_id)
+
+                            await client.get_channel(channel_id).send(
+                                f"Congratulations, {message.author.mention}! You just levelled up to **level {lvl}**!"
+                            )
                         for i in range(len(level)):
                             if lvl == levelnum[i]:
                                 await message.author.add_roles(
