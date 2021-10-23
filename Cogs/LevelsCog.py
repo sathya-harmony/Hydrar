@@ -36,9 +36,8 @@ class levels(commands.Cog):
         if type(guild_id) in [int, float]:
             guild_id = str(int(guild_id))
 
-        guild_data = Channel_data_mongo.find_one(
+        return Channel_data_mongo.find_one(
             {"guild_id": guild_id})
-        return guild_data
 
     def add_channel_to_database(self, guild_id, channel_id):
         guild_data = self.get_channel_from_database(guild_id)
@@ -123,7 +122,7 @@ class levels(commands.Cog):
                         if not guild_data:
                             await message.channel.send(f"Congratulations, {message.author.mention}! You just levelled up to **level {lvl}**!")
                         else:
-                            channel_id = guild_data["channel_id"]
+                            channel_id = int(guild_data["channel_id"])
                             # print(channel_id.name)
                             # channel = client.get_channel(channel_id)
 
