@@ -121,7 +121,7 @@ class levels(commands.Cog):
                             # print(channel_id.name)
                             #channel = client.get_channel(channel_id)
 
-                            await client.get_channel(channel_id).send(
+                            client.get_channel(channel_id).send(
                                 f"Congratulations, {message.author.mention}! You just levelled up to **level {lvl}**!"
                             )
                         for i in range(len(level)):
