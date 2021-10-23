@@ -64,8 +64,10 @@ class levels(commands.Cog):
             self.add_channel_to_database(guild_id, channel_id)
 
         else:
+            guild_data['channel_id'] = channel_id
             Channel_data_mongo.update_one(
                 {"guild_id": guild_id}, {"$set": guild_data})
+
         await ctx.message.reply(f"Successfully set the Level Up Message channel to <#{channel_id}>")
 
     @ commands.Cog.listener()
