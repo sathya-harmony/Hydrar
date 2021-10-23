@@ -1,6 +1,5 @@
 from operator import attrgetter
 import discord
-from discord import client
 from discord.errors import Forbidden
 from discord.ext import commands
 from pymongo import MongoClient
@@ -119,8 +118,6 @@ class levels(commands.Cog):
                         guild_data = self.get_channel_from_database(
                             message.guild.id)
 
-                        print(guild_data)
-
                         if not guild_data:
                             await message.channel.send(f"Congratulations, {message.author.mention}! You just levelled up to **level {lvl}**!")
                         else:
@@ -128,9 +125,12 @@ class levels(commands.Cog):
                             # print(channel_id.name)
                             # channel = client.get_channel(channel_id)
 
-                            await client.get_channel(channel_id).send(
-                                f"Congratulations, {message.author.mention}! You just levelled up to **level {lvl}**!"
-                            )
+                            await self.client \
+                                .get_channel(channel_id) \
+                                .send(
+                                    f"Congratulations, {message.author.mention}! You just levelled up to **level {lvl}**!"
+                                )
+
                         for i in range(len(level)):
                             if lvl == levelnum[i]:
                                 await message.author.add_roles(
