@@ -68,7 +68,7 @@ class levels(commands.Cog):
             self.add_channel_to_database(guild_id, channel_id)
 
         else:
-            guild_data['channel_id'] = channel_id
+            guild_data['channel_id'] = str(channel_id)
             Channel_data_mongo.update_one(
                 {"guild_id": guild_id}, {"$set": guild_data})
 
@@ -118,6 +118,8 @@ class levels(commands.Cog):
                     if xp == 0:
                         guild_data = self.get_channel_from_database(
                             message.guild.id)
+
+                        print(guild_data)
 
                         if not guild_data:
                             await message.channel.send(f"Congratulations, {message.author.mention}! You just levelled up to **level {lvl}**!")
