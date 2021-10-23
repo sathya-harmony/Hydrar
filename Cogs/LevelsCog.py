@@ -18,7 +18,7 @@ level = ["Level 1"]
 levelnum = [2]
 
 
-#Problem is here
+# Problem is here
 level_cluster = MongoClient(
     "mongodb+srv://Hydra:CihVirus123@hydra.rvrbk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 )
@@ -35,17 +35,21 @@ class levels(commands.Cog):
     def get_channel_from_database(self, guild_id):
         if type(guild_id) in [int, float]:
             guild_id = str(int(guild_id))
-            guild_data = Channel_data_mongo.find_one(
-                {"guild_id": guild_id})
-            return guild_data
+
+        guild_data = Channel_data_mongo.find_one(
+            {"guild_id": guild_id})
+        return guild_data
 
     def add_channel_to_database(self, guild_id, channel_id):
         guild_data = self.get_channel_from_database(guild_id)
+
         if type(guild_id) in [int, float]:
             guild_id = str(int(guild_id))
+
         if guild_data is None:
             guild_data = {"guild_id": guild_id,
                           "channel_id": str(channel_id)}
+
             Channel_data_mongo.insert_one(guild_data)
             return guild_data
 
@@ -60,6 +64,7 @@ class levels(commands.Cog):
     async def levelupmessage(self, ctx, channel_id):
         guild_id = str(ctx.guild.id)
         guild_data = self.get_channel_from_database(guild_id)
+
         if not guild_data:
             self.add_channel_to_database(guild_id, channel_id)
 
@@ -114,14 +119,15 @@ class levels(commands.Cog):
                     if xp == 0:
                         guild_data = self.get_channel_from_database(
                             message.guild.id)
+
                         if not guild_data:
                             await message.channel.send(f"Congratulations, {message.author.mention}! You just levelled up to **level {lvl}**!")
                         else:
                             channel_id = guild_data["channel_id"]
                             # print(channel_id.name)
-                            #channel = client.get_channel(channel_id)
+                            # channel = client.get_channel(channel_id)
 
-                            client.get_channel(channel_id).send(
+                            await client.get_channel(channel_id).send(
                                 f"Congratulations, {message.author.mention}! You just levelled up to **level {lvl}**!"
                             )
                         for i in range(len(level)):
@@ -171,8 +177,8 @@ class levels(commands.Cog):
             boxes = int(xp/(5*lvl))
             guild_id = 824199403954896906
             # get(ctx.message.guild.emojis, name="filled_full_middle")
-            #emoji = client.get_emoji(name="filled_full_middle")
-            #emoji2 = get(ctx.message.guild.emojis, name="empty_begin")
+            # emoji = client.get_emoji(name="filled_full_middle")
+            # emoji2 = get(ctx.message.guild.emojis, name="empty_begin")
 
             '''embed = discord.Embed(
                 title="{}'s level stats".format(member.name))
@@ -226,7 +232,7 @@ class levels(commands.Cog):
             img.paste(online, (155, 155), mask=online)
             # print("Hehehe")
 
-            #print("here", img.size)
+            # print("here", img.size)
 
         elif (member.status) is discord.Status.idle:
             online = Image.open("Cogs/Pics/IdleStatus.png")
