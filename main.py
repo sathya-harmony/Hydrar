@@ -128,7 +128,7 @@ async def get_guild(data):
     return guild_data'''
 
 
-owner_perms = [611210739830620165, 773399620927619103]
+owner_perms = [611210739830620165, 538983723950014474]
 client.sniped_messages = {}
 YOURLIST = []
 

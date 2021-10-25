@@ -128,8 +128,7 @@ class levels(commands.Cog):
                             await self.client \
                                 .get_channel(channel_id) \
                                 .send(
-                                    f"Congratulations, {message.author.mention}! You just levelled up to **level {lvl}**!"
-                                )
+                                    f"Congratulations, {message.author.mention}! You just levelled up to **level {lvl}**!")
 
                         for i in range(len(level)):
                             if lvl == levelnum[i]:
