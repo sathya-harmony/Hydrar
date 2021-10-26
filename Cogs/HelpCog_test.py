@@ -190,7 +190,7 @@ class _help_(commands.Cog):
                              ]
                              )
                       ]
-        arg = arg.lower()
+
         if arg == '':
 
             message = await ctx.message.reply(embed=embed1, components=components)
@@ -416,6 +416,7 @@ class _help_(commands.Cog):
                         )], disabled=True)])
 
                     break
+        arg = arg.lower()
 
         if arg == '8ball':
             try:
