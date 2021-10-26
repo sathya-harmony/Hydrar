@@ -800,24 +800,96 @@ class _help_(commands.Cog):
 
         if arg == 'balance':
             try:
-                embed21 = discord.Embed(
+                embed22 = discord.Embed(
                     title="Balance Info",
-                    description="**Description:**\nSend someone some money! (Economy Command) (THIS IS IRREVERSABLE ONCE SENT. Exceptions when the target member manually sends it back)(Helping someone is always good)",
+                    description="**Description:**\nCheck your balance! Shows wallet balance, bank balance, and bank space! (Economy Command)",
                     color=ctx.author.color)
-                embed21.set_thumbnail(
+                embed22.set_thumbnail(
                     url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
                 )
 
-                embed21.add_field(name="**Usage:**",
-                                  value="`-send <amount>`",
+                embed22.add_field(name="**Usage:**",
+                                  value="`-bal`",
                                   inline=False)
-                embed21.add_field(name="**Aliases:**",
-                                  value="donate, send",
+                embed22.add_field(name="**Aliases:**",
+                                  value="bal, balance",
                                   inline=False)
-                embed21.set_footer(
+                embed22.set_footer(
                     text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
                     icon_url=embeds.EmptyEmbed)
-                await ctx.message.reply(embed=embed21)
+                await ctx.message.reply(embed=embed22)
+                return
+            except:
+                pass
+
+        if arg == 'beg':
+            try:
+                embed23 = discord.Embed(
+                    title="Beg Info",
+                    description="**Description:**\nBeg some money from random people!(Economy Command)",
+                    color=ctx.author.color)
+                embed23.set_thumbnail(
+                    url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
+                )
+
+                embed23.add_field(name="**Usage:**",
+                                  value="`-beg`",
+                                  inline=False)
+                embed23.add_field(name="**Aliases:**",
+                                  value="beg",
+                                  inline=False)
+                embed23.set_footer(
+                    text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
+                    icon_url=embeds.EmptyEmbed)
+                await ctx.message.reply(embed=embed23)
+                return
+            except:
+                pass
+
+        if arg == 'slots':
+            try:
+                embed24 = discord.Embed(
+                    title="Slots Info",
+                    description="**Description:**\nSpin a slot machine after investing some money! You may win or lose money according to your luck!(Economy Command)",
+                    color=ctx.author.color)
+                embed24.set_thumbnail(
+                    url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
+                )
+
+                embed24.add_field(name="**Usage:**",
+                                  value="`-slots <amount>`",
+                                  inline=False)
+                embed24.add_field(name="**Aliases:**",
+                                  value="slots",
+                                  inline=False)
+                embed24.set_footer(
+                    text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
+                    icon_url=embeds.EmptyEmbed)
+                await ctx.message.reply(embed=embed24)
+                return
+            except:
+                pass
+
+        if arg == 'steal' or arg == 'rob':
+            try:
+                embed25 = discord.Embed(
+                    title="Steal Info",
+                    description="**Description:**\nLike robbing people? Then this command is for you. Rob anyone you like. You getting caught by cops or successfully robbing the money is based on luck(Economy Command)",
+                    color=ctx.author.color)
+                embed25.set_thumbnail(
+                    url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
+                )
+
+                embed25.add_field(name="**Usage:**",
+                                  value="`-rob <amount>`",
+                                  inline=False)
+                embed25.add_field(name="**Aliases:**",
+                                  value="rob, steal",
+                                  inline=False)
+                embed25.set_footer(
+                    text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
+                    icon_url=embeds.EmptyEmbed)
+                await ctx.message.reply(embed=embed25)
                 return
             except:
                 pass
