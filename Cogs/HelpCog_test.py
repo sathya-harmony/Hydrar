@@ -656,7 +656,7 @@ class _help_(commands.Cog):
             except:
                 pass
 
-        if arg == 'Userinfo':
+        if arg == 'userinfo':
             try:
                 embed13 = discord.Embed(
                     title="User Info",
