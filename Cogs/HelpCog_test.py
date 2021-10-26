@@ -703,27 +703,121 @@ class _help_(commands.Cog):
                 return
             except:
                 pass
+        if arg == 'changeprefix':
+            try:
+                embed18 = discord.Embed(
+                    title="Change Prefix Info",
+                    description="**Description:**\nChange the prefix of the bot!\n Does this bot's prefix default prefix `-` the same as another bot's? No worries, you can add custom prefixes!",
+                    color=ctx.author.color)
+                embed18.set_thumbnail(
+                    url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
+                )
+
+                embed18.add_field(name="**Usage:**",
+                                  value="`-changeprefix <prefix>`",
+                                  inline=False)
+                embed18.add_field(name="**Aliases:**",
+                                  value="changeprefix",
+                                  inline=False)
+                embed18.set_footer(
+                    text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
+                    icon_url=embeds.EmptyEmbed)
+                await ctx.message.reply(embed=embed18)
+                return
+            except:
+                pass
 
         if arg == 'daily':
             try:
                 embed15 = discord.Embed(
                     title="Daily Info",
-                    description="**Description:**\nCollect your daily coins. You earn more if your streak is higher!",
+                    description="**Description:**\nCollect your daily coins. You earn more if your streak is higher!(Economy Command)",
                     color=ctx.author.color)
                 embed15.set_thumbnail(
                     url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
                 )
 
                 embed15.add_field(name="**Usage:**",
-                                  value="`-ask <question>`",
+                                  value="`-daily`",
                                   inline=False)
                 embed15.add_field(name="**Aliases:**",
-                                  value="ask, solve",
+                                  value="daily",
                                   inline=False)
                 embed15.set_footer(
                     text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
                     icon_url=embeds.EmptyEmbed)
                 await ctx.message.reply(embed=embed15)
+                return
+            except:
+                pass
+        if arg == 'withdraw':
+            try:
+                embed19 = discord.Embed(
+                    title="Withdraw Info",
+                    description="**Description:**\nWithdraw any amount from your bank to your wallet! Hint: The money present in your wallet can be easily robbed! (Economy Command)",
+                    color=ctx.author.color)
+                embed19.set_thumbnail(
+                    url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
+                )
+
+                embed19.add_field(name="**Usage:**",
+                                  value="**.** `-with <amount>`\n**.** `-with all`",
+                                  inline=False)
+                embed19.add_field(name="**Aliases:**",
+                                  value="withdraw, with",
+                                  inline=False)
+                embed19.set_footer(
+                    text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
+                    icon_url=embeds.EmptyEmbed)
+                await ctx.message.reply(embed=embed19)
+                return
+            except:
+                pass
+
+        if arg == 'deposit':
+            try:
+                embed20 = discord.Embed(
+                    title="Deposit Info",
+                    description="**Description:**\nDeposit an amount less than or equal to the bank space from your wallet to your bank! Hint: The money present in your bank cannot be touched by robbers! (Economy Command)",
+                    color=ctx.author.color)
+                embed20.set_thumbnail(
+                    url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
+                )
+
+                embed20.add_field(name="**Usage:**",
+                                  value="**.** `-dep <amount>`\n**.** `-dep all`",
+                                  inline=False)
+                embed20.add_field(name="**Aliases:**",
+                                  value="deposit, dep",
+                                  inline=False)
+                embed20.set_footer(
+                    text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
+                    icon_url=embeds.EmptyEmbed)
+                await ctx.message.reply(embed=embed20)
+                return
+            except:
+                pass
+
+        if arg == 'balance':
+            try:
+                embed21 = discord.Embed(
+                    title="Balance Info",
+                    description="**Description:**\nSend someone some money! (Economy Command) (THIS IS IRREVERSABLE ONCE SENT. Exceptions when the target member manually sends it back)(Helping someone is always good)",
+                    color=ctx.author.color)
+                embed21.set_thumbnail(
+                    url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
+                )
+
+                embed21.add_field(name="**Usage:**",
+                                  value="`-send <amount>`",
+                                  inline=False)
+                embed21.add_field(name="**Aliases:**",
+                                  value="donate, send",
+                                  inline=False)
+                embed21.set_footer(
+                    text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
+                    icon_url=embeds.EmptyEmbed)
+                await ctx.message.reply(embed=embed21)
                 return
             except:
                 pass
