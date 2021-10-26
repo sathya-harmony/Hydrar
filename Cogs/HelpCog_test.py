@@ -13,7 +13,7 @@ class _help_(commands.Cog):
 
     @commands.command(name='help',
                       aliases=["helpme", "command", "commands", "cmd", "cmds"])
-    async def help(self, ctx, arg=''):
+    async def help(self, ctx, arg=None):
 
         embed1 = discord.Embed(
             title="Hydrargyrum - Command Categories",
@@ -82,7 +82,7 @@ class _help_(commands.Cog):
             url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
         )
         embed3.add_field(name="**Commands:**",
-                         value="`Kick`, `Ban`,`Unban`, `Clear`",
+                         value="`Kick`, `Ban`,`Unban`, `Clear`, `Mute`, `Unmute`",
                          inline=False)
 
         embed3.add_field(name="**Aliases:**",
@@ -106,7 +106,7 @@ class _help_(commands.Cog):
         )
         embed4.add_field(
             name="**Commands:**",
-            value="`Help`, `Server`, `Userinfo`, `Solve`, `Ask`",
+            value="`Help`, `Server`, `Userinfo`, `Solve`, `Ask`, `Changeprefix`",
             inline=False)
         embed4.add_field(name="**Aliases:**",
                          value="utility",
@@ -146,7 +146,7 @@ class _help_(commands.Cog):
             url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
         )
         embed6.add_field(name="**Commands:**",
-                         value="`rank`, `top`",
+                         value="`rank`, `top`, `setlevelchannel`",
                          inline=False)
         embed6.add_field(name="**Aliases:**",
                          value="level, levels, lvls, lvl",
@@ -513,7 +513,7 @@ class _help_(commands.Cog):
             except:
                 pass
 
-        if arg == 'Ban':
+        if arg == 'ban':
             try:
                 embed12 = discord.Embed(
                     title="Ban Info",
@@ -537,7 +537,7 @@ class _help_(commands.Cog):
             except:
                 pass
 
-        if arg == 'Kick':
+        if arg == 'kick':
             try:
                 embed13 = discord.Embed(
                     title="Kick Info",
@@ -561,7 +561,7 @@ class _help_(commands.Cog):
             except:
                 pass
 
-        if arg == 'Unban':
+        if arg == 'unban':
             try:
                 embed11 = discord.Embed(
                     title="Clear Info",
@@ -605,6 +605,52 @@ class _help_(commands.Cog):
                     text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
                     icon_url=embeds.EmptyEmbed)
                 await ctx.message.reply(embed=embed12)
+                return
+            except:
+                pass
+        if arg == 'mute':
+            try:
+                embed16 = discord.Embed(
+                    title="Mute Info",
+                    description="**Description:**\nPrevent a person from chatting or entering a voice channel!(You need admin perms to use this command.)",
+                    color=ctx.author.color)
+                embed16.set_thumbnail(
+                    url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
+                )
+
+                embed16.add_field(name="**Usage:**",
+                                  value="**.** `-mute <member>`",
+                                  inline=False)
+                embed16.add_field(name="**Aliases:**",
+                                  value="mute",
+                                  inline=False)
+                embed16.set_footer(
+                    text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
+                    icon_url=embeds.EmptyEmbed)
+                await ctx.message.reply(embed=embed16)
+                return
+            except:
+                pass
+        if arg == 'unmute':
+            try:
+                embed17 = discord.Embed(
+                    title="Unmute Info",
+                    description="**Description:**\nAllow a person who has already been muted, to talk and enter in voice channels!(You need admin perms to use this command.)",
+                    color=ctx.author.color)
+                embed17.set_thumbnail(
+                    url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
+                )
+
+                embed17.add_field(name="**Usage:**",
+                                  value="`-unmute <member>`",
+                                  inline=False)
+                embed17.add_field(name="**Aliases:**",
+                                  value="unmute",
+                                  inline=False)
+                embed17.set_footer(
+                    text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
+                    icon_url=embeds.EmptyEmbed)
+                await ctx.message.reply(embed=embed17)
                 return
             except:
                 pass
@@ -652,31 +698,31 @@ class _help_(commands.Cog):
                 embed14.set_footer(
                     text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
                     icon_url=embeds.EmptyEmbed)
-                await ctx.message.reply(embed=embed12)
+                await ctx.message.reply(embed=embed14)
                 return
             except:
                 pass
 
         if arg == 'daily':
             try:
-                embed14 = discord.Embed(
+                embed15 = discord.Embed(
                     title="Daily Info",
                     description="**Description:**\nCollect your daily coins. You earn more if your streak is higher!",
                     color=ctx.author.color)
-                embed14.set_thumbnail(
+                embed15.set_thumbnail(
                     url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
                 )
 
-                embed14.add_field(name="**Usage:**",
+                embed15.add_field(name="**Usage:**",
                                   value="`-ask <question>`",
                                   inline=False)
-                embed14.add_field(name="**Aliases:**",
+                embed15.add_field(name="**Aliases:**",
                                   value="ask, solve",
                                   inline=False)
-                embed14.set_footer(
+                embed15.set_footer(
                     text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
                     icon_url=embeds.EmptyEmbed)
-                await ctx.message.reply(embed=embed12)
+                await ctx.message.reply(embed=embed15)
                 return
             except:
                 pass
