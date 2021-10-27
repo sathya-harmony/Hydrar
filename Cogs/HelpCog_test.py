@@ -959,7 +959,7 @@ class _help_(commands.Cog):
                                   value="inventory, bag, inv",
                                   inline=False)
                 embed28.set_footer(
-                    text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
+                    text=f"`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
                     icon_url=embeds.EmptyEmbed)
                 await ctx.message.reply(embed=embed28)
                 return
@@ -983,7 +983,7 @@ class _help_(commands.Cog):
                                   value="use",
                                   inline=False)
                 embed29.set_footer(
-                    text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
+                    text=f"`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
                     icon_url=embeds.EmptyEmbed)
                 await ctx.message.reply(embed=embed29)
                 return
@@ -993,7 +993,7 @@ class _help_(commands.Cog):
         if arg == 'sell':
             try:
                 embed30 = discord.Embed(
-                    title="Use Info",
+                    title="Sell Info",
                     description="**Description:**\nSell an item from you inventory! Sell anytime! Obio the money you get for selling the item is lesser than for what it was bought.(Only for items which h've been bought)(Economy Command)",
                     color=ctx.author.color)
                 embed30.set_thumbnail(
@@ -1007,7 +1007,7 @@ class _help_(commands.Cog):
                                   value="sell",
                                   inline=False)
                 embed30.set_footer(
-                    text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
+                    text=f"`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
                     icon_url=embeds.EmptyEmbed)
                 await ctx.message.reply(embed=embed30)
                 return
@@ -1029,6 +1029,54 @@ class _help_(commands.Cog):
                                   inline=False)
                 embed30.add_field(name="**Aliases:**",
                                   value="rich, wealthy",
+                                  inline=False)
+                embed30.set_footer(
+                    text=f"`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
+                    icon_url=embeds.EmptyEmbed)
+                await ctx.message.reply(embed=embed30)
+                return
+            except:
+                pass
+
+        if arg == 'worklist' or arg == 'work list':
+            try:
+                embed30 = discord.Embed(
+                    title="Work List Info",
+                    description="**Description:**\nSee the list of jobs which you can be employed for!(Economy Command)",
+                    color=ctx.author.color)
+                embed30.set_thumbnail(
+                    url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
+                )
+
+                embed30.add_field(name="**Usage:**",
+                                  value="`-worklist`",
+                                  inline=False)
+                embed30.add_field(name="**Aliases:**",
+                                  value="worklist",
+                                  inline=False)
+                embed30.set_footer(
+                    text=f"`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
+                    icon_url=embeds.EmptyEmbed)
+                await ctx.message.reply(embed=embed30)
+                return
+            except:
+                pass
+
+        if arg == 'work':
+            try:
+                embed30 = discord.Embed(
+                    title="Work Info",
+                    description="**Description:**\nWork and get rewarded some Hydroids! `-work resign` to resign from your current job, `-work <job>` to apply to a job and `-work` to work for your current job(Economy Command)",
+                    color=ctx.author.color)
+                embed30.set_thumbnail(
+                    url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
+                )
+
+                embed30.add_field(name="**Usage:**",
+                                  value="**.** `-work`\n**.** `-work resign`\n**.** `-work <job>`\n",
+                                  inline=False)
+                embed30.add_field(name="**Aliases:**",
+                                  value="sell",
                                   inline=False)
                 embed30.set_footer(
                     text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
