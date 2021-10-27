@@ -1086,6 +1086,78 @@ class _help_(commands.Cog):
             except:
                 pass
 
+        if arg == 'rank' or arg == 'lvl' or arg == 'level':
+            try:
+                embed30 = discord.Embed(
+                    title="Rank Info",
+                    description="**Description:**\nEverytime you send a message, you gain some XP. Wanna see this XP beautifully compiled into a card? This command is for you then!(Levelling Command)",
+                    color=ctx.author.color)
+                embed30.set_thumbnail(
+                    url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
+                )
+
+                embed30.add_field(name="**Usage:**",
+                                  value="`-lvl`",
+                                  inline=False)
+                embed30.add_field(name="**Aliases:**",
+                                  value="lvl, rank, level",
+                                  inline=False)
+                embed30.set_footer(
+                    text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
+                    icon_url=embeds.EmptyEmbed)
+                await ctx.message.reply(embed=embed30)
+                return
+            except:
+                pass
+
+        if arg == 'top' or arg == "lb" or arg == 'leaderboard':
+            try:
+                embed30 = discord.Embed(
+                    title="Leaderboard(XP) Info",
+                    description="**Description:**\nEverytime you send a message, you gain some XP. Wanna see the people with most XP in YOUR server? This command is for you!(Levelling Command)",
+                    color=ctx.author.color)
+                embed30.set_thumbnail(
+                    url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
+                )
+
+                embed30.add_field(name="**Usage:**",
+                                  value="`-top`",
+                                  inline=False)
+                embed30.add_field(name="**Aliases:**",
+                                  value="top, lb, leaderboard",
+                                  inline=False)
+                embed30.set_footer(
+                    text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
+                    icon_url=embeds.EmptyEmbed)
+                await ctx.message.reply(embed=embed30)
+                return
+            except:
+                pass
+
+        if arg == 'setlevelchannel':
+            try:
+                embed30 = discord.Embed(
+                    title="Set Level Channel Info",
+                    description="**Description:**\nEverytime you send a message, you gain some XP. Everytime you hit a mark, the bot will send a congratulating message! If you wanna send this message in custom channels, use this command!(Levelling Command)",
+                    color=ctx.author.color)
+                embed30.set_thumbnail(
+                    url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
+                )
+
+                embed30.add_field(name="**Usage:**",
+                                  value="`-setlevelchannel <channel_id>`",
+                                  inline=False)
+                embed30.add_field(name="**Aliases:**",
+                                  value="setlevelchannel",
+                                  inline=False)
+                embed30.set_footer(
+                    text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
+                    icon_url=embeds.EmptyEmbed)
+                await ctx.message.reply(embed=embed30)
+                return
+            except:
+                pass
+
 
 def setup(client):
     client.add_cog(_help_(client))

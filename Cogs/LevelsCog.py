@@ -58,7 +58,7 @@ class levels(commands.Cog):
             Channel_data_mongo.update_one(
                 {"guild_id": guild_id}, {"$set": guild_data})'''
 
-    @commands.command()
+    @commands.command(aliases=["setlevelchannel"])
     async def levelupmessage(self, ctx, channel_id):
         guild_id = str(ctx.guild.id)
         guild_data = self.get_channel_from_database(guild_id)
