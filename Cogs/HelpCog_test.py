@@ -46,10 +46,10 @@ class _help_(commands.Cog):
             value="`-help Levels`\n[Hover for Info](https://rb.gy/o2krdf)",
             inline=False)
 
-        embed1.add_field(
+        '''embed1.add_field(
             name="**🏓Games**",
             value="`-help Games`\n[Hover for Info](https://rb.gy/o2krdf)",
-            inline=False)
+            inline=False)'''
         # await ctx.message.reply(embed = embed1)
 
         embed2 = discord.Embed(
@@ -1076,7 +1076,7 @@ class _help_(commands.Cog):
                                   value="**.** `-work`\n**.** `-work resign`\n**.** `-work <job>`\n",
                                   inline=False)
                 embed30.add_field(name="**Aliases:**",
-                                  value="sell",
+                                  value="work",
                                   inline=False)
                 embed30.set_footer(
                     text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
