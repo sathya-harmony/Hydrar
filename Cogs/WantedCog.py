@@ -10,6 +10,7 @@ import random
 #from pymongo import MongoClient
 
 from discord.ext import commands
+from discord.ext.commands.errors import MissingPermissions
 
 from modules.common import *
 
@@ -227,7 +228,7 @@ class Wanted(commands.Cog):
 
                     if new_nickname != message.author.display_name:
                         await message.author.edit(nick=new_nickname)
-                except:
+                except MissingPermissions:
                     pass
 
                 await message.channel.send(f"Welcome back {message.author.mention}, I removed your AFK!")
