@@ -126,7 +126,7 @@ class _help_(commands.Cog):
             url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
         )
         embed5.add_field(name="**Commands:**",
-                         value="`daily`, `withdraw`, `deposit`, `donate`, `balance`, `beg`, `bet`, `steal`, `shop`, `buy`, `inventory`, `use`, `sell`, `rich`",
+                         value="`daily`, `withdraw`, `deposit`, `donate`, `balance`, `beg`, `bet`, `steal`, `shop`, `buy`, `inventory`, `use`, `sell`, `rich`, `worklist`, `work`",
                          inline=False)
         embed5.add_field(name="**Aliases:**",
                          value="currency",
@@ -881,7 +881,7 @@ class _help_(commands.Cog):
                 )
 
                 embed25.add_field(name="**Usage:**",
-                                  value="`-rob <amount>`",
+                                  value="`-rob <member>`",
                                   inline=False)
                 embed25.add_field(name="**Aliases:**",
                                   value="rob, steal",
@@ -890,6 +890,150 @@ class _help_(commands.Cog):
                     text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
                     icon_url=embeds.EmptyEmbed)
                 await ctx.message.reply(embed=embed25)
+                return
+            except:
+                pass
+
+        if arg == 'shop':
+            try:
+                embed26 = discord.Embed(
+                    title="Shop Info",
+                    description="**Description:**\nSee the items that can be bought! Buy anything from the shop obio if you have money(Economy Command)",
+                    color=ctx.author.color)
+                embed26.set_thumbnail(
+                    url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
+                )
+
+                embed26.add_field(name="**Usage:**",
+                                  value="`-shop`",
+                                  inline=False)
+                embed26.add_field(name="**Aliases:**",
+                                  value="shop",
+                                  inline=False)
+                embed26.set_footer(
+                    text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
+                    icon_url=embeds.EmptyEmbed)
+                await ctx.message.reply(embed=embed26)
+                return
+            except:
+                pass
+
+        if arg == 'buy':
+            try:
+                embed27 = discord.Embed(
+                    title="Buy Info",
+                    description="**Description:**\nBuy any item from the shop!(Economy Command)",
+                    color=ctx.author.color)
+                embed27.set_thumbnail(
+                    url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
+                )
+
+                embed27.add_field(name="**Usage:**",
+                                  value="`-buy <quantity> <item>`",
+                                  inline=False)
+                embed27.add_field(name="**Aliases:**",
+                                  value="buy",
+                                  inline=False)
+                embed27.set_footer(
+                    text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
+                    icon_url=embeds.EmptyEmbed)
+                await ctx.message.reply(embed=embed27)
+                return
+            except:
+                pass
+
+        if arg == 'inventory' or arg == 'inv':
+            try:
+                embed28 = discord.Embed(
+                    title="Inventory Info",
+                    description="**Description:**\nSee the items that you have bought!(Economy Command)",
+                    color=ctx.author.color)
+                embed28.set_thumbnail(
+                    url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
+                )
+
+                embed28.add_field(name="**Usage:**",
+                                  value="`-inv`",
+                                  inline=False)
+                embed28.add_field(name="**Aliases:**",
+                                  value="inventory, bag, inv",
+                                  inline=False)
+                embed28.set_footer(
+                    text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
+                    icon_url=embeds.EmptyEmbed)
+                await ctx.message.reply(embed=embed28)
+                return
+            except:
+                pass
+
+        if arg == 'use':
+            try:
+                embed29 = discord.Embed(
+                    title="Use Info",
+                    description="**Description:**\nStart using an item and remove it from your inventory. This will add it your active items list. (Only for items which h've been bought)(Economy Command)",
+                    color=ctx.author.color)
+                embed29.set_thumbnail(
+                    url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
+                )
+
+                embed29.add_field(name="**Usage:**",
+                                  value="`-use [quantity] <item>`",
+                                  inline=False)
+                embed29.add_field(name="**Aliases:**",
+                                  value="use",
+                                  inline=False)
+                embed29.set_footer(
+                    text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
+                    icon_url=embeds.EmptyEmbed)
+                await ctx.message.reply(embed=embed29)
+                return
+            except:
+                pass
+
+        if arg == 'sell':
+            try:
+                embed30 = discord.Embed(
+                    title="Use Info",
+                    description="**Description:**\nSell an item from you inventory! Sell anytime! Obio the money you get for selling the item is lesser than for what it was bought.(Only for items which h've been bought)(Economy Command)",
+                    color=ctx.author.color)
+                embed30.set_thumbnail(
+                    url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
+                )
+
+                embed30.add_field(name="**Usage:**",
+                                  value="`-sell [quantity] <item>`",
+                                  inline=False)
+                embed30.add_field(name="**Aliases:**",
+                                  value="sell",
+                                  inline=False)
+                embed30.set_footer(
+                    text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
+                    icon_url=embeds.EmptyEmbed)
+                await ctx.message.reply(embed=embed30)
+                return
+            except:
+                pass
+
+        if arg == 'rich' or arg == 'wealthy':
+            try:
+                embed30 = discord.Embed(
+                    title="Rich Info",
+                    description="**Description:**\nSee the richest people in the server where the command is invoked!(Shows the net-worth that is the total of wallet and bank money!)(Economy Command)",
+                    color=ctx.author.color)
+                embed30.set_thumbnail(
+                    url='https://media.giphy.com/media/pfquvHUjzmNbGBXHgA/giphy.gif'
+                )
+
+                embed30.add_field(name="**Usage:**",
+                                  value="`-rich`",
+                                  inline=False)
+                embed30.add_field(name="**Aliases:**",
+                                  value="rich, wealthy",
+                                  inline=False)
+                embed30.set_footer(
+                    text="`<>` is compuslory. `[]` is optional. Don't forget to use the prefix `-` before each command!",
+                    icon_url=embeds.EmptyEmbed)
+                await ctx.message.reply(embed=embed30)
                 return
             except:
                 pass
