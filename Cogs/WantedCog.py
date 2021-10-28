@@ -195,7 +195,7 @@ class Wanted(commands.Cog):
 
         return guild_data
 
-    @commands.command()  # HERE COME HERE  ONCE U FINISH BEING AFK NO!
+    @commands.command()
     async def afk(self, ctx, *, reason="No reason provided"):
         user_data = self.get_extra_data(ctx.author.id)
         member = ctx.author
@@ -204,19 +204,14 @@ class Wanted(commands.Cog):
         self.newly_added_afk_users.append(member.id)
 
         if user_data is None:
-            #user_data = {"user_id": {str(member.id): reason}}
+
             user_data = {"user_id": member.id,
                          'reason': reason}
             Extras_MongoDB.insert_one(user_data)
 
-            '''if member.id == user_data["user_id"].keys():
-            user_data["user_id"].pop(str(member.id))'''
-
         else:
             try:
-                #user_data[str(member.id)] = reason
                 user_data['reason'] = reason
-
                 Extras_MongoDB.update_one(
                     {"user_id": member.id}, {"$set": user_data})
             except:
@@ -231,8 +226,8 @@ class Wanted(commands.Cog):
                              icon_url=self.client.user.avatar_url)
             embed.add_field(name='**AFK Note:**', value=reason)
             await ctx.channel.send(embed=embed)
-        except MissingPermissions:
-            pass
+        except discord.Forbidden:
+            print("error")
 
     '''@commands.Cog.listener()'''
 
