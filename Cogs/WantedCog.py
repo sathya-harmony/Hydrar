@@ -60,12 +60,12 @@ class Wanted(commands.Cog):
             async with Session.get(user_avatar_image) as resp:
                 avatar_bytes = io.BytesIO(await resp.read())
         logo = Image.open(avatar_bytes).resize((328, 321))
-        rip1 = rip.paste(logo, (122, 251))
+        rip.paste(logo, (122, 251))
         #rip.save(rip1, "ReturnPICS/rip.png")
 
-        rip1.save(bytes, 'png')
+        rip.save(bytes, 'rip.png')
         bytes.seek(0)
-        await ctx.message.reply(file=discord.File(bytes))
+        await ctx.message.reply(file=discord.File("rip.png"))
         '''byteImgIO = io.BytesIO()
         rip = Image.open("Cogs/Pics/RIP.jpg")
         asset = user.avatar_url_as(size=128)
