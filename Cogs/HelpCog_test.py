@@ -24,31 +24,31 @@ class _help_(commands.Cog):
         )
         embed1.add_field(
             name="**😄Fun**",
-            value="`-help Fun`\n[Hover for Info](https://rb.gy/o2krdf)",
+            value="`Use the filter below!`\n[Hover for Info](https://rb.gy/o2krdf)",
             inline=False)
         embed1.add_field(
             name="**👮‍♂️Moderation**",
-            value="`-help Moderation`\n[Hover for Info](https://rb.gy/o2krdf)",
+            value="`Use the filter below!`\n[Hover for Info](https://rb.gy/o2krdf)",
             inline=False)
 
         embed1.add_field(
             name="**🛠Utility**",
-            value="`-help Utility`\n[Hover for Info](https://rb.gy/o2krdf)",
+            value="`Use the filter below!`\n[Hover for Info](https://rb.gy/o2krdf)",
             inline=False)
 
         embed1.add_field(
             name="**💰Currency**",
-            value="`-help Currency`\n[Hover for Info](https://rb.gy/o2krdf)",
+            value="`Use the filter below!`\n[Hover for Info](https://rb.gy/o2krdf)",
             inline=False)
 
         embed1.add_field(
             name="**📊Levels**",
-            value="`-help Levels`\n[Hover for Info](https://rb.gy/o2krdf)",
+            value="`Use the filter below!`\n[Hover for Info](https://rb.gy/o2krdf)",
             inline=False)
 
         '''embed1.add_field(
             name="**🏓Games**",
-            value="`-help Games`\n[Hover for Info](https://rb.gy/o2krdf)",
+            value="`Use the filter below!`\n[Hover for Info](https://rb.gy/o2krdf)",
             inline=False)'''
         # await ctx.message.reply(embed = embed1)
 
