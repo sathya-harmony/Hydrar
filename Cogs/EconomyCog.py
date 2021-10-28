@@ -1223,10 +1223,10 @@ class Economy(commands.Cog):
             elif guild_data['users'][user_id]['job']['job_name'] is not None:
                 channel=ctx.message.channel
                 '''gamechoice=random.choice(['hangman', 'choose_emoji'])
-                if gamechoice == 'hangman':
-                    guild_data = await self.main_hangman(ctx)
-                elif gamechoice == 'choose_emoji':'''
-                guild_data = await self.choose_emoji(ctx)
+                if gamechoice == 'hangman':'''
+                guild_data = await self.main_hangman(ctx)
+                '''elif gamechoice == 'choose_emoji':
+                guild_data = await self.choose_emoji(ctx)'''
 
                 #guild_data = await self.choose_emoji(ctx)
 
