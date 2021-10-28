@@ -63,9 +63,9 @@ class Wanted(commands.Cog):
         rip.paste(logo, (122, 251))
         #rip.save(rip1, "ReturnPICS/rip.png")
 
-        rip.save(bytes, 'rip.png')
+        rip.save(bytes, 'ReturnPICS/rip.png')
         bytes.seek(0)
-        await ctx.message.reply(file=discord.File("rip.png"))
+        await ctx.message.reply(file=discord.File("ReturnPICS/rip.png"))
         '''byteImgIO = io.BytesIO()
         rip = Image.open("Cogs/Pics/RIP.jpg")
         asset = user.avatar_url_as(size=128)
