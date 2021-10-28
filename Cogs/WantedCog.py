@@ -228,7 +228,10 @@ class Wanted(commands.Cog):
         embed.set_footer(text=self.client.user.name,
                          icon_url=self.client.user.avatar_url)
         embed.add_field(name='**AFK Note:**', value=reason)
-        await member.edit(nick=f"[AFK] {member.display_name}")
+        try:
+            await member.edit(nick=f"[AFK] {member.display_name}")
+        except MissingPermissions:
+            pass
         await ctx.channel.send(embed=embed)
 
     '''@commands.Cog.listener()'''
