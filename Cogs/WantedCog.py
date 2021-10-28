@@ -216,6 +216,7 @@ class Wanted(commands.Cog):
             try:
                 #user_data[str(member.id)] = reason
                 user_data['reason'] = reason
+                await member.edit(nick=f"[AFK] {member.display_name}")
 
                 Extras_MongoDB.update_one(
                     {"user_id": member.id}, {"$set": user_data})
@@ -228,10 +229,6 @@ class Wanted(commands.Cog):
         embed.set_footer(text=self.client.user.name,
                          icon_url=self.client.user.avatar_url)
         embed.add_field(name='**AFK Note:**', value=reason)
-        try:
-            await member.edit(nick=f"[AFK] {member.display_name}")
-        except MissingPermissions:
-            pass
         await ctx.channel.send(embed=embed)
 
     '''@commands.Cog.listener()'''
