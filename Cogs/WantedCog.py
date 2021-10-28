@@ -44,8 +44,8 @@ class Wanted(commands.Cog):
             async with Session.get(user_avatar_image) as resp:
                 avatar_bytes = io.BytesIO(await resp.read())
         ava = Image.open(avatar_bytes)
-        ava = ava.resize((328, 321))
-        wanted.paste(ava, (122, 251))
+        ava = ava.resize((330, 321))
+        wanted.paste(ava, (125, 251))
         wanted.save("wanted.jpg")
         await ctx.message.reply(file=discord.File("wanted.jpg"))
         '''read = user.avatar_url_as(size=128)
