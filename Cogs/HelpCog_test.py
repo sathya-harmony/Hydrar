@@ -106,7 +106,7 @@ class _help_(commands.Cog):
         )
         embed4.add_field(
             name="**Commands:**",
-            value="`Help`, `Server`, `Userinfo`, `Solve`, `Ask`, `Changeprefix`",
+            value="`Help`, `Server`, `Userinfo`,`Ask`, `Changeprefix`",
             inline=False)
         embed4.add_field(name="**Aliases:**",
                          value="utility",
@@ -197,7 +197,7 @@ class _help_(commands.Cog):
 
             while True:
                 try:
-                    interaction = await self.client.wait_for("select_option", timeout=15.0)
+                    interaction = await self.client.wait_for("select_option", timeout=20.0)
                     if ctx.author.id != interaction.author.id:
                         await interaction.respond(content="This message ain't for you LOL")
                     value = interaction.values[0]
