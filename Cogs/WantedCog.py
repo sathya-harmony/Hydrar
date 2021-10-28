@@ -260,11 +260,10 @@ class Wanted(commands.Cog):
                 Extras_MongoDB.delete_one({'user_id': message.author.id})
 
                 try:
-                    new_nickname = self.remove_afk_prefix(
-                        message.author.display_name)
+                    new_nickname = str(self.remove_afk_prefix(
+                        message.author.display_name))
 
-                    if new_nickname != message.author.display_name:
-                        await message.author.edit(nick=new_nickname)
+                    await message.author.edit(nick=new_nickname)
                 except MissingPermissions:
                     pass
 
