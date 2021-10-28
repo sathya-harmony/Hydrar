@@ -38,15 +38,24 @@ class Wanted(commands.Cog):
         if user == None:
             user = ctx.author
 
-        wanted = Image.open("Cogs/Pics/Wanted.jpg")
-        read = user.avatar_url_as(size=128)
+        wanted = Image.open("Cogs/Pics/Wanted.jpg").convert("RGB")
+        user_avatar_image = str(user.avatar_url_as(format='jpg', size=4096))
+        async with aiohttp.ClientSession() as Session:
+            async with Session.get(user_avatar_image) as resp:
+                avatar_bytes = io.BytesIO(await resp.read())
+        ava = Image.open(avatar_bytes)
+        ava = ava.resize((328, 321))
+        wanted.paste(ava, (122, 251))
+        wanted.save("wanted.jpg")
+        await ctx.message.reply(file=discord.File("wanted.jpg"))
+        '''read = user.avatar_url_as(size=128)
         print(await read.read())
         data = BytesIO(await read.read())
         pfp = Image.open(data)
         pfp = pfp.resize((328, 321))
         wanted.paste(pfp, (122, 251))
         wanted.save("ReturnPICS/profile.jpg")
-        await ctx.message.reply(file=discord.File("ReturnPICS/profile.jpg"))
+        await ctx.message.reply(file=discord.File("ReturnPICS/profile.jpg"))'''
 
     @commands.command()
     async def rip(self, ctx, user: discord.Member = None):
