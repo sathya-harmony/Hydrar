@@ -217,7 +217,6 @@ class Wanted(commands.Cog):
                 #user_data[str(member.id)] = reason
                 user_data['reason'] = reason
 
-                await member.edit(nick=f"[AFK] {member.display_name}")
                 Extras_MongoDB.update_one(
                     {"user_id": member.id}, {"$set": user_data})
             except:
@@ -229,6 +228,7 @@ class Wanted(commands.Cog):
         embed.set_footer(text=self.client.user.name,
                          icon_url=self.client.user.avatar_url)
         embed.add_field(name='**AFK Note:**', value=reason)
+        await member.edit(nick=f"[AFK] {member.display_name}")
         await ctx.channel.send(embed=embed)
 
     '''@commands.Cog.listener()'''
