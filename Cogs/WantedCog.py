@@ -223,15 +223,16 @@ class Wanted(commands.Cog):
                 pass
         try:
             await member.edit(nick=f"[AFK] {member.display_name}")
+
+            embed = discord.Embed(
+                title=":zzz: Member AFK", description=f"{member.mention} has gone **AFK**", color=member.color)
+            embed.set_thumbnail(url=member.avatar_url)
+            embed.set_footer(text=self.client.user.name,
+                             icon_url=self.client.user.avatar_url)
+            embed.add_field(name='**AFK Note:**', value=reason)
+            await ctx.channel.send(embed=embed)
         except MissingPermissions:
             pass
-        embed = discord.Embed(
-            title=":zzz: Member AFK", description=f"{member.mention} has gone **AFK**", color=member.color)
-        embed.set_thumbnail(url=member.avatar_url)
-        embed.set_footer(text=self.client.user.name,
-                         icon_url=self.client.user.avatar_url)
-        embed.add_field(name='**AFK Note:**', value=reason)
-        await ctx.channel.send(embed=embed)
 
     '''@commands.Cog.listener()'''
 
