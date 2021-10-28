@@ -54,13 +54,14 @@ class Wanted(commands.Cog):
             user = ctx.author
         user_avatar_image = str(user.avatar_url_as(format='png', size=4096))
         rip = Image.open("Cogs/Pics/RIP.jpg")
+        byteImgIO = io.BytesIO()
         async with aiohttp.ClientSession() as Session:
             async with Session.get(user_avatar_image) as resp:
                 avatar_bytes = io.BytesIO(await resp.read())
         logo = Image.open(avatar_bytes).resize((328, 321))
-        rip.paste(logo, (122, 251))
-        rip.save(rip, "ReturnPICS/rip.jpg")
-        await ctx.message.reply(file=discord.File("ReturnPICS/rip.jpg"))
+        rip1 = rip.paste(logo, (122, 251))
+        rip.save(rip1, "ReturnPICS/rip.png")
+        await ctx.message.reply(file=discord.File("ReturnPICS/rip.png"))
         '''byteImgIO = io.BytesIO()
         rip = Image.open("Cogs/Pics/RIP.jpg")
         asset = user.avatar_url_as(size=128)
