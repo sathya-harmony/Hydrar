@@ -216,13 +216,15 @@ class Wanted(commands.Cog):
             try:
                 #user_data[str(member.id)] = reason
                 user_data['reason'] = reason
-                await member.edit(nick=f"[AFK] {member.display_name}")
 
                 Extras_MongoDB.update_one(
                     {"user_id": member.id}, {"$set": user_data})
             except:
                 pass
-
+        try:
+            await member.edit(nick=f"[AFK] {member.display_name}")
+        except MissingPermissions:
+            pass
         embed = discord.Embed(
             title=":zzz: Member AFK", description=f"{member.mention} has gone **AFK**", color=member.color)
         embed.set_thumbnail(url=member.avatar_url)
