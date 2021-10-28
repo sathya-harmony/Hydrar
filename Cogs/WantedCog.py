@@ -114,7 +114,7 @@ class Wanted(commands.Cog):
             embed.set_image(url=f"{user.avatar_url}")
             await ctx.message.reply(embed=embed)
 
-    @commands.command()
+    '''@commands.command()
     async def pro(self, ctx, user: discord.Member = None):
         if user == None:
             user = ctx.author
@@ -183,7 +183,7 @@ class Wanted(commands.Cog):
         with BytesIO() as buf:
             img.save(buf, format="png")
             buf.seek(0)
-            await ctx.message.reply(file=discord.File(buf, f"Profile of {user.name}#{user.discriminator}.png"))
+            await ctx.message.reply(file=discord.File(buf, f"Profile of {user.name}#{user.discriminator}.png"))'''
 
     def get_extra_data(self, user_id):
 
