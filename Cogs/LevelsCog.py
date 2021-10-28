@@ -51,13 +51,6 @@ class levels(commands.Cog):
             Channel_data_mongo.insert_one(guild_data)
             return guild_data
 
-    '''def edit_channel_to_database(self, guild_id, channel_id):
-        guild_data = self.get_channel_from_database(guild_id)
-        if type(guild_id) in [int, float]:
-            guild_id = str(int(guild_id))
-            Channel_data_mongo.update_one(
-                {"guild_id": guild_id}, {"$set": guild_data})'''
-
     @commands.command(aliases=["setlevelchannel"])
     async def levelupmessage(self, ctx, channel_id):
         guild_id = str(ctx.guild.id)
@@ -80,11 +73,6 @@ class levels(commands.Cog):
             user_id = str(message.author.id)
             guild_id = message.guild.id
 
-            '''stats = levelling.find_one({"guild_id": guild_id,
-                                        "users": {
-                                            user_id: user_id
-
-                                        }})'''
             stats = levelling.find_one({"guild_id": guild_id})
 
             if not message.author.bot:

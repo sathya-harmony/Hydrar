@@ -46,6 +46,11 @@ class _help_(commands.Cog):
             value="`Use the filter below!`\n[Hover for Info](https://rb.gy/o2krdf)",
             inline=False)
 
+        embed1.add_field(
+            name="**✉️Invite**",
+            value="`Use the filter below!`\n[Hover for Info](https://rb.gy/o2krdf)",
+            inline=False)
+
         '''embed1.add_field(
             name="**🏓Games**",
             value="`Use the filter below!`\n[Hover for Info](https://rb.gy/o2krdf)",
@@ -157,6 +162,10 @@ class _help_(commands.Cog):
         embed6.set_footer(
             text="Don't forget to use the prefix '-' before each command!",
             icon_url=embeds.EmptyEmbed)
+
+        embedinvite = discord.Embed(
+            title="✉️ Invite the bot!", description="Loving the bot? Support us by inviting the bot to any server right now! Click the button below to invite the bot ♥")
+
         components = [Select(placeholder="Filter",
                              options=[
                                  SelectOption(
@@ -185,7 +194,11 @@ class _help_(commands.Cog):
                                      value="levels",
                                      description="Shows the Levels Commands Catergory!"
 
-                                 )
+                                 ),
+                                 SelectOption(
+                                     label="✉️ Invite",
+                                     value="invite",
+                                     description="Invite the bot to other servers!!")
 
                              ]
                              )
@@ -226,6 +239,10 @@ class _help_(commands.Cog):
 
                                                                                            ),
                                                                                            SelectOption(
+                                                                                               label="✉️ Invite",
+                                                                                               value="invite",
+                                                                                               description="Invite the bot to other servers!!"),
+                                                                                           SelectOption(
                                                                                                label="🏡 Home",
                                                                                                value="home",
                                                                                                description="Return to the main help page!")
@@ -260,6 +277,10 @@ class _help_(commands.Cog):
                                                                                                description="Shows the Levels Commands Catergory!"
 
                                                                                            ),
+                                                                                           SelectOption(
+                                                                                               label="✉️ Invite",
+                                                                                               value="invite",
+                                                                                               description="Invite the bot to other servers!!"),
                                                                                            SelectOption(
                                                                                                label="🏡 Home",
                                                                                                value="home",
@@ -296,6 +317,10 @@ class _help_(commands.Cog):
 
                                                                                            ),
                                                                                            SelectOption(
+                                                                                               label="✉️ Invite",
+                                                                                               value="invite",
+                                                                                               description="Invite the bot to other servers!!"),
+                                                                                           SelectOption(
                                                                                                label="🏡 Home",
                                                                                                value="home",
                                                                                                description="Return to the main help page!")
@@ -330,6 +355,10 @@ class _help_(commands.Cog):
 
                                                                                            ),
                                                                                            SelectOption(
+                                                                                               label="✉️ Invite",
+                                                                                               value="invite",
+                                                                                               description="Invite the bot to other servers!!"),
+                                                                                           SelectOption(
                                                                                                label="🏡 Home",
                                                                                                value="home",
                                                                                                description="Return to the main help page!")
@@ -362,6 +391,10 @@ class _help_(commands.Cog):
                                                                                                value="economy",
                                                                                                description="Shows the Economy Commands Category!"
                                                                                            ),
+                                                                                           SelectOption(
+                                                                                               label="✉️ Invite",
+                                                                                               value="invite",
+                                                                                               description="Invite the bot to other servers!!"),
                                                                                            SelectOption(
                                                                                                label="🏡 Home",
                                                                                                value="home",
@@ -400,11 +433,17 @@ class _help_(commands.Cog):
                                                                                                value="levels",
                                                                                                description="Shows the Levels Commands Catergory!"
 
-                                                                                           )
+                                                                                           ),
+                                                                                           SelectOption(
+                                                                                               label="✉️ Invite",
+                                                                                               value="invite",
+                                                                                               description="Invite the bot to other servers!!")
 
 
                                                                                        ]
                                                                                        )])
+                    elif value == 'invite':
+                        await interaction.edit_origin(embed=embedinvite, components=[(Button(label="🔗 Invite the bot!", url="https://discord.com/api/oauth2/authorize?client_id=844813316505075712&permissions=8&redirect_uri=http%3A%2F%2F127.0.0.1%3A5000%2Fcallback&scope=bot"))])
 
                 except asyncio.TimeoutError:
                     await message.edit(components=[Select(placeholder="Timed Out", options=[
