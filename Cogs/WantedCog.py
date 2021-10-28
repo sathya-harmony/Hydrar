@@ -233,7 +233,7 @@ class Wanted(commands.Cog):
 
     '''@commands.Cog.listener()'''
 
-    def remove_afk_prefix(display_name):
+    def remove_afk_prefix(self, display_name):
         '''if "[AFK]" in afk.split():
             return " ".join(afk.split()[1:])
         else:
