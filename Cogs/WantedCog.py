@@ -59,7 +59,7 @@ class Wanted(commands.Cog):
                 avatar_bytes = io.BytesIO(await resp.read())
         ava = Image.open(avatar_bytes)
         ava = ava.resize((142, 125))
-        rip.paste(ava, (122, 251))
+        rip.paste(ava, (120, 150))
         rip.save("image.jpg")
         await ctx.message.reply(file=discord.File("image.jpg"))
 
