@@ -443,7 +443,7 @@ class _help_(commands.Cog):
                                                                                        ]
                                                                                        )])
                     elif value == 'invite':
-                        await interaction.edit_origin(embed=embedinvite, components=[(Button(label="🔗 Invite the bot!", url="https://discord.com/api/oauth2/authorize?client_id=844813316505075712&permissions=8&scope=bot"))])
+                        await interaction.edit_origin(embed=embedinvite, components=[(Button(style=ButtonStyle.URL, label="🔗 Invite the bot!", url="https://discord.com/api/oauth2/authorize?client_id=844813316505075712&permissions=8&scope=bot"))])
 
                 except asyncio.TimeoutError:
                     await message.edit(components=[Select(placeholder="Timed Out", options=[
