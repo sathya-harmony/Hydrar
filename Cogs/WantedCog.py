@@ -52,7 +52,16 @@ class Wanted(commands.Cog):
     async def rip(self, ctx, user: discord.Member = None):
         if user == None:
             user = ctx.author
-        user_avatar_image = str(user.avatar_url_as(format='jpg', size=4096))
+        rip = Image.open("Cogs/Pics/RIP.jpg").convert('RGB')
+        await user.avatar_url.save("avatar.jpg")
+        ava = Image.open("avatar.jpg")
+        ava = ava.resize((142, 125))
+        rip.paste(ava, (122, 251))
+        rip.save("image.jpg")
+        await ctx.message.reply(file = discord.File("image.jpg"))
+        
+
+        '''user_avatar_image = str(user.avatar_url_as(format='jpg', size=4096))
         bytes = io.BytesIO()
         rip = Image.open("Cogs/Pics/RIP.jpg")
         #byteImgIO = io.BytesIO()
@@ -67,7 +76,7 @@ class Wanted(commands.Cog):
         pfp = logo.resize((142, 125))
         rip.paste(pfp, (81, 145))
         rip.save(bytes, "ReturnPICS/rip.jpg")
-        await ctx.message.reply(file=discord.File("ReturnPICS/rip.jpg"))
+        await ctx.message.reply(file=discord.File("ReturnPICS/rip.jpg"))'''
         '''byteImgIO = io.BytesIO()
         rip = Image.open("Cogs/Pics/RIP.jpg")
         asset = user.avatar_url_as(size=128)
