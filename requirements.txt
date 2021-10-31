@@ -1,4 +1,4 @@
-#discord
+discord
 wolframalpha
 alexa_reply  
 randfacts   
@@ -13,4 +13,4 @@ PyNaCl
 asyncpraw
 buttons
 discord_py_slash_command
-git+https://github.com/Pycord-Development/pycord
+#git+https://github.com/Pycord-Development/pycord
