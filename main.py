@@ -19,7 +19,7 @@ from discord.ext.buttons import Paginator
 from modules.common import *
 import threading
 #from discord.ext import ipc
-from discord_slash_components_bridge import SlashCommand
+from discord_slash import SlashCommand
 
 
 print('Hydrargyrum is loading...')

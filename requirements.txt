@@ -12,7 +12,8 @@ discord_components
 PyNaCl
 asyncpraw
 buttons
-discord_slash_components_bridge
-discord-py-interactions
+#discord_slash_components_bridge
+discord_slash
+discord_py_interactions
 #pipreqs
 #git+https://github.com/Pycord-Development/pycord
