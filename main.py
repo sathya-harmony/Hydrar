@@ -17,7 +17,7 @@ from traceback import format_exception
 from discord.ext.buttons import Paginator
 from modules.common import *
 import threading
-from discord.ext import ipc
+#from discord.ext import ipc
 
 
 print('Hydrargyrum is loading...')
