@@ -16,13 +16,14 @@ from discord.ext import commands
 import time
 import math
 from math import *
-from discord_components import *
+from discord_components import Button, ButtonStyle, SelectOption
 
 import asyncio
 import threading
 from modules.common import *
 import asyncpraw
-#import discord_interactions
+#from discord_py
+
 
 
 # cluster = MongoClient(
