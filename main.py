@@ -15,6 +15,7 @@ import textwrap
 import contextlib
 from traceback import format_exception
 from discord.ext.buttons import Paginator
+from discord_slash.client import SlashCommand
 from modules.common import *
 import threading
 #from discord.ext import ipc
@@ -76,6 +77,7 @@ client = commands.Bot(command_prefix=get_prefix,
                       strip_after_prefix=True,
                       case_insensitive=True,
                       intents=discord.Intents.all())
+slash = SlashCommand(client, sync_commands=True)
 
 client.remove_command('help')
 
