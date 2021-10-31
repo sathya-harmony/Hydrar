@@ -1164,33 +1164,35 @@ class Economy(commands.Cog):
         while True:
             try:
                 interaction=await self.client.wait_for("button_click", timeout=15.0)
+                print("test")
+
 
                 if ctx.author.id != interaction.author.id:
                     await interaction.respond(content=f"{interaction.author.mention} This message is not for you lmao")
                 else:
-                    if interaction.component.custom_id == "next":
+                    if interaction.custom_id == "next":
                         await interaction.edit_origin(embed=em2, components=[[(Button(emoji=self.client.get_emoji(emoji_id4), custom_id="doubleback", style=1)), (Button(emoji=self.client.get_emoji(emoji_id), custom_id="back_page2", style=1)), (Button(emoji=self.client.get_emoji(emoji_id2), custom_id="next_page2", style=1)), (Button(emoji=self.client.get_emoji(emoji_id3), custom_id="doublenext", style=1))]])
-                    elif interaction.component.custom_id == "back_page2":
+                    elif interaction.custom_id == "back_page2":
                         await interaction.edit_origin(embed=em, components=[[(Button(emoji=self.client.get_emoji(emoji_id4), custom_id="doubleback", style=1, disabled=True)), (Button(emoji=self.client.get_emoji(emoji_id), custom_id="back", style=1, disabled=True)), (Button(emoji=self.client.get_emoji(emoji_id2), custom_id="next", style=1)), (Button(emoji=self.client.get_emoji(emoji_id3), custom_id="doublenext", style=1))]])
-                    elif interaction.component.custom_id == "next_page2":
+                    elif interaction.custom_id == "next_page2":
                         await interaction.edit_origin(embed=em3, components=[[(Button(emoji=self.client.get_emoji(emoji_id4), custom_id="doubleback", style=1)), (Button(emoji=self.client.get_emoji(emoji_id), custom_id="back_page3", style=1)), (Button(emoji=self.client.get_emoji(emoji_id2), custom_id="next_page3", style=1)), (Button(emoji=self.client.get_emoji(emoji_id3), custom_id="doublenext", style=1))]])
-                    elif interaction.component.custom_id == "back_page3":
+                    elif interaction.custom_id == "back_page3":
                         await interaction.edit_origin(embed=em2, components=[[(Button(emoji=self.client.get_emoji(emoji_id4), custom_id="doubleback", style=1)), (Button(emoji=self.client.get_emoji(emoji_id), custom_id="back_page2", style=1)), (Button(emoji=self.client.get_emoji(emoji_id2), custom_id="next_page2", style=1)), (Button(emoji=self.client.get_emoji(emoji_id3), custom_id="doublenext", style=1))]])
 
-                    elif interaction.component.custom_id == "next_page3":
+                    elif interaction.custom_id == "next_page3":
                         await interaction.edit_origin(embed=em4, components=[[(Button(emoji=self.client.get_emoji(emoji_id4), custom_id="doubleback", style=1)), (Button(emoji=self.client.get_emoji(emoji_id), custom_id="back_page4", style=1)), (Button(emoji=self.client.get_emoji(emoji_id2), custom_id="next_page4", style=1)), (Button(emoji=self.client.get_emoji(emoji_id3), custom_id="doublenext", style=1))]])
 
-                    elif interaction.component.custom_id == "back_page4":
+                    elif interaction.custom_id == "back_page4":
                         await interaction.edit_origin(embed=em3, components=[[(Button(emoji=self.client.get_emoji(emoji_id4), custom_id="doubleback", style=1)), (Button(emoji=self.client.get_emoji(emoji_id), custom_id="back_page3", style=1)), (Button(emoji=self.client.get_emoji(emoji_id2), custom_id="next_page3", style=1)), (Button(emoji=self.client.get_emoji(emoji_id3), custom_id="doublenext", style=1))]])
-                    elif interaction.component.custom_id == "next_page4":
+                    elif interaction.custom_id == "next_page4":
                         await interaction.edit_origin(embed=em5, components=[[(Button(emoji=self.client.get_emoji(emoji_id4), custom_id="doubleback", style=1)), (Button(emoji=self.client.get_emoji(emoji_id), custom_id="back_page5", style=1)), (Button(emoji=self.client.get_emoji(emoji_id2), custom_id="next_page5", style=1, disabled=True)), (Button(emoji=self.client.get_emoji(emoji_id3), custom_id="doublenext", style=1, disabled=True))]])
-                    elif interaction.component.custom_id == "back_page5":
+                    elif interaction.custom_id == "back_page5":
                         await interaction.edit_origin(embed=em4, components=[[(Button(emoji=self.client.get_emoji(emoji_id4), custom_id="doubleback", style=1)), (Button(emoji=self.client.get_emoji(emoji_id), custom_id="back_page4", style=1)), (Button(emoji=self.client.get_emoji(emoji_id2), custom_id="next_page4", style=1)), (Button(emoji=self.client.get_emoji(emoji_id3), custom_id="doublenext", style=1))]])
 
-                    elif interaction.component.custom_id == "doubleback":
+                    elif interaction.custom_id == "doubleback":
                         await interaction.edit_origin(embed=em, components=[[(Button(emoji=self.client.get_emoji(emoji_id4), custom_id="doubleback", style=1, disabled=True)), (Button(emoji=self.client.get_emoji(emoji_id), custom_id="back", style=1, disabled=True)), (Button(emoji=self.client.get_emoji(emoji_id2), custom_id="next", style=1)), (Button(emoji=self.client.get_emoji(emoji_id3), custom_id="doublenext", style=1))]])
 
-                    elif interaction.component.custom_id == "doublenext":
+                    elif interaction.custom_id == "doublenext":
                         await interaction.edit_origin(embed=em5, components=[[(Button(emoji=self.client.get_emoji(emoji_id4), custom_id="doubleback", style=1)), (Button(emoji=self.client.get_emoji(emoji_id), custom_id="back_page5", style=1)), (Button(emoji=self.client.get_emoji(emoji_id2), custom_id="next_page5", style=1, disabled=True)), (Button(emoji=self.client.get_emoji(emoji_id3), custom_id="doublenext", style=1, disabled=True))]])
             except asyncio.TimeoutError:
                 await message.edit(components=[[(Button(emoji=self.client.get_emoji(emoji_id4), custom_id="doubleback", style=ButtonStyle.gray, disabled=True)), (Button(emoji=self.client.get_emoji(emoji_id), custom_id="back_page5", style=ButtonStyle.gray, disabled=True)), (Button(emoji=self.client.get_emoji(emoji_id2), custom_id="next_page5", style=ButtonStyle.gray, disabled=True)), (Button(emoji=self.client.get_emoji(emoji_id3), custom_id="doublenext", style=ButtonStyle.gray, disabled=True))]])
