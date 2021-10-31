@@ -14,7 +14,7 @@ from discord.ext.commands.errors import MissingPermissions
 
 from modules.common import *
 import aiohttp
-
+from discord_slash import cog_ext
 # cluster = MongoClient(
 #     "mongodb+srv://Hydra:CihVirus123@economy.2xn9e.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
 
@@ -48,15 +48,7 @@ class Wanted(commands.Cog):
         wanted.paste(ava, (120, 254))
         wanted.save("wanted.jpg")
         await ctx.message.reply(file=discord.File("wanted.jpg"))
-        '''read = user.avatar_url_as(size=128)
-        print(await read.read())
-        data = BytesIO(await read.read())
-        pfp = Image.open(data)
-        pfp = pfp.resize((328, 321))
-        wanted.paste(pfp, (122, 251))
-        wanted.save("ReturnPICS/profile.jpg")
-        await ctx.message.reply(file=discord.File("ReturnPICS/profile.jpg"))'''
-
+        
     @commands.command()
     async def rip(self, ctx, user: discord.Member = None):
         if user == None:
@@ -71,33 +63,7 @@ class Wanted(commands.Cog):
         rip.paste(ava, (80, 150))
         rip.save("image.jpg")
         await ctx.message.reply(file=discord.File("image.jpg"))
-
-        '''user_avatar_image = str(user.avatar_url_as(format='jpg', size=4096))
-        bytes = io.BytesIO()
-        rip = Image.open("Cogs/Pics/RIP.jpg")
-        #byteImgIO = io.BytesIO()
-        async with aiohttp.ClientSession() as Session:
-            async with Session.get(user_avatar_image) as resp:
-                avatar_bytes = io.BytesIO(await resp.read())
-        logo = Image.open(avatar_bytes)
-        bytes.seek(0)
-        #rip.paste(logo, (122, 251))
-        #rip.save(rip1, "ReturnPICS/rip.png")
-
-        pfp = logo.resize((142, 125))
-        rip.paste(pfp, (81, 145))
-        rip.save(bytes, "ReturnPICS/rip.jpg")
-        await ctx.message.reply(file=discord.File("ReturnPICS/rip.jpg"))'''
-        '''byteImgIO = io.BytesIO()
-        rip = Image.open("Cogs/Pics/RIP.jpg")
-        asset = user.avatar_url_as(size=128)
-        data = BytesIO(await asset.read())
-        pfp = Image.open(data)
-        byteImgIO.seek(0)
-        pfp = pfp.resize((142, 125))
-        rip.paste(pfp, (81, 145))
-        rip.save(byteImgIO, "ReturnPICS/rip.jpg")
-        await ctx.message.reply(file=discord.File("ReturnPICS/rip.jpg"))'''
+        
 
     @commands.command()
     async def avatar(self, ctx, user: discord.Member = None):

@@ -77,7 +77,7 @@ client = commands.Bot(command_prefix=get_prefix,
                       strip_after_prefix=True,
                       case_insensitive=True,
                       intents=discord.Intents.all())
-slash = SlashCommand(client, sync_commands=True)
+slash = SlashCommand(client, sync_commands=False)
 
 client.remove_command('help')
 
