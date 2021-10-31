@@ -19,6 +19,7 @@ from discord.ext.buttons import Paginator
 from modules.common import *
 import threading
 #from discord.ext import ipc
+from discord_slash import *
 
 
 print('Hydrargyrum is loading...')
@@ -77,7 +78,7 @@ client = commands.Bot(command_prefix=get_prefix,
                       strip_after_prefix=True,
                       case_insensitive=True,
                       intents=discord.Intents.all())
-#slash = SlashCommand(client, sync_commands=False)
+slash = SlashCommand(client, sync_commands=False)
 
 client.remove_command('help')
 
@@ -167,6 +168,24 @@ async def snipe(ctx):
     embed.set_footer(text=f"Deleted in : #{channel_name}")
 
     await ctx.message.reply(embed=embed)
+
+
+@slash.slash()
+async def snipe(ctx):
+    try:
+        contents, author, channel_name, time = client.sniped_messages[ctx.guild.id]
+
+    except:
+        await ctx.send("Couldn't find a message to snipe!")
+        return
+
+    embed = discord.Embed(description=contents,
+                          color=discord.Color.purple(), timestamp=time)
+    embed.set_author(
+        name=f"{author.name}#{author.discriminator}", icon_url=author.avatar_url)
+    embed.set_footer(text=f"Deleted in : #{channel_name}")
+
+    await ctx.send(embed=embed)
 
 
 # Log Channel.
