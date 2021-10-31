@@ -22,7 +22,7 @@ import asyncio
 import threading
 from modules.common import *
 import asyncpraw
-import discord_interactions
+#import discord_interactions
 
 
 # cluster = MongoClient(
