@@ -17,6 +17,8 @@ from traceback import format_exception
 from discord.ext.buttons import Paginator
 from modules.common import *
 import threading
+from discord.ext import ipc
+
 
 print('Hydrargyrum is loading...')
 # cluster = MongoClient(
@@ -28,25 +30,13 @@ intents.presences = True
 intents.members = True
 '''
 
-#import Cogs.EconomyCog
-#import Dashboard.main
-
-
-'''from passwordmeter import test
-from urllib import urlopenx 
-from os.path import isfile
-from random import choice, randint'''
-
-
-#from prsaw import RandomStuff
-
 
 '''class MyBot(commands.Bot):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.ipc = ipc.Server(self, secret_key="Ssath")
+        self.ipc = ipc.Server(self, secret_key="Sath")
 
     async def on_ipc_ready(self):
         """Called upon the IPC Server being ready"""
@@ -143,7 +133,7 @@ async def on_message_delete(message):
 async def on_message(msg):
     try:
         # print(msg.content)
-        if client.user.id in (member.id for member in msg.mentions) and len(msg.split()) == 1:
+        if client.user.id in (member.id for member in msg.mentions) and len(msg.mentions) == 1:
             Prefixes = Prefixes_MongoDB.find_one(
                 {"guild_id": str(msg.guild.id)})
             if Prefixes is None:
@@ -228,7 +218,7 @@ client.load_extension('Cogs.MathCog')
 # Quote
 client.load_extension('Cogs.QuoteCog')
 # Wanted
-client.load_extension('Cogs.WantedCog')
+# client.load_extension('Cogs.WantedCog')
 # Facts
 client.load_extension('Cogs.FactsCog')
 #
