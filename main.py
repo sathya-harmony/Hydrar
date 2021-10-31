@@ -19,7 +19,7 @@ from discord.ext.buttons import Paginator
 from modules.common import *
 import threading
 #from discord.ext import ipc
-from discord_slash import *
+from discord_slash_components_bridge import SlashCommand
 
 
 print('Hydrargyrum is loading...')
@@ -170,7 +170,7 @@ async def snipe(ctx):
     await ctx.message.reply(embed=embed)
 
 
-@slash.slash(name = 'Snipe', description="Retreieve the most recently deleted message!")
+@slash.slash(name='Snipe', description="Retreieve the most recently deleted message!")
 async def snipe(ctx):
     try:
         contents, author, channel_name, time = client.sniped_messages[ctx.guild.id]

@@ -1135,7 +1135,29 @@ class Economy(commands.Cog):
         emoji_id2=892299845572919297
         emoji_id3=892299845489029121
         emoji_id4=892299845975547944
-        message=await ctx.message.reply(embed=em, components=[[(Button(emoji=self.client.get_emoji(emoji_id4), custom_id="doubleback", style=1, disabled=True)), (Button(emoji=self.client.get_emoji(emoji_id), custom_id="back", style=1, disabled=True)), (Button(emoji=self.client.get_emoji(emoji_id2), custom_id="next", style=1)), (Button(emoji=self.client.get_emoji(emoji_id3), custom_id="doublenext", style=1))]])
+        message=\
+        await ctx.message.reply(embed=em,
+         components=[
+             [
+                 (Button(
+                     emoji=self.client.get_emoji(emoji_id4),
+                      custom_id="doubleback",
+                       style=1,
+                        disabled=True)
+                        ),
+                         (Button(emoji=self.client.get_emoji(emoji_id),
+                          custom_id="back", style=1, disabled=True)),
+                           (Button(emoji=self.client.get_emoji(emoji_id2),
+                            custom_id="next",
+                             style=1)
+                             ),
+                              (Button(emoji=self.client.get_emoji(emoji_id3),
+                               custom_id="doublenext",
+                                style=1)
+                                )
+                                ]
+                                ]
+                                )
 
         while True:
             try:
