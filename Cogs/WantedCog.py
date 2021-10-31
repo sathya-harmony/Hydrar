@@ -48,7 +48,7 @@ class Wanted(commands.Cog):
         wanted.paste(ava, (120, 254))
         wanted.save("wanted.jpg")
         await ctx.message.reply(file=discord.File("wanted.jpg"))
-        
+
     @commands.command()
     async def rip(self, ctx, user: discord.Member = None):
         if user == None:
@@ -63,7 +63,6 @@ class Wanted(commands.Cog):
         rip.paste(ava, (80, 150))
         rip.save("image.jpg")
         await ctx.message.reply(file=discord.File("image.jpg"))
-        
 
     @commands.command()
     async def avatar(self, ctx, user: discord.Member = None):
