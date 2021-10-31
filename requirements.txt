@@ -12,3 +12,4 @@ discord_components
 PyNaCl
 asyncpraw
 buttons
+discord_py_slash_command
