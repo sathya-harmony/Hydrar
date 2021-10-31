@@ -2,7 +2,7 @@ import os
 import random
 import discord
 from discord.ext import commands
-from discord_slash import cog_ext
+#from discord_slash import cog_ext
 
 
 @commands.Cog.listener()
@@ -27,10 +27,10 @@ class pingpong(commands.Cog):
 
         await ctx.message.reply(f"Pong! {int(self.client.latency*1000)}ms")
 
-    @cog_ext.cog_slash(name='Ping', description="Shows how fast the connection is between the bot and Discord!")
+    '''@cog_ext.cog_slash(name='Ping', description="Shows how fast the connection is between the bot and Discord!")
     async def ping(self, ctx):
 
-        await ctx.send(f"Pong! {int(self.client.latency*1000)}ms")
+        await ctx.send(f"Pong! {int(self.client.latency*1000)}ms")'''
 
 
 def setup(client):
