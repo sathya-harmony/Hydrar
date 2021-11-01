@@ -15,7 +15,7 @@ import textwrap
 import contextlib
 from traceback import format_exception
 from discord.ext.buttons import Paginator
-import discord_slash
+#import discord_slash
 from modules.common import *
 import threading
 #from discord.ext import ipc
@@ -79,7 +79,7 @@ client = commands.Bot(command_prefix=get_prefix,
                       case_insensitive=True,
                       intents=discord.Intents.all())
 #slash = SlashCommand(client, sync_commands=True)
-DiscordComponents(client)
+
 #slash = discord_slash.SlashCommand(client, sync_commands=True)
 
 client.remove_command('help')
@@ -329,7 +329,7 @@ async def on_ready():
                                  activity=activity)
     print('The bot has booted up.')
     await log('The bot, Running on **Local Machine** is **Online**')
-    # DiscordComponents(client)
+    DiscordComponents(client)
 
 
 @client.command()
