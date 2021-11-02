@@ -60,8 +60,8 @@ class Wanted(commands.Cog):
                 avatar_bytes = io.BytesIO(await resp.read())
 
         ava = Image.open(avatar_bytes)
-        ava = ava.resize((300, 300))
-        delete.paste(ava, (120, 250))
+        ava = ava.resize((200, 200))
+        delete.paste(ava, (120, 200))
         delete.save("delete.png")
         await ctx.message.reply(file=discord.File("delete.png"))
 
