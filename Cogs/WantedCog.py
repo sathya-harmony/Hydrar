@@ -50,6 +50,22 @@ class Wanted(commands.Cog):
         await ctx.message.reply(file=discord.File("wanted.jpg"))
 
     @commands.command()
+    async def delete(self, ctx, user: discord.Member = None):
+        user = ctx.author or user
+
+        delete = Image.open("Cogs/Pics/Delete.png")
+        user_avatar_image = str(user.avatar_url_as(format='png', size=4096))
+        async with aiohttp.ClientSession() as Session:
+            async with Session.get(user_avatar_image) as resp:
+                avatar_bytes = io.BytesIO(await resp.read())
+
+        ava = Image.open(avatar_bytes)
+        ava = ava.resize((300, 300))
+        delete.paste(ava, 120, 250)
+        delete.save("delete.png")
+        await ctx.message.reply(file=discord.File("delete.png"))
+
+    @commands.command()
     async def rip(self, ctx, user: discord.Member = None):
         if user == None:
             user = ctx.author
