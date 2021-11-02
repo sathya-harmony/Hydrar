@@ -61,7 +61,7 @@ class Wanted(commands.Cog):
 
         ava = Image.open(avatar_bytes)
         ava = ava.resize((200, 195))
-        delete.paste(ava, (120, 150))
+        delete.paste(ava, (120, 140))
         delete.save("delete.png")
         await ctx.message.reply(file=discord.File("delete.png"))
 
