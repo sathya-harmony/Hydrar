@@ -50,7 +50,7 @@ class Wanted(commands.Cog):
         await ctx.message.reply(file=discord.File("wanted.jpg"))
 
     @commands.command()
-    async def delete(self, ctx, user: discord.Member = None):
+    async def deleted(self, ctx, user: discord.Member = None):
         user = ctx.author or user
 
         delete = Image.open("Cogs/Pics/Delete.png")
