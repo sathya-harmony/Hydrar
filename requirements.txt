@@ -14,6 +14,6 @@ asyncpraw
 buttons
 #discord_slash_components_bridge
 discord-py-slash-command
-#discord_py_interactions
+discord_py_interactions
 #pipreqs
 #git+https://github.com/Pycord-Development/pycord
