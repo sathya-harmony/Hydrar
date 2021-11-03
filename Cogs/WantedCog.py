@@ -51,7 +51,8 @@ class Wanted(commands.Cog):
 
     @commands.command()
     async def deleted(self, ctx, user: discord.Member = None):
-        user = ctx.author or user
+        if user == None:
+            user = ctx.author
 
         delete = Image.open("Cogs/Pics/Delete.png")
         user_avatar_image = str(user.avatar_url_as(format='png', size=4096))
