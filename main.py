@@ -172,7 +172,7 @@ async def snipe(ctx):
     await ctx.message.reply(embed=embed)
 
 
-@slash.slash(name='Snipe', description="Retreieve the most recently deleted message!")
+'''@slash.slash(name='Snipe', description="Retreieve the most recently deleted message!")
 async def snipe(ctx):
     try:
         contents, author, channel_name, time = client.sniped_messages[ctx.guild.id]
@@ -187,7 +187,7 @@ async def snipe(ctx):
         name=f"{author.name}#{author.discriminator}", icon_url=author.avatar_url)
     embed.set_footer(text=f"Deleted in : #{channel_name}")
 
-    await ctx.send(embed=embed)
+    await ctx.send(embed=embed)'''
 
 # Log Channel.
 log_channel = None
