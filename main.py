@@ -15,7 +15,7 @@ import textwrap
 import contextlib
 from traceback import format_exception
 from discord.ext.buttons import Paginator
-import discord_slash
+#import discord_slash
 from modules.common import *
 import threading
 #from discord.ext import ipc

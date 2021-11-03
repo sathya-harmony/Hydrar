@@ -32,9 +32,9 @@ class _help_(commands.Cog):
             inline=False)
 
         embed1.add_field(
-            name="**🛠Utility**",
-            value="`Use the filter below!`\n[Hover for Info](https://rb.gy/o2krdf)",
-            inline=False)
+                         name="**🛠Utility**",
+                         value="`Use the filter below!`\n[Hover for Info](https://rb.gy/o2krdf)",
+                         inline=False)
 
         embed1.add_field(
             name="**💰Currency**",
