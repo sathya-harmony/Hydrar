@@ -78,7 +78,7 @@ client = commands.Bot(command_prefix=get_prefix,
                       strip_after_prefix=True,
                       case_insensitive=True,
                       intents=discord.Intents.all())
-slash = discord_slash.SlashCommand(client, sync_commands=True)
+
 
 #slash = discord_slash.SlashCommand(client, sync_commands=True)
 
@@ -330,6 +330,7 @@ async def on_ready():
     print('The bot has booted up.')
     await log('The bot, Running on **Local Machine** is **Online**')
     DiscordComponents(client)
+    discord_slash.SlashCommand(client, sync_commands=True)
 
 
 @client.command()
