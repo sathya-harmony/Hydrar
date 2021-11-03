@@ -329,8 +329,8 @@ async def on_ready():
                                  activity=activity)
     print('The bot has booted up.')
     await log('The bot, Running on **Local Machine** is **Online**')
-    DiscordComponents(client)
-    discord_slash.SlashCommand(client, sync_commands=True)
+    components = DiscordComponents(client)
+    slash = discord_slash.SlashCommand(client, sync_commands=True)
 
 
 @client.command()
