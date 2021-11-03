@@ -221,7 +221,7 @@ async def on_command_error(ctx, error):
 
 
 # help command
-#client.load_extension('Cogs.HelpCog_test')
+# client.load_extension('Cogs.HelpCog_test')
 # ping
 client.load_extension('Cogs.PingCog')
 # 8ball
@@ -486,7 +486,7 @@ async def chat(ctx, *, message):
 
 @client.command(name='help',
                 aliases=["helpme", "command", "commands", "cmd", "cmds"])
-async def help(self, ctx, arg=''):
+async def help(ctx, arg=''):
 
     embed1 = discord.Embed(
         title="Hydrargyrum - Command Categories",
@@ -683,7 +683,7 @@ async def help(self, ctx, arg=''):
 
         while True:
             try:
-                interaction = await self.client.wait_for("select_option", timeout=20.0)
+                interaction = await client.wait_for("select_option", timeout=20.0)
                 if ctx.author.id != interaction.author.id:
                     await interaction.respond(content="This message ain't for you LOL")
                 value = interaction.values[0]
