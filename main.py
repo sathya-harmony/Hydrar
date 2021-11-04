@@ -7,7 +7,6 @@ from discord.ext.commands.cog import Cog
 import traceback
 import sys
 from alexa_reply import reply
-#from pymongo import MongoClient
 import os
 from discord_components import DiscordComponents
 import io
@@ -15,9 +14,14 @@ import textwrap
 import contextlib
 from traceback import format_exception
 from discord.ext.buttons import Paginator
-#import discord_slash
 from modules.common import *
-import threading
+#import threading
+from sympy.interactive import printing
+import urllib
+'''import numpy as np
+import sympy as sp
+printing.init_printing(use_latex=True)
+'''
 #from discord.ext import ipc
 #from discord_slash_components_bridge import SlashCommand
 
@@ -482,6 +486,19 @@ async def chat(ctx, *, message):
     resp = reply(message, bot, owner)
     await ctx.message.reply(resp)
 
+
+@client.command()
+async def latex(ctx, *, message):
+    '''def f(x):
+
+        return np.sin(x)
+    func = sp.Function('func')
+    x = sp.Symbol('x')
+    func = sp.sin(x)
+    await ctx.send(func)'''
+    urllib.request.urlretrieve(
+        f"https://latex.codecogs.com/png.latex{message}", "image.png")
+    await ctx.message.reply(file=discord.File("image.png"))
 
 # client.ipc.start()
 Token = 'ODQ0ODEzMzE2NTA1MDc1NzEy.YKX3tg.AGjRaxwtYgBiOeHWfPEupR-FypU'
