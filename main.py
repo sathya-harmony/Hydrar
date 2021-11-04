@@ -16,7 +16,7 @@ from traceback import format_exception
 from discord.ext.buttons import Paginator
 from modules.common import *
 #import threading
-from sympy.interactive import printing
+#from sympy.interactive import printing
 import urllib
 '''import numpy as np
 import sympy as sp
