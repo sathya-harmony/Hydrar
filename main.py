@@ -18,6 +18,8 @@ from modules.common import *
 #import threading
 #from sympy.interactive import printing
 import urllib
+from PIL import Image as im
+
 '''import numpy as np
 import sympy as sp
 printing.init_printing(use_latex=True)
@@ -521,8 +523,11 @@ async def latex(ctx, *, code):
     code = code.replace("&", "%26")
     code = code.replace("$", "%24")
     urllib.request.urlretrieve(
-        f"https://latex.codecogs.com/png.image?{code}", "image.png")
-    await ctx.message.reply(file=discord.File("image.png"))
+        f"https://latex.codecogs.com/png.image?\dpi{500}{code}", "image.png")
+    Image = im.open("image.png")
+
+    Image = Image.resize((200, 200))
+    await ctx.message.reply(file=discord.File(Image))
 
 # client.ipc.start()
 Token = 'ODQ0ODEzMzE2NTA1MDc1NzEy.YKX3tg.AGjRaxwtYgBiOeHWfPEupR-FypU'
