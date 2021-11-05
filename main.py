@@ -556,6 +556,9 @@ async def gstart(ctx, mins: int, *, prize: str):
     await asyncio.sleep(time)
 
     new_msg = await ctx.channel.fetch_message(my_msg.id)
+    for users in new_msg.reactions:
+        users.flatten()
+
     users = await new_msg.reactions.users().flatten()
     users.pop(users.index(client.user))
     winner = random.choice(users)
