@@ -531,10 +531,11 @@ async def latex(ctx, *, code):
     try:
         urllib.request.urlretrieve(
             f"https://latex.codecogs.com/png.image?{settings}{code}", "image.png")
-    except CommandInvokeError:
+    except urllib.error.HTTPError:
         await ctx.message.reply("**Compilation Error❌**\nPlease check your input!")
-    Image = im.open("image.png")
-    Image.resize((790, 200))
+        return
+    '''Image = im.open("image.png")
+    Image.resize((790, 200))'''
 
     #Image = Image.resize((200, 200))
     await ctx.message.reply(file=discord.File("image.png"))
