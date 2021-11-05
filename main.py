@@ -523,11 +523,11 @@ async def latex(ctx, *, code):
     code = code.replace("&", "%26")
     code = code.replace("$", "%24")
     urllib.request.urlretrieve(
-        f"https://latex.codecogs.com/png.image?\\dpi{500}{code}", "image.png")
-    Image = im.open("image.png")
+        f"https://latex.codecogs.com/png.image?\dpi{500}{code}", "image.png")
+    #Image = im.open("image.png")
 
-    Image = Image.resize((200, 200))
-    await ctx.message.reply(file=discord.File(Image))
+    #Image = Image.resize((200, 200))
+    await ctx.message.reply(file=discord.File("image.png"))
 
 # client.ipc.start()
 Token = 'ODQ0ODEzMzE2NTA1MDc1NzEy.YKX3tg.AGjRaxwtYgBiOeHWfPEupR-FypU'
