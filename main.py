@@ -488,7 +488,7 @@ async def chat(ctx, *, message):
 
 
 @client.command()
-async def latex(ctx, *, message):
+async def latex(ctx, *, code):
     '''def f(x):
 
         return np.sin(x)
@@ -496,8 +496,31 @@ async def latex(ctx, *, message):
     x = sp.Symbol('x')
     func = sp.sin(x)
     await ctx.send(func)'''
+    code = code.replace(" ", "&space;")
+    code = code.replace("+", "&plus;")
+    code = code.replace("<", "%3C")
+    code = code.replace(">", "%3E")
+    code = code.replace("#", "%23")
+    code = code.replace("%", "%25")
+    code = code.replace("{", "%7B")
+    code = code.replace("}", "%7D")
+    code = code.replace("|", "%7C")
+    code = code.replace("\\", "%5C")
+    code = code.replace("^", "%5E")
+    code = code.replace("~", "%7E")
+    code = code.replace("[", "%5B")
+    code = code.replace("]", "%5D")
+    code = code.replace("'", "%60")
+    code = code.replace(";", "%3B")
+    code = code.replace("/", "%2F")
+    code = code.replace("?", "%3F")
+    code = code.replace(":", "%3A")
+    code = code.replace("@", "%40")
+    code = code.replace("=", "%3D")
+    code = code.replace("&", "%26")
+    code = code.replace("$", "%24")
     urllib.request.urlretrieve(
-        f"https://latex.codecogs.com/png.latex{message}", "image.png")
+        f"https://latex.codecogs.com/png.latex{code}", "image.png")
     await ctx.message.reply(file=discord.File("image.png"))
 
 # client.ipc.start()
