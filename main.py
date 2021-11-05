@@ -9,6 +9,7 @@ import traceback
 import sys
 from alexa_reply import reply
 import os
+from discord.ext.commands.errors import CommandInvokeError
 from discord_components import DiscordComponents
 import io
 import textwrap
@@ -530,7 +531,7 @@ async def latex(ctx, *, code):
     try:
         urllib.request.urlretrieve(
             f"https://latex.codecogs.com/png.image?{settings}{code}", "image.png")
-    except HTTPException:
+    except CommandInvokeError:
         await ctx.message.reply("**Compilation Error❌**\nPlease check your input!")
     Image = im.open("image.png")
     Image.resize((790, 200))
