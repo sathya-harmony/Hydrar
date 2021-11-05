@@ -521,7 +521,7 @@ async def latex(ctx, *, code):
     code = code.replace("&", "%26")
     code = code.replace("$", "%24")
     urllib.request.urlretrieve(
-        f"https://latex.codecogs.com/png.image{code}", "image.png")
+        f"https://latex.codecogs.com/png.image?{code}", "image.png")
     await ctx.message.reply(file=discord.File("image.png"))
 
 # client.ipc.start()
