@@ -601,12 +601,13 @@ async def giveaway(ctx):
     hours = int((time/60)//(60))
     mins = int((time-(hours*60*60))//(60))
     seconds = int(time-(hours*60*60)-(mins*60))
+    days = int(time/86400)
 
-    await ctx.send(f"Success! The Giveaway will be in {channel.mention} and will last **{hours} : {mins} : {seconds}** seconds. The prize is **{prize}**")
+    await ctx.send(f"Success! The Giveaway will be in {channel.mention} and will last **{days} : {hours} : {mins} : {seconds}** seconds. The prize is **{prize}**")
     embed = discord.Embed(
         title="🎉Giveaway", description=f"Prize:\n{prize}", color=ctx.author.color)
     embed.add_field(name="Hosted by:", value=ctx.author.mention)
-    embed.set_footer(text=f"Ends in {hours} : {mins} : {seconds}")
+    embed.set_footer(text=f"Ends in {days} : {hours} : {mins} : {seconds}")
     my_msg = await channel.send(embed=embed)
 
     await my_msg.add_reaction("🎉")
