@@ -545,7 +545,7 @@ async def latex(ctx, *, code):
 async def gstart(ctx, mins: int, *, prize: str):
     embed = discord.Embed(
         title="🎉Giveaway", description=f"{prize}", color=ctx.author.color)
-    end = datetime.datetime.utcnow() + datetime.datetime(seconds=min*60)
+    end = datetime.datetime.utcnow() + datetime.datetime(seconds=mins*60)
     embed.add_field(name="Ends At:", value=f"{end} UTC")
     embed.set_footer(text=f"Ends in {mins} from now!")
 
