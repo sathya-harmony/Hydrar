@@ -549,7 +549,8 @@ async def gstart(ctx, mins: int, *, prize: str):
 
     my_msg = await ctx.send(embed=embed)
     await my_msg.add_reaction("🎉")
-    await asyncio.sleep(mins*60)
+    time = int(mins*60)
+    await asyncio.sleep(time)
 
     new_msg = await ctx.channel.fetch_message(my_msg.id)
     users = await new_msg[0].users().flatten()
