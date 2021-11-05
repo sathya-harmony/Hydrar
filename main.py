@@ -1,4 +1,5 @@
 import asyncio
+from typing import List
 from discord.errors import HTTPException
 #from re import T
 from discord.ext import commands  # ipc
@@ -541,9 +542,85 @@ async def latex(ctx, *, code):
     await ctx.message.reply(file=discord.File("image.png"))
 
 
+def convert(time):
+    pos = ["s", "m", "h", "d"]
+    time_dict = {"s": 1, "m": 60, "h": 3600, "d": 3600*24}
+
+    unit = time[-1]
+    if unit not in pos:
+        return -1
+    try:
+        val = int(time[:-1])
+    except:
+        return -2
+
+    return val * time_dict[unit]
+
+
 @client.command()
-async def gstart(ctx, mins: int, *, prize: str):
+async def giveaway(ctx):
+    await ctx.message.reply("Let's get you set-up with your giveaway! Answer these questions **Carefully**(Times out in 20 seconds!)")
+
+    questions = ["Which channel should your giveaway be hosted in?",
+                 "What should be the duration of the giveaway? (accepted format: `s|m|h|d`)",
+                 "What is the prize of the giveaway?"]
+
+    answers = []
+
+    def check(m):
+        return m.author == ctx.author and m.channel == ctx.channel
+
+    for i in questions:
+        await ctx.send(i)
+        try:
+            msg = await client.wait_for('message', timeout=20.0, check=check)
+        except asyncio.TimeoutError:
+            await ctx.send("You didn\'t answer in time, so I have stopped this giveaway request! `P.S be quicker next time if you were trying to host the giveaway`")
+            return
+        else:
+            answers.append(msg.content)
+
+    try:
+
+        c_id = int(answers[0][2:-1])
+
+    except:
+        await ctx.send(f"You didn't mention a channel properly. Do it like this {ctx.channel.mention} next time!")
+        return
+
+    channel = client.get_channel(c_id)
+
+    time = convert(answers[1])
+    if time == -1:
+        await ctx.send(f"You didn't answer the time with a proper unit. Use `s|m|h|d` next time!")
+        return
+    elif time == -2:
+        await ctx.send(f"The time must be an integer.")
+        return
+    prize = answers[2]
+    hours = int((time/60)//(60))
+    mins = int((time-(hours*60*60))//(60))
+    seconds = int(time-(hours*60*60)-(mins*60))
+
+    await ctx.send(f"Success! The Giveaway will be in {channel.mention} and will last **{hours} : {mins} : {seconds}** seconds. The prize is **{prize}**")
     embed = discord.Embed(
+        title="🎉Giveaway", description=f"Prize:\n{prize}", color=ctx.author.color)
+    embed.add_field(name="Hosted by:", value=ctx.author.mention)
+    embed.set_footer(text=f"Ends in {hours} : {mins} : {seconds}")
+    my_msg = await channel.send(embed=embed)
+
+    await my_msg.add_reaction("🎉")
+
+    await asyncio.sleep(time)
+    new_msg = await channel.fetch_message(my_msg.id)
+
+    users = await new_msg.reactions[0].users().flatten()
+    users.pop(users.index(client.user))
+    winner = random.choice(users)
+
+    await channel.send(f"Congratulations! {winner.mention} won **{prize}**")
+
+    '''embed = discord.Embed(
         title="🎉Giveaway", description=f"{prize}", color=ctx.author.color)
     end = datetime.datetime.utcnow() +\
         datetime.timedelta(seconds=float(mins*60))
@@ -564,8 +641,9 @@ async def gstart(ctx, mins: int, *, prize: str):
     for i in user:
         if i == client.user.name:
             user.pop(user.index(i))
-    winner = random.choice(user.name)
-    await ctx.send(f"Congrats {winner.mention}!! You won {prize}")
+    list = list(x for x in user)      
+    winner = random.choice()
+    await ctx.send(f"Congrats {winner.mention}!! You won {prize}")'''
 
 
 # client.ipc.start()
