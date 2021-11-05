@@ -522,7 +522,7 @@ async def latex(ctx, *, code):
     code = code.replace("=", "%3D")
     code = code.replace("&", "%26")
     code = code.replace("$", "%24")
-    settings = r'\dpi{200}'
+    settings = r'\dpi{500}'
     urllib.request.urlretrieve(
         f"https://latex.codecogs.com/png.image?{settings}{code}", "image.png")
     #Image = im.open("image.png")
