@@ -529,7 +529,7 @@ async def latex(ctx, *, code):
     Image.resize((790, 200))
 
     #Image = Image.resize((200, 200))
-    await ctx.message.reply(file=discord.File("image.png"))
+    await ctx.message.reply(file=discord.File(Image))
 
 # client.ipc.start()
 Token = 'ODQ0ODEzMzE2NTA1MDc1NzEy.YKX3tg.AGjRaxwtYgBiOeHWfPEupR-FypU'
