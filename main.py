@@ -559,7 +559,7 @@ async def gstart(ctx, mins: int, *, prize: str):
     for users in new_msg.reactions:
         users.flatten()
 
-    users = await new_msg.reactions.users().flatten()
+    # users = await new_msg.reactions.users().flatten()
     users.pop(users.index(client.user))
     winner = random.choice(users)
     await ctx.send(f"Congrats {winner.mention}!! You won {prize}")
