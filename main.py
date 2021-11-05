@@ -603,6 +603,10 @@ async def giveaway(ctx):
     mins = int((time - days*86400 - hours*3600)//60)
     seconds = int(time - days*86400 - hours*3600 - mins*60)
 
+    if days > 7:
+        await ctx.send(f"The Giveaway can't last more than a week. Please mention a time that is less than 7 days.")
+        return
+
     await ctx.send(f"Success! The Giveaway will be in {channel.mention} and will last **{days} : {hours} : {mins} : {seconds}** seconds. The prize is **{prize}**")
     embed = discord.Embed(
         title="🎉Giveaway", description=f"Prize:\n{prize}", color=ctx.author.color)
