@@ -621,6 +621,9 @@ async def giveaway(ctx):
 
     users = await new_msg.reactions[0].users().flatten()
     users.pop(users.index(client.user))
+    if users == None:
+        await channel.send("Unfortunately no-one reacted to the giveaway. So no one wins!")
+        return
     winner = random.choice(users)
 
     await channel.send(f"Congratulations! {winner.mention} won **{prize}**")
