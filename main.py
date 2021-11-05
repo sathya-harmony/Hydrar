@@ -522,10 +522,11 @@ async def latex(ctx, *, code):
     code = code.replace("=", "%3D")
     code = code.replace("&", "%26")
     code = code.replace("$", "%24")
-    settings = r'\bg_white\dpi{500}'
+    settings = r'\bg_white\dpi{700}'
     urllib.request.urlretrieve(
         f"https://latex.codecogs.com/png.image?{settings}{code}", "image.png")
-    #Image = im.open("image.png")
+    Image = im.open("image.png")
+    Image.resize((790, 200))
 
     #Image = Image.resize((200, 200))
     await ctx.message.reply(file=discord.File("image.png"))
