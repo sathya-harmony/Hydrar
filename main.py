@@ -598,10 +598,10 @@ async def giveaway(ctx):
         await ctx.send(f"The time must be an integer.")
         return
     prize = answers[2]
-    hours = int((time/60)//(60))
-    mins = int((time-(hours*60*60))//(60))
-    seconds = int(time-(hours*60*60)-(mins*60))
-    days = int(time/86400)
+    days = int(time//86400)
+    hours = int((time - days*86400)//3600)
+    mins = int((time - days*86400 - hours*3600)//60)
+    seconds = int(time - days*86400 - hours*3600 - mins*60)
 
     await ctx.send(f"Success! The Giveaway will be in {channel.mention} and will last **{days} : {hours} : {mins} : {seconds}** seconds. The prize is **{prize}**")
     embed = discord.Embed(
