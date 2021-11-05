@@ -496,7 +496,7 @@ async def latex(ctx, *, code):
     x = sp.Symbol('x')
     func = sp.sin(x)
     await ctx.send(func)'''
-    code = code.split()
+    #
     code = code.replace(" ", "&space;")
     code = code.replace("+", "&plus;")
     code = code.replace("<", "%3C")
