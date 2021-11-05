@@ -1,4 +1,5 @@
 import asyncio
+from discord.errors import HTTPException
 #from re import T
 from discord.ext import commands  # ipc
 import discord
@@ -19,6 +20,9 @@ from modules.common import *
 #from sympy.interactive import printing
 import urllib
 from PIL import Image as im
+import datetime
+import random
+
 
 '''import numpy as np
 import sympy as sp
@@ -523,13 +527,36 @@ async def latex(ctx, *, code):
     code = code.replace("&", "%26")
     code = code.replace("$", "%24")
     settings = r'\bg_white\dpi{700}'
-    urllib.request.urlretrieve(
-        f"https://latex.codecogs.com/png.image?{settings}{code}", "image.png")
+    try:
+        urllib.request.urlretrieve(
+            f"https://latex.codecogs.com/png.image?{settings}{code}", "image.png")
+    except HTTPException:
+        await ctx.message.reply("**Compilation Error❌**\nPlease check your input!")
     Image = im.open("image.png")
     Image.resize((790, 200))
 
     #Image = Image.resize((200, 200))
-    await ctx.message.reply(file=discord.File(Image))
+    await ctx.message.reply(file=discord.File("image.png"))
+
+
+@client.command()
+async def gstart(ctx, mins: int, *, prize: str):
+    embed = discord.Embed(
+        title="🎉Giveaway", description=f"{prize}", color=ctx.author.color)
+    end = datetime.datetime.utcnow() + datetime.datetime(seconds=min*60)
+    embed.add_field(name="Ends At:", value=f"{end} UTC")
+    embed.set_footer(text=f"Ends in {mins} from now!")
+
+    my_msg = await ctx.send(embed=embed)
+    await my_msg.add_reaction("🎉")
+    await asyncio.sleep(mins*60)
+
+    new_msg = await ctx.channel.fetch_message(my_msg.id)
+    users = await new_msg[0].users().flatten()
+    users.pop(users.index(client.user))
+    winner = random.choice(users)
+    await ctx.send(f"Congrats {winner.mention}!! You won {prize}")
+
 
 # client.ipc.start()
 Token = 'ODQ0ODEzMzE2NTA1MDc1NzEy.YKX3tg.AGjRaxwtYgBiOeHWfPEupR-FypU'
