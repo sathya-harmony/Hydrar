@@ -597,7 +597,7 @@ async def giveaway(ctx):
     elif time == -2:
         await ctx.send(f"The time must be an integer.")
         return
-    prize = answers[2]
+    prize = answers[2].capitalize()
     days = int(time//86400)
     hours = int((time - days*86400)//3600)
     mins = int((time - days*86400 - hours*3600)//60)
