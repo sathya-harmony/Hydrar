@@ -119,7 +119,7 @@ class pingpong(commands.Cog):
             winner = random.choice(users)
 
             await channel.send(f"Congratulations! {winner.mention} won **{prize}**")
-        except CommandInvokeError:
+        except CommandInvokeError or IndexError:
             await channel.send("Unfortunately no-one reacted to the giveaway. So no one wins!")
             return
 
