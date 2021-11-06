@@ -1,3 +1,4 @@
+from logging import exception
 import os
 import random
 import discord
@@ -107,11 +108,12 @@ class pingpong(commands.Cog):
         await my_msg.add_reaction("🎉")
 
         await asyncio.sleep(time)
-        new_msg = await channel.fetch_message(my_msg.id)
+        try:
+            new_msg = await channel.fetch_message(my_msg.id)
 
-        users = await new_msg.reactions[0].users().flatten()
-        users.pop(users.index(self.client.user))
-        if users is None:
+            users = await new_msg.reactions[0].users().flatten()
+            users.pop(users.index(self.client.user))
+        except IndexError:
             await channel.send("Unfortunately no-one reacted to the giveaway. So no one wins!")
             return
         winner = random.choice(users)
