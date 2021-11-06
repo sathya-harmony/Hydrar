@@ -4,6 +4,8 @@ import random
 import discord
 from discord.ext import commands
 import asyncio
+
+from discord.ext.commands.errors import CommandInvokeError
 #from discord_slash import cog_ext
 
 
@@ -113,12 +115,13 @@ class pingpong(commands.Cog):
 
             users = await new_msg.reactions[0].users().flatten()
             users.pop(users.index(self.client.user))
-        except IndexError:
+
+            winner = random.choice(users)
+
+            await channel.send(f"Congratulations! {winner.mention} won **{prize}**")
+        except CommandInvokeError:
             await channel.send("Unfortunately no-one reacted to the giveaway. So no one wins!")
             return
-        winner = random.choice(users)
-
-        await channel.send(f"Congratulations! {winner.mention} won **{prize}**")
 
 
 def setup(client):
