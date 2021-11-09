@@ -100,7 +100,9 @@ class Wanted(commands.Cog):
 
     @commands.command()
     async def pet(self, ctx, user: discord.Member = None):
-        user = ctx.author or user
+        if user is None:
+            user = ctx.author
+
         user_avatar_image = str(user.avatar_url_as(format='png', size=4096))
         async with aiohttp.ClientSession() as Session:
             async with Session.get(user_avatar_image) as resp:
