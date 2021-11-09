@@ -352,7 +352,7 @@ async def disable(ctx, *, command: str):
             guild_data = {"guild_id": str(ctx.guild.id),
                           "disabled_commands": [command]}
             enableddisabled_db.insert_one(guild_data)
-            not command.enabled
+            #not command.enabled
             await ctx.message.reply(f"Successfully disabled `{command}`! None of the members in the server can use this command any more until the admin enables it again.")
 
         else:
