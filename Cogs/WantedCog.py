@@ -153,7 +153,7 @@ class Wanted(commands.Cog):
         response = requests.get(user.avatar_url)
 
         avatar = Image.open(BytesIO(response.content))
-        avatar = avatar.convert('RGBA').resize((300, 300))
+        avatar = avatar.convert('RGBA').resize((128, 128))
         urllib.request.urlretrieve(
             f"https://github.com/DankMemer/imgen/blob/master/assets/airpods/left.gif?raw=true", "leftairpods.png")
         urllib.request.urlretrieve(
