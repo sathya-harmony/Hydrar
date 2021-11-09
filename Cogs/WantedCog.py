@@ -195,11 +195,11 @@ class Wanted(commands.Cog):
             urllib.request.urlretrieve(
                 f"https://github.com/DankMemer/imgen/blob/master/assets/deepfry/ok-hand.bmp", "ok-hand.bmp")
             joy, hand, hundred, fire = [
-                Image.open((f'{asset}.bmp'))
+                Image.open(self.assets.get(f'{asset}.bmp'))
                 .resize((100, 100))
                 .rotate(random.randint(-30, 30))
                 .convert('RGBA')
-                for asset in ['joy', 'ok-hand', '100', 'fire']
+                for asset in ['100', 'fire', 'joy', 'ok-hand']
             ]
 
             avatar.paste(joy, (random.randint(20, 75),
