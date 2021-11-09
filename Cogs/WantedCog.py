@@ -119,12 +119,11 @@ class Wanted(commands.Cog):
 
     @commands.command()
     async def communist(self, ctx, user: discord.Member = None):
-        user = ctx.author or user
-        user_avatar_image = user.avatar_url_as(format='png', size=4096)
-        
+        if user is None:
+            user = ctx.author
+        #user_avatar_image = user.avatar_url_as(format='png', size=4096)
 
         response = requests.get(user.avatar_url)
-
 
         avatar = Image.open(BytesIO(response.content))
         img1 = avatar.convert('RGBA').resize((300, 300))
@@ -138,11 +137,10 @@ class Wanted(commands.Cog):
             f.paste(img1, (0, 0), img1)
             out.append(f.resize((256, 256)))
 
-        
         out[0].save("lmao.gif", format='gif', save_all=True, append_images=out[1:],
                     loop=0, disposal=2, optimize=True, duration=40)
         img2.close()
-        #b.seek(0)
+        # b.seek(0)
         await ctx.message.reply(file=discord.File("lmao.gif"))
 
     '''@commands.command()
