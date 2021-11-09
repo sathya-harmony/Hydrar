@@ -340,7 +340,7 @@ async def toggle(ctx, *, command):
 async def disable(ctx, *, command: str):
     # try:
     command = command.lower()
-    command = await client.get_command(command)
+    command = client.get_command(command)
     if command is None:
         await ctx.message.reply("This command doesn't exist. Type `-help` to know what commands this bot has.")
     elif ctx.command == command:
