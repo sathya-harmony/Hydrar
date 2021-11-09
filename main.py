@@ -347,7 +347,7 @@ async def disable(ctx, *, command: str):
         await ctx.message.reply("You can't expect me to disable the command which helps disabling other commands ;-;")
     else:
         guild_data = enableddisabled_db.find_one(
-            {"guild_id": str(ctx.guild_id)})
+            {"guild_id": str(ctx.guild.id)})
         if command in guild_data["disabled_command"]:
             await ctx.mssage.reply(f"The command `{command}` has already been disabled.")
         elif guild_data is None:
