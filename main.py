@@ -357,6 +357,7 @@ async def disable(ctx, *, command: str):
             command.enabled = False
             await ctx.message.reply(f"Successfully disabled `{command.name}`! None of the members in the server can use this command any more until the admin enables it again.")
             return
+        
         elif str(command.name) in guild_data["disabled_commands"]:
             await ctx.message.reply(f"The command `{command.name}` has already been disabled.")
             return
