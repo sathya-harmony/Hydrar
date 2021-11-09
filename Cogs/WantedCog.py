@@ -211,7 +211,7 @@ class Wanted(commands.Cog):
             for i in a:
 
                 with open(f'{i}.bmp', 'rb') as f:
-                    data = Image.open(bytearray(f))
+                    data = Image.open(BytesIO(f))
 
             joy, hand, hundred, fire = [
 
