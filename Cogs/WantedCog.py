@@ -196,16 +196,16 @@ class Wanted(commands.Cog):
                 f"https://github.com/DankMemer/imgen/blob/master/assets/deepfry/ok-hand.bmp", "ok-hand.bmp")'''
             response1 = requests.get(
                 url='https://github.com/DankMemer/imgen/blob/master/assets/deepfry/joy.bmp')
-            joy = Image.open(BytesIO(response1.content))
+            joy = Image.open((response1.content))
             response2 = requests.get(
                 url='https://github.com/DankMemer/imgen/blob/master/assets/deepfry/ok-hand.bmp')
-            hand = Image.open(BytesIO(response2.content))
+            hand = Image.open((response2.content))
             response3 = requests.get(
                 url='https://github.com/DankMemer/imgen/blob/master/assets/deepfry/100.bmp')
-            hundred = Image.open(BytesIO(response3.content))
+            hundred = Image.open((response3.content))
             response4 = requests.get(
                 url='https://github.com/DankMemer/imgen/blob/master/assets/deepfry/fire.bmp')
-            fire = Image.open(BytesIO(response4.content))
+            fire = Image.open((response4.content))
             joy, hand, hundred, fire = [
                 joy, hand, hundred, fire
                 .resize((100, 100))
