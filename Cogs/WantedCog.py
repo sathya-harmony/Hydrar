@@ -119,7 +119,7 @@ class Wanted(commands.Cog):
     @commands.command()
     async def communist(self, ctx, user: discord.Member = None):
         user = ctx.author or user
-        user_avatar_image = user.avatar_url_as(format='ong', size=4096)
+        user_avatar_image = user.avatar_url_as(format='png', size=4096)
         '''async with aiohttp.ClientSession() as Session:
             async with Session.get(user_avatar_image) as resp:
                 img1 = io.BytesIO(await resp.read())'''
