@@ -217,9 +217,10 @@ class Wanted(commands.Cog):
 
                 # Image.open(bytearray(f"{asset}.bmp".read()))
                 data
+                .convert('RGBA')
                 .resize((100, 100))
                 .rotate(random.randint(-30, 30))
-                .convert('RGBA')
+                
                 # for asset in ['100', 'fire', 'joy', 'ok-hand']
             ]
 
