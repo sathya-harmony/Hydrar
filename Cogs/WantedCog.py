@@ -5,6 +5,7 @@ from io import BytesIO
 import io
 
 import random
+from discord import asset
 #from discord.utils import get
 #from discord_components.dpy_overrides import fetch_message
 #from pymongo import MongoClient
@@ -206,12 +207,18 @@ class Wanted(commands.Cog):
             response4 = requests.get(
                 url='https://github.com/DankMemer/imgen/blob/master/assets/deepfry/fire.bmp')
             fire = Image.open((response4.content))'''
+            a = ['100', 'fire', 'joy', 'ok-hand']
+            with open(f'{a}.bmp', 'rb') as f:
+                data = bytearray(f.read())
+
             joy, hand, hundred, fire = [
-                Image.open(bytearray(f"{asset}.bmp".read()))
+
+                # Image.open(bytearray(f"{asset}.bmp".read()))
+                data
                 .resize((100, 100))
                 .rotate(random.randint(-30, 30))
                 .convert('RGBA')
-                for asset in ['100', 'fire', 'joy', 'ok-hand']
+                # for asset in ['100', 'fire', 'joy', 'ok-hand']
             ]
 
             avatar.paste(joy, (random.randint(20, 75),
