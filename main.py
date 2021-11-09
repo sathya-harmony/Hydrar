@@ -360,6 +360,7 @@ async def disable(ctx, *, command: str):
         elif str(command.name) in guild_data["disabled_commands"]:
             await ctx.mssage.reply(f"The command `{command.name}` has already been disabled.")
             return
+        
         else:
             guild_data["disabled_commands"].append(str(command.name))
             enableddisabled_db.update_one(
