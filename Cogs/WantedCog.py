@@ -207,11 +207,11 @@ class Wanted(commands.Cog):
                 url='https://github.com/DankMemer/imgen/blob/master/assets/deepfry/fire.bmp')
             fire = Image.open((response4.content))'''
             joy, hand, hundred, fire = [
-                joy, hand, hundred, fire
+                Image.open(BytesIO(f"{asset}.bmp"))
                 .resize((100, 100))
                 .rotate(random.randint(-30, 30))
                 .convert('RGBA')
-                # for asset in ['100', 'fire', 'joy', 'ok-hand']
+                for asset in ['100', 'fire', 'joy', 'ok-hand']
             ]
 
             avatar.paste(joy, (random.randint(20, 75),
