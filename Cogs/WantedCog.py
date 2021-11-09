@@ -149,7 +149,7 @@ class Wanted(commands.Cog):
         if user is None:
             user = ctx.author
         #user_avatar_image = user.avatar_url_as(format='png', size=4096)
-        async with ctx.typing:
+        async with ctx.typing():
             blank = Image.new('RGBA', (400, 128), (255, 255, 255, 0))
             response = requests.get(user.avatar_url)
 
