@@ -113,6 +113,7 @@ class Wanted(commands.Cog):
         petpetgif.make(source, dest)
         # set the file pointer back to the beginning so it doesn't upload a blank file.
         dest.seek(0)
+        dest = dest.read()
         dest.resize((500, 500))
         await ctx.send(file=discord.File(dest, filename=f"petpet.gif"))
 
