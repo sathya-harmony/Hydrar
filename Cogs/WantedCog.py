@@ -99,7 +99,7 @@ class Wanted(commands.Cog):
             await ctx.message.reply(embed=embed)
 
     @commands.command()
-    async def pet(ctx, user: discord.Member = None):
+    async def pet(self, ctx, user: discord.Member = None):
         user = ctx.author or user
         user_avatar_image = str(user.avatar_url_as(format='png', size=4096))
         async with aiohttp.ClientSession() as Session:
