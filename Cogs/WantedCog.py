@@ -15,6 +15,7 @@ from discord.ext.commands.errors import MissingPermissions
 from modules.common import *
 import aiohttp
 from petpetgif import petpet as petpetgif
+import requests
 
 #from discord_slash import cog_ext
 # cluster = MongoClient(
@@ -120,11 +121,13 @@ class Wanted(commands.Cog):
     async def communist(self, ctx, user: discord.Member = None):
         user = ctx.author or user
         user_avatar_image = user.avatar_url_as(format='png', size=4096)
-        '''async with aiohttp.ClientSession() as Session:
-            async with Session.get(user_avatar_image) as resp:
-                img1 = io.BytesIO(await resp.read())'''
+        
 
-        img1 = user_avatar_image.resize((300, 300))
+        response = requests.get(user.avatar_url)
+
+
+        avatar = Image.open(BytesIO(response.content))
+        img1 = avatar.convert('RGBA').resize((300, 300))
         img2 = Image.open('Cogs/Pics/communism.gif')
         img1.putalpha(96)
 
@@ -135,12 +138,12 @@ class Wanted(commands.Cog):
             f.paste(img1, (0, 0), img1)
             out.append(f.resize((256, 256)))
 
-        b = BytesIO()
-        out[0].save(b, format='gif', save_all=True, append_images=out[1:],
+        
+        out[0].save("lmao.gif", format='gif', save_all=True, append_images=out[1:],
                     loop=0, disposal=2, optimize=True, duration=40)
         img2.close()
-        b.seek(0)
-        await ctx.message.reply(file=discord.File(b))
+        #b.seek(0)
+        await ctx.message.reply(file=discord.File("lmao.gif"))
 
     '''@commands.command()
     async def pro(self, ctx, user: discord.Member = None):
