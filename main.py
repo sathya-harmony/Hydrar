@@ -363,7 +363,8 @@ async def disable(ctx, *, command: str):
                 {"guild_id": str(ctx.guild.id)}, {"$set": guild_data})
             not command.enabled
             await ctx.message.reply(f"Successfully disabled `{command.name}`! None of the members in the server can use this command any more until the admin enables it again.")
-        if command in guild_data["disabled_command"]:
+            # return
+        if str(command.name) in guild_data["disabled_command"]:
             await ctx.mssage.reply(f"The command `{command.name}` has already been disabled.")
     # except:
 
