@@ -120,11 +120,11 @@ class Wanted(commands.Cog):
     async def communist(self, ctx, user: discord.Member = None):
         user = ctx.author or user
         user_avatar_image = str(user.avatar_url_as(format='png', size=4096))
-        async with aiohttp.ClientSession() as Session:
+        '''async with aiohttp.ClientSession() as Session:
             async with Session.get(user_avatar_image) as resp:
-                img1 = io.BytesIO(await resp.read())
+                img1 = io.BytesIO(await resp.read())'''
 
-        img1 = img1.resize((300, 300))
+        img1 = user_avatar_image.resize((300, 300))
         img2 = Image.open('Cogs/Pics/communism.gif')
         img1.putalpha(96)
 
