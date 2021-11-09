@@ -207,7 +207,7 @@ class Wanted(commands.Cog):
                 url='https://github.com/DankMemer/imgen/blob/master/assets/deepfry/fire.bmp')
             fire = Image.open((response4.content))'''
             joy, hand, hundred, fire = [
-                Image.open(BytesIO(f"{asset}.bmp"))
+                Image.open(bytearray(f"{asset}.bmp".read()))
                 .resize((100, 100))
                 .rotate(random.randint(-30, 30))
                 .convert('RGBA')
