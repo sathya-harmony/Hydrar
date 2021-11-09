@@ -186,15 +186,15 @@ class Wanted(commands.Cog):
             response = requests.get(user.avatar_url)
             avatar = Image.open(BytesIO(response.content))
             avatar = avatar.convert('RGBA').resize((400, 400))
-            '''urllib.request.urlretrieve(
+            hundred = urllib.request.urlretrieve(
                 f"https://github.com/DankMemer/imgen/blob/master/assets/deepfry/100.bmp", "100.bmp")
-            urllib.request.urlretrieve(
+            fire = urllib.request.urlretrieve(
                 f"https://github.com/DankMemer/imgen/blob/master/assets/deepfry/fire.bmp", "fire.bmp")
-            urllib.request.urlretrieve(
+            joy = urllib.request.urlretrieve(
                 f"https://github.com/DankMemer/imgen/blob/master/assets/deepfry/joy.bmp", "joy.bmp")
-            urllib.request.urlretrieve(
-                f"https://github.com/DankMemer/imgen/blob/master/assets/deepfry/ok-hand.bmp", "ok-hand.bmp")'''
-            response1 = requests.get(
+            hand = urllib.request.urlretrieve(
+                f"https://github.com/DankMemer/imgen/blob/master/assets/deepfry/ok-hand.bmp", "ok-hand.bmp")
+            '''response1 = requests.get(
                 url='https://github.com/DankMemer/imgen/blob/master/assets/deepfry/joy.bmp')
             joy = Image.open((response1.content))
             response2 = requests.get(
@@ -205,7 +205,7 @@ class Wanted(commands.Cog):
             hundred = Image.open((response3.content))
             response4 = requests.get(
                 url='https://github.com/DankMemer/imgen/blob/master/assets/deepfry/fire.bmp')
-            fire = Image.open((response4.content))
+            fire = Image.open((response4.content))'''
             joy, hand, hundred, fire = [
                 joy, hand, hundred, fire
                 .resize((100, 100))
