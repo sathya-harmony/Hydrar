@@ -339,7 +339,8 @@ async def toggle(ctx, *, command):
 @client.command()
 async def disable(ctx, *, command: str):
     # try:
-    command = client.get_command(command)
+    command = await client.get_command(command)
+    await ctx.send(command)
 
     # except:
 
