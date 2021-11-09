@@ -211,7 +211,7 @@ class Wanted(commands.Cog):
             for i in a:
 
                 with open(f'{i}.bmp', 'rb') as f:
-                    data = bytearray(f.read())
+                    data = f.read()
 
             joy, hand, hundred, fire = [
 
@@ -220,7 +220,7 @@ class Wanted(commands.Cog):
                 .convert('RGBA')
                 .resize((100, 100))
                 .rotate(random.randint(-30, 30))
-                
+
                 # for asset in ['100', 'fire', 'joy', 'ok-hand']
             ]
 
