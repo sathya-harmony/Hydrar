@@ -208,8 +208,10 @@ class Wanted(commands.Cog):
                 url='https://github.com/DankMemer/imgen/blob/master/assets/deepfry/fire.bmp')
             fire = Image.open((response4.content))'''
             a = ['100', 'fire', 'joy', 'ok-hand']
-            with open(f'{a}.bmp', 'rb') as f:
-                data = bytearray(f.read())
+            for i in a:
+
+                with open(f'{i}.bmp', 'rb') as f:
+                    data = bytearray(f.read())
 
             joy, hand, hundred, fire = [
 
