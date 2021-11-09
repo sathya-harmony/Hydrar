@@ -157,7 +157,7 @@ class Wanted(commands.Cog):
         urllib.request.urlretrieve(
             f"https://github.com/DankMemer/imgen/blob/master/assets/airpods/left.gif?raw=true", "leftairpods.png")
         urllib.request.urlretrieve(
-            f"https://github.com/DankMemer/imgen/blob/master/assets/airpods/left.gif?raw=true", "rightairpods.png")
+            f"https://github.com/DankMemer/imgen/blob/master/assets/airpods/right.gif?raw=true", "rightairpods.png")
         right = Image.open("rightairpods.png")
         left = Image.open("leftairpods.png")
         out = []
