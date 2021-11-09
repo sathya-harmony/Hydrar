@@ -149,32 +149,33 @@ class Wanted(commands.Cog):
         if user is None:
             user = ctx.author
         #user_avatar_image = user.avatar_url_as(format='png', size=4096)
-        blank = Image.new('RGBA', (400, 128), (255, 255, 255, 0))
-        response = requests.get(user.avatar_url)
+        async with ctx.typing:
+            blank = Image.new('RGBA', (400, 128), (255, 255, 255, 0))
+            response = requests.get(user.avatar_url)
 
-        avatar = Image.open(BytesIO(response.content))
-        avatar = avatar.convert('RGBA').resize((128, 128))
-        urllib.request.urlretrieve(
-            f"https://github.com/DankMemer/imgen/blob/master/assets/airpods/left.gif?raw=true", "leftairpods.png")
-        urllib.request.urlretrieve(
-            f"https://github.com/DankMemer/imgen/blob/master/assets/airpods/right.gif?raw=true", "rightairpods.png")
-        right = Image.open("rightairpods.png")
-        left = Image.open("leftairpods.png")
-        out = []
-        for i in range(0, left.n_frames):
-            left.seek(i)
-            right.seek(i)
-            f = blank.copy().convert('RGBA')
-            l = left.copy().convert('RGBA')
-            r = right.copy().convert('RGBA')
-            f.paste(l, (0, 0), l)
-            f.paste(avatar, (136, 0), avatar)
-            f.paste(r, (272, 0), r)
-            out.append(f.resize((400, 128), Image.LANCZOS).convert('RGBA'))
+            avatar = Image.open(BytesIO(response.content))
+            avatar = avatar.convert('RGBA').resize((128, 128))
+            urllib.request.urlretrieve(
+                f"https://github.com/DankMemer/imgen/blob/master/assets/airpods/left.gif?raw=true", "leftairpods.png")
+            urllib.request.urlretrieve(
+                f"https://github.com/DankMemer/imgen/blob/master/assets/airpods/right.gif?raw=true", "rightairpods.png")
+            right = Image.open("rightairpods.png")
+            left = Image.open("leftairpods.png")
+            out = []
+            for i in range(0, left.n_frames):
+                left.seek(i)
+                right.seek(i)
+                f = blank.copy().convert('RGBA')
+                l = left.copy().convert('RGBA')
+                r = right.copy().convert('RGBA')
+                f.paste(l, (0, 0), l)
+                f.paste(avatar, (136, 0), avatar)
+                f.paste(r, (272, 0), r)
+                out.append(f.resize((400, 128), Image.LANCZOS).convert('RGBA'))
 
-        out[0].save("airpods.gif", format='gif', save_all=True, append_images=out[1:], loop=0, disposal=2, optimize=True,
-                    duration=30, transparency=0)
-        await ctx.message.reply(file=discord.File("airpods.gif"))
+            out[0].save("airpods.gif", format='gif', save_all=True, append_images=out[1:], loop=0, disposal=2, optimize=True,
+                        duration=30, transparency=0)
+            await ctx.message.reply(file=discord.File("airpods.gif"))
 
     '''@commands.command()
     async def pro(self, ctx, user: discord.Member = None):
