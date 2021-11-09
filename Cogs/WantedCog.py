@@ -116,16 +116,15 @@ class Wanted(commands.Cog):
 
         await ctx.send(file=discord.File(dest, filename=f"petpet.gif"))
 
-    '''@commands.command()
-    async def communist(self,ctx, user:discord.Member = None):
+    @commands.command()
+    async def communist(self, ctx, user: discord.Member = None):
         user = ctx.author or user
         user_avatar_image = str(user.avatar_url_as(format='png', size=4096))
         async with aiohttp.ClientSession() as Session:
             async with Session.get(user_avatar_image) as resp:
                 img1 = io.BytesIO(await resp.read())
 
-        
-        img1 = img1.resize((300,300))
+        img1 = img1.resize((300, 300))
         img2 = Image.open('Cogs/Pics/communism.gif')
         img1.putalpha(96)
 
@@ -141,7 +140,7 @@ class Wanted(commands.Cog):
                     loop=0, disposal=2, optimize=True, duration=40)
         img2.close()
         b.seek(0)
-        return send_file(b, mimetype='image/gif')'''
+        await ctx.message.reply(file=discord.File(b))
 
     '''@commands.command()
     async def pro(self, ctx, user: discord.Member = None):
