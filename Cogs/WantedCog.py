@@ -1,6 +1,6 @@
 import discord
 
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageEnhance
 from io import BytesIO
 import io
 
@@ -176,6 +176,50 @@ class Wanted(commands.Cog):
             out[0].save("airpods.gif", format='gif', save_all=True, append_images=out[1:], loop=0, disposal=2, optimize=True,
                         duration=30, transparency=0)
             await ctx.message.reply(file=discord.File("airpods.gif"))
+
+        @commands.command()
+        async def airpods(self, ctx, user: discord.Member = None):
+            if user is None:
+                user = ctx.author
+            #user_avatar_image = user.avatar_url_as(format='png', size=4096)
+            async with ctx.typing():
+                response = requests.get(user.avatar_url)
+                avatar = Image.open(BytesIO(response.content))
+                avatar = avatar.convert('RGBA').resize((400, 400))
+                urllib.request.urlretrieve(
+                    f"https://github.com/DankMemer/imgen/blob/master/assets/deepfry/100.bmp", "100.bmp")
+                urllib.request.urlretrieve(
+                    f"https://github.com/DankMemer/imgen/blob/master/assets/deepfry/fire.bmp", "fire.bmp")
+                urllib.request.urlretrieve(
+                    f"https://github.com/DankMemer/imgen/blob/master/assets/deepfry/joy.bmp", "joy.bmp")
+                urllib.request.urlretrieve(
+                    f"https://github.com/DankMemer/imgen/blob/master/assets/deepfry/ok-hand.bmp", "ok-hand.bmp")
+                joy, hand, hundred, fire = [
+                    Image.open(self.assets.get(f'{asset}.bmp'))
+                    .resize((100, 100))
+                    .rotate(random.randint(-30, 30))
+                    .convert('RGBA')
+                    for asset in ['joy', 'ok-hand', '100', 'fire']
+                ]
+
+                avatar.paste(joy, (random.randint(20, 75),
+                             random.randintrandint(20, 45)), joy)
+                avatar.paste(hand, (random.randint(20, 75),
+                             random.randint(150, 300)), hand)
+                avatar.paste(hundred, (random.randint(150, 300),
+                             random.randint(20, 45)), hundred)
+                avatar.paste(fire, (random.randint(150, 300),
+                             random.randint(150, 300)), fire)
+
+                noise = avatar.convert('RGB')
+                #noise = noisegen.add_noise(noise, 25)
+                noise = ImageEnhance.Contrast(
+                    noise).enhance(random.randint(5, 20))
+                noise = ImageEnhance.Sharpness(noise).enhance(17.5)
+                noise = ImageEnhance.Color(noise).enhance(
+                    random.randint(-15, 15))
+                noise.save("deepfry.png", format='png')
+                await ctx.message.reply(file=discord.File(noise))
 
     '''@commands.command()
     async def pro(self, ctx, user: discord.Member = None):
