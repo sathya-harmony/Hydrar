@@ -350,19 +350,19 @@ async def disable(ctx, *, command: str):
             {"guild_id": str(ctx.guild.id)})
         if guild_data is None:
             guild_data = {"guild_id": str(ctx.guild.id),
-                          "disabled_commands": command}
+                          "disabled_commands": [str(command.name)]}
             enableddisabled_db.insert_one(guild_data)
             #not command.enabled
-            await ctx.message.reply(f"Successfully disabled `{command}`! None of the members in the server can use this command any more until the admin enables it again.")
+            await ctx.message.reply(f"Successfully disabled `{command.name}`! None of the members in the server can use this command any more until the admin enables it again.")
 
         else:
-            guild_data["disabled_commands"].append(command)
+            guild_data["disabled_commands"].append(command.name)
             enableddisabled_db.update_one(
                 {"guild_id": str(ctx.guild.id)}, {"$set": guild_data})
             not command.enabled
-            await ctx.message.reply(f"Successfully disabled `{command}`! None of the members in the server can use this command any more until the admin enables it again.")
+            await ctx.message.reply(f"Successfully disabled `{command.name}`! None of the members in the server can use this command any more until the admin enables it again.")
         if command in guild_data["disabled_command"]:
-            await ctx.mssage.reply(f"The command `{command}` has already been disabled.")
+            await ctx.mssage.reply(f"The command `{command.name}` has already been disabled.")
     # except:
 
 
