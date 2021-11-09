@@ -24,6 +24,7 @@ import urllib
 from PIL import Image as im
 import datetime
 import random
+from PIL import Image
 
 
 '''import numpy as np
@@ -38,11 +39,9 @@ print('Hydrargyrum is loading...')
 # cluster = MongoClient(
 #     "mongodb+srv://Hydra:CihVirus123@economy.2xn9e.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
 
+
 Prefixes_MongoDB = cluster["Extras"]["Prefix"]
-'''intents = discord.Intents().default()
-intents.presences = True
-intents.members = True
-'''
+enableddisabled_db = cluster["Extras"]["Extras"]
 
 
 '''class MyBot(commands.Bot):
@@ -64,9 +63,6 @@ intents.members = True
 #api_key = "RRcoNdt3Qs8k"
 #rs = RandomStuff(async_mode = True, api_key = api_key)
 def get_prefix(client, message):
-    '''if type(user_id) in [int, float]:
-            user_id = str(int(user_id))'''
-
     Prefixes = Prefixes_MongoDB.find_one(
         {"guild_id": str(message.guild.id)})
 
@@ -80,19 +76,11 @@ def get_prefix(client, message):
     return prefix
 
 
-'''def strip_prefix(prefix):
-    prefix = get_prefix
-    if len(prefix) > 1:
-        return True
-'''
-
 client = commands.Bot(command_prefix=get_prefix,
                       strip_after_prefix=True,
                       case_insensitive=True,
                       intents=discord.Intents.all())
 
-
-#slash = discord_slash.SlashCommand(client, sync_commands=True)
 
 client.remove_command('help')
 
@@ -183,23 +171,6 @@ async def snipe(ctx):
 
     await ctx.message.reply(embed=embed)
 
-
-'''@slash.slash(name='Snipe', description="Retreieve the most recently deleted message!")
-async def snipe(ctx):
-    try:
-        contents, author, channel_name, time = client.sniped_messages[ctx.guild.id]
-
-    except:
-        await ctx.send("Couldn't find a message to snipe!")
-        return
-
-    embed = discord.Embed(description=contents,
-                          color=discord.Color.purple(), timestamp=time)
-    embed.set_author(
-        name=f"{author.name}#{author.discriminator}", icon_url=author.avatar_url)
-    embed.set_footer(text=f"Deleted in : #{channel_name}")
-
-    await ctx.send(embed=embed)'''
 
 # Log Channel.
 log_channel = None
@@ -345,13 +316,13 @@ async def on_ready():
     #slash  =  discord_slash.SlashCommand(client, sync_commands=True)
 
 
-@client.command()
+'''@client.command()
 async def disable(ctx, member: discord.Member):
     if await op(ctx):
-        YOURLIST.append(member.id)
+        YOURLIST.append(member.id)'''
 
 
-@client.command(name="toggle")
+'''@client.command(name="toggle")
 async def toggle(ctx, *, command):
     command = client.get_command(command)
     if command is None:
@@ -362,7 +333,15 @@ async def toggle(ctx, *, command):
         command.enabled = not command.enabled
         ternary = "enabled" if command.enabled else "disabled"
         ternary2 = "disabled" if command.enabled else "enabled"
-        await ctx.send(f"I have {ternary} {command.qualified_name}. Until this command is {ternary2}")
+        await ctx.send(f"I have {ternary} {command.qualified_name}. Until this command is {ternary2}")'''
+
+
+@client.command()
+async def disable(ctx, *, command: str):
+    # try:
+    command = client.get_command(command)
+
+    # except:
 
 
 @client.command()
@@ -532,6 +511,7 @@ async def latex(ctx, *, code):
     try:
         urllib.request.urlretrieve(
             f"https://latex.codecogs.com/png.image?{settings}{code}", "image.png")
+        im = Image.open
     except urllib.error.HTTPError:
         await ctx.message.reply("**Compilation Error❌**\nPlease check your input!")
         return
@@ -540,9 +520,6 @@ async def latex(ctx, *, code):
 
     #Image = Image.resize((200, 200))
     await ctx.message.reply(file=discord.File("image.png"))
-
-
-
 
     '''embed = discord.Embed(
         title="🎉Giveaway", description=f"{prize}", color=ctx.author.color)
