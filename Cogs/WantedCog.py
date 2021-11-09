@@ -14,6 +14,8 @@ from discord.ext.commands.errors import MissingPermissions
 
 from modules.common import *
 import aiohttp
+from petpetgif import petpet as petpetgif
+
 #from discord_slash import cog_ext
 # cluster = MongoClient(
 #     "mongodb+srv://Hydra:CihVirus123@economy.2xn9e.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
@@ -95,6 +97,48 @@ class Wanted(commands.Cog):
                 title=f"{user}'s Avatar!", color=ctx.author.color, timestamp=ctx.message.created_at)
             embed.set_image(url=f"{user.avatar_url}")
             await ctx.message.reply(embed=embed)
+
+    @commands.command()
+    async def pet(ctx, user: discord.Member = None):
+        user = ctx.author or user
+        user_avatar_image = str(user.avatar_url_as(format='png', size=4096))
+        async with aiohttp.ClientSession() as Session:
+            async with Session.get(user_avatar_image) as resp:
+                img1 = io.BytesIO(await resp.read())
+
+        source = img1  # file-like container to hold the emoji in memory
+        dest = BytesIO()  # container to store the petpet gif in memory
+        petpetgif.make(source, dest)
+        # set the file pointer back to the beginning so it doesn't upload a blank file.
+        dest.seek(0)
+        await ctx.send(file=discord.File(dest, filename=f"petpet.gif"))
+
+    '''@commands.command()
+    async def communist(self,ctx, user:discord.Member = None):
+        user = ctx.author or user
+        user_avatar_image = str(user.avatar_url_as(format='png', size=4096))
+        async with aiohttp.ClientSession() as Session:
+            async with Session.get(user_avatar_image) as resp:
+                img1 = io.BytesIO(await resp.read())
+
+        
+        img1 = img1.resize((300,300))
+        img2 = Image.open('Cogs/Pics/communism.gif')
+        img1.putalpha(96)
+
+        out = []
+        for i in range(0, img2.n_frames):
+            img2.seek(i)
+            f = img2.copy().convert('RGBA').resize((300, 300))
+            f.paste(img1, (0, 0), img1)
+            out.append(f.resize((256, 256)))
+
+        b = BytesIO()
+        out[0].save(b, format='gif', save_all=True, append_images=out[1:],
+                    loop=0, disposal=2, optimize=True, duration=40)
+        img2.close()
+        b.seek(0)
+        return send_file(b, mimetype='image/gif')'''
 
     '''@commands.command()
     async def pro(self, ctx, user: discord.Member = None):
