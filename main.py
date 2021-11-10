@@ -214,6 +214,8 @@ async def disabled_command_check(ctx):
     if str(ctx.command) in commands["disabled_commands"]:
         raise discord.ext.commands.DisabledCommand
 
+    return True
+
 
 @client.event
 async def on_command_error(ctx, error):
