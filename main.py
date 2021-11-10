@@ -210,11 +210,12 @@ async def before_command(ctx):
 @client.check
 async def disabled_command_check(ctx):
     commands = enableddisabled_db.find_one({"guild_id": str(ctx.guild.id)})
+    if commands is not None:
 
-    if str(ctx.command) in commands["disabled_commands"]:
-        raise discord.ext.commands.DisabledCommand
+        if str(ctx.command) in commands["disabled_commands"]:
+            raise discord.ext.commands.DisabledCommand
 
-    return True
+        return True
 
 
 @client.event
