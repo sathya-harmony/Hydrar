@@ -127,8 +127,10 @@ class Economy(commands.Cog):
 
     def open_account(self, user):
         # OPEN ACCOUNT VARIABLE
-        guild_id=str(user.guild.id)
+        guild_id=str(user.guild.id)  
+             
         user_id=str(user.id)
+        
 
         guild_data=self.get_bank_data(guild_id)
         if type(guild_id) in [int, float]:
