@@ -190,6 +190,14 @@ async def on_command(ctx):
 
 
 @client.event
+async def on_command(ctx):
+    commands = enableddisabled_db.find_one({"guild_id": str(ctx.guild.id)})
+
+    if ctx.command in commands["disabled_commands"]:
+        raise discord.ext.commands.DisabledCommand
+
+
+@client.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.UserInputError):
         await ctx.message.reply('Please give proper input.')
