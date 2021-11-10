@@ -189,14 +189,30 @@ async def on_command(ctx):
         command.enabled = True'''
 
 
-@client.event
+'''@client.event
 async def on_command(ctx):
     commands = enableddisabled_db.find_one({"guild_id": str(ctx.guild.id)})
 
     if str(ctx.command) in commands["disabled_commands"]:
         # raise discord.ext.commands.DisabledCommandctx.
         command = client.get_command(ctx.command)
-        command.enabled = False
+        command.enabled = False'''
+
+
+@client.before_invoke
+async def before_command(ctx):
+    commands = enableddisabled_db.find_one({"guild_id": str(ctx.guild.id)})
+
+    if str(ctx.command) in commands["disabled_commands"]:
+        raise discord.ext.commands.DisabledCommand
+
+
+@client.check
+async def disabled_command_check(ctx):
+    commands = enableddisabled_db.find_one({"guild_id": str(ctx.guild.id)})
+
+    if str(ctx.command) in commands["disabled_commands"]:
+        raise discord.ext.commands.DisabledCommand
 
 
 @client.event
