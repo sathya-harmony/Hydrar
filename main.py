@@ -389,6 +389,7 @@ async def disable(ctx, *, command: str):
 @client.command()
 async def rcogs(ctx, cog=None):
     if await op(ctx):
+
         if not cog:
             # No cog, means we reload all cogs
             async with ctx.typing():
