@@ -177,6 +177,19 @@ log_channel = None
 
 
 @client.event
+async def on_command(ctx):
+    try:
+        commands = enableddisabled_db.find_one({"guild_id": str(ctx.guild.id)})
+        # for i in commands["disabled_commands"]:
+        while ctx.command in commands["disabled_commands"]:
+            ctx.command.enabled = False
+        else:
+            ctx.command.enabled = True
+    except:
+        pass
+
+
+@client.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.UserInputError):
         await ctx.message.reply('Please give proper input.')
@@ -357,7 +370,7 @@ async def disable(ctx, *, command: str):
             command.enabled = False
             await ctx.message.reply(f"Successfully disabled `{command.name}`! None of the members in the server can use this command any more until the admin enables it again.")
             return
-        
+
         elif str(command.name) in guild_data["disabled_commands"]:
             await ctx.message.reply(f"The command `{command.name}` has already been disabled.")
             return
@@ -367,7 +380,7 @@ async def disable(ctx, *, command: str):
             enableddisabled_db.update_one(
                 {"guild_id": str(ctx.guild.id)}, {"$set": guild_data})
 
-            not command.enabled
+            command.enbled = False
             await ctx.message.reply(f"Successfully disabled `{command.name}`! None of the members in the server can use this command any more until the admin enables it again.")
 
     # except:
