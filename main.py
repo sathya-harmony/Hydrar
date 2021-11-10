@@ -194,8 +194,9 @@ async def on_command(ctx):
     commands = enableddisabled_db.find_one({"guild_id": str(ctx.guild.id)})
 
     if str(ctx.command) in commands["disabled_commands"]:
-        #raise discord.ext.commands.DisabledCommand
-        client.command.enabled = False
+        # raise discord.ext.commands.DisabledCommandctx.
+        command = client.get_command(ctx.command)
+        command.enabled = False
 
 
 @client.event
