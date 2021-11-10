@@ -179,7 +179,7 @@ log_channel = None
 @client.event
 async def on_command(ctx, command):
     try:
-        command = ctx.command
+        command = client.get_command(command)
         commands = enableddisabled_db.find_one({"guild_id": str(ctx.guild.id)})
         # for i in commands["disabled_commands"]:
         while command in commands["disabled_commands"]:
