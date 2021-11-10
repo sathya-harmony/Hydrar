@@ -193,7 +193,7 @@ async def on_command(ctx):
 async def on_command(ctx):
     commands = enableddisabled_db.find_one({"guild_id": str(ctx.guild.id)})
 
-    if ctx.command in commands["disabled_commands"]:
+    if str(ctx.command) in commands["disabled_commands"]:
         raise discord.ext.commands.DisabledCommand
 
 
