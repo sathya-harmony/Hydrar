@@ -176,7 +176,7 @@ async def snipe(ctx):
 log_channel = None
 
 
-@client.event
+'''@client.event
 async def on_command(ctx):
     # try:
 
@@ -186,7 +186,7 @@ async def on_command(ctx):
     while command in commands["disabled_commands"]:
         command.enabled = False
     else:
-        command.enabled = True
+        command.enabled = True'''
 
 
 @client.event
