@@ -1,7 +1,7 @@
 import asyncio
 from typing import List
 from discord import message
-from discord.abc import MessageableChannel
+#from discord.abc import MessageableChannel
 from discord.errors import HTTPException
 #from re import T
 from discord.ext import commands  # ipc
