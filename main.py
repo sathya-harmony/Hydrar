@@ -632,11 +632,11 @@ async def botinfo(ctx):
     commands = len(client.commands)
     embed = discord.Embed(
         title=f"```{client.user.name}'s info```", color=ctx.author.color)
-    embed.add_field(name="Made By:", value=f"```Sathya#6960```")
-    embed.add_field(name="Servers:", value=f"```{servers}```")
-    embed.add_field(name="Users:", value=f"```{users}```")
+    embed.add_field(name="Made By:", value=f"```Sathya#6960```", inline=False)
+    embed.add_field(name="Servers:", value=f"```{servers}```", inline=False)
+    embed.add_field(name="Users:", value=f"```{users}```", inline=False)
     embed.add_field(name="Total No. of Commands:",
-                    value=f"```{commands}```")
+                    value=f"```{commands}```", inline=False)
     embed.set_image(url=client.user.avatar_url)
     await ctx.message.reply(embed=embed)
 
