@@ -622,6 +622,25 @@ async def latex(ctx, *, code):
     await ctx.send(f"Congrats {winner.mention}!! You won {prize}")'''
 
 
+@client.command()
+async def botinfo(ctx):
+    servers = len(client.guilds)
+    lst = []
+    for i in client.guilds:
+        lst.append(i.member_count)
+    users = sum(lst)
+    commands = len(client.commands)
+    embed = discord.Embed(
+        title=f"```{client.user.name}'s info```", color=discord.Color.blue)
+    embed.add_field(name="Made By:", description=f"```Sathya#6960```")
+    embed.add_field(name="Servers:", description=f"```{servers}```")
+    embed.add_field(name="Users:", description=f"```{users}```")
+    embed.add_field(name="Total No. of Commands:",
+                    description=f"```{commands}```")
+    embed.set_image(url=client.user.avatar)
+    await ctx.message.reply(embed=embed)
+
+
 # client.ipc.start()
 Token = 'ODQ0ODEzMzE2NTA1MDc1NzEy.YKX3tg.AGjRaxwtYgBiOeHWfPEupR-FypU'
 client.run(Token)
