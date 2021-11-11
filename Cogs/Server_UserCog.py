@@ -30,9 +30,9 @@ class Server_User(commands.Cog):
         name = str(ctx.guild.name)
         description = str(" ")
 
-        owner = f"```{ctx.guild.owner.mention}```"
+        owner = f"{ctx.guild.owner.mention}```"
         id = f"```{ctx.guild.id}```"
-        region = str(ctx.guild.region)
+        region = f'```{ctx.guild.region}```'
         memberCount = f"```{ctx.guild.member_count}```"
 
         icon = str(ctx.guild.icon_url)
