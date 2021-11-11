@@ -637,7 +637,7 @@ async def botinfo(ctx):
     embed.add_field(name="Users:", value=f"```{users}```")
     embed.add_field(name="Total No. of Commands:",
                     value=f"```{commands}```")
-    embed.set_image(url=client.user.avatar)
+    embed.set_image(url=client.user.avatar_url)
     await ctx.message.reply(embed=embed)
 
 
