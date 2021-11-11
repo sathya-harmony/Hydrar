@@ -138,7 +138,7 @@ async def on_message_delete(message):
 async def on_message(msg):
     try:
         # print(msg.content)
-        if msg.content.startswith(f"<@{client.user.id}>", f"<@!{client.user.id}>"):
+        if msg.content.startswith(f"<@{client.user.id}>" or f"<@!{client.user.id}>"):
             Prefixes = Prefixes_MongoDB.find_one(
                 {"guild_id": str(msg.guild.id)})
             if Prefixes is None:
