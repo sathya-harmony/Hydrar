@@ -140,7 +140,7 @@ async def on_message(msg):
     try:
         # print(msg.content)
         message = str(msg.content)
-        if message.startswith(f"<@{client.user.id}>" or f"<@!{client.user.id}>"):
+        if message.startswith(f"<@{client.user.id}>") or message.startswith(f"<@!{client.user.id}>"):
             Prefixes = Prefixes_MongoDB.find_one(
                 {"guild_id": str(msg.guild.id)})
             if Prefixes is None:
