@@ -631,7 +631,7 @@ async def botinfo(ctx):
     users = sum(lst)
     commands = len(client.commands)
     embed = discord.Embed(
-        title=f"```{client.user.name}'s info```", color=discord.Color.blue)
+        title=f"```{client.user.name}'s info```", color=discord.color.blue)
     embed.add_field(name="Made By:", description=f"```Sathya#6960```")
     embed.add_field(name="Servers:", description=f"```{servers}```")
     embed.add_field(name="Users:", description=f"```{users}```")
