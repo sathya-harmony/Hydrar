@@ -136,7 +136,7 @@ class levels(commands.Cog):
 
     @ commands.command(aliases=["level", "lvl", "xp"])
     async def rank(self, ctx, member: discord.Member = None):
-        async with ctx.typing:
+        async with ctx.typing():
             member = member or ctx.author
 
             user_id = str(member.id)
