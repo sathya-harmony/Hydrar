@@ -353,38 +353,38 @@ class levels(commands.Cog):
         bytes.seek(0)
         return bytes
 
-        @ commands.command(aliases=["top"])
-        async def leaderboard(self, ctx):
-            user_id = str(ctx.author.id)
-            guild_id = ctx.guild.id
+    @ commands.command(aliases=["top"])
+    async def leaderboard(self, ctx):
+        user_id = str(ctx.author.id)
+        guild_id = ctx.guild.id
 
-            stats = levelling.find_one({"guild_id": guild_id})
-            user_ids_sorted = list(stats["users"])
-            user_ids_sorted.sort(
-                key=lambda _user_id: stats["users"][_user_id]["xp"], reverse=True)
+        stats = levelling.find_one({"guild_id": guild_id})
+        user_ids_sorted = list(stats["users"])
+        user_ids_sorted.sort(
+            key=lambda _user_id: stats["users"][_user_id]["xp"], reverse=True)
 
-            rank = 1
-            embed = discord.Embed(title="Leaderboard(XP):")
+        rank = 1
+        embed = discord.Embed(title="Leaderboard(XP):")
 
-            for uid in user_ids_sorted:
-                try:
-                    temp_user = ctx.guild.get_member(int(uid))
-                    embed.add_field(
-                        name=f"{rank}: {temp_user.name}", value=f"Total XP: {stats['users'][uid]['xp']}", inline=False)
-                    embed.set_thumbnail(url=str(ctx.guild.icon_url))
-
-                    rank += 1
-                except:
-                    rank -= 1
-
-                if rank > 10:
-                    break
-
-            if user_ids_sorted.index(user_id) > (10-1):
+        for uid in user_ids_sorted:
+            try:
+                temp_user = ctx.guild.get_member(int(uid))
                 embed.add_field(
-                    name=f"{user_ids_sorted.index(user_id) + 1}: {ctx.author.name}", value=f"Total XP: {stats['users'][user_id]['xp']}", inline=False)
+                    name=f"{rank}: {temp_user.name}", value=f"Total XP: {stats['users'][uid]['xp']}", inline=False)
                 embed.set_thumbnail(url=str(ctx.guild.icon_url))
-            await ctx.message.reply(embed=embed)
+
+                rank += 1
+            except:
+                rank -= 1
+
+            if rank > 10:
+                break
+
+        if user_ids_sorted.index(user_id) > (10-1):
+            embed.add_field(
+                name=f"{user_ids_sorted.index(user_id) + 1}: {ctx.author.name}", value=f"Total XP: {stats['users'][user_id]['xp']}", inline=False)
+            embed.set_thumbnail(url=str(ctx.guild.icon_url))
+        await ctx.message.reply(embed=embed)
 
 
 def setup(client):
