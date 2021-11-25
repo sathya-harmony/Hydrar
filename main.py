@@ -1,18 +1,11 @@
 import asyncio
-from typing import List
-from discord import message
-#from discord.abc import MessageableChannel
-from discord.errors import HTTPException
-#from re import T
 from discord.ext import commands  # ipc
 import discord
 from fractions import *
 from discord.ext.commands.cog import Cog
 import traceback
-import sys
 from alexa_reply import reply
 import os
-from discord.ext.commands.errors import CommandInvokeError
 from discord_components import DiscordComponents
 import io
 import textwrap
@@ -20,50 +13,21 @@ import contextlib
 from traceback import format_exception
 from discord.ext.buttons import Paginator
 from modules.common import *
-#import threading
-#from sympy.interactive import printing
 import urllib
 from PIL import Image as im
-import datetime
-import random
 from PIL import Image
-
-
-'''import numpy as np
-import sympy as sp
-printing.init_printing(use_latex=True)
-'''
-#from discord.ext import ipc
-#from discord_slash_components_bridge import SlashCommand
+import sys
 
 
 print('Hydrargyrum is loading...')
-# cluster = MongoClient(
-#     "mongodb+srv://Hydra:CihVirus123@economy.2xn9e.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
 
 
 Prefixes_MongoDB = cluster["Extras"]["Prefix"]
 enableddisabled_db = cluster["Extras"]["Extras"]
-
-
-'''class MyBot(commands.Bot):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        self.ipc = ipc.Server(self, secret_key="Sath")
-
-    async def on_ipc_ready(self):
-        """Called upon the IPC Server being ready"""
-        print("Ipc server is ready.")
-
-    async def on_ipc_error(self, endpoint, error):
-        """Called upon an error being raised within an IPC route"""
-        print(endpoint, "raised", error)'''
-
-
 #api_key = "RRcoNdt3Qs8k"
 #rs = RandomStuff(async_mode = True, api_key = api_key)
+
+
 def get_prefix(client, message):
     Prefixes = Prefixes_MongoDB.find_one(
         {"guild_id": str(message.guild.id)})
@@ -97,35 +61,7 @@ async def on_guild_join(guild):
         Prefixes = Prefixes_MongoDB.insert_one(new_guild)
 
 
-'''@client.ipc.route()
-async def get_guild_count(data):
-    return len(client.guilds)  # returns the len of the guilds to the client
-
-
-@client.ipc.route()
-async def get_guild_ids(data):
-    final = []
-    for guild in client.guilds:
-        final.append(guild.id)
-    return final  # returns the guild ids to the client
-
-
-@client.ipc.route()
-async def get_guild(data):
-    guild = client.get_guild(data.guild_id)
-    if guild is None:
-        return None
-
-    guild_data = {
-        "name": guild.name,
-        "id": guild.id,
-        "prefix": "-"
-    }
-
-    return guild_data'''
-
-
-owner_perms = [611210739830620165, 538983723950014474]
+#owner_perms = [611210739830620165, 538983723950014474]
 client.sniped_messages = {}
 YOURLIST = []
 
@@ -176,7 +112,7 @@ async def snipe(ctx):
 
 
 # Log Channel.
-log_channel = None
+#log_channel = None
 
 
 '''@client.event
@@ -223,28 +159,95 @@ async def disabled_command_check(ctx):
 
 @client.event
 async def on_command_error(ctx, error):
-    if isinstance(error, commands.UserInputError):
-        await ctx.message.reply('Please give proper input.')
-    elif isinstance(error, commands.MissingPermissions):
-        await ctx.message.reply(
-            "You don't have the permissions to execute this command.")
-    elif isinstance(error, commands.MissingRequiredArgument):
-        await ctx.message.reply('Please give proper input.')
+    if isinstance(error, commands.MissingRequiredArgument):
+        if ctx.command.name in PRIVATE_CMDS and not check_owner_perms(ctx):
+            return
+
+        await ctx.invoke(client.get_command("help"), cmd=ctx.command, txt=["Please pass in all required arguments."])
+
     elif isinstance(error, commands.CommandNotFound):
         pass
+        # await ctx.send("Invalid Command.")
+
+    elif isinstance(error, commands.MissingPermissions):
+        missing = [perm.replace('_', ' ').replace(
+            'guild', 'server').title() for perm in error.missing_permissions]
+
+        if len(missing) > 2:
+            fmt = '{}**, and **{}'.format(
+                "**, **".join(missing[:-1]), missing[-1])
+        else:
+            fmt = '** and **'.join(missing)
+
+        _message = f'You need the **{fmt}** permission(s) to use this command.'
+        await ctx.reply(_message)
 
     elif isinstance(error, commands.CommandOnCooldown):
-        pass
-    else:
-        print(f'Ignoring exception in command {ctx.command}:', file=sys.stderr)
-        traceback.print_exception(
-            type(error), error, error.__traceback__, file=sys.stderr)
-        tb = ''.join(map(lambda x: x.replace('\\n', '\n'), traceback.format_exception(
-            type(error), error, error.__traceback__)))
-        await log(f"{error}\n{getattr(error, 'original', error)}\n\n```{tb}```")
+        await ctx.reply(f"That command is on cooldown. Try again in {error.retry_after:,.2f} secs.")
 
+    elif isinstance(error, commands.BotMissingPermissions):
+        missing = [perm.replace('_', ' ').replace(
+            'guild', 'server').title() for perm in error.missing_permissions]
+
+        if len(missing) > 2:
+            fmt = '{}, and {}'.format("**, **".join(missing[:-1]), missing[-1])
+        else:
+            fmt = ' and '.join(missing)
+
+        _message = f'I need the **{fmt}** permission(s) to run this command.'
+        await ctx.reply(_message)
+
+    elif isinstance(error, commands.DisabledCommand):
+        await ctx.reply('This command has been disabled.')
+
+    elif isinstance(error, commands.UserInputError):
+        if ctx.command.name in PRIVATE_CMDS and not check_owner_perms(ctx):
+            return
+
+        await ctx.invoke(client.get_command("help"), cmd=ctx.command, txt=["Invalid Input."])
+
+    elif isinstance(error, commands.NoPrivateMessage):
+        try:
+            await ctx.reply('This command cannot be used in direct messages.')
+        except discord.Forbidden:
+            pass
+
+    elif isinstance(error, commands.CheckFailure):
+        await ctx.reply("You do not have permission to use this command.")
+
+    elif isinstance(error, commands.CommandInvokeError):
+        if "Missing Permissions".lower() in str(getattr(error, 'original', error)).lower():
+            try:
+                await ctx.reply("I can't perform this action. Some **error** occurred. Maybe I don't have enough permissions.\n**Check my permissions properly.**\nReport to the owners if you think there is some problem.")
+            except:
+                pass
+        else:
+            await log_error(ctx, error)
+
+    elif isinstance(error, NotAGuildError):
+        try:
+            await ctx.reply('This is a **Server Only** command.\nPlease go to a server to use this command.')
+        except discord.Forbidden:
+            pass
+
+    else:
+        await log_error(ctx, error)
 #intents = discord.Intents.all()
 #intents.members = True
+
+
+async def log_error(ctx, error):
+    print(f'Ignoring exception in command {ctx.command}:', file=sys.stderr)
+    traceback.print_exception(
+        type(error), error, error.__traceback__, file=sys.stderr)
+    tb = '```py\n' + ''.join(map(lambda x: x.replace('\\n', '\n'), traceback.format_exception(
+        type(error), error, error.__traceback__))) + '```'
+    print(type(error))
+
+
+async def log(*args, **kwargs):
+    log_channel = client.get_channel(LOG_CHANNEL_ID)
+    return await log_channel.send(*args, **kwargs)
 
 
 # help command
@@ -281,12 +284,8 @@ client.load_extension('Cogs.EconomyCog')
 # lient.load_extension('Supporting.MusicCog')
 
 
-'''@client.command()
-async def password(ctx, amount: int):'''
-
-
 def cop(ctx):
-    if ctx.author.id in owner_perms:
+    if ctx.author.id in OWNER_PERMS:
         return True
 
     return False
@@ -294,7 +293,7 @@ def cop(ctx):
 
 # Owner Permissions.
 async def op(ctx, msg=None):
-    if ctx.author.id in owner_perms:
+    if ctx.author.id in OWNER_PERMS:
 
         if msg is not None:
             await ctx.message.reply(msg)
@@ -304,7 +303,7 @@ async def op(ctx, msg=None):
     return False
 
 
-# Log.
+'''# Log.
 async def log(*args, **kwargs):
     global log_channel
 
@@ -312,7 +311,7 @@ async def log(*args, **kwargs):
         log_channel = await client.fetch_channel(896428684158844928)
 
     # Return the logged message.
-    return await log_channel.send(*args, **kwargs)
+    return await log_channel.send(*args, **kwargs)'''
 
 
 def owner_or_perm(**perms):
