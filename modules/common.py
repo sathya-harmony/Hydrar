@@ -1,28 +1,18 @@
 from pymongo import MongoClient
-import inspect
-import logging
-import os
-import random
+
 import re
-import ast
+
 from typing import (Callable, Coroutine, List, NewType, Optional, Type,
                     TypeVar, Union)
 
 import discord
-import emoji
-import pymongo
-from discord import ButtonStyle, SelectOption
-from discord.commands import SlashCommandGroup, Option
-from discord.commands import commands as cmds
+
+
 from discord.embeds import EmbedProxy
-from discord.emoji import Emoji
+
 from discord.ext import commands
 from discord.ext.commands.errors import CommandError
-from discord.interactions import Interaction
-from discord.partial_emoji import PartialEmoji
-from discord.ui import Button, Select, View, button, select
-from discord.utils import MISSING
-from PIL import Image, ImageChops, ImageDraw, ImageFilter
+
 
 cluster = MongoClient(
     "mongodb+srv://Hydra:CihVirus123@economy.2xn9e.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
