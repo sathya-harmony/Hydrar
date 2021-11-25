@@ -17,5 +17,6 @@ discord-py-slash-command
 discord_py_interactions
 youtube_dl
 pet-pet-gif
+emoji
 #pipreqs
 #git+https://github.com/Pycord-Development/pycord
