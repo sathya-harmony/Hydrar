@@ -194,8 +194,9 @@ class levels(commands.Cog):
                   "user_image": user_avatar_image, "level": level, "rank": rank, "current_xp": xp, "total_xp": final_xp}'''
         response = requests.get(url=response_url)
         img = Image.open(BytesIO(response.content))
+        return img
 
-        img.save("rank.png")
+        # img.save("rank.png")
         # await ctx.send(file=discord.File("kumar.png"))
 
         #data = response.json()
