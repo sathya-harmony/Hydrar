@@ -189,7 +189,7 @@ class levels(commands.Cog):
 
         user_avatar_image = str(
             member.avatar_url_as(format='png', size=4096))
-        response_url = f"https://api.no-api-key.com/api/v2/rank/2?current={xp}&total={final_xp}&rank={rank}&level={level}&discrim={member.discriminator}&username={member.display_name}+&avatar={user_avatar_image}size=1024&barFill=gray&mainColor=white&background=https://media.discordapp.net/attachments/891700939176673321/913466436498894888/pro3.jpg?"
+        response_url = f"https://api.no-api-key.com/api/v2/rank/2?current={xp}&total={final_xp}&rank={rank}&level={level}&discrim={member.discriminator}&username={member.display_name}+&avatar={user_avatar_image}size=1024&barFill=gray&mainColor=white&background=https://media.discordapp.net/attachments/891700939176673321/913636874663387186/pro5.jpg?"
         '''params = {"username": f"{member.display_name}#{member.discriminator}", "text_heading": "hello",
                   "user_image": user_avatar_image, "level": level, "rank": rank, "current_xp": xp, "total_xp": final_xp}'''
         response = requests.get(url=response_url)
