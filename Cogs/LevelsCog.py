@@ -6,10 +6,11 @@ from pymongo import MongoClient
 import random
 from discord.utils import get
 import aiohttp
-import io
+from io import BytesIO
 from PIL import Image, ImageDraw, ImageFont
 from modules.common import *
-
+import requests
+import urllib
 
 '''bot_channel = 870541730410270814
 talk_channel = [870541730410270814]'''
@@ -185,12 +186,25 @@ class levels(commands.Cog):
                 await ctx.message.reply(file=file)
 
     async def make_rank_image(self, member: discord.Member, rank, level, xp,  final_xp):
+
         user_avatar_image = str(
             member.avatar_url_as(format='png', size=4096))
-        async with aiohttp.ClientSession() as Session:
+        response_url = f"https://api.no-api-key.com/api/v2/rank/2?current={xp}&total={final_xp}&rank={rank}&level={level}&discrim={member.discriminator}&username={member.display_name}+&avatar={user_avatar_image}size=1024&barFill=gray&mainColor=white&background=https://media.discordapp.net/attachments/891700939176673321/913466436498894888/pro3.jpg?"
+        '''params = {"username": f"{member.display_name}#{member.discriminator}", "text_heading": "hello",
+                  "user_image": user_avatar_image, "level": level, "rank": rank, "current_xp": xp, "total_xp": final_xp}'''
+        response = requests.get(url=response_url)
+        img = Image.open(BytesIO(response.content))
+
+        img.save("rank.png")
+        # await ctx.send(file=discord.File("kumar.png"))
+
+        #data = response.json()
+
+        '''async with aiohttp.ClientSession() as Session:
             async with Session.get(user_avatar_image) as resp:
-                avatar_bytes = io.BytesIO(await resp.read())
-        img = Image.new('RGB', (1000, 240))
+                avatar_bytes = io.BytesIO(await resp.read())'''
+
+        '''img = Image.new('RGB', (1000, 240))
         logo = Image.open(avatar_bytes).resize((200, 200))
 
         # Stack overflow helps :)
@@ -384,7 +398,7 @@ class levels(commands.Cog):
             embed.add_field(
                 name=f"{user_ids_sorted.index(user_id) + 1}: {ctx.author.name}", value=f"Total XP: {stats['users'][user_id]['xp']}", inline=False)
             embed.set_thumbnail(url=str(ctx.guild.icon_url))
-        await ctx.message.reply(embed=embed)
+        await ctx.message.reply(embed=embed)'''
 
 
 def setup(client):
