@@ -181,8 +181,8 @@ class levels(commands.Cog):
                 embed.set_thumbnail(url=member.avatar_url)
                 await ctx.message.reply(embed=embed)'''
                 final_xp = int(100*lvl)
-                bytes = await self.make_rank_image(member, rank=rank, level=lvl, xp=xp, final_xp=final_xp)
-                file = discord.File(bytes, 'rank.png')
+                await self.make_rank_image(member, rank=rank, level=lvl, xp=xp, final_xp=final_xp)
+                file = discord.File('rank.png')
                 await ctx.message.reply(file=file)
 
     async def make_rank_image(self, member: discord.Member, rank, level, xp,  final_xp):
@@ -194,7 +194,7 @@ class levels(commands.Cog):
                   "user_image": user_avatar_image, "level": level, "rank": rank, "current_xp": xp, "total_xp": final_xp}'''
         response = requests.get(url=response_url)
         img = Image.open(BytesIO(response.content))
-        return img
+        img.save("rank.png")
 
         # img.save("rank.png")
         # await ctx.send(file=discord.File("kumar.png"))
