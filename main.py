@@ -6,7 +6,8 @@ from discord.ext.commands.cog import Cog
 import traceback
 from alexa_reply import reply
 import os
-from discord_components import DiscordComponents
+from discord_components import DiscordComponents, Button, ButtonStyle
+
 import io
 import textwrap
 import contextlib
@@ -638,6 +639,88 @@ async def botinfo(ctx):
                     value=f"```{commands}```", inline=False)
     embed.set_image(url=client.user.avatar_url)
     await ctx.message.reply(embed=embed)
+
+
+def checkForWin(board):
+    win = (
+        board[0] == board[1] and board[1] == board[2]
+        or board[3] == board[4] and board[4] == board[5]
+        or board[6] == board[7] and board[7] == board[8]
+        or board[0] == board[4] and board[4] == board[8]
+        or board[2] == board[4] and board[4] == board[6]
+    )
+    if not any(i.isdigit() for i in board) and not win:
+        return 2
+    else:
+        return win
+
+
+@client.command()
+async def challenge(ctx, user: discord.Member):
+
+    if ctx.author == user:
+        await ctx.send(f"{ctx.author.mention} You can't challenge yourself!")
+        return
+    if user.bot:
+        await ctx.send(f"{ctx.author.mention} I don't think bot's know how to play tic-tac-toe...")
+        return
+
+    components = [
+        [Button(style=ButtonStyle.gray, label=str(ia+i)) for ia in range(3)] for i in range(1, 9, 3)
+    ]
+    gamemsg = await ctx.send(f'{user.mention}, {ctx.author.name} has challenged thee to tic-tac-toe! You go first.', components=components)
+
+    turn = 'X'
+    players = {
+        'X': user,
+        'O': ctx.author
+    }
+
+    def checkEvent(event):
+        component = event.component
+        if type(component) is not dict:
+            component = event.component.to_dict()
+        return (
+            (component['label'] != 'X' and component['label'] != 'O')
+            and event.message.id == gamemsg.id
+            and (event.user == players[turn])
+        )
+
+    def getButtonStyle(value):
+        if value == 'X':
+            return ButtonStyle.blue
+        elif value == 'O':
+            return ButtonStyle.red
+        else:
+            return ButtonStyle.gray
+
+    while True:
+        boardClick = await client.wait_for('button_click', check=checkEvent)
+        moveComponent = boardClick.component
+        if type(moveComponent) is not dict:
+            moveComponent = boardClick.component.to_dict()
+        board = [button.label for button in boardClick.message.components]
+        squareClicked = board.index(moveComponent["label"])
+        board[squareClicked] = turn
+
+        gameWon = checkForWin(board)
+
+        components = [[Button(style=getButtonStyle(board[i+ia-1]), label=board[i+ia-1],
+                              disabled=bool(gameWon)) for ia in range(3)] for i in range(1, 9, 3)]
+
+        if gameWon:
+            if gameWon == 2:
+                await boardClick.respond(type=7, content=f'Game Over! It is a tie!', components=components)
+            else:
+                await boardClick.respond(type=7, content=f'Game Over! {players[turn].mention} has won!', components=components)
+            break
+
+        if (turn == 'X'):
+            turn = 'O'
+        else:
+            turn = "X"
+
+        await boardClick.respond(type=7, content=f"It is {players[turn].mention}'s turn.", components=components)
 
 
 # client.ipc.start()

@@ -366,7 +366,7 @@ class levels(commands.Cog):
         bytes = io.BytesIO()
         img.save(bytes, 'png')
         bytes.seek(0)
-        return bytes
+        return bytes'''
 
     @ commands.command(aliases=["top"])
     async def leaderboard(self, ctx):
@@ -399,7 +399,7 @@ class levels(commands.Cog):
             embed.add_field(
                 name=f"{user_ids_sorted.index(user_id) + 1}: {ctx.author.name}", value=f"Total XP: {stats['users'][user_id]['xp']}", inline=False)
             embed.set_thumbnail(url=str(ctx.guild.icon_url))
-        await ctx.message.reply(embed=embed)'''
+        await ctx.message.reply(embed=embed)
 
 
 def setup(client):
