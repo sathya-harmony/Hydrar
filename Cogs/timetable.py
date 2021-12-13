@@ -60,7 +60,7 @@ class timetable(commands.Cog):
     channel_id = 915620989293977622
     subject = []
 
-    @commands.Cog.listener()
+    # @commands.Cog.listener()
     @tasks.loop(seconds=60.0)
     async def checktimetable(self):
         curr_date = date.today()
