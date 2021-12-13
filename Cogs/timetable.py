@@ -89,8 +89,17 @@ class Timetable(commands.Cog):
                 await channel.send("Its break time! Go and eat nicely! (Or watch youtube lol)")
             else:
                 await channel.send(f"It's **{self.subject}** period! Please join right now! (P.S it might be substitution so don't blast me.)")
-            self.subject = None
-
+            
+    
+    @commands.command()
+    async def period(self, ctx):
+        if self.subject:
+            await ctx.reply(f"Current period is : **{self.subject}**")
+        else:
+            await ctx.reply("No period is currently going on!")    
+            
+        
+    
 
 def setup(client):
     client.add_cog(Timetable(client))
