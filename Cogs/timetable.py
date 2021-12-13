@@ -17,12 +17,12 @@ class Timetable(commands.Cog):
 
     timetable =\
         {
-            "monday": {"12:20": "Social Science",
-                       "12:21": "IInd language",
-                       "12:22": "Short Break",
-                       "12:23": "English",
-                       "12:24": "IT",
-                       "12:25": "Chemistry/Biology",
+            "monday": {"2:55": "Social Science",
+                       "3:40": "IInd language",
+                       "4:30": "Short Break",
+                       "4:40": "English",
+                       "5:25": "IT",
+                       "6:10": "Chemistry/Biology",
                        "6:55": "Lunch Break",
                        "7:25": "Math"},
             "tuesday": {"2:55": "Math",
@@ -85,7 +85,10 @@ class Timetable(commands.Cog):
         if self.subject:
             channel = self.client.get_channel(self.channel_id)
             # if channel:
-            await channel.send(f"It's **{self.subject}** period! Please join right now! (P.S it might be substitution so don't blast me.)")
+            if self.subject == "Short Break" or "Lunch Break":
+                await channel.send("Its break time! Go and eat nicely! (Or watch youtube lol)")
+            else:
+                await channel.send(f"It's **{self.subject}** period! Please join right now! (P.S it might be substitution so don't blast me.)")
             self.subject = None
 
 
