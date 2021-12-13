@@ -17,8 +17,8 @@ class Timetable(commands.Cog):
 
     timetable =\
         {
-            "monday": {"10:15": "Social Science",
-                       "3:40": "IInd language",
+            "monday": {"12:06": "Social Science",
+                       "12:07": "IInd language",
                        "4:30": "Short Break",
                        "4:40": "English",
                        "5:25": "IT",
@@ -87,13 +87,6 @@ class Timetable(commands.Cog):
             if channel:
                 await channel.send(f"It's **{self.subject}** period! Please join right now! (P.S it might be substitution so don't blast me.)")
                 self.subject = None
-
-
-'''    @ commands.Cog.listener()
-    # async def on_message(self, message):
-    async def check_subject(self):
-        channel = await self.client.get_channel(self.channel_id)
-        await channel.send(f"It's **{self.subject}** period! Please join right now! (P.S it might be substitution so don't blast me.)")'''
 
 
 def setup(client):
