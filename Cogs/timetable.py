@@ -84,8 +84,8 @@ class Timetable(commands.Cog):
             pass
         if self.subject is not None:
             channel = self.client.get_channel(self.channel_id)
-            channel.send(
-                f"It's **{self.subject}** period! Please join right now! (P.S it might be substitution so don't blast me.)")
+            await self.client.send_message(discord.Object(id='915620989293977622'),
+                                           f"It's **{self.subject}** period! Please join right now! (P.S it might be substitution so don't blast me.)")
             self.subject = None
 
 
