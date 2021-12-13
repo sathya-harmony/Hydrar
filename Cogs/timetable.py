@@ -82,7 +82,8 @@ class timetable(commands.Cog):
 
     checktimetable.start()
 
-    @commands.Cog.listener()
+    @ commands.Cog.listener()
+    # async def on_message(self, message):
     async def check_subject(self):
         channel = await self.client.get_channel(self.channel_id)
         await channel.send(f"It's **{self.subject}** period! Please join right now! (P.S it might be substitution so don't blast me.)")
