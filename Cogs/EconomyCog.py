@@ -177,6 +177,7 @@ class Economy(commands.Cog):
         word_completion = ["\_"] * len(word)
 
         guessed = False
+        vowels = ["a","e","i","o","u"]
         guessed_letters = []
         guessed_words = []
         tries = 6
