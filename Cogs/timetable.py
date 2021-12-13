@@ -1,5 +1,6 @@
 
 
+#from _typeshed import Self
 from discord.ext import commands, tasks
 import time
 from math import *
@@ -10,6 +11,7 @@ import calendar
 
 class timetable(commands.Cog):
     def __init__(self,  client):
+        self.checktimetable.start()
         self.client = client
 
     timetable =\
@@ -83,8 +85,6 @@ class timetable(commands.Cog):
             channel = await self.client.get_channel(self.channel_id)
             await channel.send(f"It's **{self.subject}** period! Please join right now! (P.S it might be substitution so don't blast me.)")
             self.subject = None
-
-    checktimetable.start()
 
 
 '''    @ commands.Cog.listener()
