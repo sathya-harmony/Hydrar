@@ -17,12 +17,12 @@ class Timetable(commands.Cog):
 
     timetable =\
         {
-            "monday": {"12:02": "Social Science",
-                       "12:13": "IInd language",
-                       "4:30": "Short Break",
-                       "4:40": "English",
-                       "5:25": "IT",
-                       "6:10": "Chemistry/Biology",
+            "monday": {"12:20": "Social Science",
+                       "12:21": "IInd language",
+                       "12:22": "Short Break",
+                       "12:23": "English",
+                       "12:24": "IT",
+                       "12:25": "Chemistry/Biology",
                        "6:55": "Lunch Break",
                        "7:25": "Math"},
             "tuesday": {"2:55": "Math",
@@ -64,7 +64,7 @@ class Timetable(commands.Cog):
     subject = []
 
     # @commands.Cog.listener()
-    @tasks.loop(seconds=10.0)
+    @tasks.loop(seconds=60.0)
     async def checktimetable(self):
         curr_date = date.today()
         current_day = str(calendar.day_name[curr_date.weekday()]).lower()
