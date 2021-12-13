@@ -18,7 +18,7 @@ class Timetable(commands.Cog):
     timetable =\
         {
             "monday": {"12:06": "Social Science",
-                       "12:07": "IInd language",
+                       "12:10": "IInd language",
                        "4:30": "Short Break",
                        "4:40": "English",
                        "5:25": "IT",
