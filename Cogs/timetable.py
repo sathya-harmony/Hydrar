@@ -63,7 +63,6 @@ class Timetable(commands.Cog):
     channel_id = 915620989293977622
     subject = []
 
-    # @commands.Cog.listener()
     @tasks.loop(seconds=60.0)
     async def checktimetable(self):
         curr_date = date.today()
@@ -75,7 +74,6 @@ class Timetable(commands.Cog):
         time = datetime.today()
         current_time_parsed = f"{time.hour}:{time.minute}"
 
-        # if current_time_parsed in self.timetable.values():
         try:
             subject = self.timetable[day][current_time_parsed]
             self.subject = subject
@@ -84,22 +82,19 @@ class Timetable(commands.Cog):
             pass
         if self.subject:
             channel = self.client.get_channel(self.channel_id)
-            # if channel:
+
             if self.subject == "Short Break" or "Lunch Break":
                 await channel.send("Its break time! Go and eat nicely! (Or watch youtube lol)")
             else:
-                await channel.send(f"It's **{self.subject}** period! Please join right now! (P.S it might be substitution so don't blast me.)")
-            
-    
+                await channel.send(f"@everyone It's **{self.subject}** period! Please join right now! (P.S it might be substitution so don't blast me.)")
+
     @commands.command()
     async def period(self, ctx):
         if self.subject:
             await ctx.reply(f"Current period is : **{self.subject}**")
         else:
-            await ctx.reply("No period is currently going on!")    
-            
-        
-    
+            await ctx.reply("No period is currently going on!")
+
 
 def setup(client):
     client.add_cog(Timetable(client))
