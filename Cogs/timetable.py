@@ -17,8 +17,8 @@ class Timetable(commands.Cog):
 
     timetable =\
         {
-            "monday": {"12:06": "Social Science",
-                       "12:10": "IInd language",
+            "monday": {"12:02": "Social Science",
+                       "12:13": "IInd language",
                        "4:30": "Short Break",
                        "4:40": "English",
                        "5:25": "IT",
@@ -64,7 +64,7 @@ class Timetable(commands.Cog):
     subject = []
 
     # @commands.Cog.listener()
-    @tasks.loop(seconds=60.0)
+    @tasks.loop(seconds=10.0)
     async def checktimetable(self):
         curr_date = date.today()
         current_day = str(calendar.day_name[curr_date.weekday()]).lower()
@@ -84,9 +84,9 @@ class Timetable(commands.Cog):
             pass
         if self.subject:
             channel = self.client.get_channel(self.channel_id)
-            if channel:
-                await channel.send(f"It's **{self.subject}** period! Please join right now! (P.S it might be substitution so don't blast me.)")
-                self.subject = None
+            # if channel:
+            await channel.send(f"It's **{self.subject}** period! Please join right now! (P.S it might be substitution so don't blast me.)")
+            self.subject = None
 
 
 def setup(client):
