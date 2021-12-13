@@ -58,11 +58,11 @@ class timetable(commands.Cog):
         }
     guild_id = 915620989293977620
     channel_id = 915620989293977622
-    subject = {}
+    subject = []
 
     @commands.Cog.listener()
     @tasks.loop(seconds=60.0)
-    async def checktimetable(self, msg):
+    async def checktimetable(self):
         curr_date = date.today()
         current_day = str(calendar.day_name[curr_date.weekday()]).lower()
 
@@ -75,20 +75,17 @@ class timetable(commands.Cog):
         # if current_time_parsed in self.timetable.values():
         try:
             subject = self.timetable[day][current_time_parsed]
-            # self.subject = subject
+            self.subject = subject
 
         except:
             pass
 
-        channel = await self.client.get_channel(self.channel_id)
-        await channel.send(f"It's **{subject}** period! Please join right now! (P.S it might be substitution so don't blast me.)")
-
     checktimetable.start()
 
-
-''' @commands.Cog.listener()
+    @commands.Cog.listener()
     async def check_subject(self):
-        ...'''
+        channel = await self.client.get_channel(self.channel_id)
+        await channel.send(f"It's **{self.subject}** period! Please join right now! (P.S it might be substitution so don't blast me.)")
 
 
 def setup(client):
