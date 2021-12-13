@@ -83,7 +83,7 @@ class Timetable(commands.Cog):
         except:
             pass
         if self.subject is not None:
-            channel = await self.client.get_channel(self.channel_id)
+            channel = self.client.get_channel(self.channel_id)
             await channel.send(f"It's **{self.subject}** period! Please join right now! (P.S it might be substitution so don't blast me.)")
             self.subject = None
 
