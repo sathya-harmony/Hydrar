@@ -9,10 +9,11 @@ from datetime import date, datetime
 import calendar
 
 
-class timetable(commands.Cog):
+class Timetable(commands.Cog):
     def __init__(self,  client):
-        self.checktimetable.start()
+
         self.client = client
+        self.checktimetable.start()
 
     timetable =\
         {
@@ -95,4 +96,4 @@ class timetable(commands.Cog):
 
 
 def setup(client):
-    client.add_cog(timetable(client))
+    client.add_cog(Timetable(client))
