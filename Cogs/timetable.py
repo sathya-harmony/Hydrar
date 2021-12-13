@@ -82,11 +82,11 @@ class Timetable(commands.Cog):
 
         except:
             pass
-        if self.subject is not None:
+        if self.subject:
             channel = self.client.get_channel(self.channel_id)
-            await self.client.send_message(discord.Object(id='915620989293977622'),
-                                           f"It's **{self.subject}** period! Please join right now! (P.S it might be substitution so don't blast me.)")
-            self.subject = None
+            if channel:
+                await channel.send(f"It's **{self.subject}** period! Please join right now! (P.S it might be substitution so don't blast me.)")
+                self.subject = None
 
 
 '''    @ commands.Cog.listener()
