@@ -100,7 +100,7 @@ class Timetable(commands.Cog):
 
             else:
 
-                await ctx.reply(f"Current period is : **{self.subject}**")
+                await ctx.reply(f"Current period is : **{self.subject2}**")
         else:
             await ctx.reply("No period is currently going on!")
 
