@@ -78,6 +78,7 @@ class Timetable(commands.Cog):
         try:
             subject = self.timetable[day][current_time_parsed]
             self.subject = subject
+            self.subject2 = subject
 
         except:
             pass
@@ -90,12 +91,12 @@ class Timetable(commands.Cog):
                 await channel.send(f"@everyone It's **{self.subject}** period! Please join right now! (P.S it might be substitution so don't blast me.)")
                 self.subject = None
 
-    '''@commands.command()
+    @commands.command()
     async def period(self, ctx):
         if self.subject2:
             await ctx.reply(f"Current period is : **{self.subject}**")
         else:
-            await ctx.reply("No period is currently going on!")'''
+            await ctx.reply("No period is currently going on!")
 
 
 def setup(client):
