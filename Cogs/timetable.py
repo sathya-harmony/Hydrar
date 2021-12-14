@@ -87,6 +87,7 @@ class Timetable(commands.Cog):
 
             if self.subject == ("Short Break" or "Lunch Break"):
                 await channel.send("Its break time! Go and eat nicely! (Or watch youtube lol)")
+                self.subject = None
             else:
                 await channel.send(f"@everyone It's **{self.subject}** period! Please join right now! (P.S it might be substitution so don't blast me.)")
                 self.subject = None
