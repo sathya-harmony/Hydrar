@@ -62,7 +62,7 @@ class Timetable(commands.Cog):
     guild_id = 915620989293977620
     channel_id = 915620989293977622
     subject = []
-
+    subject2 = []
     @tasks.loop(seconds=60.0)
     async def checktimetable(self):
         curr_date = date.today()
@@ -87,13 +87,14 @@ class Timetable(commands.Cog):
                 await channel.send("Its break time! Go and eat nicely! (Or watch youtube lol)")
             else:
                 await channel.send(f"@everyone It's **{self.subject}** period! Please join right now! (P.S it might be substitution so don't blast me.)")
+                self.subject = None
 
-    @commands.command()
+    '''@commands.command()
     async def period(self, ctx):
-        if self.subject:
+        if self.subject2:
             await ctx.reply(f"Current period is : **{self.subject}**")
         else:
-            await ctx.reply("No period is currently going on!")
+            await ctx.reply("No period is currently going on!")'''
 
 
 def setup(client):
