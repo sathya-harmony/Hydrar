@@ -25,7 +25,7 @@ class Timetable(commands.Cog):
                        "6:10": "Chemistry/Biology",
                        "6:55": "Lunch Break",
                        "7:25": "Math"},
-            "tuesday": {"2:55": "Math",
+            "tuesday": {"3:00": "Math",
                         "3:40": "Biology/Chemistry",
                         "4:30": "Short Break",
                         "4:40": "Physics",
@@ -63,6 +63,7 @@ class Timetable(commands.Cog):
     channel_id = 915620989293977622
     subject = []
     subject2 = []
+
     @tasks.loop(seconds=60.0)
     async def checktimetable(self):
         curr_date = date.today()
@@ -83,7 +84,7 @@ class Timetable(commands.Cog):
         if self.subject:
             channel = self.client.get_channel(self.channel_id)
 
-            if self.subject == "Short Break" or "Lunch Break":
+            if self.subject == ("Short Break" or "Lunch Break"):
                 await channel.send("Its break time! Go and eat nicely! (Or watch youtube lol)")
             else:
                 await channel.send(f"@everyone It's **{self.subject}** period! Please join right now! (P.S it might be substitution so don't blast me.)")
