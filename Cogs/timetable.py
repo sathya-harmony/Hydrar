@@ -85,7 +85,7 @@ class Timetable(commands.Cog):
         if self.subject:
             channel = self.client.get_channel(self.channel_id)
 
-            if self.subject == ("Short Break" or "Lunch Break"):
+            if self.subject == "Short Break" or self.subject == "Lunch Break":
                 await channel.send("Its break time! Go and eat nicely! (Or watch youtube lol)")
                 self.subject = None
             else:
