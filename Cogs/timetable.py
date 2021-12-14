@@ -95,7 +95,12 @@ class Timetable(commands.Cog):
     @commands.command()
     async def period(self, ctx):
         if self.subject2:
-            await ctx.reply(f"Current period is : **{self.subject}**")
+            if self.subject2 == ("Short Break" or "Lunch Break"):
+                await ctx.reply(f"It's break time hippy.")
+
+            else:
+
+                await ctx.reply(f"Current period is : **{self.subject}**")
         else:
             await ctx.reply("No period is currently going on!")
 
