@@ -49,7 +49,7 @@ class Timetable(commands.Cog):
                          "6:10": "Physics",
                          "6:55": "Lunch Break",
                          "7:25": "Math"},
-            "friday":   {"2:55": "2nd Language",
+            "friday":   {"2:55": "Social Science",
                          "3:40": "IT",
                          "4:30": "Short Break",
                          "4:40": "Art",
