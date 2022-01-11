@@ -282,7 +282,7 @@ client.load_extension('Cogs.LevelsCog')
 client.load_extension('Cogs.EconomyCog')
 # music
 # lient.load_extension('Supporting.MusicCog')
-client.load_extension('Cogs.timetable')
+#client.load_extension('Cogs.timetable')
 
 
 def cop(ctx):
