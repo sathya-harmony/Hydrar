@@ -642,5 +642,5 @@ async def botinfo(ctx):
 
 
 # client.ipc.start()
-Token = 'ODQ0ODEzMzE2NTA1MDc1NzEy.YKX3tg.AGjRaxwtYgBiOeHWfPEupR-FypU'
+Token = 'ODQ0ODEzMzE2NTA1MDc1NzEy.G7ieKV.y_aglJJ30PBmlvtm6tFrl4SraF5ExLuCQyF3TQ'
 client.run(Token)
