@@ -29,14 +29,14 @@ Extras_MongoDB = cluster["Extras"]["Extras"]
 
 class Wanted(commands.Cog):
 
-    afk_users_cache = dict()  # {123456789: 'reason'}
-    newly_added_afk_users = []
+   ''' afk_users_cache = dict()  # {123456789: 'reason'}
+    newly_added_afk_users = []'''
 
     def __init__(self, client):
         self.client = client
 
-        for item in Extras_MongoDB.find():
-            self.afk_users_cache[item['user_id']] = item['reason']
+        '''for item in Extras_MongoDB.find():
+            self.afk_users_cache[item['user_id']] = item['reason']'''
 
     @commands.command()
     async def wanted(self, ctx, user: discord.Member = None):
@@ -314,7 +314,7 @@ class Wanted(commands.Cog):
             buf.seek(0)
             await ctx.message.reply(file=discord.File(buf, f"Profile of {user.name}#{user.discriminator}.png"))'''
 
-    def get_extra_data(self, user_id):
+    '''def get_extra_data(self, user_id):
 
         if type(user_id) in [int, float]:
             user_id = str(int(user_id))
@@ -358,13 +358,9 @@ class Wanted(commands.Cog):
         embed.add_field(name='**AFK Note:**', value=reason)
         await ctx.channel.send(embed=embed)
 
-    '''@commands.Cog.listener()'''
+  
 
-    def remove_afk_prefix(self, display_name):
-        '''if "[AFK]" in afk.split():
-            return " ".join(afk.split()[1:])
-        else:
-            return afk'''
+    def remove_afk_prefix(self, display_name):        
 
         if display_name.lower().startswith('[afk]'):
             display_name[6:].strip()
@@ -387,8 +383,7 @@ class Wanted(commands.Cog):
                 Extras_MongoDB.delete_one({'user_id': message.author.id})
 
                 try:
-                    '''new_nickname = str(self.remove_afk_prefix(
-                        message.author.display_name))'''
+                    
                     if message.author.display_name.startswith('[AFK]'):
                         name = str(
                             message.author.display_name.replace('[AFK]', ''))
@@ -399,17 +394,13 @@ class Wanted(commands.Cog):
 
                 await message.channel.send(f"Welcome back {message.author.mention}, I removed your AFK!")
         else:
-            '''for id, reason in user_data["user_id"].items():
-                member = get(member.guild.members, id=id)
-                # if (message.reference and member == (await message.channel.fetch_message(message.reference.message_id)).author) or member.id in message.raw_mentions:
-                if member in message.mentions:
-                    await message.reply(f"{member.name} is AFK. AFK Note: {reason}")
-        # for reason in user_data["user_id"][str(member)]:'''
+            
+        # for reason in user_data["user_id"][str(member)]:
 
             for mention in message.mentions:
                 if mention.id in self.afk_users_cache:
 
-                    await message.reply(f"**{mention}** is AFK.\n**AFK Note:** `{self.afk_users_cache[mention.id]}`")
+                    await message.reply(f"**{mention}** is AFK.\n**AFK Note:** `{self.afk_users_cache[mention.id]}`")'''
 
     async def on_command_error(ctx, error1):
         if isinstance(error1, commands.UserInputError):
